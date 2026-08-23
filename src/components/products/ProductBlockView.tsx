@@ -139,12 +139,17 @@ export default function ProductBlockView({ block }: { block: ProductBlock }) {
           </h2>
           <div className="mt-4 md:mt-0">
             {block.introText ? (
-              <p className="leading-loose text-neutral-600">{block.introText}</p>
+              <p className="leading-loose text-neutral-600">
+                {block.introText}
+              </p>
             ) : null}
             {block.introBullets?.length ? (
               <ul className="space-y-2.5">
                 {block.introBullets.map((b) => (
-                  <li key={b} className="flex gap-2 leading-relaxed text-neutral-600">
+                  <li
+                    key={b}
+                    className="flex gap-2 leading-relaxed text-neutral-600"
+                  >
                     <span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-brand-red" />
                     <span>{b}</span>
                   </li>

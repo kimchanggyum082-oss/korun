@@ -4,14 +4,36 @@ export const assets = {
   logo: `${CDN}/thumbnail/20260706/6e6eed688b83a.png`,
   logoWhite: `${CDN}/thumbnail/20260706/2f2ec2ffc01ac.png`,
   heroSlides: [
-    { src: `${CDN}/thumbnail/20240619/fc7c5f1635997.png`, alt: "Hot Runner System KORUN - Best Processing Quality! High quality Fast delivery!" },
-    { src: `${CDN}/thumbnail/20240619/82344c13461a1.png`, alt: "High Performance Hot Runners" },
+    {
+      src: `${CDN}/thumbnail/20240619/fc7c5f1635997.png`,
+      alt: "Hot Runner System KORUN - Best Processing Quality! High quality Fast delivery!",
+    },
+    {
+      src: `${CDN}/thumbnail/20240619/82344c13461a1.png`,
+      alt: "High Performance Hot Runners",
+    },
   ],
   products: [
-    { title: "Valve Gate System", href: "/21", src: `${CDN}/thumbnail/20240715/2a7c07b53aee9.png` },
-    { title: "Open Gate Systems", href: "/22", src: `${CDN}/thumbnail/20240715/e88c70262c6cb.png` },
-    { title: "Single Nozzle", href: "/23", src: `${CDN}/thumbnail/20240715/2b7bdff8250a3.png` },
-    { title: "Time&Temperature Controllers", href: "/24", src: `${CDN}/thumbnail/20240715/797e1918f2a68.png` },
+    {
+      title: "Valve Gate System",
+      href: "/21",
+      src: `${CDN}/thumbnail/20240715/2a7c07b53aee9.png`,
+    },
+    {
+      title: "Open Gate Systems",
+      href: "/22",
+      src: `${CDN}/thumbnail/20240715/e88c70262c6cb.png`,
+    },
+    {
+      title: "Single Nozzle",
+      href: "/23",
+      src: `${CDN}/thumbnail/20240715/2b7bdff8250a3.png`,
+    },
+    {
+      title: "Time&Temperature Controllers",
+      href: "/24",
+      src: `${CDN}/thumbnail/20240715/797e1918f2a68.png`,
+    },
   ],
   ctaBanner: `${CDN}/thumbnail/20240625/fb07ee567ca78.jpg`,
   valuesBg: `${CDN}/thumbnail/20240617/a4408920c5a82.png`,
@@ -21,7 +43,8 @@ export const company = {
   name: "주식회사 코런",
   nameEn: "KORUN",
   tagline: "HOT RUNNER SYSTEM 전문 제조 회사로서",
-  taglineSub: "가격, 품질, 서비스로 보답하는 국내 핫런너 제조 전문 메이커입니다.",
+  taglineSub:
+    "가격, 품질, 서비스로 보답하는 국내 핫런너 제조 전문 메이커입니다.",
   tel: "031.311.5577",
   fax: "031.311.5538",
   email: "korun15@naver.com",
@@ -38,12 +61,42 @@ export type NewsItem = {
 };
 
 export const news: NewsItem[] = [
-  { category: "EVENT", title: "제28회 한국금형비전포럼 2025 개최", date: "2025-05-06", href: "/34/?idx=163356113&bmode=view" },
-  { category: "NEWS", title: "제27회 INTERMOLD KOREA 2025 출품", date: "2025-04-06", href: "/34/?idx=160786757&bmode=view" },
-  { category: "NEWS", title: "코런 태국 지사 OPEN", date: "2024-12-08", href: "/34/?idx=131837214&bmode=view" },
-  { category: "NEWS", title: "제28회 금형의 날 [특허청장표창 수상: 코런 대표이사 김창겸]", date: "2024-12-08", href: "/34/?idx=131829076&bmode=view" },
-  { category: "NEWS", title: "GVETI 글로벌 직업교육 이니셔티브 콘퍼런스 소식", date: "2024-12-08", href: "/34/?idx=131816057&bmode=view" },
-  { category: "NEWS", title: "[코런 기사] HANDLER 24년 10월호 포커스 기사 (에어 증폭기 출시)", date: "2024-10-12", href: "/34/?idx=122018269&bmode=view" },
+  {
+    category: "EVENT",
+    title: "제28회 한국금형비전포럼 2025 개최",
+    date: "2025-05-06",
+    href: "/34/?idx=163356113&bmode=view",
+  },
+  {
+    category: "NEWS",
+    title: "제27회 INTERMOLD KOREA 2025 출품",
+    date: "2025-04-06",
+    href: "/34/?idx=160786757&bmode=view",
+  },
+  {
+    category: "NEWS",
+    title: "코런 태국 지사 OPEN",
+    date: "2024-12-08",
+    href: "/34/?idx=131837214&bmode=view",
+  },
+  {
+    category: "NEWS",
+    title: "제28회 금형의 날 [특허청장표창 수상: 코런 대표이사 김창겸]",
+    date: "2024-12-08",
+    href: "/34/?idx=131829076&bmode=view",
+  },
+  {
+    category: "NEWS",
+    title: "GVETI 글로벌 직업교육 이니셔티브 콘퍼런스 소식",
+    date: "2024-12-08",
+    href: "/34/?idx=131816057&bmode=view",
+  },
+  {
+    category: "NEWS",
+    title: "[코런 기사] HANDLER 24년 10월호 포커스 기사 (에어 증폭기 출시)",
+    date: "2024-10-12",
+    href: "/34/?idx=122018269&bmode=view",
+  },
 ];
 
 export type DownloadItem = {
@@ -53,12 +106,36 @@ export type DownloadItem = {
 };
 
 export const downloads: DownloadItem[] = [
-  { title: "日本語版カタログをダウンロードします", date: "2024-10-12", href: "/35/?idx=122009726&bmode=view" },
-  { title: "Download English Version Catalog", date: "2024-10-12", href: "/35/?idx=122007938&bmode=view" },
-  { title: "Single Valve Nozzle 2D Data", date: "2024-08-09", href: "/35/?idx=63572250&bmode=view" },
-  { title: "코런 시컨스타임 콘트롤러 모델 KOTS-800 사용 설명서", date: "2024-07-21", href: "/35/?idx=48614089&bmode=view" },
-  { title: "코런 온도콘트롤러 모델 KOTC-860 사용설명서", date: "2024-07-21", href: "/35/?idx=48608478&bmode=view" },
-  { title: "korun advantage and benefits (코런 제품 특장점)", date: "2024-07-21", href: "/35/?idx=48597029&bmode=view" },
+  {
+    title: "日本語版カタログをダウンロードします",
+    date: "2024-10-12",
+    href: "/35/?idx=122009726&bmode=view",
+  },
+  {
+    title: "Download English Version Catalog",
+    date: "2024-10-12",
+    href: "/35/?idx=122007938&bmode=view",
+  },
+  {
+    title: "Single Valve Nozzle 2D Data",
+    date: "2024-08-09",
+    href: "/35/?idx=63572250&bmode=view",
+  },
+  {
+    title: "코런 시컨스타임 콘트롤러 모델 KOTS-800 사용 설명서",
+    date: "2024-07-21",
+    href: "/35/?idx=48614089&bmode=view",
+  },
+  {
+    title: "코런 온도콘트롤러 모델 KOTC-860 사용설명서",
+    date: "2024-07-21",
+    href: "/35/?idx=48608478&bmode=view",
+  },
+  {
+    title: "korun advantage and benefits (코런 제품 특장점)",
+    date: "2024-07-21",
+    href: "/35/?idx=48597029&bmode=view",
+  },
 ];
 
 export const values = [
@@ -147,7 +224,8 @@ export const productPages: Record<string, ProductPageData> = {
       "폭 넓은 제품분야에 안정적으로 적용되는 코런 오픈 게이트 시스템. 극소형 제품부터 대형 제품까지 균일한 열밸런스로 설계됩니다.",
     blocks: [
       {
-        eyebrow: "폭 넓은 제품분야에 안정적으로 적용되는 코런 오픈 게이트 시스템",
+        eyebrow:
+          "폭 넓은 제품분야에 안정적으로 적용되는 코런 오픈 게이트 시스템",
         title: "Open Gate Systems",
         subtitleLines: [
           "폭 넓은 제품분야에 안정적으로",
@@ -255,11 +333,7 @@ export const productPages: Record<string, ProductPageData> = {
           "전원 배선의 오류, 히터 쇼트, 과전압/과전류 등의 방어기능",
           "탑재 카트리지 방식의 유니트로 교체 필요시 시스템 동작에 영향이 없음",
         ],
-        tags: [
-          "정밀한 온도 제어",
-          "각종 에러 검출",
-          "사용자 친화적 설계",
-        ],
+        tags: ["정밀한 온도 제어", "각종 에러 검출", "사용자 친화적 설계"],
         galleryLabel: "KOTC-860 Temperature Controller",
         sections: [],
         spec: {
@@ -312,7 +386,10 @@ export const productPages: Record<string, ProductPageData> = {
               label: "주전원",
               values: ["단상 AC 90~250V (50/60Hz), 입력 전원 자동감지"],
             },
-            { label: "사출 신호 입력 지원", values: ["DC 24V / AC 110V / AC 220V"] },
+            {
+              label: "사출 신호 입력 지원",
+              values: ["DC 24V / AC 110V / AC 220V"],
+            },
             { label: "솔레노이드 밸브 전원", values: ["DC 24V / AC 220V"] },
             {
               label: "솔레노이드 밸브 용량",

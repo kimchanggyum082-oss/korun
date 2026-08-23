@@ -12,7 +12,10 @@ export default function Footer() {
             <li>Fax {company.fax}</li>
             <li>
               E-mail{" "}
-              <a href={`mailto:${company.email}`} className="text-neutral-300 underline-offset-2 hover:underline">
+              <a
+                href={`mailto:${company.email}`}
+                className="text-neutral-300 underline-offset-2 hover:underline"
+              >
                 {company.email}
               </a>
             </li>

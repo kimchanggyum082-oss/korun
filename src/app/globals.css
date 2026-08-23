@@ -1,8 +1,9 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo",
-    "Malgun Gothic", "Nanum Gothic", "Noto Sans", sans-serif;
+  --font-sans:
+    "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Malgun Gothic",
+    "Nanum Gothic", "Noto Sans", sans-serif;
   --color-ink: #363636;
   --color-brand-red: #c9072b;
   --color-brand-teal: #0e5f53;

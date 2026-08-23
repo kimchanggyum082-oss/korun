@@ -1,13 +1,7 @@
 import Image from "next/image";
 import { assets } from "@/lib/data";
 
-export function SectionHeading({
-  en,
-  ko,
-}: {
-  en: string;
-  ko: string;
-}) {
+export function SectionHeading({ en, ko }: { en: string; ko: string }) {
   return (
     <div className="mb-10 md:mb-14">
       <p className="text-xl font-extrabold tracking-tight text-neutral-900 md:text-2xl">
@@ -46,7 +40,12 @@ export default function Products() {
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:gap-8">
         {assets.products.map((product) => (
-          <a key={product.title} href={product.href} aria-label={product.title} className="block overflow-hidden">
+          <a
+            key={product.title}
+            href={product.href}
+            aria-label={product.title}
+            className="block overflow-hidden"
+          >
             <Image
               src={product.src}
               alt={product.title}

@@ -38,15 +38,29 @@ export default function LocationSection() {
   );
 }
 
-function Row({ label, value, bold }: { label: string; value: string; bold?: boolean }) {
+function Row({
+  label,
+  value,
+  bold,
+}: {
+  label: string;
+  value: string;
+  bold?: boolean;
+}) {
   return (
     <tr className="align-top">
       {!bold && (
-        <th scope="row" className="w-24 py-2.5 pr-4 text-left font-bold text-neutral-900 md:w-28">
+        <th
+          scope="row"
+          className="w-24 py-2.5 pr-4 text-left font-bold text-neutral-900 md:w-28"
+        >
           {label}
         </th>
       )}
-      <td colSpan={bold ? 2 : 1} className={`py-2.5 text-neutral-600 ${bold ? "font-bold" : ""}`}>
+      <td
+        colSpan={bold ? 2 : 1}
+        className={`py-2.5 text-neutral-600 ${bold ? "font-bold" : ""}`}
+      >
         {value}
       </td>
     </tr>

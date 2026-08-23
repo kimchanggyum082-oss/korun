@@ -16,7 +16,11 @@ export default function Header() {
           <span className="block h-[2px] w-4 bg-neutral-800" />
         </button>
 
-        <Link href="/" aria-label="코런 홈" className="absolute left-1/2 -translate-x-1/2">
+        <Link
+          href="/"
+          aria-label="코런 홈"
+          className="absolute left-1/2 -translate-x-1/2"
+        >
           <Image
             src={assets.logo}
             alt="KORUN"
@@ -27,8 +31,20 @@ export default function Header() {
           />
         </Link>
 
-        <button type="button" aria-label="site search" className="flex h-10 w-10 items-center justify-center">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+        <button
+          type="button"
+          aria-label="site search"
+          className="flex h-10 w-10 items-center justify-center"
+        >
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            aria-hidden
+          >
             <circle cx="11" cy="11" r="7" />
             <line x1="21" y1="21" x2="16.5" y2="16.5" />
           </svg>

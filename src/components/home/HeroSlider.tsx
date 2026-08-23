@@ -41,7 +41,9 @@ export default function HeroSlider() {
             aria-label={`${i + 1}번 슬라이드로 이동`}
             onClick={() => goTo(i)}
             className={`h-2 rounded-full transition-all duration-300 ${
-              i === active ? "w-6 bg-white" : "w-2 bg-white/50 hover:bg-white/80"
+              i === active
+                ? "w-6 bg-white"
+                : "w-2 bg-white/50 hover:bg-white/80"
             }`}
           />
         ))}

@@ -31,7 +31,9 @@ function ListRow({
         <span className="min-w-0 flex-1 truncate text-sm text-neutral-700 md:text-[15px]">
           {title}
         </span>
-        <span className="shrink-0 text-xs text-neutral-400 md:text-sm">{date}</span>
+        <span className="shrink-0 text-xs text-neutral-400 md:text-sm">
+          {date}
+        </span>
       </Link>
     </li>
   );
@@ -63,7 +65,12 @@ export function Downloads() {
         <SectionHeading en="Downloads" ko="다운로드" />
         <ul className="-mt-6 md:-mt-8">
           {downloads.map((item) => (
-            <ListRow key={item.href} href={item.href} title={item.title} date={item.date} />
+            <ListRow
+              key={item.href}
+              href={item.href}
+              title={item.title}
+              date={item.date}
+            />
           ))}
         </ul>
       </div>
