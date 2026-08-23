@@ -24,6 +24,10 @@
 .DS_Store
 *.pem
 
+# local tooling / captures
+.playwright-mcp/
+/korun-built.jpeg
+
 # debug
 npm-debug.log*
 yarn-debug.log*

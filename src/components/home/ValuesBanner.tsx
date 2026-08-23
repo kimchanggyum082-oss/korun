@@ -1,0 +1,29 @@
+import Image from "next/image";
+import { assets, values } from "@/lib/data";
+
+export default function ValuesBanner() {
+  return (
+    <section className="relative h-[420px] w-full overflow-hidden md:h-[560px]">
+      <Image
+        src={assets.valuesBg}
+        alt="코런 전시 부스"
+        fill
+        sizes="100vw"
+        className="object-cover"
+      />
+      <div className="absolute inset-0 bg-black/45" />
+
+      <div className="relative z-10 flex h-full flex-col items-center justify-center gap-4 px-4">
+        {values.map((v) => (
+          <span
+            key={v.label}
+            style={{ backgroundColor: v.color }}
+            className="rounded-full px-8 py-3 text-sm font-bold text-white shadow-lg md:px-10 md:py-3.5 md:text-base"
+          >
+            {v.label}
+          </span>
+        ))}
+      </div>
+    </section>
+  );
+}
