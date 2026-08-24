@@ -25,9 +25,16 @@ export default function ProductGallery({
     alt: `${label} ${i + 1}`,
   }));
 
+  const desktopCols = images.length <= 2 ? 2 : images.length <= 3 ? 3 : 4;
+
   return (
     <>
-      <div className="mx-auto grid max-w-[1100px] grid-cols-2 gap-4 md:grid-cols-3 md:gap-5">
+      <div
+        className="grid grid-cols-2 gap-4 md:gap-5"
+        style={{
+          gridTemplateColumns: `repeat(${desktopCols}, minmax(0, 1fr))`,
+        }}
+      >
         {galleryImages.map((img, i) => (
           <button
             key={img.src}
@@ -40,11 +47,10 @@ export default function ProductGallery({
               src={img.src}
               alt={img.alt}
               fill
-              sizes="(max-width: 768px) 50vw, 33vw"
+              sizes={`(max-width: 768px) 50vw, ${Math.floor(100 / desktopCols)}vw`}
               loading="lazy"
               className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
-            {/* Darken hover overlay */}
             <span className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/30" />
           </button>
         ))}

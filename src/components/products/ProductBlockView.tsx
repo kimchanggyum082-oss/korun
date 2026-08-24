@@ -39,6 +39,14 @@ function InquiryLink() {
   );
 }
 
+function SectionTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 className="text-center text-[24px] font-bold leading-[1.2] text-ink md:text-[30px]">
+      {children}
+    </h2>
+  );
+}
+
 function IntroContent({ block }: { block: ProductBlock }) {
   return (
     <>
@@ -70,36 +78,38 @@ function IntroContent({ block }: { block: ProductBlock }) {
 function SpecTable({ block }: { block: ProductBlock }) {
   const spec = block.spec!;
   return (
-    <section className="mx-auto max-w-6xl px-4 pb-16 md:px-6 md:pb-24">
-      <h3 className="mb-8 text-xl font-extrabold tracking-tight text-neutral-900 md:text-2xl">
-        Specification <span className="text-neutral-300">-</span>{" "}
-        <span className="text-base font-bold text-neutral-500 md:text-lg">
-          사양
-        </span>
-      </h3>
-      <dl className="divide-y divide-neutral-200 overflow-hidden rounded-md border border-neutral-200 text-sm">
-        {spec.rows.map((row) => (
-          <div
-            key={row.label}
-            className="grid grid-cols-[110px_minmax(0,1fr)] sm:grid-cols-[160px_minmax(0,1fr)]"
-          >
-            <dt className="bg-paper px-4 py-3.5 font-bold text-neutral-700">
-              {row.label}
-            </dt>
-            <dd className="px-4 py-3.5 leading-relaxed text-neutral-600">
-              {row.values.length > 1 ? (
-                <ul className="space-y-1">
-                  {row.values.map((v) => (
-                    <li key={v}>{v}</li>
-                  ))}
-                </ul>
-              ) : (
-                row.values[0]
-              )}
-            </dd>
-          </div>
-        ))}
-      </dl>
+    <section className="bg-paper">
+      <div className="mx-auto max-w-[1100px] px-4 py-12 md:px-6 md:py-16">
+        <SectionTitle>
+          Specification <span className="text-neutral-300">-</span>{" "}
+          <span className="text-[18px] font-bold text-neutral-500 md:text-[20px]">
+            사양
+          </span>
+        </SectionTitle>
+        <dl className="mt-8 divide-y divide-neutral-200 overflow-hidden rounded-md border border-neutral-200 text-sm">
+          {spec.rows.map((row) => (
+            <div
+              key={row.label}
+              className="grid grid-cols-[110px_minmax(0,1fr)] sm:grid-cols-[160px_minmax(0,1fr)]"
+            >
+              <dt className="bg-white px-4 py-3.5 font-bold text-neutral-700">
+                {row.label}
+              </dt>
+              <dd className="px-4 py-3.5 leading-relaxed text-neutral-600">
+                {row.values.length > 1 ? (
+                  <ul className="space-y-1">
+                    {row.values.map((v) => (
+                      <li key={v}>{v}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  row.values[0]
+                )}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
     </section>
   );
 }
@@ -108,6 +118,7 @@ export default function ProductBlockView({ block }: { block: ProductBlock }) {
   const hasTitle = Boolean(block.title);
   return (
     <>
+      {/* Block title header */}
       {block.title ? (
         <header className="border-b border-neutral-100 bg-paper pc:hidden">
           <div className="mx-auto max-w-6xl px-4 py-12 text-center md:px-6 md:py-16">
@@ -138,6 +149,7 @@ export default function ProductBlockView({ block }: { block: ProductBlock }) {
         <hr className="mx-auto max-w-6xl border-neutral-200 pc:hidden" />
       ) : null}
 
+      {/* Section 1: Intro */}
       <section className="mx-auto max-w-6xl px-4 py-14 pc:hidden md:px-6 md:py-20">
         <div className="md:grid md:grid-cols-[240px_minmax(0,1fr)] md:gap-10">
           <h2 className="text-lg font-extrabold tracking-tight text-neutral-900 md:text-xl">
@@ -187,44 +199,45 @@ export default function ProductBlockView({ block }: { block: ProductBlock }) {
         </div>
       </section>
 
-      <div className="bg-paper py-10 text-center md:py-14">
-        <p className="mx-auto max-w-6xl px-4 text-lg font-extrabold tracking-tight text-neutral-800 md:px-6 md:text-2xl">
-          {block.galleryLabel}
-        </p>
-      </div>
-
+      {/* Section 2: Gallery */}
       {block.gallery.length ? (
-        <section className="mx-auto max-w-6xl px-4 py-12 md:px-6 md:py-16">
-          <ProductGallery
-            images={[...block.gallery]}
-            label={block.galleryLabel}
-          />
+        <section className="py-12 md:py-16">
+          <div className="mx-auto max-w-[1100px] px-4 md:px-6">
+            <SectionTitle>{block.galleryLabel}</SectionTitle>
+            <div className="mt-8">
+              <ProductGallery
+                images={[...block.gallery]}
+                label={block.galleryLabel}
+              />
+            </div>
+          </div>
         </section>
       ) : null}
 
+      {/* Section 3+: Applications */}
       {block.applications?.map((s) => (
         <section key={s.title} className="bg-paper">
           <div className="mx-auto max-w-[1100px] px-4 py-12 md:px-6 md:py-16">
-            <h3 className="mb-6 text-base font-extrabold tracking-tight text-neutral-900 md:mb-8 md:text-lg">
-              {s.title}
-            </h3>
-            <div className="space-y-6">
-              {s.images.map((src) => (
+            <SectionTitle>{s.title}</SectionTitle>
+            <div className="mt-8">
+              {s.images.length === 1 ? (
                 <SmartImage
-                  key={src}
-                  src={src}
+                  src={s.images[0]}
                   alt={s.title}
                   width={1100}
                   height={700}
                   sizes="(min-width: 1100px) 1100px, 100vw"
                   className="h-auto w-full"
                 />
-              ))}
+              ) : (
+                <ProductGallery images={[...s.images]} label={s.title} />
+              )}
             </div>
           </div>
         </section>
       ))}
 
+      {/* Spec table */}
       {block.spec ? <SpecTable block={block} /> : null}
     </>
   );
