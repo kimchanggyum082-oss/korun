@@ -562,7 +562,7 @@ export const productPages: Record<string, ProductPageData> = {
         galleryLabel: "KOTC-860 Temperature Controller",
         gallery: [
           `${CDN}/thumbnail/20240620/1070f7d9c88f8.png`,
-          `${CDN}/thumbnail/20240620/4e68070219d65.png`,
+          `${CDN}/thumbnail/20240617/4e68070219d65.png`,
           `${CDN}/thumbnail/20240617/ad2b3b5973404.png`,
           `${CDN}/thumbnail/20240617/c4451625c59b9.png`,
         ],
@@ -610,7 +610,7 @@ export const productPages: Record<string, ProductPageData> = {
         galleryLabel: "KOTS-800 Sequence Injection Timer",
         gallery: [
           `${CDN}/thumbnail/20240620/5fc5cc13dab51.png`,
-          `${CDN}/thumbnail/20240620/d3c02a6acd37d.png`,
+          `${CDN}/thumbnail/20240617/d3c02a6acd37d.png`,
           `${CDN}/thumbnail/20240617/ad66f398ccac8.png`,
         ],
         spec: {
