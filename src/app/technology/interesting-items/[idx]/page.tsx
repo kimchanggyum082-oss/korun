@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { company, interestingItems } from "@/lib/data";
 import TechNav from "@/components/layout/TechNav";
 import PostActions from "@/components/layout/PostActions";
+import ItemBody from "@/components/layout/ItemBody";
+import CommentSection from "@/components/layout/CommentSection";
 
 export const dynamicParams = false;
 
@@ -20,7 +22,7 @@ export async function generateMetadata({
   if (!item) return {};
   return {
     title: `${item.title} | ${company.name}`,
-    description: item.body[0],
+    description: item.description,
   };
 }
 
@@ -76,13 +78,7 @@ export default async function InterestingItemDetailPage({
 
         {/* Body */}
         <div className="py-6">
-          <div className="space-y-3 text-[14px] leading-[1.7] text-ink md:text-[15px]">
-            {item.body.map((line, i) => (
-              <p key={i} className="whitespace-pre-line">
-                {line}
-              </p>
-            ))}
-          </div>
+          <ItemBody blocks={item.blocks} title={item.title} />
 
           {/* Attached files */}
           {item.files.length > 0 && (
@@ -122,6 +118,9 @@ export default async function InterestingItemDetailPage({
 
         {/* Action bar */}
         <PostActions listHref="/technology/interesting-items" />
+
+        {/* Comment section */}
+        <CommentSection initialCount={0} />
       </section>
     </>
   );

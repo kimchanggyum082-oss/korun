@@ -604,6 +604,11 @@ export const casePages: Record<string, CasePageData> = {
   },
 };
 
+export type InterestingItemBlock =
+  | { type: "text"; content: string }
+  | { type: "image"; src: string }
+  | { type: "hr" };
+
 export type InterestingItem = {
   idx: string;
   no: number;
@@ -613,7 +618,8 @@ export type InterestingItem = {
   date: string;
   views: number;
   thumbnail: string;
-  body: string[];
+  description: string;
+  blocks: InterestingItemBlock[];
   files: { name: string; size: string }[];
 };
 
@@ -628,10 +634,26 @@ export const interestingItems: InterestingItem[] = [
     date: "2024-07-08",
     views: 1288,
     thumbnail: `${CDN}/thumbnail/20240708/d192e1ef47252.jpg`,
-    body: [
-      "에어 증압기(부스터)를 통한 입력 에어 압력의 최대 2배 까지 출력 공압을 높일 수 있습니다.",
-      "산업안전관리공단의 인증을 받은 알루미늄에어탱크를 적용함으로써, 경량으로 이동 설치치가 간편 합니다.",
-      "코런은 IAT 에어부스터 정식 취급 판매처 입니다.",
+    description:
+      "HOT RUNNER AIR 압력이 떨어질 때 출력을 최대 2배까지 높여주는 에어 부스터로, 인증받은 알루미늄 탱크로 경량·이동 설치가 간편합니다.",
+    blocks: [
+      {
+        type: "text",
+        content:
+          "AIR AMPLIFIER (에어증폭기) 에어 증압기(부스터)를 통한 입력 에어 압력의 최대 2배 까지  출력 공압을 높일 수 있습니다. 산업안전관리공단의 인증을 받은 알루미늄에어탱크를 적용함으로써,  경량으로 이동 설치치가 간편 합니다.",
+      },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/acf59c4665eae.jpg",
+      },
+      {
+        type: "text",
+        content: "코런은 IAT 에어부스터 정식 취급 판매처 입니다.",
+      },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/aaf8ad0090328.jpg",
+      },
     ],
     files: [
       { name: "240605 코런 에어증폭기 리플렛.pdf", size: "245KB" },
@@ -647,12 +669,28 @@ export const interestingItems: InterestingItem[] = [
     date: "2024-07-08",
     views: 579,
     thumbnail: `${CDN}/thumbnail/20240708/e2c4e122a68a8.png`,
-    body: [
-      "PESU (폴리에테르설폰)수지는 비결정질 고온 열가소성 프라스틱으로 투명도와 고유의 내염성, 내열성이 탁월한 수지 입니다.",
-      "평상시 지속 사용 온도가 최대 180도씨 이고 고강도 및 탁월한 투명성으로 인하여 자동차 헤드램프 반사경, 베젤과 하우징 제품에 전기/전자 부문에서는 연료전지부품, 가습기 하우징, 산업용베터리 등에 주방과 욕실에서는 커피머신, 가열용기 덮게 등 점차 적용도가 넓어지고 있으며, 대표적으로는 유아 젖병 소방관 헬멧 부품등 적용 합니다.",
-      "코런에서는 싱글밸브 게이트 시스템으로 PESU Resin 사출에 적용 하여 제품생산에 성공 하였습니다.",
-      "KOSI-SINGLE VALVE SYSTEM은 히타가 3ZONE으로 구성되어 있어 발열 안정성이 뛰어나며, 별도의 배관구조 없이 AIR LINE을 형성하고 2개의 실린더와 로드 로구성되어 있어 실린더 추력이 강합니다.",
-      "코런의 기술 노하우로 급변하는 RESIN 개발에 한발 앞서는 노력으로 고객사의 안정적인 제품생산에 기여하여 나가겠습니다.",
+    description:
+      "투명성과 내열·내염성이 뛰어난 PESU 수지를 코런의 싱글밸브 게이트 시스템으로 사출 성공한 기술 사례를 소개합니다.",
+    blocks: [
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/47f62ef952596.png",
+      },
+      {
+        type: "text",
+        content:
+          "PESU (폴리에테르설폰)수지는  비결정질 고온 열가소성 프라스틱으로 투명도와 고유의 내염성, 내열성이 탁월한 수지 입니다. 평상시 지속 사용 온도가 최대 180도씨 이고 고강도 및 탁월한 투명성으로 인하여 자동차 헤드램프 반사경, 베젤과 하우징 제품에 전기/전자 부문에서는 연료전지부품, 가습기 하우징, 산업용베터리 등에 주방과 욕실에서는 커피머신, 가열용기 덮게 등 점차 적용도가 넓어지고 있으며, 대표적으로는 유아 젖병 소방관 헬멧 부품등 적용 합니다. 코런에서는 싱글밸브 게이트 시스템으로 PESU Resin 사출에 적용 하여 제품생산에 성공 하였습니다.",
+      },
+      { type: "hr" },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/59586ab8f3203.png",
+      },
+      {
+        type: "text",
+        content:
+          "KOSI-SINGLE VALVE SYSTEM은 히타가 3ZONE으로 구성되어 있어 발열 안정성이 뛰어나며, 별도의 배관 구조 없이 AIR LINE을 형성하고 2개의 실린더와 로드 로 구성되어 있어 실린더 추력이 강합니다. 코런의 기술 노하우로 급변하는 RESIN 개발에 한발 앞서는 노력으로 고객사의 안정적인 제품생산에 기여하여 나가겠습니다.",
+      },
     ],
     files: [],
   },
@@ -665,15 +703,31 @@ export const interestingItems: InterestingItem[] = [
     date: "2024-07-08",
     views: 494,
     thumbnail: `${CDN}/thumbnail/20240708/4351ce998fbb4.png`,
-    body: [
-      "LSR 액상실리콘 (Liquid Silicon Rubber) 사출은 유해물질이 없어 의료용 또는 유아용품에 많이 사용되고 현재는 적용 범위를 알수 없을 정도로 생활 및 산업에 다양하게 적용되어 그 수요가 증가하고 있습니다.",
-      "액상실리콘 전용 사출기로 생산되어 생산성이 우수 합니다.",
-      "액상실리콘 특성상 금형온도가 높고, 흐름이 좋아 3~4 미크론의 간격만 있어도 흘러들어 Burr 발생이 쉽고 성형 고화 후 표면 마찰계수가 높아 코어에 잘 달라 붙는 성질이 강합니다.",
-      "코런에서는 금형의 Air 취출 장치를 역발상하여 핫런너 밸브 시스템을 응용한 LSR전용 에어 취출 장치를 개발하여 적용에 성공 하였습니다.",
-      "평면 제품 또는 내측이 깊은 LSR제품 취출에 용이하며, 그동안 에어건으로 불어서 뜯어내는 방식이 아닌, AIR 자동 취출 방식으로 생산성 향상에 도움을 드립니다.",
-      "AIR 분사구를 완전히 막는 구조로 성형 중 실리콘 액이 흘러 들어가거나, 자국이 지저분하지 않습니다.",
-      "AIR 분출구 막음자국이 발생하므로 외,내관상 자국이 허용되지 않는 제품에는 적용 할 수가 없습니다.",
-      "액상실리콘 제품의 경도는 Shore A 3~5도 정도의 연질부터 40이상의 경질까지 다양한 경도 제품이 있습니다. 경도가 낮을 수록 제품 취출에 어려움이 발생합니다. 코런의 Air Ejector Cylinder는 생산에 어려움을 해결해 드릴 것 입니다.",
+    description:
+      "액상실리콘(LSR) 전용 사출에 핫런너 밸브 시스템을 응용한 AIR 자동 취출 장치를 개발·적용한 사례입니다.",
+    blocks: [
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/5790f08d21cf6.png",
+      },
+      {
+        type: "text",
+        content:
+          "LSR 액상실리콘 (Liquid Silicon Rubber) 사출은 유해물질이 없어 의료용 또는 유아용품에 많이 사용되고 현재는 적용 범위를 알수 없을 정도로 생활 및 산업에 다양하게 적용되어 그 수요가 증가하고 있습니다. 액상실리콘 전용 사출기로 생산되어 생산성이 우수 합니다. 액상실리콘 특성상 금형온도가 높고, 흐름이 좋아 3~4 미크론의 간격만 있어도 흘러들어 Burr 발생이 쉽고 성형 고화 후 표면 마찰계수가 높아 코어에 잘 달라 붙는 성질이 강합니다. 코런에서는 금형의 Air 취출 장치를 역발상하여 핫런너 밸브 시스템을 응용한 LSR전용 에어 취출 장치를 개발하여 적용에 성공 하였습니다.",
+      },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/d5b7c35f6e836.png",
+      },
+      {
+        type: "text",
+        content:
+          "평면 제품 또는 내측이 깊은 LSR제품 취출에 용이하며, 그동안 에어건으로 불어서 뜯어내는 방식이 아닌, AIR 자동 취출 방식으로 생산성 향상에 도움을 드립니다. AIR 분사구를 완전히 막는 구조로 성형 중 실리콘 액이 흘러 들어가거나, 자국이 지저분하지 않습니다. AIR 분출구 막음자국이 발생하므로 외,내관상 자국이 허용되지 않는 제품에는 적용 할 수가 없습니다. 액상실리콘 제품의 경도는 Shore A  3~5도 정도의  연질부터 40이상의 경질까지 다양한 경도 제품이 있습니다. 경도가 낮을 수록 제품 취출에 어려움이 발생합니다. 코런의 Air Ejector Cylinder는 생산에 어려움을 해결해 드릴 것 입니다. <KORUN Air Ejector Cylinder>",
+      },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/dc90a4a1babc3.png",
+      },
     ],
     files: [],
   },
@@ -686,11 +740,22 @@ export const interestingItems: InterestingItem[] = [
     date: "2024-07-08",
     views: 535,
     thumbnail: `${CDN}/thumbnail/20240708/298a22324aace.png`,
-    body: [
-      "( KORUN Open CH Tip)",
-      "기존의 핫런너 Pin Point Type의 노즐들은 Tip에서 수지가 통과하는 Channel이 1개 또는 2~3개로 형성 되어 있으며, 그 위치도 Gate과 가까운 곳에 형성되어 있어, 수지층에 Gap이 많아 색상교환이 어려웠습니다.",
-      "코런의 CH Tip구조는 Tip의 Channel 위치를 상단부로 올려 사출시 수지가 위에서 부터 아래로 휘돌아 끌고 나감으로써 단시간에 색상 교환을 할 수 있도록 개발된 Nozzle Tip 입니다.",
-      "코런의 색상교환 전용 노즐로 안정된 제품 생산으로 원가절감 과 색 교환 불량에서 오는 스트레스를 줄이시길 바랍니다.",
+    description:
+      "Tip 채널을 상단으로 올려 단시간에 색상 교환이 가능한 코런 전용 Color Change Nozzle(CH Tip)을 소개합니다.",
+    blocks: [
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/66b1cadf71b87.png",
+      },
+      {
+        type: "text",
+        content:
+          "( KORUN Open CH Tip) 기존의 핫런너 Pin Point Type의 노즐들은 Tip에서 수지가 통과하는 Channel이 1개 또는 2~3개로 형성 되어 있으며, 그 위치도 Gate과 가까운 곳에 형성되어 있어, 수지층에 Gap이 많아 색상교환이 어려웠습니다. 코런의 CH Tip구조는 Tip의 Channel 위치를 상단부로 올려 사출시 수지가 위에서 부터 아래로 휘돌아 끌고 나감으로써 단시간에 색상 교환을 할 수 있도록 개발된 Nozzle Tip 입니다. 코런의 색상교환 전용 노즐로 안정된 제품 생산으로 원가절감 과 색 교환 불량에서 오는 스트레스를 줄이시길 바랍니다.",
+      },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/311eb7b65decd.png",
+      },
     ],
     files: [],
   },
@@ -703,11 +768,22 @@ export const interestingItems: InterestingItem[] = [
     date: "2024-07-08",
     views: 507,
     thumbnail: `${CDN}/thumbnail/20240708/e845ee710f83b.png`,
-    body: [
-      "(KORUN Open CF Tip)",
-      "유리섬유강화재가 첨가된 Resin들은 핫런너 Pin Type 형식의 노즐들에서 노즐끝 선단의 예리한 부분이 쉽게 마모되고, 또한, 고온에서 사출되기 때문에 gate가 막히는 사례가 많습니다.",
-      "코런의 엔지니어링 수지 전용 Nozzle Tip은 폐사의 KODI Nozzle과 조합하여 적용되며, 삼중의 Tip구조로 내구성과 온도 보존면에서 탁월 합니다.",
-      "현재 프라스틱 원료의 가격상승과 늘어나는 수량 문제등으로 제품비가 상승하고 있기 때문에 코런의 Open CF Tip을 금형에 적용 함으로써 원가절감 효과가 있습니다",
+    description:
+      "유리섬유 강화 수지용으로 마모와 게이트 막힘을 해결한 삼중 구조의 엔지니어링 플라스틱 전용 Open CF Tip 기술입니다.",
+    blocks: [
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/7ee59bb7a4566.png",
+      },
+      {
+        type: "text",
+        content:
+          "(KORUN Open CF Tip) 유리섬유강화재가 첨가된  Resin들은 핫런너 Pin Type 형식의 노즐들에서 노즐끝 선단의 예리한 부분이 쉽게 마모되고, 또한, 고온에서 사출되기 때문에 gate가 막히는 사례가 많습니다. 코런의 엔지니어링 수지 전용 Nozzle Tip은 폐사의 KODI Nozzle과 조합하여 적용되며, 삼중의 Tip구조로 내구성과 온도 보존면에서 탁월 합니다. 현재 프라스틱 원료의 가격상승과 늘어나는 수량 문제등으로 제품비가 상승하고 있기 때문에 코런의 Open CF Tip을 금형에 적용 함으로써 원가절감 효과가 있습니다  < 적용 제품 이미지 >",
+      },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/304d6c4bf9150.png",
+      },
     ],
     files: [],
   },
@@ -720,15 +796,52 @@ export const interestingItems: InterestingItem[] = [
     date: "2024-07-08",
     views: 532,
     thumbnail: `${CDN}/thumbnail/20240708/3c42f83f638af.png`,
-    body: [
-      "메니폴드 블럭은 핫런너에 있어서 수지흐름의 매우 중요한 역활을 하는 것으로 각각의 구성요소가 역학적 설계구조로 이뤄져야 합니다.",
-      "코런의 메니폴드 블럭은 히타 발열 바운더리량을 계산하여 설계되며, 게이트의 위치에 따라 밸런스 구조 또는 심플구조로 제작 됩니다.",
-      "메니폴드 블럭의 센서는 표면형 센서가 아닌, 노즐에 적용되는 씨즈센서를 동일하게 적용하여 수지홀과 가까운곳의 온도를 체크할 수 있도록 하고 있습니다.",
-      "코런 고유 디자인의 센서 고정편은 센서를 안정적으로 고정하여 세밀한 온도 유지를 하고 있습니다.",
-      "메니폴드 블럭의 체결볼트 머리 아래 슬라이딩와셔를 체택 적용함으로 볼트의 체결럭을 높이는 동시에 열팽창시 볼트 체결에 의한 과도한 눌림을 없에 열팽창 변형에 안정함 더 하였습니다.",
-      "볼트의 체결방식은 토크랜치를 이용하여 체결되는 모든볼트가 일정한 힘으로 체결 되도록 조립 합니다.",
-      "메니폴드 블럭 설계 제작시 다수의 센서홀을 미리 설치하여 조립전 승온테스트 시에 기준된 센서위치 외의 다른부분의 온도를 체크하여, 발열 밸런스와 열응집도를 체크 합니다.",
-      "Resin의 물성이 예민 할 수록 핫런너의 메니폴드 블럭은 더욱 까다롭게 설계되고 면밀히 체크하여 제작 합니다.",
+    description:
+      "역학적 설계와 정밀 온도 제어, 승온 테스트로 제작되는 코런 메니폴드 블럭의 설계·조립 기술을 소개합니다.",
+    blocks: [
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/4d3e418ec2a28.png",
+      },
+      {
+        type: "text",
+        content:
+          "메니폴드 블럭은 핫런너에 있어서 수지흐름의 매우 중요한 역활을 하는 것으로 각각의 구성요소가 역학적 설계구조로 이뤄져야 합니다. 코런의 메니폴드 블럭은 히타 발열 바운더리량을 계산하여 설계되며, 게이트의 위치에 따라 밸런스 구조 또는 심플구조로 제작 됩니다.",
+      },
+      { type: "hr" },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/1adc9ccc1936a.png",
+      },
+      {
+        type: "text",
+        content:
+          "메니폴드 블럭의 센서는 표면형 센서가 아닌, 노즐에 적용되는 씨즈센서를 동일하게 적용하여 수지홀과 가까운곳의 온도를 체크할 수 있도록 하고 있습니다. 코런 고유 디자인의 센서 고정편은 센서를 안정적으로 고정하여 세밀한 온도 유지를 하고 있습니다.",
+      },
+      { type: "hr" },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/4e11a657be63b.png",
+      },
+      {
+        type: "text",
+        content:
+          "메니폴드 블럭의 체결볼트 머리 아래 슬라이딩와셔를 체택 적용함으로 볼트의 체결럭을 높이는 동시에 열팽창시 볼트 체결에 의한 과도한 눌림을 없에 열팽창 변형에 안정함 더 하였습니다. 볼트의 체결방식은 토크랜치를 이용하여 체결되는 모든볼트가 일정한 힘으로 체결 되도록 조립 합니다.",
+      },
+      { type: "hr" },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/f3d4ddb61b4bf.png",
+      },
+      {
+        type: "text",
+        content:
+          "메니폴드 블럭 설계 제작시 다수의 센서홀을 미리 설치하여 조립전 승온테스트 시에 기준된 센서위치 외의 다른부분의 온도를 체크하여, 발열 밸런스와 열응집도를 체크 합니다. Resin의 물성이 예민 할 수록 핫런너의 메니폴드 블럭은 더욱 까다롭게 설계되고 면밀히 체크하여 제작 합니다. < 가열 승온 테스트 후 메니폴드 블럭의 변색 상태 >",
+      },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/171a2008ac6ce.png",
+      },
     ],
     files: [],
   },
