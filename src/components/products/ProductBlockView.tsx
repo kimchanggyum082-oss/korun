@@ -79,7 +79,7 @@ function SpecTable({ block }: { block: ProductBlock }) {
   const spec = block.spec!;
   return (
     <section className="bg-paper">
-      <div className="mx-auto max-w-[1100px] px-4 py-12 md:px-6 md:py-16">
+      <div className="mx-auto max-w-[1280px] px-4 py-12 md:px-6 md:py-16">
         <SectionTitle>
           Specification <span className="text-neutral-300">-</span>{" "}
           <span className="text-[18px] font-bold text-neutral-500 md:text-[20px]">
@@ -202,7 +202,7 @@ export default function ProductBlockView({ block }: { block: ProductBlock }) {
       {/* Section 2: Gallery */}
       {block.gallery.length ? (
         <section className="py-12 md:py-16">
-          <div className="mx-auto max-w-[1100px] px-4 md:px-6">
+          <div className="mx-auto max-w-[1280px] px-4 md:px-6">
             <SectionTitle>{block.galleryLabel}</SectionTitle>
             <div className="mt-8">
               <ProductGallery
@@ -217,16 +217,16 @@ export default function ProductBlockView({ block }: { block: ProductBlock }) {
       {/* Section 3+: Applications */}
       {block.applications?.map((s) => (
         <section key={s.title} className="bg-paper">
-          <div className="mx-auto max-w-[1100px] px-4 py-12 md:px-6 md:py-16">
+          <div className="mx-auto max-w-[1280px] px-4 py-12 md:px-6 md:py-16">
             <SectionTitle>{s.title}</SectionTitle>
             <div className="mt-8">
               {s.images.length === 1 ? (
                 <SmartImage
                   src={s.images[0]}
                   alt={s.title}
-                  width={1100}
-                  height={700}
-                  sizes="(min-width: 1100px) 1100px, 100vw"
+                  width={1280}
+                  height={800}
+                  sizes="(min-width: 1280px) 1280px, 100vw"
                   className="h-auto w-full"
                 />
               ) : (

@@ -27,14 +27,16 @@ export default function ProductGallery({
 
   const desktopCols = images.length <= 2 ? 2 : images.length <= 3 ? 3 : 4;
 
+  const gridClass =
+    desktopCols === 2
+      ? "grid-cols-2"
+      : desktopCols === 3
+        ? "grid-cols-2 md:grid-cols-3"
+        : "grid-cols-2 md:grid-cols-4";
+
   return (
     <>
-      <div
-        className="grid grid-cols-2 gap-4 md:gap-5"
-        style={{
-          gridTemplateColumns: `repeat(${desktopCols}, minmax(0, 1fr))`,
-        }}
-      >
+      <div className={`grid ${gridClass} gap-4 md:gap-5`}>
         {galleryImages.map((img, i) => (
           <button
             key={img.src}
