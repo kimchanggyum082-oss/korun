@@ -156,6 +156,8 @@ export const assets = {
       alt: "특허 및 인증 10",
     },
   ],
+  caseBannerPc: `${CDN}/thumbnail/20240626/a18aa2cb7748c.jpg`,
+  caseBannerMobile: `${CDN}/thumbnail/20240712/859dd09d295f3.jpg`,
 } as const;
 
 export const nav = [
@@ -183,11 +185,17 @@ export const nav = [
     label: "Case Of Applications",
     href: "#",
     children: [
-      { label: "Automotive Parts", href: "#" },
-      { label: "Transparent Parts", href: "#" },
-      { label: "Office & House Appliances", href: "#" },
-      { label: "Daily Supplies", href: "#" },
-      { label: "Engineering Plastics Parts", href: "#" },
+      { label: "Automotive Parts", href: "/cases/automotive-parts" },
+      { label: "Transparent Parts", href: "/cases/transparent-parts" },
+      {
+        label: "Office & House Appliances",
+        href: "/cases/office-house-appliances",
+      },
+      { label: "Daily Supplies", href: "/cases/daily-supplies" },
+      {
+        label: "Engineering Plastics Parts",
+        href: "/cases/engineering-plastics-parts",
+      },
     ],
   },
   {
@@ -212,6 +220,317 @@ export const aboutNav = [
   { label: "Company Location", href: "/about/company-location" },
   { label: "Job Posting", href: "/about/job-posting" },
 ] as const;
+
+export const caseNav = [
+  { label: "Automotive Parts", href: "/cases/automotive-parts" },
+  { label: "Transparent Parts", href: "/cases/transparent-parts" },
+  {
+    label: "Office & House Appliances",
+    href: "/cases/office-house-appliances",
+  },
+  { label: "Daily Supplies", href: "/cases/daily-supplies" },
+  {
+    label: "Engineering Plastics Parts",
+    href: "/cases/engineering-plastics-parts",
+  },
+] as const;
+
+export type CasePageData = {
+  subtitle: string;
+  title: string;
+  heroImageMobile: string;
+  heroImagePc: string;
+  section?: { heading: string; text: string; images: string[] };
+  galleryImages?: GalleryImage[];
+};
+
+export const casePages: Record<string, CasePageData> = {
+  "automotive-parts": {
+    subtitle: "자동차 관련 부품을 소개드립니다",
+    title: "Automotive Parts",
+    heroImageMobile: `${CDN}/thumbnail/20240715/6abd5b2d50624.png`,
+    heroImagePc: `${CDN}/thumbnail/20240617/683f9142996e4.jpg`,
+    section: {
+      heading: "Driving Change",
+      text: "전기차 시대가 도래하면서 새로운 재료와 공정이 자동차를 재정립 하고 있습니다. 내외장제품 및 엔진룸, 샤시 등 자동차 부품의 해법! 바로 코런 Hot Runner System 입니다.",
+      images: [
+        `${CDN}/thumbnail/20240617/91f02fd56a51e.png`,
+        `${CDN}/thumbnail/20240617/3c39cfb9f59bd.png`,
+        `${CDN}/thumbnail/20240617/1b49acd10f4ec.png`,
+      ],
+    },
+    galleryImages: [
+      {
+        src: `${CDN}/thumbnail/20240711/cfe1acfa2d7c6.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/4238891b6080a.png`,
+        alt: "Automotive Parts 1",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/eeddcd576f78d.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/4485445b53705.png`,
+        alt: "Automotive Parts 2",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/7e2111418a6ac.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/b5a8e6a00d7dc.png`,
+        alt: "Automotive Parts 3",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/2c42eb72f1723.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/054c35470f5c9.png`,
+        alt: "Automotive Parts 4",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/678f6d5a95d70.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/e97729bacfe45.png`,
+        alt: "Automotive Parts 5",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/aede1dd3e5ce4.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/7d1ba68a6c90b.png`,
+        alt: "Automotive Parts 6",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/e77c5d0a6df4d.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/34debb06ebca7.png`,
+        alt: "Automotive Parts 7",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/4306cb8e02731.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/52a169a7d40df.png`,
+        alt: "Automotive Parts 8",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/b38946fe84d2f.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/850b9ddf6bee4.png`,
+        alt: "Automotive Parts 9",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/82c50d08d2a2b.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/31decbab2c83e.png`,
+        alt: "Automotive Parts 10",
+      },
+    ],
+  },
+  "transparent-parts": {
+    subtitle: "투명제품을 소개드립니다",
+    title: "Transparent Parts",
+    heroImageMobile: `${CDN}/thumbnail/20240715/2e8ef1a74aa89.png`,
+    heroImagePc: `${CDN}/thumbnail/20240618/c2b7366b32470.jpg`,
+    section: {
+      heading: "Lens",
+      text: "투명제품의 대표라고 할수 있는 자동차 램프 및 PC, PMMA, SAN 등의 레진 제품들은 고도의 금형과 사출 기술 그리고 Hot Runner System 기술 조화가 매우 중요합니다. 코런은 다양한 투명제품을 적용한 노하우로 양질의 제품 생산을 목적으로 국외 핫런너 메이커와 당당히 경쟁하고 있습니다.",
+      images: [
+        `${CDN}/thumbnail/20240618/8993d0abe1c3e.png`,
+        `${CDN}/thumbnail/20240618/5118e41c94a87.png`,
+        `${CDN}/thumbnail/20240618/822b0bd17a064.png`,
+      ],
+    },
+  },
+  "office-house-appliances": {
+    subtitle: "사무 및 하우스 가전제품 적용 사례",
+    title: "Office & House Appliances",
+    heroImageMobile: `${CDN}/thumbnail/20240715/fc41e6798bf1c.png`,
+    heroImagePc: `${CDN}/thumbnail/20240620/463bda911e746.png`,
+    section: {
+      heading: "Appliances",
+      text: "코런의 다양한 Nozzle 및 Nozzle Tip 구조들은 도전적이고 대량의 부품을 생산하는 전자제품 제조업계에 축척된 노하우로 정밀 밸브 게이팅, 극소형 제품 금형에 최적화되도록 설계 적용 제작하여 최상의 제품을 만들수 있도록 Hot Runner System을 제공하고 있습니다.",
+      images: [
+        `${CDN}/thumbnail/20240618/cab94be48a9b7.png`,
+        `${CDN}/thumbnail/20240618/5a84948ef16cf.png`,
+        `${CDN}/thumbnail/20240618/671f37d737787.png`,
+      ],
+    },
+    galleryImages: [
+      {
+        src: `${CDN}/thumbnail/20240711/54355f4cfdc77.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/6c6626084a5a4.png`,
+        alt: "Appliances 1",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/7cc26970216d9.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/0aebb67bf8ce9.png`,
+        alt: "Appliances 2",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/8757d2021bf6c.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/eef5c95e86468.png`,
+        alt: "Appliances 3",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/a0e6102899f7a.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/d12186d1de051.png`,
+        alt: "Appliances 4",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/29bee4f16a685.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/b1443cb29ff21.png`,
+        alt: "Appliances 5",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/e5415c4fc1e24.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/c8393cfa966b4.png`,
+        alt: "Appliances 6",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/450a4a844b8f1.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/39ea4fb92e619.png`,
+        alt: "Appliances 7",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/3b42e8c7cd55e.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/5a893d4ecea3f.png`,
+        alt: "Appliances 8",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/f161dea6b0a44.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/8bdadc925d452.png`,
+        alt: "Appliances 9",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/ccb5d75d9a3da.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/4916aabdcb9a6.png`,
+        alt: "Appliances 10",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/cd129df40c8a5.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/8d0768a6eae11.png`,
+        alt: "Appliances 11",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/293594c1fc41e.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/48121fce491dd.png`,
+        alt: "Appliances 12",
+      },
+    ],
+  },
+  "daily-supplies": {
+    subtitle: "생활용품 적용 사례",
+    title: "Daily Supplies",
+    heroImageMobile: `${CDN}/thumbnail/20240715/b2f3545609a11.png`,
+    heroImagePc: `${CDN}/thumbnail/20240620/dac3d17d4bef6.png`,
+    section: {
+      heading: "",
+      text: "코런의 제품군은 합리적 가격과 우수한 품질로 고객사의 인정을 받고 있으며, 생활용품 업계에 점차 시장을 넓혀가고 있으며, 최적화된 설계와 우수한 내구성으로 오랜기간 많은 수량을 안정적으로 양산할 수 있도록 최선으로 다하고 있습니다.",
+      images: [`${CDN}/thumbnail/20240618/096bb38b57551.png`],
+    },
+    galleryImages: [
+      {
+        src: `${CDN}/thumbnail/20240711/073181ca0fa28.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/0cce7fc4d0cef.png`,
+        alt: "Daily Supplies 1",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/a962920958c01.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/0d1639060ddc0.png`,
+        alt: "Daily Supplies 2",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/d02885ccf8f83.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/218ebaf8ed2b8.png`,
+        alt: "Daily Supplies 3",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/7f0feb52b199c.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/254c8c48ac2e6.png`,
+        alt: "Daily Supplies 4",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/d63c811f7b350.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/659e9eb158370.png`,
+        alt: "Daily Supplies 5",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/f6962bad4c9ea.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/a0c2c09e4d661.png`,
+        alt: "Daily Supplies 6",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/80ae4fef2bc78.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/a62d4d2404ff4.png`,
+        alt: "Daily Supplies 7",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/65794c70b7e0d.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/cfda6f9721d0e.png`,
+        alt: "Daily Supplies 8",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/2d6b2066c067d.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/d1b7a736dbdd7.png`,
+        alt: "Daily Supplies 9",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/ce3eab804c662.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/da0524890eaa2.png`,
+        alt: "Daily Supplies 10",
+      },
+    ],
+  },
+  "engineering-plastics-parts": {
+    subtitle: "엔지니어링 플라스틱 적용 사례",
+    title: "Engineering Plastics Parts",
+    heroImageMobile: `${CDN}/thumbnail/20240715/e32f16cafbc2d.png`,
+    heroImagePc: `${CDN}/thumbnail/20240626/7ebeaba1165f4.jpg`,
+    section: {
+      heading: "",
+      text: "엔지니어링 플라스틱은 강도가 높고 가벼워 공업 재료로 사용되는 고성능 플라스틱을 말하며, 그 중에서도 열과 충격에 매우 강한 엔지니어링 플라스틱을 슈퍼 엔진니어링 플라스틱 이라고 합니다.",
+      images: [`${CDN}/thumbnail/20240618/3f6d4e81a35c5.png`],
+    },
+    galleryImages: [
+      {
+        src: `${CDN}/thumbnail/20240711/340bdb6db36b6.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/0e8e765b45543.png`,
+        alt: "Engineering Plastics 1",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/6b7e5bcccf951.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/14ef7d24385ab.png`,
+        alt: "Engineering Plastics 2",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/0266c2eb510e2.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/339065f3dfaa5.png`,
+        alt: "Engineering Plastics 3",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/d27ae5b8e8742.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/37bb4c1b2cae2.png`,
+        alt: "Engineering Plastics 4",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/3b51f86462c12.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/521817c36d496.png`,
+        alt: "Engineering Plastics 5",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/5be51a151fed2.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/77e2b4e45a6d6.png`,
+        alt: "Engineering Plastics 6",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/fc1ebedf5f903.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/91274abb7ceb8.png`,
+        alt: "Engineering Plastics 7",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/c052e78abbfb0.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/a2b94611a3929.png`,
+        alt: "Engineering Plastics 8",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/6c4160b665375.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/acd399312d39f.png`,
+        alt: "Engineering Plastics 9",
+      },
+      {
+        src: `${CDN}/thumbnail/20240711/3434c6868b1b4.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/db132a7c514ad.png`,
+        alt: "Engineering Plastics 10",
+      },
+    ],
+  },
+};
 
 type JobPost = {
   idx: string;
