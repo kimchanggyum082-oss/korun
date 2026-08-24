@@ -27,13 +27,13 @@ export default function ProductGallery({
 
   return (
     <>
-      <div className="mx-auto flex max-w-[1100px] flex-wrap justify-center gap-4 md:gap-5">
+      <div className="mx-auto grid max-w-[1100px] grid-cols-2 gap-4 md:grid-cols-3 md:gap-5">
         {galleryImages.map((img, i) => (
           <button
             key={img.src}
             type="button"
             onClick={() => setLightboxIndex(i)}
-            className="group relative aspect-[4/3] w-[calc(50%-8px)] overflow-hidden bg-neutral-200 md:w-[calc(33.33%-10px)]"
+            className="group relative aspect-[4/3] overflow-hidden bg-neutral-200"
             aria-label={`${img.alt} 보기`}
           >
             <SmartImage
