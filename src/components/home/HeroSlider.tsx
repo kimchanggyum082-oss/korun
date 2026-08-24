@@ -18,7 +18,7 @@ export default function HeroSlider() {
   }, [count]);
 
   return (
-    <section className="relative h-[70vh] min-h-[420px] w-full overflow-hidden bg-neutral-900 md:h-[92vh]">
+    <section className="relative h-[70vh] min-h-[420px] w-full overflow-hidden bg-neutral-900 pc:h-[500px]">
       {assets.heroSlides.map((slide, i) => (
         <Image
           key={slide.src}
@@ -33,7 +33,7 @@ export default function HeroSlider() {
         />
       ))}
 
-      <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 gap-2">
+      <div className="absolute bottom-5 left-1/2 z-10 flex -translate-x-1/2 gap-2 pc:hidden">
         {assets.heroSlides.map((slide, i) => (
           <button
             key={slide.src}

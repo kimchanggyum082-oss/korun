@@ -1,43 +1,256 @@
 export const CDN = "https://cdn.imweb.me";
 
+const UPLOAD = `${CDN}/upload/S20240617d196c3c9ecacb`;
+
 export const assets = {
   logo: `${CDN}/thumbnail/20260706/6e6eed688b83a.png`,
   logoWhite: `${CDN}/thumbnail/20260706/2f2ec2ffc01ac.png`,
+  penLarge: `${UPLOAD}/12168732a59a8.png`,
+  penSmall: `${UPLOAD}/cd6dfa8d2f6cb.png`,
+  arrowDark: `${UPLOAD}/86e3dc23455de.png`,
   heroSlides: [
-    {
-      src: `${CDN}/thumbnail/20240619/fc7c5f1635997.png`,
-      alt: "Hot Runner System KORUN - Best Processing Quality! High quality Fast delivery!",
-    },
     {
       src: `${CDN}/thumbnail/20240619/82344c13461a1.png`,
       alt: "High Performance Hot Runners",
+    },
+    {
+      src: `${CDN}/thumbnail/20240619/fc7c5f1635997.png`,
+      alt: "Hot Runner System KORUN - Best Processing Quality! High quality Fast delivery!",
     },
   ],
   products: [
     {
       title: "Valve Gate System",
       href: "/21",
-      src: `${CDN}/thumbnail/20240715/2a7c07b53aee9.png`,
+      src: `${CDN}/thumbnail/20240617/b962d08789248.png`,
+      hoverSrc: `${CDN}/thumbnail/20240617/c090f6618048f.png`,
+      mobileSrc: `${CDN}/thumbnail/20240715/2a7c07b53aee9.png`,
     },
     {
       title: "Open Gate Systems",
       href: "/22",
-      src: `${CDN}/thumbnail/20240715/e88c70262c6cb.png`,
+      src: `${CDN}/thumbnail/20240617/525421f3b5144.png`,
+      hoverSrc: `${CDN}/thumbnail/20240617/ca5a246db3e67.png`,
+      mobileSrc: `${CDN}/thumbnail/20240715/e88c70262c6cb.png`,
     },
     {
       title: "Single Nozzle",
       href: "/23",
-      src: `${CDN}/thumbnail/20240715/2b7bdff8250a3.png`,
+      src: `${CDN}/thumbnail/20240617/4d25e24589a13.png`,
+      hoverSrc: `${CDN}/thumbnail/20240617/7322d167a8550.png`,
+      mobileSrc: `${CDN}/thumbnail/20240715/2b7bdff8250a3.png`,
     },
     {
       title: "Time&Temperature Controllers",
       href: "/24",
-      src: `${CDN}/thumbnail/20240715/797e1918f2a68.png`,
+      src: `${CDN}/thumbnail/20240617/c204ac8c52f02.png`,
+      hoverSrc: `${CDN}/thumbnail/20240617/295e386443d79.png`,
+      mobileSrc: `${CDN}/thumbnail/20240715/797e1918f2a68.png`,
     },
   ],
-  ctaBanner: `${CDN}/thumbnail/20240625/fb07ee567ca78.jpg`,
+  productsBg: `${CDN}/thumbnail/20240619/68e5edc163b33.png`,
+  newsBg: `${CDN}/thumbnail/20240617/a63db8b18958a.png`,
+  ctaPhoto: `${CDN}/thumbnail/20240617/092be34fd3257.jpg`,
+  subBanner: `${CDN}/thumbnail/20240626/e2ada77eda324.jpg`,
   valuesBg: `${CDN}/thumbnail/20240617/a4408920c5a82.png`,
+  aboutBannerPc: `${CDN}/thumbnail/20240619/4d5b50c0afed3.jpg`,
+  aboutBannerMobile: `${CDN}/thumbnail/20240712/ef35087c67d83.png`,
+  greetingImage: `${CDN}/thumbnail/20240617/6dfe099f0f85e.jpg`,
+  greetingImageMobile: `${CDN}/thumbnail/20240625/12592385e619a.jpg`,
+  galleryImages: [
+    {
+      src: `${CDN}/thumbnail/20240617/464925bca177f.jpg`,
+      fullSrc: `${CDN}/thumbnail/20240617/cb928cb93dd93.jpg`,
+      alt: "기업부설연구소",
+    },
+    {
+      src: `${CDN}/thumbnail/20240617/049ba6db92e8b.jpg`,
+      fullSrc: `${CDN}/thumbnail/20240617/6b02ba30d0503.jpg`,
+      alt: "사무실",
+    },
+    {
+      src: `${CDN}/thumbnail/20240617/e1ffb089c8b9a.jpg`,
+      fullSrc: `${CDN}/thumbnail/20240617/3c69a3d54473f.jpg`,
+      alt: "생산1파트",
+    },
+    {
+      src: `${CDN}/thumbnail/20240617/44c8da160a4d3.jpg`,
+      fullSrc: `${CDN}/thumbnail/20240617/7e48ca3aa5ecb.jpg`,
+      alt: "생산2파트",
+    },
+    {
+      src: `${CDN}/thumbnail/20240617/3927a26a23b40.jpg`,
+      fullSrc: `${CDN}/thumbnail/20240617/8fb41ffcee938.jpg`,
+      alt: "연구회의실5",
+    },
+    {
+      src: `${CDN}/thumbnail/20240617/7dd153648df8e.jpg`,
+      fullSrc: `${CDN}/thumbnail/20240617/36f325ca0c9e6.jpg`,
+      alt: "외관1",
+    },
+    {
+      src: `${CDN}/thumbnail/20240617/c150597de2d37.jpg`,
+      fullSrc: `${CDN}/thumbnail/20240617/01edeb1a71b07.jpg`,
+      alt: "외관2",
+    },
+    {
+      src: `${CDN}/thumbnail/20240617/167a3232c2b7b.jpg`,
+      fullSrc: `${CDN}/thumbnail/20240617/ec570dc8b753e.jpg`,
+      alt: "휴게실",
+    },
+    {
+      src: `${CDN}/thumbnail/20240617/e4797686dce69.jpg`,
+      fullSrc: `${CDN}/thumbnail/20240617/e32fe1f49caad.jpg`,
+      alt: "휴게실2",
+    },
+  ],
+  patentImages: [
+    {
+      src: `${CDN}/thumbnail/20240617/15ece1d809080.jpg`,
+      fullSrc: `${CDN}/thumbnail/20240617/cc5e76e853b91.jpg`,
+      alt: "특허 및 인증 1",
+    },
+    {
+      src: `${CDN}/thumbnail/20240617/aadc23a8a8538.jpg`,
+      fullSrc: `${CDN}/thumbnail/20240617/92b3656f569fb.jpg`,
+      alt: "특허 및 인증 2",
+    },
+    {
+      src: `${CDN}/thumbnail/20240617/ff2518d97736c.jpg`,
+      fullSrc: `${CDN}/thumbnail/20240617/f508ba602e496.jpg`,
+      alt: "특허 및 인증 3",
+    },
+    {
+      src: `${CDN}/thumbnail/20240617/cd3f2eba7a45c.jpg`,
+      fullSrc: `${CDN}/thumbnail/20240617/301cf1f329341.jpg`,
+      alt: "특허 및 인증 4",
+    },
+    {
+      src: `${CDN}/thumbnail/20240617/36e15084ebb9a.jpg`,
+      fullSrc: `${CDN}/thumbnail/20240617/56300432df040.jpg`,
+      alt: "특허 및 인증 5",
+    },
+    {
+      src: `${CDN}/thumbnail/20240617/f4531467cad8f.png`,
+      fullSrc: `${CDN}/thumbnail/20240617/fc046fdc11b2b.png`,
+      alt: "특허 및 인증 6",
+    },
+    {
+      src: `${CDN}/thumbnail/20240617/7fdf512654b25.jpg`,
+      fullSrc: `${CDN}/thumbnail/20240617/7105b7029708b.jpg`,
+      alt: "특허 및 인증 7",
+    },
+    {
+      src: `${CDN}/thumbnail/20240617/8e8d29b2c320f.jpg`,
+      fullSrc: `${CDN}/thumbnail/20240617/aa37780368fc9.jpg`,
+      alt: "특허 및 인증 8",
+    },
+    {
+      src: `${CDN}/thumbnail/20240617/0e8fe42686d6c.png`,
+      fullSrc: `${CDN}/thumbnail/20240617/ecd630f5e1f5a.png`,
+      alt: "특허 및 인증 9",
+    },
+    {
+      src: `${CDN}/thumbnail/20240617/5e52c30c7d692.jpg`,
+      fullSrc: `${CDN}/thumbnail/20240617/95d170858abf0.jpg`,
+      alt: "특허 및 인증 10",
+    },
+  ],
 } as const;
+
+export const nav = [
+  {
+    label: "About KORUN",
+    href: "#",
+    children: [
+      { label: "Greetings", href: "/about/greetings" },
+      { label: "Patent & Credentials", href: "/about/patent-credentials" },
+      { label: "Company Location", href: "/about/company-location" },
+      { label: "Job Posting", href: "/about/job-posting" },
+    ],
+  },
+  {
+    label: "Products",
+    href: "#",
+    children: [
+      { label: "Valve Gate Systems", href: "/21" },
+      { label: "Open Gate Systems", href: "/22" },
+      { label: "Single Nozzle", href: "/23" },
+      { label: "Time & Temperature Controllers", href: "/24" },
+    ],
+  },
+  {
+    label: "Case Of Applications",
+    href: "#",
+    children: [
+      { label: "Automotive Parts", href: "#" },
+      { label: "Transparent Parts", href: "#" },
+      { label: "Office & House Appliances", href: "#" },
+      { label: "Daily Supplies", href: "#" },
+      { label: "Engineering Plastics Parts", href: "#" },
+    ],
+  },
+  {
+    label: "KORUN of Technology",
+    href: "#",
+    children: [{ label: "Interesting Items", href: "#" }],
+  },
+  {
+    label: "Service Center",
+    href: "#",
+    children: [
+      { label: "News&Events", href: "#" },
+      { label: "Downloads", href: "#" },
+      { label: "Case Studio", href: "#" },
+    ],
+  },
+] as const;
+
+export const aboutNav = [
+  { label: "Greetings", href: "/about/greetings" },
+  { label: "Patent & Credentials", href: "/about/patent-credentials" },
+  { label: "Company Location", href: "/about/company-location" },
+  { label: "Job Posting", href: "/about/job-posting" },
+] as const;
+
+type JobPost = {
+  idx: string;
+  no: number;
+  title: string;
+  author: string;
+  date: string;
+  views: number;
+  body: string[];
+  files: { name: string; size: string }[];
+};
+
+export const jobPosts: JobPost[] = [
+  {
+    idx: "122257276",
+    no: 1,
+    title:
+      "코런 대리점 신청 안내! (열정과 실력으로 무장 되신 찐 예비사장님들 지금 바로 연락 주시기 바랍니다)",
+    author: "코런 관리자",
+    date: "2024-10-14",
+    views: 388,
+    body: [
+      "안녕 하십니까?",
+      "핫런너 업게에 종사하시는 모든 분들께 존경으로 표하는 바 입니다.  주식회사 코런 대표 김창겸 입니다.",
+      "곧 다가오는 25년도 영업 전략 기획 일환으로 하기의 국내 지역의 영업 및 서비스 확대를 위하여",
+      "하기의 지역 기준으로 핫런너 업계의 숨은 고수님들과의 대리점 계약을 맺고자 본 공고를 올립니다.",
+      "1. 타겟 지역 :  경기북부 지역 (남양주, 의정부, 파주)  / 경기중부 지역 (광주, 수원)  / 경기남부지역 (화성, 평택)\n                    충청남도 (천안, 아산)  / 충청북도 (옥산, 음성)\n                    대구 , 울산 , 부산\n                    상기 지역 중 어디든 괜찬습니다.",
+      "2. 자격 : 2-1. 핫런너 업계(회사무관)에 영업 또는 개발,설계 근무 13년 이상\n            2-2. 해외 출장 업무에 문제가 없을 것 (본사와의 업무 공조 차원의 출장이 있을 수 있습니다)\n            2-3. 자체 적으로 공장 또는 사무실 계약이 가능하신 분\n            ※ 대리점 계약을 원하시는데 상기 내용이 만약 문제가 있으신 경우 사전 상담 요청 부탁 드립니다.",
+      "3. 신청 요청시 필수 서류 사항 :  대리점 개설 신청서, 직무(경력) 기술서 영업분야, 대리점 사업 계획서\n                                    (아래의 데이타를 다운받아 작성하시어 송부 바랍니다)",
+      "4. 신청 : 이메일 접수   korun15@naver.com  /  담당자 HP : 010-8867-3060",
+      "                            ※  코런의 지사 설립 문의도  언제든지 연락 주시기 바랍니다.",
+    ],
+    files: [
+      { name: "코런_2024년 도소매업창업사업계획서 양식.pptx", size: "5,675KB" },
+      { name: "코런_대리점 개설 신청서.docx", size: "17KB" },
+      { name: "코런_직무기술서 영업 분야.docx", size: "17KB" },
+    ],
+  },
+];
 
 export const company = {
   name: "주식회사 코런",
@@ -139,14 +352,14 @@ export const downloads: DownloadItem[] = [
 ];
 
 export const values = [
-  { label: "기술성 Technology", color: "#43a15c" },
-  { label: "안정성 Stability", color: "#f0a63a" },
-  { label: "효율성 Effciency", color: "#4d6fd0" },
+  { label: "기술성 Technology", color: "#00ac68", padding: "30px" },
+  { label: "안정성 Stability", color: "#e5a627", padding: "40px" },
+  { label: "효율성 Effciency", color: "#2771e5", padding: "40px" },
 ] as const;
 
 export type SpecRow = { label: string; values: string[] };
 
-export type ProductSection = {
+export type ProductApplication = {
   title: string;
   images: string[];
 };
@@ -154,17 +367,16 @@ export type ProductSection = {
 export type ProductBlock = {
   eyebrow?: string;
   title?: string;
-  subtitleLines?: string[];
-  heroAlt?: string;
-  heroSrc?: string;
   introTitle: string;
+  introImage?: string;
   introText?: string;
   introBullets?: string[];
   tags: readonly string[];
   showInquiry?: boolean;
   galleryLabel: string;
-  sections: ProductSection[];
-  spec?: { model: string; image?: string; rows: SpecRow[] };
+  gallery: string[];
+  applications?: ProductApplication[];
+  spec?: { model: string; rows: SpecRow[] };
 };
 
 export type ProductPageData = {
@@ -187,10 +399,8 @@ export const productPages: Record<string, ProductPageData> = {
       {
         eyebrow: "게이트를 개폐하는 방식인 벨브 게이트 시스템",
         title: "Valve Gate Systems",
-        subtitleLines: ["게이트를 개폐하는 방식인 벨브 게이트 시스템"],
-        heroSrc: `${CDN}/thumbnail/20240617/dfd5e2ca620da.png`,
-        heroAlt: "KORUN Valve Gate System",
         introTitle: "코런 밸브 게이트 시스템은",
+        introImage: `${CDN}/thumbnail/20240617/dfd5e2ca620da.png`,
         introText: `공압을 이용하여 게이트를 개폐하는 방식으로 자동차, 전자, 의료, 물류, 건축자재 제품에 이르기까지 다양하고 폭넓게 적용되고 있습니다. ${hotHalfNote}`,
         tags: [
           "적용의 다양성",
@@ -200,7 +410,12 @@ export const productPages: Record<string, ProductPageData> = {
           "사용자 친화적 설계",
         ],
         galleryLabel: "KODE-Valve Systems",
-        sections: [
+        gallery: [
+          `${CDN}/thumbnail/20240617/caa165005492b.png`,
+          `${CDN}/thumbnail/20240617/bb490d260ea2d.png`,
+          `${CDN}/thumbnail/20240617/6767af0ae5bde.png`,
+        ],
+        applications: [
           {
             title: "Valve System of Applications",
             images: [`${CDN}/thumbnail/20240617/72466c8b4c58f.png`],
@@ -227,13 +442,8 @@ export const productPages: Record<string, ProductPageData> = {
         eyebrow:
           "폭 넓은 제품분야에 안정적으로 적용되는 코런 오픈 게이트 시스템",
         title: "Open Gate Systems",
-        subtitleLines: [
-          "폭 넓은 제품분야에 안정적으로",
-          "적용되는 코런 오픈 게이트 시스템",
-        ],
-        heroSrc: `${CDN}/thumbnail/20240617/65c03f9afdc23.png`,
-        heroAlt: "KORUN Open Gate System",
         introTitle: "코런 오픈 게이트 시스템은",
+        introImage: `${CDN}/thumbnail/20240617/65c03f9afdc23.png`,
         introText: `폭넓은 제품분야에 안정적으로 적용되며, 극소형제품에서부터 대형제품에 이르기까지 균일한 열바란스와 테크니컬하게 설계되어 다양하게 적용됩니다. ${hotHalfNote}`,
         tags: [
           "적용의 다양성",
@@ -242,7 +452,12 @@ export const productPages: Record<string, ProductPageData> = {
           "사용자 친화적 설계",
         ],
         galleryLabel: "KODE-Open Systems",
-        sections: [
+        gallery: [
+          `${CDN}/thumbnail/20240617/396a0e4aff622.png`,
+          `${CDN}/thumbnail/20240617/c2a050920bc5b.png`,
+          `${CDN}/thumbnail/20240617/29d5077c62f68.png`,
+        ],
+        applications: [
           {
             title: "Open System of Applications",
             images: [`${CDN}/thumbnail/20240617/64ba1499dc4ac.png`],
@@ -268,10 +483,8 @@ export const productPages: Record<string, ProductPageData> = {
       {
         eyebrow: "수명이 오래가고 안정적인 싱글 벨브 노즐",
         title: "Single Valve Nozzles",
-        subtitleLines: ["수명이 오래가고 안정적인 싱글 벨브 노즐"],
-        heroSrc: `${CDN}/thumbnail/20240617/35a0a3f679657.png`,
-        heroAlt: "KORUN Single Valve Nozzle",
         introTitle: "싱글 벨브 노즐은",
+        introImage: `${CDN}/thumbnail/20240617/35a0a3f679657.png`,
         introText:
           "별도의 Air 배관설치가 없고, 실린더가 외부로 설치되 O-Ring 수명이 오래갑니다. 2개의 실린더 구조로 피스톤 추력이 안정적입니다. 3zone 히타 적용으로 균일한 열 분포도를 가집니다. (고온사출 Resin에 탁월 합니다) 편리한 분해조립 구조로 수리가 용이 합니다.",
         tags: [
@@ -281,7 +494,13 @@ export const productPages: Record<string, ProductPageData> = {
           "사용자 친화적 설계",
         ],
         galleryLabel: "KOSI-Single Valve Nozzle",
-        sections: [
+        gallery: [
+          `${CDN}/thumbnail/20240617/8246833cd3336.png`,
+          `${CDN}/thumbnail/20240617/2922bde7ea2d0.png`,
+          `${CDN}/thumbnail/20240617/3f9c576855138.png`,
+          `${CDN}/thumbnail/20240617/c8af04f2fc2ec.png`,
+        ],
+        applications: [
           {
             title: "KOSI-Single Valve Nozzle of Applications",
             images: [
@@ -293,6 +512,7 @@ export const productPages: Record<string, ProductPageData> = {
       },
       {
         introTitle: "싱글 오픈 노즐은",
+        introImage: `${CDN}/thumbnail/20240617/2205fb8e19d6a.png`,
         introText:
           "기존 Nozzle Head부의 수지 고화 현상이 없고, Resin 종류에 따라 다양하게 적용 가능하며, 분해 조립이 쉬운 구조로 설계되어 있습니다. 생활용품 제품부터 자동차 부품까지 코런의 높은 기술은 고객사의 원가절감으로 이어집니다. 코런의 Single Nozzle들이 고객사의 애로사항을 해결해 드릴 수 있습니다.",
         tags: [
@@ -303,7 +523,11 @@ export const productPages: Record<string, ProductPageData> = {
         ],
         showInquiry: true,
         galleryLabel: "KODE-Single Open Nozzle",
-        sections: [
+        gallery: [
+          `${CDN}/thumbnail/20240617/78f7980c4362c.png`,
+          `${CDN}/thumbnail/20240617/6b27d5cc66bc0.png`,
+        ],
+        applications: [
           {
             title: "KODE-Single Open Nozzle of Applications",
             images: [`${CDN}/thumbnail/20240617/e5d8a791c4e84.png`],
@@ -321,10 +545,8 @@ export const productPages: Record<string, ProductPageData> = {
       {
         eyebrow: "새로운 PID 알고리즘으로 정밀한 온도 제어 가능 시스템",
         title: "Time & Temperature Controllers",
-        subtitleLines: ["새로운 PID 알고리즘으로 정밀한 온도 제어 가능 시스템"],
-        heroSrc: `${CDN}/thumbnail/20240620/34b1cd2b6ab9f.png`,
-        heroAlt: "KORUN Time and Temperature Controllers",
         introTitle: "Temperature Controllers는",
+        introImage: `${CDN}/thumbnail/20240620/34b1cd2b6ab9f.png`,
         introBullets: [
           "새로운 PID 알고리즘 적용으로 정밀한 온도 제어",
           "과전압 입력시 방어기능 (오배선 방지) 각종 에러 검출기능",
@@ -335,10 +557,14 @@ export const productPages: Record<string, ProductPageData> = {
         ],
         tags: ["정밀한 온도 제어", "각종 에러 검출", "사용자 친화적 설계"],
         galleryLabel: "KOTC-860 Temperature Controller",
-        sections: [],
+        gallery: [
+          `${CDN}/thumbnail/20240620/1070f7d9c88f8.png`,
+          `${CDN}/thumbnail/20240620/4e68070219d65.png`,
+          `${CDN}/thumbnail/20240617/ad2b3b5973404.png`,
+          `${CDN}/thumbnail/20240617/c4451625c59b9.png`,
+        ],
         spec: {
           model: "KOTC-860 Temperature Controller",
-          image: `${CDN}/thumbnail/20240627/56d2bcc72d525.png`,
           rows: [
             {
               label: "입력전원",
@@ -371,6 +597,7 @@ export const productPages: Record<string, ProductPageData> = {
       },
       {
         introTitle: "Sequence Injection Timer는",
+        introImage: `${CDN}/thumbnail/20240627/56d2bcc72d525.png`,
         introBullets: [
           "출력 전압선택 : DC 24V, AC 110V, AC 220V 중 선택가능",
           "동작모드 : A/B/C 모드 사용자 환경에 따라 모드 적용 가능",
@@ -378,7 +605,11 @@ export const productPages: Record<string, ProductPageData> = {
         ],
         tags: ["Free Voltage 입력", "A/B/C 동작모드", "출력 전압 선택"],
         galleryLabel: "KOTS-800 Sequence Injection Timer",
-        sections: [],
+        gallery: [
+          `${CDN}/thumbnail/20240620/5fc5cc13dab51.png`,
+          `${CDN}/thumbnail/20240620/d3c02a6acd37d.png`,
+          `${CDN}/thumbnail/20240617/ad66f398ccac8.png`,
+        ],
         spec: {
           model: "KOTS-800 Sequence Injection Timer",
           rows: [

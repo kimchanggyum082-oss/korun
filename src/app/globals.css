@@ -4,9 +4,11 @@
   --font-sans:
     "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Malgun Gothic",
     "Nanum Gothic", "Noto Sans", sans-serif;
+  --breakpoint-pc: 992px;
   --color-ink: #363636;
   --color-brand-red: #c9072b;
   --color-brand-teal: #0e5f53;
+  --color-brand: #23463f;
   --color-paper: #f7f7f7;
 }
 

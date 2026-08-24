@@ -1,35 +1,87 @@
+import Image from "next/image";
 import Link from "next/link";
 import { assets } from "@/lib/data";
 
 export default function ProductNav({ activeId }: { activeId: string }) {
   return (
-    <nav aria-label="Products" className="border-b border-neutral-100 bg-white">
-      <div className="mx-auto max-w-6xl px-4 py-5 md:px-6 md:py-7">
-        <p className="text-center text-[11px] font-bold uppercase tracking-[0.3em] text-neutral-400">
-          Products
-        </p>
-        <ul className="mt-3 flex flex-wrap justify-center gap-x-2 gap-y-1 md:gap-x-6">
-          {assets.products.map((p) => {
-            const id = p.href.replace("/", "");
-            const active = id === activeId;
-            return (
-              <li key={p.href}>
-                <Link
-                  href={p.href}
-                  aria-current={active ? "page" : undefined}
-                  className={`inline-block px-1 pb-1 text-[13px] font-bold transition-colors md:text-sm ${
-                    active
-                      ? "border-b-2 border-brand-red text-brand-red"
-                      : "text-neutral-500 hover:text-neutral-900"
-                  }`}
-                >
-                  {p.title}
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    </nav>
+    <>
+      <section className="relative overflow-hidden bg-neutral-900 pc:hidden">
+        <Image
+          src={assets.subBanner}
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover opacity-60"
+          aria-hidden
+        />
+        <div className="relative mx-auto max-w-[1250px] px-4 py-10 md:px-6 md:py-12">
+          <p className="text-[26px] font-bold text-white md:text-[32px]">
+            Products
+          </p>
+          <nav aria-label="Products">
+            <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5">
+              {assets.products.map((p) => {
+                const id = p.href.replace("/", "");
+                const active = id === activeId;
+                return (
+                  <li key={p.href}>
+                    <Link
+                      href={p.href}
+                      aria-current={active ? "page" : undefined}
+                      className={`text-[12px] font-semibold transition-colors md:text-[13px] ${
+                        active
+                          ? "text-white underline underline-offset-4"
+                          : "text-white/60 hover:text-white"
+                      }`}
+                    >
+                      {p.title}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+        </div>
+      </section>
+
+      <section className="relative hidden h-[457px] overflow-hidden bg-neutral-900 pc:block">
+        <Image
+          src={assets.subBanner}
+          alt=""
+          fill
+          sizes="100vw"
+          className="object-cover opacity-60"
+          aria-hidden
+        />
+        <div className="relative mx-auto flex h-full max-w-[1280px] flex-col justify-center px-[15px]">
+          <p className="text-[44px] font-bold leading-[1.2] text-white">
+            Products
+          </p>
+          <nav aria-label="Products" className="mt-[24px]">
+            <ul className="flex gap-[24px]">
+              {assets.products.map((p) => {
+                const id = p.href.replace("/", "");
+                const active = id === activeId;
+                return (
+                  <li key={p.href}>
+                    <Link
+                      href={p.href}
+                      aria-current={active ? "page" : undefined}
+                      className={`text-[15px] transition-colors ${
+                        active
+                          ? "text-white underline underline-offset-8"
+                          : "text-white/60 hover:text-white"
+                      }`}
+                    >
+                      {p.title}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+        </div>
+      </section>
+    </>
   );
 }
