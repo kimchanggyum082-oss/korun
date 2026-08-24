@@ -15,7 +15,7 @@ export default function AboutNav({ activeHref }: { activeHref: string }) {
           className="object-cover"
           aria-hidden
         />
-        <div className="absolute inset-0 bg-black/45" />
+        <div className="absolute inset-0 bg-black/60" />
         <div className="relative mx-auto flex max-w-[1250px] flex-col items-start px-4 py-[100px] md:px-6">
           <p className="text-[30px] font-bold leading-[1.2] text-white">
             About KORUN
@@ -55,7 +55,7 @@ export default function AboutNav({ activeHref }: { activeHref: string }) {
           className="object-cover"
           aria-hidden
         />
-        <div className="absolute inset-0 bg-black/45" />
+        <div className="absolute inset-0 bg-black/60" />
         <div className="relative mx-auto flex h-[400px] max-w-[1280px] flex-col justify-center px-[15px]">
           <p className="text-[60px] font-bold leading-[1.2] text-white">
             About KORUN

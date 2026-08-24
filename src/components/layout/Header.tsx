@@ -1,8 +1,13 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { assets, nav } from "@/lib/data";
 
 export default function Header() {
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
   return (
     <>
       <header className="sticky top-0 z-50 bg-white pc:hidden">
@@ -67,30 +72,37 @@ export default function Header() {
               />
             </Link>
 
-            <nav aria-label="주 메뉴">
+            <nav aria-label="주 메뉴" onMouseLeave={() => setHoveredItem(null)}>
               <ul className="flex items-center gap-6">
                 {nav.map((item) => (
                   <li
                     key={item.label}
-                    className="group relative flex h-[60px] items-center"
+                    className="relative flex h-[60px] items-center"
+                    onMouseEnter={() => setHoveredItem(item.label)}
                   >
                     <a
                       href={item.href}
-                      className="block py-1 text-[14px] leading-[17px] text-[#212121] transition-colors duration-300 hover:text-[#212121]/50"
+                      className={`block py-1 text-[14px] leading-[17px] transition-colors duration-300 ${
+                        hoveredItem === item.label
+                          ? "text-[#212121]/50"
+                          : "text-[#212121] hover:text-[#212121]/50"
+                      }`}
                     >
                       {item.label}
                     </a>
-                    <div className="invisible absolute left-0 top-full z-50 min-w-[180px] bg-[#333333] opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-                      {item.children.map((child) => (
-                        <Link
-                          key={child.label}
-                          href={child.href}
-                          className="block whitespace-nowrap px-3.5 py-1.5 text-[12px] text-white/60 transition-colors duration-300 hover:bg-[#444444] hover:text-white focus-visible:bg-[#444444] focus-visible:text-white"
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </div>
+                    {hoveredItem === item.label && (
+                      <div className="absolute left-0 top-full z-50 min-w-[180px] bg-[#333333]">
+                        {item.children.map((child) => (
+                          <Link
+                            key={child.label}
+                            href={child.href}
+                            className="block whitespace-nowrap px-3.5 py-1.5 text-[12px] text-white/60 transition-colors duration-300 hover:bg-[#444444] hover:text-white"
+                          >
+                            {child.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
                   </li>
                 ))}
               </ul>

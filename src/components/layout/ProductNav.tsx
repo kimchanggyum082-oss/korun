@@ -11,9 +11,10 @@ export default function ProductNav({ activeId }: { activeId: string }) {
           alt=""
           fill
           sizes="100vw"
-          className="object-cover opacity-60"
+          className="object-cover"
           aria-hidden
         />
+        <div className="absolute inset-0 bg-black/55" />
         <div className="relative mx-auto max-w-[1250px] px-4 py-10 md:px-6 md:py-12">
           <p className="text-[26px] font-bold text-white md:text-[32px]">
             Products
@@ -50,9 +51,10 @@ export default function ProductNav({ activeId }: { activeId: string }) {
           alt=""
           fill
           sizes="100vw"
-          className="object-cover opacity-60"
+          className="object-cover"
           aria-hidden
         />
+        <div className="absolute inset-0 bg-black/55" />
         <div className="relative mx-auto flex h-full max-w-[1280px] flex-col justify-center px-[15px]">
           <p className="text-[44px] font-bold leading-[1.2] text-white">
             Products

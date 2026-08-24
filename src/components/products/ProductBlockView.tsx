@@ -1,4 +1,5 @@
 import SmartImage from "@/components/ui/SmartImage";
+import ProductGallery from "@/components/products/ProductGallery";
 import type { ProductBlock } from "@/lib/data";
 import { company } from "@/lib/data";
 
@@ -194,19 +195,10 @@ export default function ProductBlockView({ block }: { block: ProductBlock }) {
 
       {block.gallery.length ? (
         <section className="mx-auto max-w-6xl px-4 py-12 md:px-6 md:py-16">
-          <div className="space-y-6 md:space-y-8">
-            {block.gallery.map((src) => (
-              <SmartImage
-                key={src}
-                src={src}
-                alt={block.galleryLabel}
-                width={1280}
-                height={720}
-                sizes="(min-width: 1152px) 1152px, 100vw"
-                className="mx-auto h-auto w-full"
-              />
-            ))}
-          </div>
+          <ProductGallery
+            images={[...block.gallery]}
+            label={block.galleryLabel}
+          />
         </section>
       ) : null}
 
@@ -218,19 +210,7 @@ export default function ProductBlockView({ block }: { block: ProductBlock }) {
           <h3 className="mb-6 text-base font-extrabold tracking-tight text-neutral-900 md:mb-8 md:text-lg">
             {s.title}
           </h3>
-          <div className="space-y-6 md:space-y-8">
-            {s.images.map((src) => (
-              <SmartImage
-                key={src}
-                src={src}
-                alt={s.title}
-                width={1280}
-                height={720}
-                sizes="(min-width: 1152px) 1152px, 100vw"
-                className="mx-auto h-auto w-full"
-              />
-            ))}
-          </div>
+          <ProductGallery images={[...s.images]} label={s.title} />
         </section>
       ))}
 
