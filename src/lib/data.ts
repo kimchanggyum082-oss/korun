@@ -266,6 +266,12 @@ export const company = {
     "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3167.7161608753763!2d126.81074867629253!3d37.443809531155416!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357b636e33eb1f23%3A0x879829854a681600!2z6rK96riw64-EIOyLnO2dpeyLnCDqs4TsiJjroZw4NuuyiOq4uCA3Ny0x!5e0!3m2!1sko!2skr!4v1728361996222!5m2!1sko!2skr",
 } as const;
 
+export type GalleryImage = {
+  src: string;
+  fullSrc: string;
+  alt: string;
+};
+
 export type NewsItem = {
   category: "NEWS" | "EVENT";
   title: string;

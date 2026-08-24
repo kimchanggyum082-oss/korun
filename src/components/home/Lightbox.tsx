@@ -1,10 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-
-type GalleryImage = {
-  src: string;
-  fullSrc: string;
-  alt: string;
-};
+import type { GalleryImage } from "@/lib/data";
 
 export default function Lightbox({
   images,

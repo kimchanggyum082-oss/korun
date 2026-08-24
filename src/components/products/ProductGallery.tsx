@@ -1,14 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import type { GalleryImage } from "@/lib/data";
 import SmartImage from "@/components/ui/SmartImage";
 import Lightbox from "@/components/home/Lightbox";
-
-type GalleryImage = {
-  src: string;
-  fullSrc: string;
-  alt: string;
-};
 
 export default function ProductGallery({
   images,
