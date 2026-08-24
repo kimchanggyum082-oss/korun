@@ -43,7 +43,7 @@ export default function ItemBody({
               key={i}
               type="button"
               onClick={() => setLightboxIndex(imgIndex)}
-              className="group block w-full overflow-hidden rounded-md bg-neutral-100"
+              className="group block w-full overflow-hidden rounded-md"
               aria-label="이미지 확대 보기"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}

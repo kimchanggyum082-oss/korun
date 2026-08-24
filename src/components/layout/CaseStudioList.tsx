@@ -62,7 +62,7 @@ export default function CaseStudioList({
                 href={`/case-studio/${item.idx}`}
                 className="group block h-full overflow-hidden bg-white shadow-sm ring-1 ring-neutral-100 transition-all duration-300 hover:shadow-xl hover:ring-1 hover:ring-brand/30"
               >
-                <div className="relative aspect-[4/3] w-full overflow-hidden bg-neutral-100">
+                <div className="relative aspect-[4/3] w-full overflow-hidden">
                   <SmartImage
                     src={item.thumbnail}
                     alt={item.title}
