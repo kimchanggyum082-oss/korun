@@ -83,32 +83,45 @@ function SpecTable({ block }: { block: ProductBlock }) {
         <SectionTitle>
           Specification <span className="text-neutral-300">-</span>{" "}
           <span className="text-[18px] font-bold text-neutral-500 md:text-[20px]">
-            사양
+            사
           </span>
         </SectionTitle>
-        <dl className="mt-8 divide-y divide-neutral-200 overflow-hidden rounded-md border border-neutral-200 text-sm">
-          {spec.rows.map((row) => (
-            <div
-              key={row.label}
-              className="grid grid-cols-[110px_minmax(0,1fr)] sm:grid-cols-[160px_minmax(0,1fr)]"
-            >
-              <dt className="bg-white px-4 py-3.5 font-bold text-neutral-700">
-                {row.label}
-              </dt>
-              <dd className="px-4 py-3.5 leading-relaxed text-neutral-600">
-                {row.values.length > 1 ? (
-                  <ul className="space-y-1">
-                    {row.values.map((v) => (
-                      <li key={v}>{v}</li>
-                    ))}
-                  </ul>
-                ) : (
-                  row.values[0]
-                )}
-              </dd>
-            </div>
-          ))}
-        </dl>
+        <table className="mt-8 w-full border-collapse text-[16px] md:text-[18px]">
+          <thead>
+            <tr>
+              <th
+                scope="col"
+                colSpan={2}
+                className="bg-[#54ACD2] px-4 py-3 text-center text-[16px] font-bold text-white md:text-[18px]"
+              >
+                사
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {spec.rows.map((row) => (
+              <tr key={row.label} className="border-b border-neutral-200">
+                <th
+                  scope="row"
+                  className="bg-[#54ACD2] px-4 py-3 text-center font-bold text-white"
+                >
+                  {row.label}
+                </th>
+                <td className="bg-white px-4 py-3 text-center leading-relaxed text-neutral-700">
+                  {row.values.length > 1 ? (
+                    <ul className="space-y-1">
+                      {row.values.map((v) => (
+                        <li key={v}>{v}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    row.values[0]
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </section>
   );

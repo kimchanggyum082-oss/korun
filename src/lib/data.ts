@@ -509,16 +509,13 @@ export const productPages: Record<string, ProductPageData> = {
         applications: [
           {
             title: "KOSI-Single Valve Nozzle of Applications",
-            images: [
-              `${CDN}/thumbnail/20240617/0ec4d633ce941.png`,
-              `${CDN}/thumbnail/20240617/85156c9aa20c8.png`,
-            ],
+            images: [`${CDN}/thumbnail/20240617/0ec4d633ce941.png`],
           },
         ],
       },
       {
         introTitle: "싱글 오픈 노즐은",
-        introImage: `${CDN}/thumbnail/20240617/2205fb8e19d6a.png`,
+        introImage: `${CDN}/thumbnail/20240617/85156c9aa20c8.png`,
         introText:
           "기존 Nozzle Head부의 수지 고화 현상이 없고, Resin 종류에 따라 다양하게 적용 가능하며, 분해 조립이 쉬운 구조로 설계되어 있습니다. 생활용품 제품부터 자동차 부품까지 코런의 높은 기술은 고객사의 원가절감으로 이어집니다. 코런의 Single Nozzle들이 고객사의 애로사항을 해결해 드릴 수 있습니다.",
         tags: [
