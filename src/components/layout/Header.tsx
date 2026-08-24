@@ -6,15 +6,15 @@ export default function Header() {
   return (
     <>
       <header className="sticky top-0 z-50 bg-white pc:hidden">
-        <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 md:h-16 md:px-6">
+        <div className="mx-auto flex h-12 max-w-6xl items-center justify-between px-4 md:h-14 md:px-6">
           <button
             type="button"
             aria-label="메뉴 열기"
-            className="flex h-10 w-10 flex-col items-center justify-center gap-[5px]"
+            className="flex h-9 w-9 flex-col items-center justify-center gap-[5px]"
           >
-            <span className="block h-[2px] w-6 bg-neutral-800" />
-            <span className="block h-[2px] w-6 bg-neutral-800" />
-            <span className="block h-[2px] w-4 bg-neutral-800" />
+            <span className="block h-[2px] w-5 bg-neutral-800" />
+            <span className="block h-[2px] w-5 bg-neutral-800" />
+            <span className="block h-[2px] w-3.5 bg-neutral-800" />
           </button>
 
           <Link
@@ -28,18 +28,18 @@ export default function Header() {
               width={121}
               height={40}
               priority
-              className="h-7 w-auto md:h-9"
+              className="h-6 w-auto md:h-8"
             />
           </Link>
 
           <button
             type="button"
             aria-label="site search"
-            className="flex h-10 w-10 items-center justify-center"
+            className="flex h-9 w-9 items-center justify-center"
           >
             <svg
-              width="22"
-              height="22"
+              width="20"
+              height="20"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -53,9 +53,9 @@ export default function Header() {
         </div>
       </header>
 
-      <div className="relative hidden h-[70px] pc:block">
+      <div className="relative hidden h-[60px] pc:block">
         <div className="fixed inset-x-0 top-0 z-50 bg-white">
-          <div className="mx-auto flex h-[70px] max-w-[1280px] items-center justify-between px-[15px]">
+          <div className="mx-auto flex h-[60px] max-w-[1280px] items-center justify-between px-[15px]">
             <Link href="/" aria-label="코런 홈">
               <Image
                 src={assets.logo}
@@ -63,29 +63,29 @@ export default function Header() {
                 width={121}
                 height={40}
                 priority
-                className="h-auto w-[100px]"
+                className="h-auto w-[88px]"
               />
             </Link>
 
             <nav aria-label="주 메뉴">
-              <ul className="flex items-center gap-7">
+              <ul className="flex items-center gap-6">
                 {nav.map((item) => (
                   <li
                     key={item.label}
-                    className="group relative flex h-[70px] items-center"
+                    className="group relative flex h-[60px] items-center"
                   >
                     <a
                       href={item.href}
-                      className="block py-1.5 text-[16px] leading-[19px] text-[#212121] transition-colors duration-300 hover:text-[#212121]/50"
+                      className="block py-1 text-[14px] leading-[17px] text-[#212121] transition-colors duration-300 hover:text-[#212121]/50"
                     >
                       {item.label}
                     </a>
-                    <div className="invisible absolute left-0 top-full z-50 min-w-[210px] bg-[#333333] opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                    <div className="invisible absolute left-0 top-full z-50 min-w-[180px] bg-[#333333] opacity-0 transition-all duration-300 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
                       {item.children.map((child) => (
                         <Link
                           key={child.label}
                           href={child.href}
-                          className="block whitespace-nowrap px-4 py-2 text-[13px] text-white/60 transition-colors duration-300 hover:bg-[#444444] hover:text-white focus-visible:bg-[#444444] focus-visible:text-white"
+                          className="block whitespace-nowrap px-3.5 py-1.5 text-[12px] text-white/60 transition-colors duration-300 hover:bg-[#444444] hover:text-white focus-visible:bg-[#444444] focus-visible:text-white"
                         >
                           {child.label}
                         </Link>

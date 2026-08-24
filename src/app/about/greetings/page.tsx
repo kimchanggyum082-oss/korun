@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
+import SmartImage from "@/components/ui/SmartImage";
 import { assets, company } from "@/lib/data";
 import AboutNav from "@/components/layout/AboutNav";
 import Gallery from "@/components/home/Gallery";
@@ -34,7 +34,7 @@ export default function GreetingsPage() {
         {/* Mobile greeting image */}
         <div className="mb-8 pc:hidden">
           <div className="relative aspect-[3/2] overflow-hidden bg-neutral-200">
-            <Image
+            <SmartImage
               src={assets.greetingImageMobile}
               alt="코런 인사말"
               fill
@@ -75,7 +75,7 @@ export default function GreetingsPage() {
           {/* PC greeting image */}
           <div className="hidden pc:col-span-5 pc:block">
             <div className="relative aspect-[1.4] overflow-hidden bg-neutral-200">
-              <Image
+              <SmartImage
                 src={assets.greetingImage}
                 alt="코런 인사말"
                 fill

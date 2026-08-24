@@ -1,4 +1,4 @@
-import Image from "next/image";
+import SmartImage from "@/components/ui/SmartImage";
 import type { ProductBlock } from "@/lib/data";
 import { company } from "@/lib/data";
 
@@ -149,7 +149,7 @@ export default function ProductBlockView({ block }: { block: ProductBlock }) {
 
         {block.introImage ? (
           <div className="mt-10 md:mt-14">
-            <Image
+            <SmartImage
               src={block.introImage}
               alt={block.introTitle}
               width={1280}
@@ -165,7 +165,7 @@ export default function ProductBlockView({ block }: { block: ProductBlock }) {
         <div className="grid grid-cols-2 gap-[30px]">
           <div>
             {block.introImage ? (
-              <Image
+              <SmartImage
                 src={block.introImage}
                 alt={block.introTitle}
                 width={1220}
@@ -196,7 +196,7 @@ export default function ProductBlockView({ block }: { block: ProductBlock }) {
         <section className="mx-auto max-w-6xl px-4 py-12 md:px-6 md:py-16">
           <div className="space-y-6 md:space-y-8">
             {block.gallery.map((src) => (
-              <Image
+              <SmartImage
                 key={src}
                 src={src}
                 alt={block.galleryLabel}
@@ -220,7 +220,7 @@ export default function ProductBlockView({ block }: { block: ProductBlock }) {
           </h3>
           <div className="space-y-6 md:space-y-8">
             {s.images.map((src) => (
-              <Image
+              <SmartImage
                 key={src}
                 src={src}
                 alt={s.title}

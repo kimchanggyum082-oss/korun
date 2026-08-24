@@ -1,11 +1,12 @@
 import Image from "next/image";
+import SmartImage from "@/components/ui/SmartImage";
 import { assets } from "@/lib/data";
 
 export default function CtaBanner() {
   return (
     <>
       <section className="relative h-[380px] w-full overflow-hidden pc:hidden md:h-[480px]">
-        <Image
+        <SmartImage
           src={assets.ctaPhoto}
           alt=""
           fill
@@ -33,7 +34,7 @@ export default function CtaBanner() {
       <section className="hidden bg-[#f9f9f9] pc:block">
         <div className="mx-auto grid max-w-[1280px] grid-cols-12 px-[15px] py-[80px]">
           <div className="col-span-5">
-            <Image
+            <SmartImage
               src={assets.ctaPhoto}
               alt=""
               width={1006}

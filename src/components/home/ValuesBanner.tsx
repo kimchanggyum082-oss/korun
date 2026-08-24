@@ -1,10 +1,10 @@
-import Image from "next/image";
+import SmartImage from "@/components/ui/SmartImage";
 import { assets, values } from "@/lib/data";
 
 export default function ValuesBanner() {
   return (
     <section className="relative h-[420px] w-full overflow-hidden pc:h-[221px]">
-      <Image
+      <SmartImage
         src={assets.valuesBg}
         alt="코런 전시 부스"
         fill

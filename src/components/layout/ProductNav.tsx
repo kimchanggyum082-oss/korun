@@ -1,4 +1,4 @@
-import Image from "next/image";
+import SmartImage from "@/components/ui/SmartImage";
 import Link from "next/link";
 import { assets } from "@/lib/data";
 
@@ -6,7 +6,7 @@ export default function ProductNav({ activeId }: { activeId: string }) {
   return (
     <>
       <section className="relative overflow-hidden bg-neutral-900 pc:hidden">
-        <Image
+        <SmartImage
           src={assets.subBanner}
           alt=""
           fill
@@ -45,7 +45,7 @@ export default function ProductNav({ activeId }: { activeId: string }) {
       </section>
 
       <section className="relative hidden h-[457px] overflow-hidden bg-neutral-900 pc:block">
-        <Image
+        <SmartImage
           src={assets.subBanner}
           alt=""
           fill

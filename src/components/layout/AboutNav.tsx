@@ -1,4 +1,4 @@
-import Image from "next/image";
+import SmartImage from "@/components/ui/SmartImage";
 import Link from "next/link";
 import { aboutNav, assets } from "@/lib/data";
 
@@ -7,7 +7,7 @@ export default function AboutNav({ activeHref }: { activeHref: string }) {
     <>
       {/* Mobile */}
       <section className="relative overflow-hidden bg-neutral-900 pc:hidden">
-        <Image
+        <SmartImage
           src={assets.aboutBannerMobile}
           alt=""
           fill
@@ -47,7 +47,7 @@ export default function AboutNav({ activeHref }: { activeHref: string }) {
 
       {/* PC */}
       <section className="relative hidden overflow-hidden bg-neutral-900 pc:block">
-        <Image
+        <SmartImage
           src={assets.aboutBannerPc}
           alt=""
           fill

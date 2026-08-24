@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import SmartImage from "@/components/ui/SmartImage";
 import { assets } from "@/lib/data";
 import Lightbox from "./Lightbox";
 
@@ -43,7 +43,7 @@ export default function Gallery({
               }
               aria-label={`${img.alt} 보기`}
             >
-              <Image
+              <SmartImage
                 src={img.src}
                 alt={img.alt}
                 fill

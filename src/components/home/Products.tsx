@@ -1,4 +1,6 @@
 import Image from "next/image";
+import SmartImage from "@/components/ui/SmartImage";
+import SmartBackground from "@/components/ui/SmartBackground";
 import { assets } from "@/lib/data";
 
 function PenAccent() {
@@ -47,7 +49,7 @@ export default function Products() {
               aria-label={product.title}
               className="block overflow-hidden"
             >
-              <Image
+              <SmartImage
                 src={product.mobileSrc}
                 alt={product.title}
                 width={1200}
@@ -61,11 +63,11 @@ export default function Products() {
       </section>
 
       <section className="relative hidden overflow-hidden bg-white pc:block">
-        <div
+        <SmartBackground
           aria-hidden
           className="absolute inset-0"
+          src={assets.productsBg}
           style={{
-            backgroundImage: `url(${assets.productsBg})`,
             backgroundAttachment: "fixed",
             backgroundSize: "cover",
             backgroundPosition: "50% 50%",
@@ -97,7 +99,7 @@ export default function Products() {
                 aria-label={product.title}
                 className="group relative block aspect-[290/348] w-full overflow-hidden rounded-[10px]"
               >
-                <Image
+                <SmartImage
                   src={product.src}
                   alt={product.title}
                   fill
