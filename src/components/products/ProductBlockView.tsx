@@ -170,7 +170,7 @@ export default function ProductBlockView({ block }: { block: ProductBlock }) {
                 src={block.introImage}
                 alt={block.introTitle}
                 width={1220}
-                height={846}
+                height={1060}
                 sizes="(min-width: 992px) 50vw"
                 className="h-auto w-full"
               />
@@ -203,14 +203,25 @@ export default function ProductBlockView({ block }: { block: ProductBlock }) {
       ) : null}
 
       {block.applications?.map((s) => (
-        <section
-          key={s.title}
-          className="mx-auto max-w-6xl px-4 py-12 md:px-6 md:py-16"
-        >
-          <h3 className="mb-6 text-base font-extrabold tracking-tight text-neutral-900 md:mb-8 md:text-lg">
-            {s.title}
-          </h3>
-          <ProductGallery images={[...s.images]} label={s.title} />
+        <section key={s.title} className="bg-paper">
+          <div className="mx-auto max-w-[1100px] px-4 py-12 md:px-6 md:py-16">
+            <h3 className="mb-6 text-base font-extrabold tracking-tight text-neutral-900 md:mb-8 md:text-lg">
+              {s.title}
+            </h3>
+            <div className="space-y-6">
+              {s.images.map((src) => (
+                <SmartImage
+                  key={src}
+                  src={src}
+                  alt={s.title}
+                  width={1100}
+                  height={700}
+                  sizes="(min-width: 1100px) 1100px, 100vw"
+                  className="h-auto w-full"
+                />
+              ))}
+            </div>
+          </div>
         </section>
       ))}
 

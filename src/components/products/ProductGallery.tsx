@@ -27,23 +27,25 @@ export default function ProductGallery({
 
   return (
     <>
-      <div className="mx-auto flex max-w-[900px] flex-wrap justify-center gap-3 md:gap-4">
+      <div className="mx-auto flex max-w-[1100px] flex-wrap justify-center gap-4 md:gap-5">
         {galleryImages.map((img, i) => (
           <button
             key={img.src}
             type="button"
             onClick={() => setLightboxIndex(i)}
-            className="group relative aspect-square w-[calc(50%-6px)] overflow-hidden bg-neutral-200 ring-1 ring-neutral-200 md:w-[calc(33.33%-11px)] lg:w-[calc(25%-12px)]"
+            className="group relative aspect-[4/3] w-[calc(50%-8px)] overflow-hidden bg-neutral-200 md:w-[calc(33.33%-10px)]"
             aria-label={`${img.alt} 보기`}
           >
             <SmartImage
               src={img.src}
               alt={img.alt}
               fill
-              sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+              sizes="(max-width: 768px) 50vw, 33vw"
               loading="lazy"
-              className="object-contain transition-transform duration-500 group-hover:scale-105"
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
             />
+            {/* Darken hover overlay */}
+            <span className="absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/30" />
           </button>
         ))}
       </div>

@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import Image from "next/image";
 
 type GalleryImage = {
   src: string;
@@ -41,7 +40,6 @@ export default function Lightbox({
     resetView();
   }, [count, resetView]);
 
-  // Keyboard shortcuts
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
@@ -62,8 +60,6 @@ export default function Lightbox({
   const zoomIn = () => setZoom((z) => Math.min(z + 0.5, 4));
   const zoomOut = () => setZoom((z) => Math.max(z - 0.5, 1));
 
-  // Drag: attach window listeners directly in mousedown for immediate response.
-  // mouseup removes them — no React state round-trip, no race condition.
   const handleMouseDown = (e: React.MouseEvent) => {
     if (zoom <= 1) return;
     e.preventDefault();
@@ -170,25 +166,19 @@ export default function Lightbox({
           </div>
         )}
 
-        <div
-          className="relative h-full w-full"
+        {/* Natural-size image — no upscaling beyond intrinsic dimensions */}
+        <img
+          key={index}
+          src={current.fullSrc}
+          alt={current.alt}
+          className="max-h-full max-w-full select-none object-contain"
+          onLoad={() => setImgLoading(false)}
+          draggable={false}
           style={{
             transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
             transition: isDragging ? "none" : "transform 0.2s ease-out",
           }}
-        >
-          <Image
-            key={index}
-            src={current.fullSrc}
-            alt={current.alt}
-            fill
-            sizes="100vw"
-            className="object-contain"
-            priority
-            onLoad={() => setImgLoading(false)}
-            draggable={false}
-          />
-        </div>
+        />
 
         {/* Next */}
         <button
