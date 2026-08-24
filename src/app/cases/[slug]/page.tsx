@@ -30,27 +30,30 @@ function CaseSection({ page }: { page: CasePageData }) {
   if (!section) return null;
 
   return (
-    <section className="mx-auto max-w-[1280px] px-4 py-12 md:px-6 md:py-16">
+    <section className="mx-auto max-w-[1280px] px-4 py-12 md:px-6 md:py-16 pc:px-[15px]">
       {section.heading && (
-        <h2 className="text-center text-[24px] font-bold leading-[1.2] text-ink md:text-[30px]">
+        <h2 className="text-left text-[24px] font-bold leading-[1.2] text-ink md:text-[30px]">
           {section.heading}
         </h2>
       )}
-      <p className="mt-4 text-center text-[15px] leading-[1.7] text-neutral-600 md:mx-auto md:max-w-[800px] md:text-[18px]">
+      <p className="mt-4 text-left text-[15px] leading-[1.7] text-neutral-600 md:text-[20px]">
         {section.text}
       </p>
       {section.images.length > 0 && (
         <div className="mt-8 space-y-4 md:space-y-6">
           {section.images.map((src, i) => (
-            <SmartImage
+            <div
               key={src}
-              src={src}
-              alt={`${section.heading || page.title} ${i + 1}`}
-              width={1280}
-              height={400}
-              sizes="(min-width: 1280px) 1280px, 100vw"
-              className="h-auto w-full"
-            />
+              className="relative aspect-[13/2] w-full overflow-hidden"
+            >
+              <SmartImage
+                src={src}
+                alt={`${section.heading || page.title} ${i + 1}`}
+                fill
+                sizes="(min-width: 1280px) 1210px, 100vw"
+                className="object-contain"
+              />
+            </div>
           ))}
         </div>
       )}
@@ -85,7 +88,7 @@ export default async function CasePage({
         </div>
       </section>
 
-      {/* Hero image */}
+      {/* Hero image (mobile: square, PC: container-width, natural ratio) */}
       <section className="pc:hidden">
         <div className="relative aspect-square overflow-hidden">
           <SmartImage
@@ -99,15 +102,18 @@ export default async function CasePage({
         </div>
       </section>
       <section className="hidden pc:block">
-        <div className="relative h-[400px] overflow-hidden">
-          <SmartImage
-            src={page.heroImagePc}
-            alt={page.title}
-            fill
-            sizes="100vw"
-            priority
-            className="object-cover"
-          />
+        <div className="mx-auto max-w-[1280px] px-4 md:px-6 pc:px-[15px]">
+          <div className="relative w-full overflow-hidden">
+            <SmartImage
+              src={page.heroImagePc}
+              alt={page.title}
+              width={page.heroWidth}
+              height={page.heroHeight}
+              priority
+              sizes="(min-width: 1280px) 1210px, 100vw"
+              className="h-auto w-full"
+            />
+          </div>
         </div>
       </section>
 

@@ -240,6 +240,8 @@ export type CasePageData = {
   title: string;
   heroImageMobile: string;
   heroImagePc: string;
+  heroWidth: number;
+  heroHeight: number;
   section?: { heading: string; text: string; images: string[] };
   galleryImages?: GalleryImage[];
 };
@@ -250,6 +252,8 @@ export const casePages: Record<string, CasePageData> = {
     title: "Automotive Parts",
     heroImageMobile: `${CDN}/thumbnail/20240715/6abd5b2d50624.png`,
     heroImagePc: `${CDN}/thumbnail/20240617/683f9142996e4.jpg`,
+    heroWidth: 1500,
+    heroHeight: 500,
     section: {
       heading: "Driving Change",
       text: "전기차 시대가 도래하면서 새로운 재료와 공정이 자동차를 재정립 하고 있습니다. 내외장제품 및 엔진룸, 샤시 등 자동차 부품의 해법! 바로 코런 Hot Runner System 입니다.",
@@ -317,6 +321,8 @@ export const casePages: Record<string, CasePageData> = {
     title: "Transparent Parts",
     heroImageMobile: `${CDN}/thumbnail/20240715/2e8ef1a74aa89.png`,
     heroImagePc: `${CDN}/thumbnail/20240618/c2b7366b32470.jpg`,
+    heroWidth: 1920,
+    heroHeight: 1120,
     section: {
       heading: "Lens",
       text: "투명제품의 대표라고 할수 있는 자동차 램프 및 PC, PMMA, SAN 등의 레진 제품들은 고도의 금형과 사출 기술 그리고 Hot Runner System 기술 조화가 매우 중요합니다. 코런은 다양한 투명제품을 적용한 노하우로 양질의 제품 생산을 목적으로 국외 핫런너 메이커와 당당히 경쟁하고 있습니다.",
@@ -332,6 +338,8 @@ export const casePages: Record<string, CasePageData> = {
     title: "Office & House Appliances",
     heroImageMobile: `${CDN}/thumbnail/20240715/fc41e6798bf1c.png`,
     heroImagePc: `${CDN}/thumbnail/20240620/463bda911e746.png`,
+    heroWidth: 1919,
+    heroHeight: 722,
     section: {
       heading: "Appliances",
       text: "코런의 다양한 Nozzle 및 Nozzle Tip 구조들은 도전적이고 대량의 부품을 생산하는 전자제품 제조업계에 축척된 노하우로 정밀 밸브 게이팅, 극소형 제품 금형에 최적화되도록 설계 적용 제작하여 최상의 제품을 만들수 있도록 Hot Runner System을 제공하고 있습니다.",
@@ -409,6 +417,8 @@ export const casePages: Record<string, CasePageData> = {
     title: "Daily Supplies",
     heroImageMobile: `${CDN}/thumbnail/20240715/b2f3545609a11.png`,
     heroImagePc: `${CDN}/thumbnail/20240620/dac3d17d4bef6.png`,
+    heroWidth: 1919,
+    heroHeight: 722,
     section: {
       heading: "",
       text: "코런의 제품군은 합리적 가격과 우수한 품질로 고객사의 인정을 받고 있으며, 생활용품 업계에 점차 시장을 넓혀가고 있으며, 최적화된 설계와 우수한 내구성으로 오랜기간 많은 수량을 안정적으로 양산할 수 있도록 최선으로 다하고 있습니다.",
@@ -472,6 +482,8 @@ export const casePages: Record<string, CasePageData> = {
     title: "Engineering Plastics Parts",
     heroImageMobile: `${CDN}/thumbnail/20240715/e32f16cafbc2d.png`,
     heroImagePc: `${CDN}/thumbnail/20240626/7ebeaba1165f4.jpg`,
+    heroWidth: 1253,
+    heroHeight: 450,
     section: {
       heading: "",
       text: "엔지니어링 플라스틱은 강도가 높고 가벼워 공업 재료로 사용되는 고성능 플라스틱을 말하며, 그 중에서도 열과 충격에 매우 강한 엔지니어링 플라스틱을 슈퍼 엔진니어링 플라스틱 이라고 합니다.",
