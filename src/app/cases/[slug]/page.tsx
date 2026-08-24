@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import SmartImage from "@/components/ui/SmartImage";
 import CaseNav from "@/components/layout/CaseNav";
-import Gallery from "@/components/home/Gallery";
 import { caseNav, casePages, company, type CasePageData } from "@/lib/data";
 
 export const dynamicParams = false;
@@ -41,19 +40,16 @@ function CaseSection({ page }: { page: CasePageData }) {
       </p>
       {section.images.length > 0 && (
         <div className="mt-8 space-y-4 md:space-y-6">
-          {section.images.map((src, i) => (
-            <div
-              key={src}
-              className="relative aspect-[13/2] w-full overflow-hidden"
-            >
-              <SmartImage
-                src={src}
-                alt={`${section.heading || page.title} ${i + 1}`}
-                fill
-                sizes="(min-width: 1280px) 1210px, 100vw"
-                className="object-contain"
-              />
-            </div>
+          {section.images.map((img, i) => (
+            <SmartImage
+              key={img.src}
+              src={img.src}
+              alt={`${section.heading || page.title} ${i + 1}`}
+              width={img.width}
+              height={img.height}
+              sizes="(min-width: 1280px) 1210px, 100vw"
+              className="h-auto w-full"
+            />
           ))}
         </div>
       )}
@@ -119,11 +115,6 @@ export default async function CasePage({
 
       {/* Content section */}
       <CaseSection page={page} />
-
-      {/* Gallery */}
-      {page.galleryImages && page.galleryImages.length > 0 && (
-        <Gallery images={page.galleryImages} variant="cover" />
-      )}
     </>
   );
 }
