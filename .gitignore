@@ -27,6 +27,11 @@
 # local tooling / captures
 .playwright-mcp/
 /korun-built.jpeg
+.openchamber/
+.opencode/
+
+# reference screenshots + pixel diffs
+/reference/
 
 # debug
 npm-debug.log*
