@@ -4,138 +4,174 @@ import { assets, company } from "@/lib/data";
 export default function LocationSection() {
   return (
     <>
-      <section className="mx-auto max-w-6xl px-4 py-16 pc:hidden md:px-6 md:py-24">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-5 md:gap-14">
-          <div className="md:col-span-3">
+      <section className="pc:hidden flex flex-col break-keep px-[15px] py-[80px] text-[15px] leading-[24px]">
+        <div className="my-[7.5px]">
+          <p>
             <iframe
               src={company.mapEmbed}
               title="코런 본사 위치 지도"
-              className="h-[300px] w-full border-0 md:h-[420px]"
+              className="inline h-[380px] w-full border-0 align-baseline"
               loading="lazy"
               allowFullScreen
               referrerPolicy="no-referrer-when-downgrade"
             />
-          </div>
-
-          <div className="md:col-span-2">
-            <p className="text-sm font-bold tracking-[0.2em] text-neutral-400">
-              HEAD OFFICE &amp; FACTORY
-            </p>
-            <h2 className="mt-2 text-xl font-extrabold text-neutral-900 md:text-2xl">
-              본사 및 공장
-            </h2>
-            <hr className="my-6 border-neutral-200" />
-
-            <table className="w-full text-sm md:text-[15px]">
-              <tbody>
-                <Row label="" value={company.name} bold />
-                <Row label="TEL." value={company.tel} />
-                <Row label="EMAIL." value={company.email} />
-                <Row label="ADDRESS." value={company.address} />
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <section className="hidden pc:block">
-        <div className="mx-auto max-w-[1280px] px-[15px] pb-[130px] pt-[95px]">
-          <iframe
-            src={company.mapEmbed}
-            title="코런 본사 위치 지도"
-            className="h-[380px] w-full border-0"
-            loading="lazy"
-            allowFullScreen
-            referrerPolicy="no-referrer-when-downgrade"
-          />
-
-          <p className="mt-[40px] text-[20px] font-bold leading-[1.2] text-brand">
-            HEAD OFFICE &amp; FACTORY
           </p>
-          <h2 className="mt-[6px] text-[36px] font-bold leading-[1.2] text-ink">
-            본사 및 공장
-            <Image
-              src={assets.penSmall}
-              alt=""
-              width={15}
-              height={30}
-              className="ml-[6px] inline-block w-[15px] align-middle"
-            />
-          </h2>
+        </div>
 
-          <hr className="my-[22px] border-ink/15" />
+        <div className="my-[7.5px]">
+          <p className="text-[24px] leading-[29px]">
+            <span className="text-[15px] font-bold leading-[18px] text-brand">
+              HEAD OFFICE &amp; FACTORY
+            </span>
+          </p>
+          <p className="text-[24px] font-bold leading-[28.8px]">
+            본사 및 공장&nbsp;
+            <span className="text-[15px] leading-[18px]">
+              <Image
+                src={assets.penSmall}
+                alt=""
+                width={156}
+                height={537}
+                className="my-[5px] inline-block w-[15px] align-middle"
+              />
+            </span>
+          </p>
 
-          <table className="w-full text-[20px]">
+          <hr className="my-[20px] border-[rgb(128,128,128)]" />
+
+          <table className="w-full">
             <tbody>
               <tr>
-                <th
-                  scope="row"
-                  className="w-[25.5%] py-[9px] text-left font-bold text-brand"
-                >
-                  {company.name}
-                </th>
-                <td className="py-[9px]" />
+                <td className="w-[25.4918%] p-[8px] font-bold text-brand">
+                  <span className="text-[15px] leading-[18px]">
+                    {company.name}
+                  </span>
+                  <br />
+                </td>
+                <td className="w-[74.3443%] p-[8px]">
+                  <br />
+                </td>
               </tr>
               <tr>
-                <th
-                  scope="row"
-                  className="w-[25.5%] py-[9px] text-left font-bold text-ink"
-                >
-                  TEL.
-                </th>
-                <td className="py-[9px] text-ink">{company.tel}</td>
+                <td className="w-[25.4918%] p-[8px] font-bold text-ink">
+                  <span className="text-[15px] leading-[18px]">TEL.</span>
+                </td>
+                <td className="w-[74.3443%] p-[8px] text-ink">
+                  <span className="text-[15px] leading-[18px]">
+                    {company.tel}
+                  </span>
+                </td>
               </tr>
               <tr>
-                <th
-                  scope="row"
-                  className="w-[25.5%] py-[9px] text-left font-bold text-ink"
-                >
-                  EMAIL.
-                </th>
-                <td className="py-[9px] text-ink">{company.email}</td>
+                <td className="w-[25.4918%] p-[8px] font-bold text-ink">
+                  <span className="text-[15px] leading-[18px]">EMAIL.</span>
+                </td>
+                <td className="w-[74.3443%] p-[8px] text-ink">
+                  <span className="text-[15px] leading-[18px]">
+                    {company.email}
+                  </span>
+                </td>
               </tr>
               <tr>
-                <th
-                  scope="row"
-                  className="w-[25.5%] py-[9px] text-left font-bold text-ink"
-                >
-                  ADDRESS.
-                </th>
-                <td className="py-[9px] text-ink">{company.address}</td>
+                <td className="w-[25.4918%] p-[8px] font-bold text-ink">
+                  <span className="text-[15px] leading-[18px]">ADDRESS.</span>
+                </td>
+                <td className="w-[74.3443%] p-[8px] text-ink">
+                  <span className="text-[15px] leading-[18px]">
+                    {company.address}
+                  </span>
+                </td>
               </tr>
             </tbody>
           </table>
         </div>
       </section>
-    </>
-  );
-}
 
-function Row({
-  label,
-  value,
-  bold,
-}: {
-  label: string;
-  value: string;
-  bold?: boolean;
-}) {
-  return (
-    <tr className="align-top">
-      {!bold && (
-        <th
-          scope="row"
-          className="w-24 py-2.5 pr-4 text-left font-bold text-neutral-900 md:w-28"
-        >
-          {label}
-        </th>
-      )}
-      <td
-        colSpan={bold ? 2 : 1}
-        className={`py-2.5 text-neutral-600 ${bold ? "font-bold" : ""}`}
-      >
-        {value}
-      </td>
-    </tr>
+      <section className="hidden pc:block">
+        <div className="mx-auto max-w-[1280px] px-[15px] pb-[80px] pt-[80px]">
+          <p className="py-[15px]">
+            <iframe
+              src={company.mapEmbed}
+              title="코런 본사 위치 지도"
+              className="inline h-[380px] w-full border-0 align-baseline"
+              loading="lazy"
+              allowFullScreen
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </p>
+
+          <div className="py-[15px]">
+            <p className="text-[36px] leading-[43.2px]">
+              <span className="text-[20px] font-bold leading-[24px] text-brand">
+                HEAD OFFICE &amp; FACTORY
+              </span>
+            </p>
+            <p className="text-[36px] leading-[43.2px]">
+              <span className="text-[36px] font-bold leading-[43.2px] text-ink">
+                본사 및 공장&nbsp;
+              </span>
+              <span className="text-[20px] leading-[24px]">
+                <Image
+                  src={assets.penSmall}
+                  alt=""
+                  width={156}
+                  height={537}
+                  className="my-[5px] inline-block w-[15px] align-middle"
+                />
+              </span>
+            </p>
+
+            <hr className="my-[20px] border-[#ddd]" />
+
+            <table className="w-full text-[15px] leading-[24px]">
+              <tbody>
+                <tr>
+                  <th
+                    scope="row"
+                    className="w-[25.4918%] p-[8px] text-left font-bold text-brand"
+                  >
+                    <span className="text-[20px]">{company.name}</span>
+                  </th>
+                  <td className="w-[74.3443%] p-[8px]" />
+                </tr>
+                <tr>
+                  <th
+                    scope="row"
+                    className="w-[25.4918%] p-[8px] text-left font-bold text-ink"
+                  >
+                    <span className="text-[20px]">TEL.</span>
+                  </th>
+                  <td className="w-[74.3443%] p-[8px] text-ink">
+                    <span className="text-[20px]">{company.tel}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <th
+                    scope="row"
+                    className="w-[25.4918%] p-[8px] text-left font-bold text-ink"
+                  >
+                    <span className="text-[20px]">EMAIL.</span>
+                  </th>
+                  <td className="w-[74.3443%] p-[8px] text-ink">
+                    <span className="text-[20px]">{company.email}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <th
+                    scope="row"
+                    className="w-[25.4918%] p-[8px] text-left font-bold text-ink"
+                  >
+                    <span className="text-[20px]">ADDRESS.</span>
+                  </th>
+                  <td className="w-[74.3443%] p-[8px] text-ink">
+                    <span className="text-[20px]">{company.address}</span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

@@ -15,33 +15,36 @@ export default function AboutNav({ activeHref }: { activeHref: string }) {
           className="object-cover"
           aria-hidden
         />
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="relative mx-auto flex max-w-[1250px] flex-col items-start px-4 py-[100px] md:px-6">
-          <p className="text-[30px] font-bold leading-[1.2] text-white">
-            About KORUN
-          </p>
-          <nav aria-label="About KORUN" className="mt-5">
-            <ul className="flex flex-wrap gap-x-5 gap-y-2">
-              {aboutNav.map((item) => {
-                const active = item.href === activeHref;
-                return (
-                  <li key={item.label}>
-                    <Link
-                      href={item.href}
-                      aria-current={active ? "page" : undefined}
-                      className={`text-[13px] font-semibold transition-colors ${
-                        active
-                          ? "text-white underline underline-offset-4"
-                          : "text-white/60 hover:text-white"
-                      }`}
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
+        <div className="relative mx-auto flex max-w-[1250px] flex-col px-[15px] pt-[155px] pb-[155px]">
+          <div className="my-[7.5px]">
+            <p className="text-[30px] leading-[36px] font-bold text-white">
+              About KORUN
+            </p>
+          </div>
+          <div className="my-[7.5px]">
+            <nav aria-label="About KORUN">
+              <ul className="flex flex-wrap">
+                {aboutNav.map((item) => {
+                  const active = item.href === activeHref;
+                  return (
+                    <li key={item.label} className="mr-[25px]">
+                      <Link
+                        href={item.href}
+                        aria-current={active ? "page" : undefined}
+                        className={`inline-block pb-[5px] text-[15px] leading-[24px] transition-colors ${
+                          active
+                            ? "border-b border-white text-white"
+                            : "text-white/70 hover:text-white"
+                        }`}
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+          </div>
         </div>
       </section>
 
@@ -55,33 +58,37 @@ export default function AboutNav({ activeHref }: { activeHref: string }) {
           className="object-cover"
           aria-hidden
         />
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="relative mx-auto flex h-[400px] max-w-[1280px] flex-col justify-center px-[15px]">
-          <p className="text-[60px] font-bold leading-[1.2] text-white">
-            About KORUN
-          </p>
-          <nav aria-label="About KORUN" className="mt-[24px]">
-            <ul className="flex gap-[24px]">
-              {aboutNav.map((item) => {
-                const active = item.href === activeHref;
-                return (
-                  <li key={item.label}>
-                    <Link
-                      href={item.href}
-                      aria-current={active ? "page" : undefined}
-                      className={`text-[15px] transition-colors ${
-                        active
-                          ? "text-white underline underline-offset-8"
-                          : "text-white/60 hover:text-white"
-                      }`}
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
+        <div className="absolute inset-0 bg-[rgba(5,4,4,0.45)]" />
+        <div className="relative mx-auto max-w-[1280px] px-[15px] py-[150px]">
+          <div className="py-[15px]">
+            <p className="text-[60px] leading-[66px] font-bold text-white">
+              About KORUN
+            </p>
+          </div>
+          <div className="py-[15px]">
+            <nav aria-label="About KORUN">
+              <ul className="flex h-[30px] items-start gap-[25px]">
+                {aboutNav.map((item) => {
+                  const active = item.href === activeHref;
+                  return (
+                    <li key={item.label}>
+                      <Link
+                        href={item.href}
+                        aria-current={active ? "page" : undefined}
+                        className={`inline-block pb-[5px] text-[15px] leading-[24px] transition-colors ${
+                          active
+                            ? "border-b border-white text-white"
+                            : "text-white/70 hover:text-white"
+                        }`}
+                      >
+                        {item.label}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </nav>
+          </div>
         </div>
       </section>
     </>

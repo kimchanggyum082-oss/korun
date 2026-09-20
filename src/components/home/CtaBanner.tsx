@@ -2,86 +2,97 @@ import Image from "next/image";
 import SmartImage from "@/components/ui/SmartImage";
 import { assets } from "@/lib/data";
 
+const MOBILE_PHOTO =
+  "https://cdn.imweb.me/thumbnail/20240625/fb07ee567ca78.jpg";
+const MOBILE_PEN =
+  "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/02c58f25f7fbf.png";
+
 export default function CtaBanner() {
   return (
     <>
-      <section className="relative h-[380px] w-full overflow-hidden pc:hidden md:h-[480px]">
-        <SmartImage
-          src={assets.ctaPhoto}
-          alt=""
-          fill
-          sizes="100vw"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-black/35" />
+      <section className="pc:hidden flex flex-col break-keep bg-[#f5f5f5] px-[15px] text-[#363636]">
+        <div className="my-[7.5px] h-[30px]" />
 
-        <div className="relative z-10 mx-auto flex h-full max-w-6xl flex-col justify-end px-4 pb-14 md:px-6 md:pb-20">
-          <p className="text-lg font-bold leading-snug text-white drop-shadow md:text-2xl">
+        <div className="my-[7.5px] h-[230px] overflow-hidden">
+          <Image
+            src={MOBILE_PHOTO}
+            alt=""
+            width={1280}
+            height={854}
+            unoptimized
+            sizes="100vw"
+            className="-mt-[5px] block w-full"
+          />
+        </div>
+
+        <div className="my-[7.5px]">
+          <p className="text-[20px] font-bold leading-[24px]">
             틀에 대한 Hot Runner의 색다른 접근,
-            <br />
+          </p>
+          <p className="text-[20px] font-bold leading-[24px]">
             항상 제품이 완벽할 수 있도록 생각합니다.
           </p>
-          <a
-            href="#"
-            aria-label="회사소개 바로가기"
-            className="mt-6 inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/80 text-white transition-colors hover:bg-white hover:text-neutral-900"
-          >
-            <ArrowIcon />
-          </a>
+          <p className="h-[15px] leading-[15px]" />
+          <div className="mt-[5px] h-[69.39px]">
+            <Image
+              src={MOBILE_PEN}
+              alt=""
+              width={156}
+              height={537}
+              className="block h-[38px] w-[38px] object-contain"
+            />
+          </div>
         </div>
       </section>
 
       <section className="hidden bg-[#f9f9f9] pc:block">
-        <div className="mx-auto grid max-w-[1280px] grid-cols-12 px-[15px] py-[80px]">
-          <div className="col-span-5">
-            <SmartImage
-              src={assets.ctaPhoto}
-              alt=""
-              width={1006}
-              height={606}
-              sizes="(min-width: 992px) 40vw"
-              className="aspect-[503/303] w-full object-cover"
-            />
-          </div>
-          <div className="col-span-7 pl-[15px] pt-[46px]">
-            <p className="text-[36px] font-bold leading-[2] text-ink">
-              틀에 대한 Hot Runner의 색다른 접근,
-              <br />
-              항상 제품이 완벽할 수 있도록 생각합니다.
-            </p>
-            <a
-              href="#"
-              aria-label="회사소개 바로가기"
-              className="mt-[16px] inline-block"
-            >
-              <Image
-                src={assets.arrowDark}
-                alt=""
-                width={28}
-                height={20}
-                className="w-[28px]"
-              />
-            </a>
+        <div className="mx-auto max-w-[1280px] px-[15px] py-[80px]">
+          <div className="-mx-[15px] grid grid-cols-12">
+            <div className="col-span-5 px-[15px]">
+              <div className="py-[15px]">
+                <SmartImage
+                  src={assets.ctaPhoto}
+                  alt=""
+                  width={1280}
+                  height={854}
+                  sizes="(min-width: 992px) 40vw"
+                  className="h-[303px] w-full object-cover"
+                />
+              </div>
+            </div>
+            <div className="col-span-7 px-[15px]">
+              <div className="py-[15px]">
+                <div className="h-[46px]" />
+              </div>
+              <div className="py-[15px] pl-[50px] pr-[15px]">
+                <p className="leading-[30px]">
+                  <span className="text-[36px] font-bold leading-[43.2px] text-ink">
+                    틀에 대한 Hot Runner의 색다른 접근,
+                    <br />
+                    항상 제품이 완벽할 수 있도록 생각합니다.
+                  </span>
+                </p>
+                <p className="leading-[30px]">
+                  <br />
+                </p>
+                <p className="leading-[30px]">
+                  <span className="text-[20px] leading-[24px]">
+                    <br />
+                    <Image
+                      src={assets.arrowDark}
+                      alt=""
+                      width={152}
+                      height={152}
+                      className="my-[5px] inline-block w-[28px] align-middle"
+                    />
+                  </span>
+                  <br />
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
     </>
-  );
-}
-
-function ArrowIcon() {
-  return (
-    <svg
-      width="22"
-      height="22"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.8"
-      aria-hidden
-    >
-      <line x1="4" y1="12" x2="20" y2="12" />
-      <polyline points="13 5 20 12 13 19" />
-    </svg>
   );
 }

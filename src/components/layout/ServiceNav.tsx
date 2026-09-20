@@ -1,6 +1,10 @@
 import SmartImage from "@/components/ui/SmartImage";
 import Link from "next/link";
-import { assets, serviceNav } from "@/lib/data";
+import { CDN, serviceNav } from "@/lib/data";
+
+const SERVICE_HERO_IMAGE = `${CDN}/thumbnail/20240618/6cbfc238fa7c1.png`;
+
+const menuLabel = (label: string) => label.replace(/\s*&\s*/, "&");
 
 export default function ServiceNav({ activeHref }: { activeHref: string }) {
   return (
@@ -8,34 +12,33 @@ export default function ServiceNav({ activeHref }: { activeHref: string }) {
       {/* Mobile */}
       <section className="relative overflow-hidden bg-neutral-900 pc:hidden">
         <SmartImage
-          src={assets.newsBg}
+          src={SERVICE_HERO_IMAGE}
           alt=""
           fill
           sizes="100vw"
           className="object-cover"
           aria-hidden
         />
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="relative mx-auto flex max-w-[1250px] flex-col items-start px-4 py-[100px] md:px-6">
-          <p className="text-[30px] font-bold leading-[1.2] text-white">
+        <div className="relative mx-auto max-w-[1280px] px-[15px] py-[150px]">
+          <p className="mt-[7.5px] mb-[15px] h-[34px] text-[30px] font-bold leading-[33px] text-white">
             Service Center
           </p>
-          <nav aria-label="Service Center" className="mt-5">
-            <ul className="flex flex-wrap gap-x-5 gap-y-2">
+          <nav aria-label="Service Center" className="my-[7.5px]">
+            <ul className="text-[0px]">
               {serviceNav.map((item) => {
                 const active = item.href === activeHref;
                 return (
-                  <li key={item.label}>
+                  <li key={item.label} className="mr-[25px] inline-block">
                     <Link
                       href={item.href}
                       aria-current={active ? "page" : undefined}
-                      className={`text-[13px] font-semibold transition-colors ${
+                      className={`inline-block pb-[5px] text-[15px] leading-[24px] transition-colors ${
                         active
-                          ? "text-white underline underline-offset-4"
-                          : "text-white/60 hover:text-white"
+                          ? "border-b border-white text-white"
+                          : "text-white/70 hover:text-white"
                       }`}
                     >
-                      {item.label}
+                      {menuLabel(item.label)}
                     </Link>
                   </li>
                 );
@@ -46,36 +49,35 @@ export default function ServiceNav({ activeHref }: { activeHref: string }) {
       </section>
 
       {/* PC */}
-      <section className="relative hidden overflow-hidden bg-neutral-900 pc:block">
+      <section className="relative hidden overflow-hidden pc:block">
         <SmartImage
-          src={assets.newsBg}
+          src={SERVICE_HERO_IMAGE}
           alt=""
           fill
           sizes="100vw"
           className="object-cover"
           aria-hidden
         />
-        <div className="absolute inset-0 bg-black/60" />
-        <div className="relative mx-auto flex h-[400px] max-w-[1280px] flex-col justify-center px-[15px]">
-          <p className="text-[60px] font-bold leading-[1.2] text-white">
+        <div className="relative mx-auto max-w-[1280px] px-[15px] pt-[150px] pb-[150px] pc:flex pc:flex-col">
+          <p className="my-[15px] text-[60px] font-bold leading-[66px] text-white">
             Service Center
           </p>
-          <nav aria-label="Service Center" className="mt-[24px]">
-            <ul className="flex gap-[24px]">
+          <nav aria-label="Service Center" className="my-[15px] h-[30px]">
+            <ul className="flex h-[30px] items-start">
               {serviceNav.map((item) => {
                 const active = item.href === activeHref;
                 return (
-                  <li key={item.label}>
+                  <li key={item.label} className="mr-[25px]">
                     <Link
                       href={item.href}
                       aria-current={active ? "page" : undefined}
-                      className={`text-[15px] transition-colors ${
+                      className={`inline-block pb-[5px] text-[15px] leading-[24px] transition-colors ${
                         active
-                          ? "text-white underline underline-offset-8"
-                          : "text-white/60 hover:text-white"
+                          ? "border-b border-white text-white"
+                          : "text-white/70 hover:text-white"
                       }`}
                     >
-                      {item.label}
+                      {menuLabel(item.label)}
                     </Link>
                   </li>
                 );

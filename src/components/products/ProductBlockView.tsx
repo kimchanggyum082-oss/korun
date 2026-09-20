@@ -1,257 +1,915 @@
+import { Fragment } from "react";
 import SmartImage from "@/components/ui/SmartImage";
 import ProductGallery from "@/components/products/ProductGallery";
 import type { ProductBlock } from "@/lib/data";
 import { company } from "@/lib/data";
 
-function Tags({ tags }: { tags: readonly string[] }) {
+const INTRO_FRAME: Record<string, [number, "cover" | "contain"]> = {
+  "dfd5e2ca620da.png": [282, "cover"],
+  "65c03f9afdc23.png": [343, "cover"],
+  "35a0a3f679657.png": [297, "cover"],
+  "85156c9aa20c8.png": [374, "cover"],
+  "34b1cd2b6ab9f.png": [368, "cover"],
+  "56d2bcc72d525.png": [374, "contain"],
+};
+
+const APP_FRAME: Record<string, number> = {
+  "72466c8b4c58f.png": 429,
+  "291a098c65577.png": 788,
+  "6c73897cb7f5b.png": 217,
+  "64ba1499dc4ac.png": 400,
+  "d416ea9e1e240.png": 676,
+  "9ff259f9d8247.png": 210,
+  "0ec4d633ce941.png": 400,
+  "e5d8a791c4e84.png": 402,
+};
+
+const GALLERY_FRAME: Record<number, number> = {
+  1: 307,
+  2: 307,
+  3: 307,
+  4: 228,
+};
+
+const MOBILE_INTRO_FRAME: Record<string, number> = {
+  "dfd5e2ca620da.png": 282,
+  "65c03f9afdc23.png": 343,
+  "35a0a3f679657.png": 297,
+  "85156c9aa20c8.png": 374,
+  "34b1cd2b6ab9f.png": 368,
+  "56d2bcc72d525.png": 342,
+};
+
+const MOBILE_APP_NAT: Record<string, [number, number]> = {
+  "72466c8b4c58f.png": [1458, 500],
+  "291a098c65577.png": [1079, 788],
+  "6c73897cb7f5b.png": [1704, 296],
+  "64ba1499dc4ac.png": [1296, 506],
+  "d416ea9e1e240.png": [1034, 676],
+  "9ff259f9d8247.png": [1670, 281],
+  "0ec4d633ce941.png": [1158, 629],
+  "e5d8a791c4e84.png": [1505, 304],
+};
+
+const MOBILE_APP_LEAD: Record<string, number[]> = {
+  "21:0": [0, 40, 40],
+  "22:0": [0, 40, 40],
+  "23:0": [0],
+  "23:1": [0],
+};
+
+const MOBILE_APP_PAD1: Record<string, number[]> = {
+  "21:0": [0, 1, 1],
+  "22:0": [1, 1, 1],
+  "23:0": [1],
+  "23:1": [0],
+};
+
+const MOBILE_SPEC_ROWS: Record<string, number[]> = {
+  "24:0": [89, 65, 65, 89, 89, 89, 89, 89, 89, 212],
+  "24:1": [89, 89, 113, 113, 44, 69, 89, 89, 89, 99],
+};
+
+const MOBILE_TAIL_TRIM: Record<string, number> = {
+  "21": 0,
+  "22": -1,
+  "23": 1,
+  "24": -62,
+};
+
+function fileOf(url: string) {
+  return url.split("/").pop() ?? "";
+}
+
+function Pad({ height }: { height: number }) {
   return (
-    <ul className="flex flex-wrap gap-2">
-      {tags.map((t) => (
-        <li
-          key={t}
-          className="rounded-full border border-neutral-200 bg-paper px-4 py-1.5 text-[13px] font-semibold text-neutral-500"
-        >
-          #{t}
-        </li>
-      ))}
-    </ul>
+    <div className="py-[15px]">
+      <div style={{ height }} />
+    </div>
   );
 }
 
-function InquiryLink() {
+function Rule() {
   return (
-    <a
-      href={`mailto:${company.email}`}
-      className="inline-flex items-center gap-1 text-sm font-bold text-brand-red transition-opacity hover:opacity-70"
-    >
-      문의하기
-      <svg
-        viewBox="0 0 24 24"
-        className="h-4 w-4"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2.2"
-        aria-hidden
-      >
-        <path d="M5 12h14M13 6l6 6-6 6" />
-      </svg>
-    </a>
+    <div className="py-[15px]">
+      <hr className="border-t border-black/15" />
+    </div>
   );
 }
 
 function SectionTitle({ children }: { children: React.ReactNode }) {
   return (
-    <h2 className="text-center text-[24px] font-bold leading-[1.2] text-ink md:text-[30px]">
-      {children}
-    </h2>
+    <div className="py-[15px]">
+      <p className="text-center leading-[24px]">
+        <span className="text-[30px] font-bold leading-[36px] text-ink">
+          {children}
+        </span>
+      </p>
+    </div>
   );
 }
 
-function IntroContent({ block }: { block: ProductBlock }) {
+export function ProductTitleBlock({
+  block,
+  page,
+}: {
+  block: ProductBlock;
+  page: string;
+}) {
   return (
-    <>
-      {block.introText ? (
-        <p className="leading-loose text-neutral-600">{block.introText}</p>
-      ) : null}
-      {block.introBullets?.length ? (
-        <ul className="space-y-2.5">
-          {block.introBullets.map((b) => (
-            <li key={b} className="flex gap-2 leading-relaxed text-neutral-600">
-              <span className="mt-[9px] h-1.5 w-1.5 shrink-0 rounded-full bg-brand-red" />
-              <span>{b}</span>
-            </li>
-          ))}
-        </ul>
-      ) : null}
-      <div className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-4">
-        <Tags tags={block.tags} />
-      </div>
-      {block.showInquiry ? (
-        <div className="mt-6">
-          <InquiryLink />
+    <section className="hidden bg-white pc:block">
+      <div className="mx-auto max-w-[1280px] px-[15px] py-[80px]">
+        <div className="py-[15px]">
+          <p className="text-center leading-[30px]">
+            <span className="text-[22px] font-bold leading-[26.4px] text-brand">
+              {block.eyebrow}
+            </span>
+          </p>
         </div>
-      ) : null}
-    </>
-  );
-}
-
-function SpecTable({ block }: { block: ProductBlock }) {
-  const spec = block.spec!;
-  return (
-    <section className="bg-paper">
-      <div className="mx-auto max-w-[1280px] px-4 py-12 md:px-6 md:py-16">
-        <SectionTitle>
-          Specification <span className="text-neutral-300">-</span>{" "}
-          <span className="text-[18px] font-bold text-neutral-500 md:text-[20px]">
-            사
-          </span>
-        </SectionTitle>
-        <table className="mt-8 w-full border-collapse text-[16px] md:text-[18px]">
-          <thead>
-            <tr>
-              <th
-                scope="col"
-                colSpan={2}
-                className="bg-[#54ACD2] px-4 py-3 text-center text-[16px] font-bold text-white md:text-[18px]"
-              >
-                사
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {spec.rows.map((row) => (
-              <tr key={row.label} className="border-b border-neutral-200">
-                <th
-                  scope="row"
-                  className="bg-[#54ACD2] px-4 py-3 text-center font-bold text-white"
-                >
-                  {row.label}
-                </th>
-                <td className="bg-white px-4 py-3 text-center leading-relaxed text-neutral-700">
-                  {row.values.length > 1 ? (
-                    <ul className="space-y-1">
-                      {row.values.map((v) => (
-                        <li key={v}>{v}</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    row.values[0]
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        {page === "23" ? (
+          <div className="py-[15px] text-center">
+            <p className="my-[10px] leading-[27.006px]">
+              <span className="text-[50px] font-bold leading-[70px] text-ink">
+                {block.title}
+              </span>
+            </p>
+          </div>
+        ) : (
+          <h1 className="mb-[10px] mt-[20px] text-center text-[50px] font-bold leading-[60px] text-ink">
+            {block.title}
+          </h1>
+        )}
       </div>
     </section>
   );
 }
 
-export default function ProductBlockView({ block }: { block: ProductBlock }) {
-  const hasTitle = Boolean(block.title);
+function IntroBody({ block }: { block: ProductBlock }) {
+  const bulletLines = block.introBullets ?? [];
+  const tagLines =
+    bulletLines.length > 0 ? [] : splitTags(block.tags as readonly string[]);
   return (
     <>
-      {/* Block title header */}
-      {block.title ? (
-        <header className="border-b border-neutral-100 bg-paper pc:hidden">
-          <div className="mx-auto max-w-6xl px-4 py-12 text-center md:px-6 md:py-16">
-            {block.eyebrow ? (
-              <p className="text-sm font-bold text-brand-red md:text-base">
-                {block.eyebrow}
-              </p>
-            ) : null}
-            <h1 className="mt-2 text-3xl font-extrabold tracking-tight text-neutral-900 md:text-5xl">
-              {block.title}
-            </h1>
+      <p className="leading-[24px]">
+        <span className="text-[30px] font-bold leading-[36px] text-ink">
+          {block.introTitle}
+        </span>
+      </p>
+      <p className="leading-[24px]">
+        <br />
+      </p>
+      {block.introText ? (
+        <p className="leading-[24px]">
+          <span className="text-[20px] leading-[24px]">{block.introText}</span>
+        </p>
+      ) : null}
+      {bulletLines.map((b) => (
+        <p key={b} className="leading-[24px]">
+          <span className="text-[20px] leading-[24px]">
+            <strong className="font-bold text-brand">#</strong> {b}
+          </span>
+        </p>
+      ))}
+      {block.introText ||
+      bulletLines.length === 0 ||
+      block.introTrailingBreak ? (
+        <p className="leading-[24px]">
+          <br />
+        </p>
+      ) : null}
+      {tagLines.map((line, i) => (
+        <p
+          key={line.join("|")}
+          className={`text-[19.29px] leading-[27.006px] ${
+            i === 0 ? "mt-[10px]" : ""
+          } mb-[10px]`}
+        >
+          <span className="text-[20px] font-bold leading-[24px] text-brand">
+            {line.map((t, j) => (
+              <span key={t}>
+                {j > 0 ? " \u00a0 \u00a0 " : ""}#{t}
+              </span>
+            ))}
+          </span>
+        </p>
+      ))}
+      {block.showInquiry ? (
+        <>
+          <p className="leading-[24px]">
+            <br />
+          </p>
+          <p className="leading-[24px]">
+            <a
+              href={`mailto:${company.email}`}
+              className="inline-block rounded-[2px] border border-brand bg-paper px-[22px] py-[6px]"
+            >
+              <span className="text-[16px] leading-[24px] text-brand">
+                문의하기 &gt;
+              </span>
+            </a>
+          </p>
+        </>
+      ) : null}
+    </>
+  );
+}
+
+function splitTags(tags: readonly string[]) {
+  if (tags.length === 0) return [];
+  const first = Math.min(3, tags.length);
+  return [tags.slice(0, first), tags.slice(first)].filter((l) => l.length > 0);
+}
+
+export function IntroSection({
+  block,
+  blockIndex,
+}: {
+  block: ProductBlock;
+  blockIndex: number;
+}) {
+  if (!block.introImage) return null;
+  const [frameH, fit] = INTRO_FRAME[fileOf(block.introImage)] ?? [343, "cover"];
+  return (
+    <section className="hidden pc:block">
+      <div className="mx-auto max-w-[1280px] px-[15px]">
+        {blockIndex > 0 ? <Pad height={80} /> : null}
+        <div className="-mx-[15px] flex items-center">
+          <div className="w-1/2 px-[15px]">
+            <div className="py-[15px]">
+              <div
+                className="relative overflow-hidden rounded-[20px] bg-paper"
+                style={{ height: frameH }}
+              >
+                <SmartImage
+                  src={block.introImage}
+                  alt={block.introTitle}
+                  fill
+                  unoptimized
+                  sizes="(min-width: 992px) 610px"
+                  className={
+                    fit === "cover" ? "object-cover" : "object-contain"
+                  }
+                />
+              </div>
+            </div>
           </div>
-        </header>
-      ) : null}
-
-      {block.title ? (
-        <header className="hidden bg-white pb-[10px] pt-[80px] text-center pc:block">
-          {block.eyebrow ? (
-            <p className="text-[20px] font-bold text-brand">{block.eyebrow}</p>
-          ) : null}
-          <h1 className="mt-[10px] text-[54px] font-bold leading-[1.3] text-ink">
-            {block.title}
-          </h1>
-        </header>
-      ) : null}
-
-      {!hasTitle ? (
-        <hr className="mx-auto max-w-6xl border-neutral-200 pc:hidden" />
-      ) : null}
-
-      {/* Section 1: Intro */}
-      <section className="mx-auto max-w-6xl px-4 py-14 pc:hidden md:px-6 md:py-20">
-        <div className="md:grid md:grid-cols-[240px_minmax(0,1fr)] md:gap-10">
-          <h2 className="text-lg font-extrabold tracking-tight text-neutral-900 md:text-xl">
-            {block.introTitle}
-          </h2>
-          <div className="mt-4 md:mt-0">
-            <IntroContent block={block} />
+          <div className="w-1/2 px-[15px]">
+            <div className="py-[15px] pl-[50px] pr-[15px]">
+              <IntroBody block={block} />
+            </div>
           </div>
         </div>
+        <Pad height={50} />
+        <Rule />
+        <Pad height={50} />
+      </div>
+    </section>
+  );
+}
 
-        {block.introImage ? (
-          <div className="mt-10 md:mt-14">
+export function GallerySection({ block }: { block: ProductBlock }) {
+  const slots = Math.max(
+    block.galleryColumns ?? block.gallery.length,
+    block.gallery.length,
+  );
+  return (
+    <section className="hidden pc:block">
+      <div className="mx-auto max-w-[1280px] px-[15px]">
+        <SectionTitle>{block.galleryLabel}</SectionTitle>
+        <div className="py-[15px]">
+          <ProductGallery
+            images={[...block.gallery]}
+            thumbs={block.galleryThumbs ? [...block.galleryThumbs] : undefined}
+            columns={block.galleryColumns}
+            label={block.galleryLabel}
+            frameHeight={GALLERY_FRAME[slots] ?? 307}
+          />
+        </div>
+        <Pad height={50} />
+        {block.spec ? (
+          <>
+            <SectionTitle>Specification</SectionTitle>
+            <div className="py-[15px]">
+              <SpecTable spec={block.spec} />
+            </div>
+            <Pad height={80} />
+          </>
+        ) : (
+          <>
+            <Rule />
+            <Pad height={50} />
+          </>
+        )}
+      </div>
+    </section>
+  );
+}
+
+export function AppSection({
+  app,
+  index,
+  pad1,
+}: {
+  app: { title: string; images: string[] };
+  index: number;
+  pad1: boolean;
+}) {
+  const src = app.images[0];
+  const frameH = APP_FRAME[fileOf(src)] ?? 400;
+  return (
+    <section className="hidden pc:block">
+      <div className="mx-auto max-w-[1280px] px-[15px]">
+        {index > 0 ? <Pad height={80} /> : null}
+        <SectionTitle>{app.title}</SectionTitle>
+        {pad1 ? <Pad height={1} /> : null}
+        <div className="py-[15px]">
+          <div className="relative w-full" style={{ height: frameH }}>
             <SmartImage
-              src={block.introImage}
-              alt={block.introTitle}
-              width={1280}
-              height={720}
-              sizes="(min-width: 1152px) 1152px, 100vw"
-              className="h-auto w-full"
+              src={src}
+              alt={app.title}
+              fill
+              unoptimized
+              sizes="(min-width: 992px) 1250px"
+              className="object-contain"
             />
           </div>
-        ) : null}
-      </section>
-
-      <section className="mx-auto hidden max-w-[1280px] px-[15px] pb-[40px] pt-[24px] pc:block">
-        <div className="grid grid-cols-2 gap-[30px]">
-          <div>
-            {block.introImage ? (
-              <SmartImage
-                src={block.introImage}
-                alt={block.introTitle}
-                width={1220}
-                height={1060}
-                sizes="(min-width: 992px) 50vw"
-                className="h-auto w-full"
-              />
-            ) : null}
-          </div>
-          <div className="pl-[50px] pt-[56px]">
-            <h2 className="text-[30px] font-bold leading-[1.2] text-ink">
-              {block.introTitle}
-            </h2>
-            <div className="mt-[18px] space-y-4 text-[15px] leading-[1.75] text-ink">
-              <IntroContent block={block} />
-            </div>
-          </div>
         </div>
-      </section>
+        <Pad height={80} />
+      </div>
+    </section>
+  );
+}
 
-      {/* Section 2: Gallery */}
-      {block.gallery.length ? (
-        <section className="py-12 md:py-16">
-          <div className="mx-auto max-w-[1280px] px-4 md:px-6">
-            <SectionTitle>{block.galleryLabel}</SectionTitle>
-            <div className="mt-8">
-              <ProductGallery
-                images={[...block.gallery]}
-                label={block.galleryLabel}
-              />
+function SpecTable({ spec }: { spec: NonNullable<ProductBlock["spec"]> }) {
+  return (
+    <table className="w-full text-[15px] leading-[24px]">
+      <tbody>
+        <tr>
+          <td
+            style={{ width: "20%" }}
+            className="border border-[#ececec] bg-[#54acd2] p-[8px] align-middle"
+          >
+            <div className="text-center">
+              <span className="text-[20px] font-bold text-white">-</span>
             </div>
-          </div>
-        </section>
+          </td>
+          <td
+            style={{ width: "50%" }}
+            className="border border-[#ececec] bg-[#54acd2] p-[8px] align-middle"
+          >
+            <div className="text-center">
+              <br />
+            </div>
+            <div className="text-center">
+              <span className="text-[20px] font-bold text-white">사양</span>
+            </div>
+            <p>
+              <br />
+            </p>
+          </td>
+        </tr>
+        {spec.rows.map((row) => (
+          <Fragment key={row.label}>
+            <tr>
+              <td
+                rowSpan={row.values.length === 2 ? 2 : 1}
+                style={{ width: row.labelWidth ?? "20%" }}
+                className="border border-[#ececec] bg-[#54acd2] p-[8px] align-middle"
+              >
+                <div className="text-center">
+                  <span className="text-[20px]">
+                    <br />
+                  </span>
+                </div>
+                <div className="text-center">
+                  <span className="text-[20px] font-bold text-white">
+                    {row.label}
+                  </span>
+                </div>
+                <div className="text-center">
+                  <span className="text-[20px]">
+                    <br />
+                  </span>
+                </div>
+              </td>
+              <ValueCell
+                lines={row.values.length === 2 ? [row.values[0]] : row.values}
+                width={row.valueWidth}
+              />
+            </tr>
+            {row.values.length === 2 ? (
+              <tr>
+                <ValueCell lines={[row.values[1]]} width={row.valueWidth} />
+              </tr>
+            ) : null}
+          </Fragment>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+function ValueCell({
+  lines,
+  width = "50%",
+}: {
+  lines: readonly string[];
+  width?: string;
+}) {
+  return (
+    <td
+      style={{ width }}
+      className="border border-[#ececec] p-[8px] align-middle"
+    >
+      <div className="text-center">
+        <span className="text-[20px] text-ink">
+          {lines.map((line, i) => (
+            <span key={line}>
+              {i > 0 ? <br /> : null}
+              {line}
+            </span>
+          ))}
+          <br />
+        </span>
+      </div>
+    </td>
+  );
+}
+
+function MRow({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="py-[7.5px] text-[15px] leading-[24px]">{children}</div>
+  );
+}
+
+function MPad({ height }: { height: number }) {
+  return (
+    <MRow>
+      <div style={{ height }} />
+    </MRow>
+  );
+}
+
+function MSection({
+  bg,
+  pad,
+  children,
+}: {
+  bg?: string;
+  pad?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section
+      className="pc:hidden"
+      style={bg ? { backgroundColor: bg } : undefined}
+    >
+      <div
+        className={`mx-auto max-w-[1280px] break-keep break-words px-[15px] ${pad ?? ""}`}
+      >
+        {children}
+      </div>
+    </section>
+  );
+}
+
+function MHeading({ block, bg }: { block: ProductBlock; bg?: string }) {
+  return (
+    <MSection bg={bg} pad="py-[50px]">
+      {block.eyebrow ? (
+        <MRow>
+          <p className="text-center">
+            <strong className="text-[15px] font-bold leading-[24px] text-[#00351d]">
+              {block.eyebrow}
+            </strong>
+          </p>
+        </MRow>
+      ) : null}
+      <MRow>
+        <p className="text-center">
+          <strong className="text-[30px] font-bold leading-[36px] text-ink">
+            {block.title}
+          </strong>
+        </p>
+      </MRow>
+    </MSection>
+  );
+}
+
+function MIntroImage({
+  block,
+  page,
+  blockIndex,
+  bg,
+}: {
+  block: ProductBlock;
+  page: string;
+  blockIndex: number;
+  bg?: string;
+}) {
+  if (!block.introImage) return null;
+  const height = MOBILE_INTRO_FRAME[fileOf(block.introImage)] ?? 282;
+  return (
+    <MSection bg={bg}>
+      {blockIndex > 0 ? <MPad height={40} /> : null}
+      <MRow>
+        <div className="relative w-full" style={{ height }}>
+          <SmartImage
+            src={block.introImage}
+            alt={block.introTitle}
+            fill
+            unoptimized
+            sizes="100vw"
+          />
+        </div>
+      </MRow>
+      {blockIndex > 0 && page === "24" ? <MPad height={25} /> : null}
+    </MSection>
+  );
+}
+
+function MTagLines({ tags, h6 }: { tags: readonly string[]; h6: boolean }) {
+  const first = Math.min(3, tags.length);
+  const line1 = tags
+    .slice(0, first)
+    .map((t) => `#${t}`)
+    .join(" \u00a0 \u00a0 ");
+  const line2 = tags
+    .slice(first)
+    .map((t) => `#${t}`)
+    .join(" \u00a0 \u00a0 ");
+  if (h6) {
+    return (
+      <h6 className="my-[10px] text-[16px] leading-[22.4px]">
+        <span className="text-[16px] leading-[22.4px] text-brand">
+          <strong>{line1}&nbsp;</strong>
+        </span>
+        {line2 ? (
+          <span className="text-[16px] leading-[22.4px] text-brand">
+            <strong>{line2}</strong>
+          </span>
+        ) : null}
+      </h6>
+    );
+  }
+  return (
+    <>
+      <p>
+        <span className="text-[16px] leading-[25.6px] text-brand">
+          <strong>{line1}</strong>
+        </span>
+      </p>
+      {line2 ? (
+        <p>
+          <span className="text-[16px] leading-[25.6px] text-brand">
+            <strong>{line2}</strong>
+          </span>
+        </p>
+      ) : null}
+    </>
+  );
+}
+
+function MIntroText({
+  block,
+  page,
+  bg,
+}: {
+  block: ProductBlock;
+  page: string;
+  bg?: string;
+}) {
+  const bullets = block.introBullets ?? [];
+  return (
+    <MSection bg={bg}>
+      <MPad height={1} />
+      <MRow>
+        <p>
+          <strong className="text-[22px] font-bold leading-[26.4px] text-ink">
+            {block.introTitle}
+          </strong>
+        </p>
+        <p>
+          <span className="text-[16px] leading-[25.6px]">
+            <br />
+          </span>
+        </p>
+        {bullets.length ? (
+          bullets.map((b) => (
+            <p key={b}>
+              <span className="text-[16px] leading-[25.6px]">
+                <span className="text-brand">#</span> {b}
+              </span>
+            </p>
+          ))
+        ) : (
+          <>
+            <p>
+              <span className="text-[16px] leading-[25.6px]">
+                {block.introText}
+              </span>
+            </p>
+            <p>
+              <span className="text-[16px] leading-[25.6px]">
+                <br />
+              </span>
+            </p>
+            <MTagLines tags={block.tags} h6={page === "21"} />
+          </>
+        )}
+      </MRow>
+      <MPad height={30} />
+    </MSection>
+  );
+}
+
+function MGallery({
+  block,
+  bg,
+  specHeights,
+  trim = 0,
+}: {
+  block: ProductBlock;
+  bg?: string;
+  specHeights?: number[];
+  trim?: number;
+}) {
+  return (
+    <MSection bg={bg}>
+      <MRow>
+        <p className="text-center">
+          <strong className="text-[20px] font-bold leading-[24px] text-ink">
+            {block.galleryLabel}
+          </strong>
+        </p>
+      </MRow>
+      <MRow>
+        <ProductGallery
+          images={[...block.gallery]}
+          thumbs={block.galleryThumbs ? [...block.galleryThumbs] : undefined}
+          label={block.galleryLabel}
+        />
+      </MRow>
+      <MPad height={25} />
+      {block.spec ? (
+        <>
+          <MRow>
+            <p className="text-center">
+              <strong className="text-[20px] font-bold leading-[24px] text-ink">
+                Specification
+              </strong>
+            </p>
+          </MRow>
+          <MRow>
+            <MSpecTable spec={block.spec} heights={specHeights ?? []} />
+          </MRow>
+          <MPad height={40 - trim} />
+        </>
+      ) : (
+        <>
+          <MRow>
+            <hr className="border-t border-black/15" />
+          </MRow>
+          <MPad height={25} />
+        </>
+      )}
+    </MSection>
+  );
+}
+
+function MValueCell({
+  lines,
+  width = "50%",
+  height,
+}: {
+  lines: readonly string[];
+  width?: string;
+  height?: number;
+}) {
+  return (
+    <td
+      style={{ width, height }}
+      className="border border-[#ececec] p-[8px] text-center align-middle"
+    >
+      <div
+        className="text-center"
+        style={{ minHeight: height ? height - 16 : undefined }}
+      >
+        <span className="text-[15px] leading-[18px] text-ink">
+          {lines.map((line, i) => (
+            <span key={line}>
+              {i > 0 ? <br /> : null}
+              {line}
+            </span>
+          ))}
+          <br />
+        </span>
+      </div>
+    </td>
+  );
+}
+
+function MSpecTable({
+  spec,
+  heights,
+}: {
+  spec: NonNullable<ProductBlock["spec"]>;
+  heights: number[];
+}) {
+  return (
+    <table className="w-full text-[15px] leading-[18px]">
+      <tbody>
+        <tr>
+          <td className="border border-[#ececec] bg-[#54acd2] p-[8px] text-center align-middle">
+            <div
+              style={{ minHeight: heights[0] ? heights[0] - 16 : undefined }}
+            >
+              <span className="text-[15px] font-bold text-white">-</span>
+            </div>
+          </td>
+          <td className="border border-[#ececec] bg-[#54acd2] p-[8px] text-center align-middle">
+            <div
+              style={{ minHeight: heights[0] ? heights[0] - 16 : undefined }}
+            >
+              <div>
+                <br />
+              </div>
+              <div>
+                <span className="text-[15px] font-bold text-white">사양</span>
+              </div>
+              <p>
+                <br />
+              </p>
+            </div>
+          </td>
+        </tr>
+        {spec.rows.map((row, i) => (
+          <Fragment key={row.label}>
+            <tr>
+              <td
+                rowSpan={row.values.length === 2 ? 2 : 1}
+                style={{
+                  width: row.labelWidth ?? "20%",
+                  height: heights[i + 1],
+                }}
+                className="border border-[#ececec] bg-[#54acd2] p-[8px] align-middle"
+              >
+                <div
+                  className="text-center"
+                  style={{
+                    minHeight: heights[i + 1]
+                      ? (row.values.length === 2
+                          ? heights[i + 1] + (heights[i + 2] ?? 0)
+                          : heights[i + 1]) - 16
+                      : undefined,
+                  }}
+                >
+                  <span className="text-[15px] font-bold text-white">
+                    {row.label}
+                  </span>
+                </div>
+              </td>
+              <MValueCell
+                lines={row.values.length === 2 ? [row.values[0]] : row.values}
+                width={row.valueWidth}
+                height={heights[i + 1]}
+              />
+            </tr>
+            {row.values.length === 2 ? (
+              <tr>
+                <MValueCell
+                  lines={[row.values[1]]}
+                  width={row.valueWidth}
+                  height={heights[i + 2]}
+                />
+              </tr>
+            ) : null}
+          </Fragment>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+function MApp({
+  app,
+  page,
+  blockIndex,
+  index,
+  trim = 0,
+}: {
+  app: { title: string; images: string[] };
+  page: string;
+  blockIndex: number;
+  index: number;
+  trim?: number;
+}) {
+  const key = `${page}:${blockIndex}`;
+  const lead = MOBILE_APP_LEAD[key]?.[index] ?? 0;
+  const pad1 = MOBILE_APP_PAD1[key]?.[index] ?? 0;
+  const src = app.images[0];
+  const [nw, nh] = MOBILE_APP_NAT[fileOf(src)] ?? [1280, 720];
+  const bg =
+    index === 1 && (page === "21" || page === "22")
+      ? "rgba(247,247,247,0.95)"
+      : blockIndex > 0
+        ? "#f7f7f7"
+        : undefined;
+  return (
+    <MSection bg={bg}>
+      {lead ? <MPad height={lead} /> : null}
+      <MRow>
+        <p className="text-center">
+          <strong className="text-[20px] font-bold leading-[24px] text-ink">
+            {app.title}
+          </strong>
+        </p>
+      </MRow>
+      {pad1 ? <MPad height={pad1} /> : null}
+      <MRow>
+        <SmartImage
+          src={src}
+          alt={app.title}
+          width={nw}
+          height={nh}
+          unoptimized
+          sizes="(min-width: 1280px) 1280px, 100vw"
+          className="h-auto w-full"
+        />
+      </MRow>
+      <MPad height={40 - trim} />
+    </MSection>
+  );
+}
+
+export default function ProductBlockView({
+  block,
+  blockIndex,
+  page,
+  isLastBlock = false,
+}: {
+  block: ProductBlock;
+  blockIndex: number;
+  page: string;
+  isLastBlock?: boolean;
+}) {
+  const apps = block.applications ?? [];
+  const mBg = blockIndex > 0 ? "#f7f7f7" : undefined;
+  const tailTrim = isLastBlock ? (MOBILE_TAIL_TRIM[page] ?? 0) : 0;
+  return (
+    <>
+      {block.title ? <ProductTitleBlock block={block} page={page} /> : null}
+
+      {block.title ? <MHeading block={block} bg={mBg} /> : null}
+
+      {block.introImage ? (
+        <MIntroImage
+          block={block}
+          page={page}
+          blockIndex={blockIndex}
+          bg={mBg}
+        />
       ) : null}
 
-      {/* Section 3+: Applications */}
-      {block.applications?.map((s) => (
-        <section key={s.title} className="bg-paper">
-          <div className="mx-auto max-w-[1280px] px-4 py-12 md:px-6 md:py-16">
-            <SectionTitle>{s.title}</SectionTitle>
-            <div className="mt-8">
-              {s.images.length === 1 ? (
-                <SmartImage
-                  src={s.images[0]}
-                  alt={s.title}
-                  width={1280}
-                  height={800}
-                  sizes="(min-width: 1280px) 1280px, 100vw"
-                  className="h-auto w-full"
-                />
-              ) : (
-                <ProductGallery images={[...s.images]} label={s.title} />
-              )}
-            </div>
-          </div>
-        </section>
+      {block.introText || (block.introBullets?.length ?? 0) > 0 ? (
+        <MIntroText block={block} page={page} bg={mBg} />
+      ) : null}
+
+      {block.gallery.length ? (
+        <MGallery
+          block={block}
+          bg={mBg}
+          specHeights={MOBILE_SPEC_ROWS[`${page}:${blockIndex}`]}
+          trim={block.spec ? tailTrim : 0}
+        />
+      ) : null}
+
+      {apps.map((app, i) => (
+        <MApp
+          key={app.title}
+          app={app}
+          page={page}
+          blockIndex={blockIndex}
+          index={i}
+          trim={i === apps.length - 1 ? tailTrim : 0}
+        />
       ))}
 
-      {/* Spec table */}
-      {block.spec ? <SpecTable block={block} /> : null}
+      <IntroSection block={block} blockIndex={blockIndex} />
+
+      {block.gallery.length ? <GallerySection block={block} /> : null}
+
+      {apps.map((app, i) => (
+        <AppSection
+          key={app.title}
+          app={app}
+          index={i}
+          pad1={
+            !(page === "21" && blockIndex === 0 && i === 0) &&
+            !(page === "23" && blockIndex === 1 && i === 0)
+          }
+        />
+      ))}
     </>
   );
 }

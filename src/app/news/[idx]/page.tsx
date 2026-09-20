@@ -35,8 +35,10 @@ export default async function NewsDetailPage({
   return (
     <PostDetail
       activeHref="/news"
-      subtitle="코런의 소식을 전해드립니다"
-      sectionLabel="News & Events"
+      subtitle="최신 뉴스와 이벤트를 한눈에 보여드립니다"
+      sectionLabel="News&Events"
+      mobileTitle="News & Events"
+      boardName="뉴스&이벤트"
       title={item.title}
       category={item.category}
       meta={{
@@ -48,7 +50,11 @@ export default async function NewsDetailPage({
       blocks={item.blocks}
       files={item.files}
       listHref="/news"
-      pagerItems={newsItems.map((p) => ({ idx: p.idx, title: p.title }))}
+      pagerItems={newsItems.map((p) => ({
+        idx: p.idx,
+        title: p.title,
+        date: p.date,
+      }))}
       currentIdx={item.idx}
       pagerBasePath="/news"
     />

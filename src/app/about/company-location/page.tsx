@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-import Image from "next/image";
-import { assets, company } from "@/lib/data";
+import { company } from "@/lib/data";
 import AboutNav from "@/components/layout/AboutNav";
 
 export const metadata: Metadata = {
@@ -15,82 +14,94 @@ export default function CompanyLocationPage() {
 
       {/* Page title banner */}
       <section className="bg-white">
-        <div className="mx-auto max-w-[1280px] px-4 py-10 text-center md:px-6 md:py-12 pc:px-[15px] pc:py-[50px]">
-          <h1 className="text-[30px] font-bold leading-[1.2] text-ink md:text-[40px] pc:text-[50px]">
-            Company Location
-          </h1>
+        <div className="mx-auto flex max-w-[1280px] flex-col px-[15px] py-[50px] text-center pc:py-[80px]">
+          <div className="hidden pc:block pc:h-[60px]" />
+          <div className="my-[7.5px] pc:my-0 pc:pt-[20px] pc:pb-[10px]">
+            <h1 className="text-[30px] leading-[36px] font-bold text-ink pc:text-[50px] pc:leading-[60px]">
+              Company Location
+            </h1>
+          </div>
         </div>
       </section>
 
-      {/* Map & address — vertical: text first, then map */}
-      <section className="mx-auto max-w-[1280px] px-4 py-12 md:px-6 md:py-16 pc:px-[15px] pc:py-[60px]">
-        <p className="text-[18px] font-bold text-brand md:text-[20px]">
-          HEAD OFFICE &amp; FACTORY
+      {/* Address then map */}
+      <section className="mx-auto max-w-[1280px] px-[15px] pc:py-0">
+        <p className="text-[24px] leading-[29px] font-bold text-brand pc:text-[36px] pc:leading-[43.2px] pc:font-normal">
+          <span className="text-[15px] leading-[18px] pc:text-[20px] pc:leading-[24px] pc:font-bold">
+            HEAD OFFICE &amp; FACTORY
+          </span>
         </p>
-        <h2 className="mt-2 text-[28px] font-bold leading-[1.2] text-ink md:text-[36px] pc:text-[48px]">
+        <p className="text-[28px] leading-[33.6px] font-bold text-ink pc:text-[48px] pc:leading-[57.6px]">
           본사 및 공장
-          <Image
-            src={assets.penSmall}
-            alt=""
-            width={15}
-            height={30}
-            className="ml-[6px] inline-block w-[15px] align-middle"
-          />
-        </h2>
+        </p>
 
-        <hr className="my-6 border-ink/15 md:my-8" />
+        <div className="hidden pc:block pc:h-[24px]" />
+        <p className="text-[15px] leading-[24px] text-ink pc:hidden">&nbsp;</p>
 
-        {/* Address table */}
-        <table className="mb-8 w-full text-[15px] md:text-[18px]">
+        <table className="w-full text-[15px] leading-[24px]">
           <tbody>
             <tr>
               <th
                 scope="row"
-                className="w-32 py-3 text-left font-bold text-brand md:w-40"
+                colSpan={2}
+                className="px-[8px] py-[8px] text-left font-bold text-brand pc:px-0"
               >
-                {company.name}
+                <span className="pc:text-[20px]">{company.name}</span>
               </th>
-              <td className="py-3" />
             </tr>
             <tr>
               <th
                 scope="row"
-                className="w-32 py-3 text-left font-bold text-ink md:w-40"
+                className="w-[89px] px-[8px] py-[8px] text-left font-bold text-ink pc:px-0 pc:w-[21.5%]"
               >
-                TEL.
+                <span className="pc:text-[20px]">TEL.</span>
               </th>
-              <td className="py-3 text-ink">{company.tel}</td>
+              <td className="px-[8px] py-[8px] text-ink pc:px-0">
+                <span className="pc:text-[20px]">{company.tel}</span>
+              </td>
             </tr>
             <tr>
               <th
                 scope="row"
-                className="w-32 py-3 text-left font-bold text-ink md:w-40"
+                className="w-[89px] px-[8px] py-[8px] text-left font-bold text-ink pc:px-0 pc:w-[21.5%]"
               >
-                EMAIL.
+                <span className="pc:text-[20px]">EMAIL.</span>
               </th>
-              <td className="py-3 text-ink">{company.email}</td>
+              <td className="px-[8px] py-[8px] text-ink pc:px-0">
+                <span className="pc:text-[20px]">{company.email}</span>
+              </td>
             </tr>
             <tr>
               <th
                 scope="row"
-                className="w-32 py-3 text-left font-bold text-ink md:w-40"
+                className="w-[89px] px-[8px] py-[8px] text-left font-bold text-ink pc:px-0 pc:w-[21.5%]"
               >
-                ADDRESS.
+                <span className="pc:text-[20px]">ADDRESS.</span>
               </th>
-              <td className="py-3 text-ink">{company.address}</td>
+              <td className="px-[8px] py-[8px] text-ink pc:px-0">
+                <span className="pc:text-[20px]">{company.address}</span>
+              </td>
             </tr>
           </tbody>
         </table>
 
+        <hr className="my-[20px] border-ink/15" />
+
         {/* Map */}
-        <iframe
-          src={company.mapEmbed}
-          title="코런 본사 위치 지도"
-          className="h-[300px] w-full border-0 md:h-[400px]"
-          loading="lazy"
-          allowFullScreen
-          referrerPolicy="no-referrer-when-downgrade"
-        />
+        <div className="h-[472px] py-[7.5px] pc:h-auto pc:py-[15px]">
+          <iframe
+            src={company.mapEmbed}
+            title="코런 본사 위치 지도"
+            className="block h-[450px] w-full border-0 pc:h-[457px]"
+            loading="lazy"
+            allowFullScreen
+            referrerPolicy="no-referrer-when-downgrade"
+          />
+        </div>
+
+        {/* Trailing spacer row */}
+        <div className="h-[55px] pt-[7.5px] pb-[7.5px] pc:hidden" />
+        <div className="hidden pc:block pc:h-[110px]" />
       </section>
     </>
   );

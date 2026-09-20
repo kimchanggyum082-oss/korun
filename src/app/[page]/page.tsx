@@ -37,8 +37,14 @@ export default async function ProductPage({
     <>
       <ProductNav activeId={product.id} />
       <div className="flex-1">
-        {product.blocks.map((block) => (
-          <ProductBlockView key={block.introTitle} block={block} />
+        {product.blocks.map((block, blockIndex) => (
+          <ProductBlockView
+            key={block.introTitle}
+            block={block}
+            blockIndex={blockIndex}
+            page={page}
+            isLastBlock={blockIndex === product.blocks.length - 1}
+          />
         ))}
       </div>
     </>

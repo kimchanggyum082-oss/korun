@@ -18,9 +18,19 @@ export const assets = {
       alt: "Hot Runner System KORUN - Best Processing Quality! High quality Fast delivery!",
     },
   ],
+  heroSlidesMobile: [
+    {
+      src: `${CDN}/thumbnail/20240711/680974b1b8292.png`,
+      alt: "Hot Runner System KORUN - Best Processing Quality! High quality Fast delivery!",
+    },
+    {
+      src: `${CDN}/thumbnail/20240715/5f9b530f1f2e1.png`,
+      alt: "High Performance Hot Runners",
+    },
+  ],
   products: [
     {
-      title: "Valve Gate System",
+      title: "Valve Gate Systems",
       href: "/21",
       src: `${CDN}/thumbnail/20240617/b962d08789248.png`,
       hoverSrc: `${CDN}/thumbnail/20240617/c090f6618048f.png`,
@@ -41,7 +51,7 @@ export const assets = {
       mobileSrc: `${CDN}/thumbnail/20240715/2b7bdff8250a3.png`,
     },
     {
-      title: "Time&Temperature Controllers",
+      title: "Time & Temperature Controllers",
       href: "/24",
       src: `${CDN}/thumbnail/20240617/c204ac8c52f02.png`,
       hoverSrc: `${CDN}/thumbnail/20240617/295e386443d79.png`,
@@ -49,7 +59,7 @@ export const assets = {
     },
   ],
   productsBg: `${CDN}/thumbnail/20240619/68e5edc163b33.png`,
-  newsBg: `${CDN}/thumbnail/20240617/a63db8b18958a.png`,
+  newsBg: `${CDN}/thumbnail/20240618/6cbfc238fa7c1.png`,
   ctaPhoto: `${CDN}/thumbnail/20240617/092be34fd3257.jpg`,
   subBanner: `${CDN}/thumbnail/20240626/e2ada77eda324.jpg`,
   valuesBg: `${CDN}/thumbnail/20240617/a4408920c5a82.png`,
@@ -244,7 +254,7 @@ export const technologyNav = [
 ] as const;
 
 export const serviceNav = [
-  { label: "News & Events", href: "/news" },
+  { label: "News&Events", href: "/news" },
   { label: "Downloads", href: "/downloads" },
   { label: "Case Studio", href: "/case-studio" },
 ] as const;
@@ -474,13 +484,13 @@ export const casePages: Record<string, CasePageData> = {
     heroWidth: 1919,
     heroHeight: 722,
     section: {
-      heading: "",
+      heading: "Daily Supplies",
       text: "코런의 제품군은 합리적 가격과 우수한 품질로 고객사의 인정을 받고 있으며, 생활용품 업계에 점차 시장을 넓혀가고 있으며, 최적화된 설계와 우수한 내구성으로 오랜기간 많은 수량을 안정적으로 양산할 수 있도록 최선으로 다하고 있습니다.",
       images: [
         {
           src: `${CDN}/thumbnail/20240618/096bb38b57551.png`,
-          width: 1288,
-          height: 194,
+          width: 1680,
+          height: 498,
         },
       ],
     },
@@ -492,37 +502,37 @@ export const casePages: Record<string, CasePageData> = {
       },
       {
         src: `${CDN}/thumbnail/20240711/a962920958c01.png`,
-        fullSrc: `${CDN}/thumbnail/20240711/0d1639060ddc0.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/a0c2c09e4d661.png`,
         alt: "Daily Supplies 2",
       },
       {
         src: `${CDN}/thumbnail/20240711/d02885ccf8f83.png`,
-        fullSrc: `${CDN}/thumbnail/20240711/218ebaf8ed2b8.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/a62d4d2404ff4.png`,
         alt: "Daily Supplies 3",
       },
       {
         src: `${CDN}/thumbnail/20240711/7f0feb52b199c.png`,
-        fullSrc: `${CDN}/thumbnail/20240711/254c8c48ac2e6.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/da0524890eaa2.png`,
         alt: "Daily Supplies 4",
       },
       {
         src: `${CDN}/thumbnail/20240711/d63c811f7b350.png`,
-        fullSrc: `${CDN}/thumbnail/20240711/659e9eb158370.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/254c8c48ac2e6.png`,
         alt: "Daily Supplies 5",
       },
       {
         src: `${CDN}/thumbnail/20240711/f6962bad4c9ea.png`,
-        fullSrc: `${CDN}/thumbnail/20240711/a0c2c09e4d661.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/cfda6f9721d0e.png`,
         alt: "Daily Supplies 6",
       },
       {
         src: `${CDN}/thumbnail/20240711/80ae4fef2bc78.png`,
-        fullSrc: `${CDN}/thumbnail/20240711/a62d4d2404ff4.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/218ebaf8ed2b8.png`,
         alt: "Daily Supplies 7",
       },
       {
         src: `${CDN}/thumbnail/20240711/65794c70b7e0d.png`,
-        fullSrc: `${CDN}/thumbnail/20240711/cfda6f9721d0e.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/659e9eb158370.png`,
         alt: "Daily Supplies 8",
       },
       {
@@ -532,7 +542,7 @@ export const casePages: Record<string, CasePageData> = {
       },
       {
         src: `${CDN}/thumbnail/20240711/ce3eab804c662.png`,
-        fullSrc: `${CDN}/thumbnail/20240711/da0524890eaa2.png`,
+        fullSrc: `${CDN}/thumbnail/20240711/0d1639060ddc0.png`,
         alt: "Daily Supplies 10",
       },
     ],
@@ -545,13 +555,13 @@ export const casePages: Record<string, CasePageData> = {
     heroWidth: 1253,
     heroHeight: 450,
     section: {
-      heading: "",
-      text: "엔지니어링 플라스틱은 강도가 높고 가벼워 공업 재료로 사용되는 고성능 플라스틱을 말하며, 그 중에서도 열과 충격에 매우 강한 엔지니어링 플라스틱을 슈퍼 엔진니어링 플라스틱 이라고 합니다.",
+      heading: "Engineering Plastics Parts",
+      text: "엔지니어링 플라스틱은 강도가 높고 가벼워 공업 재료로 사용되는 고성능 플라스틱을 말하며, 그 중에서도 열과 충격에 매우 강한 엔지니어링 플라스틱을 슈퍼 엔진니어링 플라스틱 이라고 합니다.\n\n슈퍼 엔지니어링 플라스틱은 금속이나, 세라믹에 가까운 특성을 지닌 플라스틱으로 항공기 부품, 자동차 내장제품 및 엔진룸, 샤시, 전기차 베터리 트레이 제품, 기어부품 등 폭넓은 분야에 사용 되고 있습니다! 코런 Hot Runner System 은 다양한 적용 노하우와 각각의 목적에 맞도록 기술 데이터를 기반으로 안정적 양산을 돕고 있습니다. ",
       images: [
         {
           src: `${CDN}/thumbnail/20240618/3f6d4e81a35c5.png`,
-          width: 1288,
-          height: 192,
+          width: 1535,
+          height: 601,
         },
       ],
     },
@@ -610,10 +620,29 @@ export const casePages: Record<string, CasePageData> = {
   },
 };
 
+export type TextAlign = "left" | "center";
+
+export type TextRun = {
+  text: string;
+  fontSize?: number;
+  bold?: boolean;
+  underline?: boolean;
+};
+
 export type InterestingItemBlock =
-  | { type: "text"; content: string }
-  | { type: "image"; src: string }
-  | { type: "hr" };
+  | {
+      type: "text";
+      content: string;
+      fontSize?: number;
+      bold?: boolean;
+      underline?: boolean;
+      align?: TextAlign;
+      parts?: TextRun[];
+    }
+  | { type: "image"; src: string; width?: number; block?: boolean }
+  | { type: "button"; href: string; label: string; align?: TextAlign }
+  | { type: "hr" }
+  | { type: "br"; fontSize?: number; align?: TextAlign };
 
 export type InterestingItem = {
   idx: string;
@@ -638,7 +667,7 @@ export const interestingItems: InterestingItem[] = [
       'AIR AMPLIFIER (에어증폭기) "HOT RUNNER AIR 압력이 떨어진 땐~ 증폭기가 답 이다"',
     author: "관리자",
     date: "2024-07-08",
-    views: 1288,
+    views: 1375,
     thumbnail: `${CDN}/thumbnail/20240708/d192e1ef47252.jpg`,
     description:
       "HOT RUNNER AIR 압력이 떨어질 때 출력을 최대 2배까지 높여주는 에어 부스터로, 인증받은 알루미늄 탱크로 경량·이동 설치가 간편합니다.",
@@ -800,54 +829,50 @@ export const interestingItems: InterestingItem[] = [
     title: "KORUN Mannifold Block",
     author: "관리자",
     date: "2024-07-08",
-    views: 532,
+    views: 565,
     thumbnail: `${CDN}/thumbnail/20240708/3c42f83f638af.png`,
     description:
       "역학적 설계와 정밀 온도 제어, 승온 테스트로 제작되는 코런 메니폴드 블럭의 설계·조립 기술을 소개합니다.",
     blocks: [
-      {
-        type: "image",
-        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/4d3e418ec2a28.png",
-      },
-      {
-        type: "text",
-        content:
-          "메니폴드 블럭은 핫런너에 있어서 수지흐름의 매우 중요한 역활을 하는 것으로 각각의 구성요소가 역학적 설계구조로 이뤄져야 합니다. 코런의 메니폴드 블럭은 히타 발열 바운더리량을 계산하여 설계되며, 게이트의 위치에 따라 밸런스 구조 또는 심플구조로 제작 됩니다.",
-      },
+      { type: "br" },
+      { type: "br" },
+      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/4d3e418ec2a28.png" },
+      { type: "text", content: "메니폴드 블럭은 핫런너에 있어서 수지흐름의" },
+      { type: "text", content: "매우 중요한 역활을 하는 것으로 각각의" },
+      { type: "text", content: "구성요소가 역학적 설계구조로 이뤄져야 합니다." },
+      { type: "text", content: "코런의 메니폴드 블럭은 히타 발열 바운더리량을" },
+      { type: "text", content: "계산하여 설계되며, 게이트의 위치에 따라" },
+      { type: "text", content: "밸런스 구조 또는 심플구조로 제작 됩니다." },
       { type: "hr" },
-      {
-        type: "image",
-        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/1adc9ccc1936a.png",
-      },
-      {
-        type: "text",
-        content:
-          "메니폴드 블럭의 센서는 표면형 센서가 아닌, 노즐에 적용되는 씨즈센서를 동일하게 적용하여 수지홀과 가까운곳의 온도를 체크할 수 있도록 하고 있습니다. 코런 고유 디자인의 센서 고정편은 센서를 안정적으로 고정하여 세밀한 온도 유지를 하고 있습니다.",
-      },
+      { type: "br" },
+      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/1adc9ccc1936a.png" },
+      { type: "text", content: "메니폴드 블럭의 센서는 표면형 센서가 아닌, 노즐에 적용되는" },
+      { type: "text", content: "씨즈센서를 동일하게 적용하여 수지홀과 가까운곳의 온도를" },
+      { type: "text", content: "체크할 수 있도록 하고 있습니다." },
+      { type: "text", content: "코런 고유 디자인의 센서 고정편은 센서를 안정적으로" },
+      { type: "text", content: "고정하여 세밀한 온도 유지를 하고 있습니다." },
       { type: "hr" },
-      {
-        type: "image",
-        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/4e11a657be63b.png",
-      },
-      {
-        type: "text",
-        content:
-          "메니폴드 블럭의 체결볼트 머리 아래 슬라이딩와셔를 체택 적용함으로 볼트의 체결럭을 높이는 동시에 열팽창시 볼트 체결에 의한 과도한 눌림을 없에 열팽창 변형에 안정함 더 하였습니다. 볼트의 체결방식은 토크랜치를 이용하여 체결되는 모든볼트가 일정한 힘으로 체결 되도록 조립 합니다.",
-      },
+      { type: "br" },
+      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/4e11a657be63b.png" },
+      { type: "text", content: "메니폴드 블럭의 체결볼트 머리 아래 슬라이딩와셔를" },
+      { type: "text", content: "체택 적용함으로 볼트의 체결럭을 높이는 동시에 열팽창시" },
+      { type: "text", content: "볼트 체결에 의한 과도한 눌림을 없에 열팽창 변형에" },
+      { type: "text", content: "안정함 더 하였습니다." },
+      { type: "text", content: "볼트의 체결방식은 토크랜치를 이용하여 체결되는 모든볼트가" },
+      { type: "text", content: "일정한 힘으로 체결 되도록 조립 합니다." },
       { type: "hr" },
-      {
-        type: "image",
-        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/f3d4ddb61b4bf.png",
-      },
-      {
-        type: "text",
-        content:
-          "메니폴드 블럭 설계 제작시 다수의 센서홀을 미리 설치하여 조립전 승온테스트 시에 기준된 센서위치 외의 다른부분의 온도를 체크하여, 발열 밸런스와 열응집도를 체크 합니다. Resin의 물성이 예민 할 수록 핫런너의 메니폴드 블럭은 더욱 까다롭게 설계되고 면밀히 체크하여 제작 합니다. < 가열 승온 테스트 후 메니폴드 블럭의 변색 상태 >",
-      },
-      {
-        type: "image",
-        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/171a2008ac6ce.png",
-      },
+      { type: "br" },
+      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/f3d4ddb61b4bf.png" },
+      { type: "br" },
+      { type: "text", content: "메니폴드 블럭 설계 제작시 다수의 센서홀을 미리 설치하여" },
+      { type: "text", content: "조립전 승온테스트 시에 기준된 센서위치 외의 다른부분의" },
+      { type: "text", content: "온도를 체크하여, 발열 밸런스와 열응집도를 체크 합니다." },
+      { type: "text", content: "Resin의 물성이 예민 할 수록 핫런너의 메니폴드 블럭은" },
+      { type: "text", content: "더욱 까다롭게 설계되고 면밀히 체크하여 제작 합니다." },
+      { type: "br" },
+      { type: "br" },
+      { type: "text", content: "< 가열 승온 테스트 후 메니폴드 블럭의 변색 상태 >" },
+      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/171a2008ac6ce.png" },
     ],
     files: [],
   },
@@ -860,7 +885,7 @@ type JobPost = {
   author: string;
   date: string;
   views: number;
-  body: string[];
+  blocks: InterestingItemBlock[];
   files: { name: string; size: string }[];
 };
 
@@ -872,20 +897,42 @@ export const jobPosts: JobPost[] = [
       "코런 대리점 신청 안내! (열정과 실력으로 무장 되신 찐 예비사장님들 지금 바로 연락 주시기 바랍니다)",
     author: "코런 관리자",
     date: "2024-10-14",
-    views: 388,
-    body: [
-      "안녕 하십니까?",
-      "핫런너 업게에 종사하시는 모든 분들께 존경으로 표하는 바 입니다.  주식회사 코런 대표 김창겸 입니다.",
-      "곧 다가오는 25년도 영업 전략 기획 일환으로 하기의 국내 지역의 영업 및 서비스 확대를 위하여",
-      "하기의 지역 기준으로 핫런너 업계의 숨은 고수님들과의 대리점 계약을 맺고자 본 공고를 올립니다.",
-      "1. 타겟 지역 :  경기북부 지역 (남양주, 의정부, 파주)  / 경기중부 지역 (광주, 수원)  / 경기남부지역 (화성, 평택)\n                    충청남도 (천안, 아산)  / 충청북도 (옥산, 음성)\n                    대구 , 울산 , 부산\n                    상기 지역 중 어디든 괜찬습니다.",
-      "2. 자격 : 2-1. 핫런너 업계(회사무관)에 영업 또는 개발,설계 근무 13년 이상\n            2-2. 해외 출장 업무에 문제가 없을 것 (본사와의 업무 공조 차원의 출장이 있을 수 있습니다)\n            2-3. 자체 적으로 공장 또는 사무실 계약이 가능하신 분\n            ※ 대리점 계약을 원하시는데 상기 내용이 만약 문제가 있으신 경우 사전 상담 요청 부탁 드립니다.",
-      "3. 신청 요청시 필수 서류 사항 :  대리점 개설 신청서, 직무(경력) 기술서 영업분야, 대리점 사업 계획서\n                                    (아래의 데이타를 다운받아 작성하시어 송부 바랍니다)",
-      "4. 신청 : 이메일 접수   korun15@naver.com  /  담당자 HP : 010-8867-3060",
-      "                            ※  코런의 지사 설립 문의도  언제든지 연락 주시기 바랍니다.",
+    views: 397,
+    blocks: [
+      { type: "text", content: "안녕 하십니까?", align: "left" },
+      { type: "text", content: "핫런너 업게에 종사하시는 모든 분들께 존경으로 표하는 바 입니다.  주식회사 코런 대표 김창겸 입니다.", align: "left" },
+      { type: "text", content: "곧 다가오는 25년도 영업 전략 기획 일환으로 하기의 국내 지역의 영업 및 서비스 확대를 위하여", align: "left" },
+      { type: "text", content: "하기의 지역 기준으로 핫런너 업계의 숨은 고수님들과의 대리점 계약을 맺고자 본 공고를 올립니다.", align: "left" },
+      { type: "br" },
+      { type: "br" },
+      { type: "text", content: "1. 타겟 지역 :  경기북부 지역 (남양주, 의정부, 파주)  / 경기중부 지역 (광주, 수원)  / 경기남부지역 (화성, 평택)", align: "left" },
+      { type: "text", content: "                      충청남도 (천안, 아산)  / 충청북도 (옥산, 음성)", align: "left" },
+      { type: "text", content: "                      대구 , 울산 , 부산", align: "left" },
+      { type: "text", content: "                      상기 지역 중 어디든 괜찬습니다.", align: "left" },
+      { type: "text", content: "2. 자격 : 2-1. 핫런너 업계(회사무관)에 영업 또는 개발,설계 근무 13년 이상", align: "left" },
+      { type: "text", content: "              2-2. 해외 출장 업무에 문제가 없을 것 (본사와의 업무 공조 차원의 출장이 있을 수 있습니다) ", align: "left" },
+      { type: "text", content: "              2-3. 자체 적으로 공장 또는 사무실 계약이 가능하신 분", align: "left" },
+      {
+        type: "text",
+        content: "              ※ 대리점 계약을 원하시는데 상기 내용이 만약 문제가 있으신 경우 사전 상담 요청 부탁 드립니다.",
+        parts: [{ text: "             " }, { text: " ※", fontSize: 22 }, { text: " 대리점 계약을 원하시는데 상기 내용이 만약 문제가 있으신 경우 사전 상담 요청 부탁 드립니다." }],
+        align: "left",
+      },
+      { type: "text", content: "3. 신청 요청시 필수 서류 사항 :  대리점 개설 신청서, 직무(경력) 기술서 영업분야, 대리점 사업 계획서", align: "left" },
+      { type: "text", content: "                                                (아래의 데이타를 다운받아 작성하시어 송부 바랍니다)", align: "left" },
+      { type: "text", content: "4. 신청 : 이메일 접수   korun15@naver.com   /  담당자 HP : 010-8867-3060", align: "left" },
+      { type: "br" },
+      {
+        type: "text",
+        content: "                                    ※  코런의 지사 설립 문의도  언제든지 연락 주시기 바랍니다.",
+        parts: [{ text: "                                    " }, { text: "※", fontSize: 22, underline: true }, { text: "  코런의 지사 설립 문의도  언제든지 연락 주시기 바랍니다.", underline: true }],
+        align: "left",
+      },
+      { type: "br" },
+      { type: "br" },
     ],
     files: [
-      { name: "코런_2024년 도소매업창업사업계획서 양식.pptx", size: "5,675KB" },
+      { name: "코런_2024년 도소매업창업사업계획서 양식.pptx", size: "5675KB" },
       { name: "코런_대리점 개설 신청서.docx", size: "17KB" },
       { name: "코런_직무기술서 영업 분야.docx", size: "17KB" },
     ],
@@ -916,44 +963,51 @@ export type NewsItem = {
   category: "NEWS" | "EVENT";
   title: string;
   date: string;
+  idx: string;
   href: string;
 };
 
 export const news: NewsItem[] = [
   {
     category: "EVENT",
-    title: "제28회 한국금형비전포럼 2025 개최",
+    title: "제28회 한국금형비전포럼 2025 개최 - 2025년 05월 09일 금요일",
     date: "2025-05-06",
+    idx: "163356113",
     href: "/34/?idx=163356113&bmode=view",
   },
   {
     category: "NEWS",
     title: "제27회 INTERMOLD KOREA 2025 출품",
     date: "2025-04-06",
+    idx: "160786757",
     href: "/34/?idx=160786757&bmode=view",
   },
   {
     category: "NEWS",
     title: "코런 태국 지사 OPEN",
     date: "2024-12-08",
+    idx: "131837214",
     href: "/34/?idx=131837214&bmode=view",
   },
   {
     category: "NEWS",
     title: "제28회 금형의 날 [특허청장표창 수상: 코런 대표이사 김창겸]",
     date: "2024-12-08",
+    idx: "131829076",
     href: "/34/?idx=131829076&bmode=view",
   },
   {
     category: "NEWS",
     title: "GVETI 글로벌 직업교육 이니셔티브 콘퍼런스 소식",
     date: "2024-12-08",
+    idx: "131816057",
     href: "/34/?idx=131816057&bmode=view",
   },
   {
     category: "NEWS",
     title: "[코런 기사] HANDLER 24년 10월호 포커스 기사 (에어 증폭기 출시)",
     date: "2024-10-12",
+    idx: "122018269",
     href: "/34/?idx=122018269&bmode=view",
   },
 ];
@@ -961,6 +1015,7 @@ export const news: NewsItem[] = [
 export type DownloadItem = {
   title: string;
   date: string;
+  idx: string;
   href: string;
 };
 
@@ -968,31 +1023,37 @@ export const downloads: DownloadItem[] = [
   {
     title: "日本語版カタログをダウンロードします",
     date: "2024-10-12",
+    idx: "122009726",
     href: "/35/?idx=122009726&bmode=view",
   },
   {
     title: "Download English Version Catalog",
     date: "2024-10-12",
+    idx: "122007938",
     href: "/35/?idx=122007938&bmode=view",
   },
   {
     title: "Single Valve Nozzle 2D Data",
     date: "2024-08-09",
+    idx: "63572250",
     href: "/35/?idx=63572250&bmode=view",
   },
   {
     title: "코런 시컨스타임 콘트롤러 모델 KOTS-800 사용 설명서",
     date: "2024-07-21",
+    idx: "48614089",
     href: "/35/?idx=48614089&bmode=view",
   },
   {
     title: "코런 온도콘트롤러 모델 KOTC-860 사용설명서",
     date: "2024-07-21",
+    idx: "48608478",
     href: "/35/?idx=48608478&bmode=view",
   },
   {
     title: "korun advantage and benefits (코런 제품 특장점)",
     date: "2024-07-21",
+    idx: "48597029",
     href: "/35/?idx=48597029&bmode=view",
   },
 ];
@@ -1003,7 +1064,12 @@ export const values = [
   { label: "효율성 Effciency", color: "#2771e5", padding: "40px" },
 ] as const;
 
-export type SpecRow = { label: string; values: string[] };
+export type SpecRow = {
+  label: string;
+  values: string[];
+  labelWidth?: string;
+  valueWidth?: string;
+};
 
 export type ProductApplication = {
   title: string;
@@ -1017,10 +1083,13 @@ export type ProductBlock = {
   introImage?: string;
   introText?: string;
   introBullets?: string[];
+  introTrailingBreak?: boolean;
   tags: readonly string[];
   showInquiry?: boolean;
   galleryLabel: string;
   gallery: string[];
+  galleryThumbs?: string[];
+  galleryColumns?: number;
   applications?: ProductApplication[];
   spec?: { model: string; rows: SpecRow[] };
 };
@@ -1061,6 +1130,11 @@ export const productPages: Record<string, ProductPageData> = {
           `${CDN}/thumbnail/20240617/bb490d260ea2d.png`,
           `${CDN}/thumbnail/20240617/6767af0ae5bde.png`,
         ],
+        galleryThumbs: [
+          `${CDN}/thumbnail/20240617/21d81021a6a6b.png`,
+          `${CDN}/thumbnail/20240617/d61231fd10444.png`,
+          `${CDN}/thumbnail/20240617/7cd3ecc3cbb00.png`,
+        ],
         applications: [
           {
             title: "Valve System of Applications",
@@ -1090,7 +1164,7 @@ export const productPages: Record<string, ProductPageData> = {
         title: "Open Gate Systems",
         introTitle: "코런 오픈 게이트 시스템은",
         introImage: `${CDN}/thumbnail/20240617/65c03f9afdc23.png`,
-        introText: `폭넓은 제품분야에 안정적으로 적용되며, 극소형제품에서부터 대형제품에 이르기까지 균일한 열바란스와 테크니컬하게 설계되어 다양하게 적용됩니다. ${hotHalfNote}`,
+        introText: `코런 오픈 게이트 시스템은 폭넓은 제품분야에 안정적으로 적용되며, 극소형제품에서부터 대형제품에 이르기까지 균일한 열바란스와 테크니컬하게 설계되어 다양하게 적용됩니다. ${hotHalfNote}`,
         tags: [
           "적용의 다양성",
           "튼튼한 내구성",
@@ -1102,6 +1176,11 @@ export const productPages: Record<string, ProductPageData> = {
           `${CDN}/thumbnail/20240617/396a0e4aff622.png`,
           `${CDN}/thumbnail/20240617/c2a050920bc5b.png`,
           `${CDN}/thumbnail/20240617/29d5077c62f68.png`,
+        ],
+        galleryThumbs: [
+          `${CDN}/thumbnail/20240617/7e7c477ecd247.png`,
+          `${CDN}/thumbnail/20240617/78de2aacd3588.png`,
+          `${CDN}/thumbnail/20240617/5f461d2e4f70a.png`,
         ],
         applications: [
           {
@@ -1146,6 +1225,12 @@ export const productPages: Record<string, ProductPageData> = {
           `${CDN}/thumbnail/20240617/3f9c576855138.png`,
           `${CDN}/thumbnail/20240617/c8af04f2fc2ec.png`,
         ],
+        galleryThumbs: [
+          `${CDN}/thumbnail/20240617/073068e2e705e.png`,
+          `${CDN}/thumbnail/20240617/f95f93ee777a8.png`,
+          `${CDN}/thumbnail/20240617/657c59a0a66e3.png`,
+          `${CDN}/thumbnail/20240617/df5c0d3af0ab1.png`,
+        ],
         applications: [
           {
             title: "KOSI-Single Valve Nozzle of Applications",
@@ -1170,6 +1255,11 @@ export const productPages: Record<string, ProductPageData> = {
           `${CDN}/thumbnail/20240617/78f7980c4362c.png`,
           `${CDN}/thumbnail/20240617/6b27d5cc66bc0.png`,
         ],
+        galleryThumbs: [
+          `${CDN}/thumbnail/20240617/2205fb8e19d6a.png`,
+          `${CDN}/thumbnail/20240617/0fe4b20296900.png`,
+        ],
+        galleryColumns: 3,
         applications: [
           {
             title: "KODE-Single Open Nozzle of Applications",
@@ -1206,19 +1296,25 @@ export const productPages: Record<string, ProductPageData> = {
           `${CDN}/thumbnail/20240617/ad2b3b5973404.png`,
           `${CDN}/thumbnail/20240617/c4451625c59b9.png`,
         ],
+        galleryThumbs: [
+          `${CDN}/thumbnail/20240620/29c8ada192749.png`,
+          `${CDN}/thumbnail/20240617/dc048e05d66ba.png`,
+          `${CDN}/thumbnail/20240617/a07c332fd1b16.png`,
+          `${CDN}/thumbnail/20240617/2abbdcacddb58.png`,
+        ],
         spec: {
           model: "KOTC-860 Temperature Controller",
           rows: [
             {
               label: "입력전원",
               values: [
-                "3상 3선+E(4선) 220VAC 50/60 Hz ±10%",
-                "3상 4선+E(5선) 380VAC 50/60 Hz ±10%",
+                "3상 3선+E(4선) 220VAC 50/60 Hz±10%",
+                "3상 4선+E(5선) 380VAC 50/60 Hz, ±10%",
               ],
             },
             {
               label: "정밀도",
-              values: ["±0.3°C 범위 30~400°C (옵션 30~500°C)"],
+              values: ["±0.3 C 범위 30~400C (옵션 30~500C)"],
             },
             { label: "제어방식", values: ["오토튜닝 PID 또는 수동 PID 제어"] },
             { label: "써모커플 입력", values: ["접지형 또는 비접지형"] },
@@ -1228,11 +1324,12 @@ export const productPages: Record<string, ProductPageData> = {
             {
               label: "알람",
               values: [
-                "히터 단선/단락 알람",
+                "히터 단선/ 단락 알람",
                 "퓨즈 단선 알림",
-                "온도 상·하한 알람",
-                "전류 상·하한 알람",
-                "써모커플 단선·단락·역접속 알람",
+                "온도 상,하한 알람",
+                "The Best Hot Runner Controller",
+                "전류 상,하한 알람",
+                "써모커플 단선, 단락, 역 접속 알람",
               ],
             },
           ],
@@ -1241,6 +1338,7 @@ export const productPages: Record<string, ProductPageData> = {
       {
         introTitle: "Sequence Injection Timer는",
         introImage: `${CDN}/thumbnail/20240627/56d2bcc72d525.png`,
+        introTrailingBreak: true,
         introBullets: [
           "출력 전압선택 : DC 24V, AC 110V, AC 220V 중 선택가능",
           "동작모드 : A/B/C 모드 사용자 환경에 따라 모드 적용 가능",
@@ -1253,34 +1351,41 @@ export const productPages: Record<string, ProductPageData> = {
           `${CDN}/thumbnail/20240617/d3c02a6acd37d.png`,
           `${CDN}/thumbnail/20240617/ad66f398ccac8.png`,
         ],
+        galleryThumbs: [
+          `${CDN}/thumbnail/20240620/fa7849bc5a18a.png`,
+          `${CDN}/thumbnail/20240617/aa81be10d813d.png`,
+          `${CDN}/thumbnail/20240617/6143e94c6df3b.png`,
+        ],
         spec: {
           model: "KOTS-800 Sequence Injection Timer",
           rows: [
             {
               label: "주전원",
+              valueWidth: "71.3873%",
               values: ["단상 AC 90~250V (50/60Hz), 입력 전원 자동감지"],
             },
             {
               label: "사출 신호 입력 지원",
-              values: ["DC 24V / AC 110V / AC 220V"],
+              values: ["DC 24V/AC 110V/AC 220V"],
             },
-            { label: "솔레노이드 밸브 전원", values: ["DC 24V / AC 220V"] },
+            { label: "솔레노이드 밸브 전원", values: ["DC 24V AC 220V"] },
             {
               label: "솔레노이드 밸브 용량",
+              labelWidth: "21.869%",
               values: [
-                "DC 24V & AC 220V / Total 2A (TS-800)",
-                "DC 24V & AC 220V / Each 1.2A (TS-801)",
+                "DC24V & AC220V/Total 2A (TS-800)",
+                "DC24V & AC 220V/ Each 1.2A (TS-801)",
               ],
             },
-            { label: "사용환경", values: ["-10 ~ 50°C"] },
-            { label: "시간범위", values: ["9.99 / 99.9 / 999"] },
-            { label: "모드", values: ["A / B / C 모드"] },
+            { label: "사용환경", values: ["-10~50°C"] },
+            { label: "시간범위", values: ["9.99/99.9/999"] },
+            { label: "모드", values: ["A/B/C 모드"] },
             {
               label: "게이트 수",
               values: [
-                "TS-800 & 801 : 4/6/8/12/18/24 게이트",
-                "TS-780 : 8 게이트",
-                "TS-910 : 1~16 게이트 (옵션 40 게이트)",
+                "TS-800 & 801: 4/6/8/12/18/24 게이트",
+                "TS-780: 8 게이트",
+                "TS-910: 1~16 게이트 (옵션 40 게이트)",
               ],
             },
           ],
@@ -1299,6 +1404,7 @@ export type ServiceNewsItem = {
   date: string;
   views: number;
   likes: number;
+  notice?: boolean;
   description: string;
   blocks: InterestingItemBlock[];
   files: { name: string; size: string; url: string }[];
@@ -1311,8 +1417,9 @@ export const newsItems: ServiceNewsItem[] = [
     title: "제27회 INTERMOLD KOREA 2025 출품",
     author: "코런 관리자",
     date: "2025-04-06",
-    views: 1211,
+    views: 1293,
     likes: 0,
+    notice: true,
     description:
       "지난 25년 3월 11일 부터 14일 까지 개최 된 제27회 국제금형 및 관련산업전 에 출품하여 성료 하였습니다. 전시회 기간 동안 폐사 부스를 방문하여 주신 모든 분들께 진심으로 감사 드리며, 폐사는 이번 전시회를 계기로 한단계 진보한 기술 서비스 ...",
     blocks: [
@@ -1358,8 +1465,9 @@ export const newsItems: ServiceNewsItem[] = [
     title: "코런 태국 지사 OPEN",
     author: "코런 관리자",
     date: "2024-12-08",
-    views: 1480,
+    views: 1557,
     likes: 1,
+    notice: true,
     description:
       "코런은 2024년 11월 27일 태국 촌부리 시라차 지역에 태국 지사 OPEN식을 가졌습니다. 이번 태국지사는 코런 핫런너 시스템의 글로벌 서비스 확대 및 사업 영역 확장의 발판으로 해외 서비스를 본격적으로 시작 합니다. 고객사의 태국내의 핫런너 시스...",
     blocks: [
@@ -1386,8 +1494,9 @@ export const newsItems: ServiceNewsItem[] = [
     title: "제28회 금형의 날 [특허청장표창 수상: 코런 대표이사 김창겸]",
     author: "코런 관리자",
     date: "2024-12-08",
-    views: 1429,
+    views: 1506,
     likes: 0,
+    notice: true,
     description:
       "한국금형산업협동조합 주관 개최하는 제 28회 금형의 날 행사에서 영광스럽게도 특허청장표창을 김창겸 대표이사가  수상 하였습니다. 부족한 부분이 많지만, 더욱 더 우리나라 금형산업과 기업발전에 정진 하라고 주신 표창으로 생각 됩니다. 저희 주식회사 코런...",
     blocks: [
@@ -1417,8 +1526,9 @@ export const newsItems: ServiceNewsItem[] = [
     title: "GVETI 글로벌 직업교육 이니셔티브 콘퍼런스 소식",
     author: "코런 관리자",
     date: "2024-12-08",
-    views: 1302,
+    views: 1384,
     likes: 0,
+    notice: true,
     description:
       "지난 2024년 9월 25일 한국폴리텍 Ⅰ 대학 서울정수캠퍼스 대강당 에서   G lobal V ocational E ducation & T raining  I nitiative  Conference 가 개최 되었습니다. 한국폴리텍대학 주관으로 다양한...",
     blocks: [
@@ -1448,8 +1558,9 @@ export const newsItems: ServiceNewsItem[] = [
     title: "[코런 기사] HANDLER 24년 10월호 포커스 기사 (에어 증폭기 출시)",
     author: "코런 관리자",
     date: "2024-10-12",
-    views: 1935,
+    views: 2053,
     likes: 0,
+    notice: true,
     description:
       "HANDLER (ihandler.co.kr) http://www.ihandler.co.kr/board/bbs_view.php?pid=6390&menu=news&code=company",
     blocks: [
@@ -1506,8 +1617,9 @@ export const newsItems: ServiceNewsItem[] = [
     title: '[코런 기사] 플라스틱코리아 24년 9월호 [기업과 사람]"기업탐방" 기사',
     author: "코런 관리자",
     date: "2024-10-12",
-    views: 1436,
+    views: 1512,
     likes: 0,
+    notice: true,
     description:
       "http://www.plastickorea.co.kr/news/articleView.html?idxno=24214 (주)코런 김창겸 대표이사 < 기업탐방 < 기업과 사람 < 기사본문 - 플라스틱코리아 (plastickorea.co.kr)",
     blocks: [
@@ -1552,8 +1664,9 @@ export const newsItems: ServiceNewsItem[] = [
     title: "[홍보 광고] 코런 광고 홍보 이미지",
     author: "관리자",
     date: "2024-07-09",
-    views: 1457,
+    views: 1509,
     likes: 0,
+    notice: true,
     description: "【전시 관련 광고】",
     blocks: [
       { type: "text", content: "【전시 관련 광고】" },
@@ -1575,28 +1688,32 @@ export const newsItems: ServiceNewsItem[] = [
     title: "제28회 한국금형비전포럼 2025 개최  - 2025년 05월 09일 금요일",
     author: "코런 관리자",
     date: "2025-05-06",
-    views: 960,
+    views: 1029,
     likes: 0,
     description:
       "주식회사 코런은 금번 개최되는 제28회 한국금형비전포럼 2025 에 후원사로써 기업 홍보부스 참여 합니다. 이번 포럼을 통하여 국내 사출 및 금형의 수준 높은 금형지식을 나누고, 상호 교류 및 정보 교류의 유익한 자리가 되길 기원 합니다. 주최 : 사...",
     blocks: [
-      {
-        type: "image",
-        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/97e75f51ed60b.jpg",
-      },
-      {
-        type: "text",
-        content:
-          "주식회사 코런은 금번 개최되는 제28회 한국금형비전포럼 2025 에 후원사로써 기업 홍보부스 참여 합니다. 이번 포럼을 통하여 국내 사출 및 금형의 수준 높은 금형지식을 나누고, 상호 교류 및 정보 교류의 유익한 자리가 되길 기원 합니다. 주최 : 사단법인 한국금형기술사회 , 중소벤처기업연수원 주관 : 한국금형산업협동조합 , 한국금형공학회 , 핸들러 일시 및 장소 일시 : 2025년 05년 09일 금요일  / 10:00 ~ 16:00  (등록 09:30 부터) 장소 : 수원컨벤션센터 컨벤션홀 (경기도 수원시 영통구 광교중앙로 140) 사전  등록 : 한국금형기술사회 홈페이지 공지 참조  (www.moldpe.or.kr) https://docs.google.com/forms/d/1HJUJ6E2DgxD2ZXNI5ZNzcQe0n3qF3aOLj2oeSxphDyI/edit 문의 :      한국금형기술사회 031-364-8808   포럼 주요 사항 정책강연 , 기술발표 , 후원사 홍보부스 운영 , 후원사 별도 기술발표 및 세미나실 운영 포럼교재 제공(사전등록 시) , 기념품 , 선물 추첨 제공",
-      },
-      {
-        type: "image",
-        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/abd6fcbe547f0.jpg",
-      },
-      {
-        type: "image",
-        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/2e1d7e263c504.jpg",
-      },
+      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/97e75f51ed60b.jpg" },
+      { type: "text", content: "주식회사 코런은 금번 개최되는 제28회 한국금형비전포럼 2025 에 후원사로써 기업 홍보부스 참여 합니다.", fontSize: 16 },
+      { type: "text", content: "이번 포럼을 통하여 국내 사출 및 금형의 수준 높은 금형지식을 나누고, 상호 교류 및 정보 교류의 유익한 자리가 되길 기원 합니다.", fontSize: 16 },
+      { type: "br" },
+      { type: "text", content: "주최 : 사단법인 한국금형기술사회 , 중소벤처기업연수원", fontSize: 20 },
+      { type: "text", content: "주관 : 한국금형산업협동조합 , 한국금형공학회 , 핸들러", fontSize: 20 },
+      { type: "br" },
+      { type: "text", content: "일시 및 장소", fontSize: 20 },
+      { type: "text", content: "일시 : 2025년 05년 09일 금요일  / 10:00 ~ 16:00  (등록 09:30 부터)", fontSize: 20 },
+      { type: "text", content: "장소 : 수원컨벤션센터 컨벤션홀 (경기도 수원시 영통구 광교중앙로 140)", fontSize: 20 },
+      { type: "text", content: "사전  등록 : 한국금형기술사회 홈페이지 공지 참조  (www.moldpe.or.kr)", fontSize: 20 },
+      { type: "button", href: "https://docs.google.com/forms/d/1HJUJ6E2DgxD2ZXNI5ZNzcQe0n3qF3aOLj2oeSxphDyI/edit", label: "https://docs.google.com/forms/d/1HJUJ6E2DgxD2ZXNI5ZNzcQe0n3qF3aOLj2oeSxphDyI/edit" },
+      { type: "text", content: "문의 :      한국금형기술사회 031-364-8808 ", fontSize: 20 },
+      { type: "br" },
+      { type: "text", content: "포럼 주요 사항", fontSize: 20 },
+      { type: "text", content: "정책강연 , 기술발표 , 후원사 홍보부스 운영 , 후원사 별도 기술발표 및 세미나실 운영", fontSize: 20 },
+      { type: "text", content: "포럼교재 제공(사전등록 시) , 기념품 , 선물 추첨 제공", fontSize: 20 },
+      { type: "br" },
+      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/abd6fcbe547f0.jpg" },
+      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/2e1d7e263c504.jpg", width: 682 },
+      { type: "br" },
     ],
     files: [],
   },
@@ -1606,7 +1723,7 @@ export const newsItems: ServiceNewsItem[] = [
     title: "2024년 하계 휴가 (휴무) 안내",
     author: "코런 관리자",
     date: "2024-07-24",
-    views: 1253,
+    views: 1292,
     likes: 0,
     description:
       "2024년 하계 휴가 (휴무) 공지 올해 여름 장마의 집중 호우 및 폭염 등에 의한 피해가 없으시길 바랍니다. 폐사의 2024년 하계 휴가 일정이 아래 내용으로 시행 되오니, 업무에 참고 부탁 드리며  당사의 휴무일정으로 인한 긴급대응은 다소 어려울 ...",
@@ -1625,7 +1742,7 @@ export const newsItems: ServiceNewsItem[] = [
     title: 'KORUN "KOMI Multi Valve Gate system" 3D 랜더링 영상',
     author: "관리자",
     date: "2024-07-11",
-    views: 1267,
+    views: 1331,
     likes: 0,
     description: "KOMI Multi Valve Gate system  3D 랜더링 영상",
     blocks: [
@@ -1884,8 +2001,11 @@ export const newsItems: ServiceNewsItem[] = [
 export type ServiceDownloadItem = {
   idx: string;
   title: string;
+  date: string;
+  views: number;
   thumbnail: string;
   description: string;
+  summary?: string;
   blocks: InterestingItemBlock[];
   files: { name: string; size: string; url: string }[];
 };
@@ -1894,6 +2014,9 @@ export const downloadItems: ServiceDownloadItem[] = [
   {
     idx: "122009726",
     title: "日本語版カタログをダウンロードします",
+    date: "2024-10-12",
+    views: 1102,
+    summary: "ダウンロードデータの種類 製品パンフレット ホットランナー コントローラー カタログ コーラン ホットランナー 標準仕様",
     thumbnail: "https://cdn.imweb.me/thumbnail/20241012/6c4f101149119.jpg",
     description: "ダウンロードデータの種類",
     blocks: [
@@ -1930,6 +2053,9 @@ export const downloadItems: ServiceDownloadItem[] = [
   {
     idx: "122007938",
     title: "Download English Version Catalog",
+    date: "2024-10-12",
+    views: 1100,
+    summary: "Download Data Types Product BrochureHot Runner Controller CatalogKORUN Hot Runner Standard Specific",
     thumbnail: "https://cdn.imweb.me/thumbnail/20241012/56fed55810516.jpg",
     description: "Download Data Types",
     blocks: [
@@ -1966,27 +2092,21 @@ export const downloadItems: ServiceDownloadItem[] = [
   {
     idx: "63572250",
     title: "Single Valve Nozzle 2D Data",
+    date: "2024-08-09",
+    views: 1162,
+    summary: "코런 Single Valve Gate System 표준 기본 규격 2D 데이타 입니다. 본 데이타는 폐사 제품의 품질 향상 및 디자인 변경시 예고 없이 변경 될 수 있습니다.",
     thumbnail: "https://cdn.imweb.me/thumbnail/20240809/f23813828c952.png",
     description:
       "코런 Single Valve Gate System 표준 기본 규격 2D 데이타 입니다. 본 데이타는 폐사 제품의 품질 향상 및 디자인 변경시 예고 없이 변경 될 수 있습니다.",
     blocks: [
-      {
-        type: "text",
-        content:
-          "코런 Single Valve Gate System 표준 기본 규격 2D 데이타 입니다. 본 데이타는 폐사 제품의 품질 향상 및 디자인 변경시 예고 없이 변경 될 수 있습니다.",
-      },
-      {
-        type: "image",
-        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/711e690254a68.png",
-      },
-      {
-        type: "image",
-        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/2db2ade621157.png",
-      },
-      {
-        type: "text",
-        content: "아래의 첨부 dwg 파일을 다운 받으시면 보실 수 있습니다.",
-      },
+      { type: "text", content: "코런 Single Valve Gate System 표준 기본 규격 2D 데이타 입니다.", fontSize: 24, bold: true },
+      { type: "br" },
+      { type: "text", content: "본 데이타는 폐사 제품의 품질 향상 및 디자인 변경시 예고 없이 변경 될 수 있습니다.", fontSize: 20 },
+      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/711e690254a68.png" },
+      { type: "br" },
+      { type: "br" },
+      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/2db2ade621157.png" },
+      { type: "text", content: "아래의 첨부 dwg 파일을 다운 받으시면 보실 수 있습니다.", fontSize: 24 },
     ],
     files: [
       {
@@ -1999,6 +2119,9 @@ export const downloadItems: ServiceDownloadItem[] = [
   {
     idx: "48614089",
     title: "코런 시컨스타임 콘트롤러 모델 KOTS-800 사용 설명서",
+    date: "2024-07-21",
+    views: 1245,
+    summary: "시컨스 타임 콘트롤러 모델 KOTS-800 사용 설명서 아래의 첨부 pdf 파일을 다운 받으시면 보실 수 있습니다",
     thumbnail: "https://cdn.imweb.me/thumbnail/20240721/f7ee9659125a7.png",
     description: "시컨스 타임 콘트롤러  모델 KOTS-800 사용 설명서",
     blocks: [
@@ -2026,6 +2149,9 @@ export const downloadItems: ServiceDownloadItem[] = [
   {
     idx: "48608478",
     title: "코런 온도콘트롤러 모델 KOTC-860 사용설명서",
+    date: "2024-07-21",
+    views: 1717,
+    summary: "핫런너 전용 KOTC-860 온도콘트롤러 사용 설명서 아래의 첨부 pdf 파일을 다운 받으시면 보실 수 있습니다.",
     thumbnail: "https://cdn.imweb.me/thumbnail/20240721/21ed72877836e.png",
     description: "핫런너 전용 KOTC-860 온도콘트롤러 사용 설명서",
     blocks: [
@@ -2053,6 +2179,9 @@ export const downloadItems: ServiceDownloadItem[] = [
   {
     idx: "48597029",
     title: "korun advantage and benefits (코런 제품 특장점)",
+    date: "2024-07-21",
+    views: 1664,
+    summary: "아래의 첨부 pdf 파일을 다운 받으시면 보실 수 있습니다.",
     thumbnail: "https://cdn.imweb.me/thumbnail/20240721/7ddffb9512029.png",
     description: "아래의 첨부 pdf 파일을 다운 받으시면 보실 수 있습니다.",
     blocks: [
@@ -2076,6 +2205,9 @@ export const downloadItems: ServiceDownloadItem[] = [
   {
     idx: "48576628",
     title: "KORUN Hot Runners 2D Dwg Data",
+    date: "2024-07-21",
+    views: 912,
+    summary: "코런 핫런너 제품군의 표준 기본 규격 2D 데이타 입니다. 본 데이타는 폐사 제품의 품질 향상 및 디자인 변경시 예고 없이 변경 될 수 있습니다.아래의 첨부 dwg 파일을 다운",
     thumbnail: "https://cdn.imweb.me/thumbnail/20240721/de7d2eb1c54fa.png",
     description:
       "코런 핫런너 제품군의 표준 기본 규격 2D 데이타 입니다. 본 데이타는 폐사 제품의 품질 향상 및 디자인 변경시 예고 없이 변경 될 수 있습니다.",
@@ -2105,6 +2237,9 @@ export const downloadItems: ServiceDownloadItem[] = [
   {
     idx: "48551398",
     title: "KORUN Application Products (적용 제품)",
+    date: "2024-07-21",
+    views: 772,
+    summary: "Application Products Ver-1709 아래의 첨부 pdf 파일을 다운 받으시면 보실 수 있습니다.",
     thumbnail: "https://cdn.imweb.me/thumbnail/20240721/f915b74c83fa4.png",
     description: "Application Products Ver-1709",
     blocks: [
@@ -2129,6 +2264,9 @@ export const downloadItems: ServiceDownloadItem[] = [
   {
     idx: "48532353",
     title: "KORUN H_R_S Application Guide V-2208 (KORUN Catalog) 한국어 버전",
+    date: "2024-07-21",
+    views: 581,
+    summary: "1. 코런의 핫런너 시스템 적용 참고 카다로그.2. pdf file3. Free Download 코런은 본 어플리케이션 카다로그의 수록된 규격 외 15 사이즈 노즐 부터 게이트",
     thumbnail: "https://cdn.imweb.me/thumbnail/20240721/82b80a16353f2.jpg",
     description:
       "1. 코런의 핫런너 시스템 적용 참고 카다로그. 2. pdf file 3. Free Download 코런은 본 어플리케이션 카다로그의 수록된 규격 외 15 사이즈 노즐 부터  게이트 거리  극소 피치 적용 까지  수많은 경험치에 의한  규격 제품군이 ...",
@@ -2158,6 +2296,8 @@ export const downloadItems: ServiceDownloadItem[] = [
   {
     idx: "38398202",
     title: "KORUN 에어증폭기 리플렛",
+    date: "2024-07-09",
+    views: 533,
     thumbnail: "https://cdn.imweb.me/thumbnail/20240721/7d78b5f052633.png",
     description: "",
     blocks: [
@@ -2181,6 +2321,8 @@ export const downloadItems: ServiceDownloadItem[] = [
   {
     idx: "38397506",
     title: "KORUN 핫런너 온도 콘트롤러 및 시컨스 타임 컨트롤러 카다록",
+    date: "2024-07-09",
+    views: 801,
     thumbnail: "https://cdn.imweb.me/thumbnail/20240711/463caf71814ce.png",
     description: "",
     blocks: [
@@ -2204,6 +2346,8 @@ export const downloadItems: ServiceDownloadItem[] = [
   {
     idx: "38395132",
     title: "KORUN 핫런너 제품 브로셔",
+    date: "2024-07-09",
+    views: 790,
     thumbnail: "https://cdn.imweb.me/thumbnail/20240711/bbeb8c517582d.png",
     description: "",
     blocks: [
@@ -2229,8 +2373,11 @@ export const downloadItems: ServiceDownloadItem[] = [
 export type ServiceCaseStudioItem = {
   idx: string;
   title: string;
+  date: string;
+  views: number;
   thumbnail: string;
   description: string;
+  summary?: string;
   blocks: InterestingItemBlock[];
   files: { name: string; size: string; url: string }[];
 };
@@ -2239,6 +2386,8 @@ export const caseStudioItems: ServiceCaseStudioItem[] = [
   {
     idx: "147070146",
     title: "코런의 성형해석 솔루션",
+    date: "2024-10-12",
+    views: 334,
     thumbnail: "https://cdn.imweb.me/thumbnail/20241012/a6f3eff0bd73c.jpg",
     description:
       "저희 코런에서는 디테일한 유동해석을 통하여 자료로써의 해석이 아닌 세밀한 해석 검토로 금형 품질 및 제품 퀄리티를 높이는데 노력을 다하고 있습니다. 성형해석에 어려움을 격고 계신 고객사가 계시면 지금 바로 코런으로 연락 주시기 바랍니다. 기본적 해석 ...",
@@ -2270,6 +2419,8 @@ export const caseStudioItems: ServiceCaseStudioItem[] = [
   {
     idx: "147070145",
     title: "에어부스타 (전원이 필요없은 에어증폭기) 판매",
+    date: "2024-07-21",
+    views: 643,
     thumbnail: "https://cdn.imweb.me/thumbnail/20250131/39937ead5c49c.jpg",
     description:
       "AIR AMPLIFIER (에어증폭기) 에어 증압기(부스터)를 통한 입력 에어 압력의 최대 2배 까지 출력 공압을 높일 수 있습니다. 산업안전관리공단의 인증을 받은 알루미늄에어탱크를 적용함으로써, 경량으로 이동 설치치가 간편 합니다.",
@@ -2301,6 +2452,8 @@ export const caseStudioItems: ServiceCaseStudioItem[] = [
   {
     idx: "147070144",
     title: "금형 및 케비티,코어에 히타 설치!",
+    date: "2024-07-09",
+    views: 416,
     thumbnail: "https://cdn.imweb.me/thumbnail/20240709/3baa6fca90b1b.png",
     description:
       "상하원판의 온도를 많이 올려야 하는 LSR 실리콘 금형 이나 테프론, PPS+GF 를 원료로 하는 금형들은 금형의 온도를 목표치 까지 올리기 위하여 히타를 적용 합니다. 코런은 핫런너 전문메이커로써 금형 목적과 구조에 적합하도록 조언을 드리거나, 직접...",
@@ -2332,29 +2485,325 @@ export const caseStudioItems: ServiceCaseStudioItem[] = [
   {
     idx: "147070143",
     title: "Other Company Products Repair (타사 핫런너 수리)",
+    date: "2024-07-09",
+    views: 393,
     thumbnail: "https://cdn.imweb.me/thumbnail/20240721/2a48436217e95.jpg",
     description:
       "타사 및 자사 핫런너 수리 오래된 금형의 생산 중 핫런너 조립부의 수지 누출 문제 등이 종종 발생 합니다. 코런은 의뢰 받은 수리건에 대하여 동일 트러블이 발생하지 않도록 구조 보완까지 완벽하게 검토 반영 대응해 드리고 있습니다.",
     blocks: [
-      {
-        type: "text",
-        content:
-          "타사 및 자사 핫런너 수리 오래된 금형의 생산 중 핫런너 조립부의 수지 누출 문제 등이 종종 발생 합니다. 코런은 의뢰 받은 수리건에 대하여 동일 트러블이 발생하지 않도록 구조 보완까지 완벽하게 검토 반영 대응해 드리고 있습니다.",
-      },
-      {
-        type: "image",
-        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/5f7e651a0f7c6.jpg",
-      },
-      {
-        type: "image",
-        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/d8571880fed2d.png",
-      },
-      {
-        type: "text",
-        content:
-          "금형의 노후와 핫런너 초기 내구성 제작불량 등의 복합적인 사유로 인하여 수지 누출이 발생한 건으로 양산에 차질이발생 한 사례 임. 수리 핫런너의 정밀 진단 후 노후된 노즐 및 기타 부품교체 판재 뒤틀림 변형 방지를 위한 써포트봉 추가 설치, 베이스 체결볼트 추가 등 빠른 판단 과 대응으로 수리를 실시한 건 임. . 수리 보다도 제품 및 수지특성, 수량등을 고려하여 안정한 제품 제작이 중요하다는 사례를 보여준 사안 임.",
-      },
+      { type: "br" },
+      { type: "text", content: "타사 및 자사 핫런너 수리", fontSize: 26, bold: true, underline: true },
+      { type: "br", fontSize: 26 },
+      { type: "text", content: "오래된 금형의 생산 중 핫런너 조립부의 수지 누출 문제 등이 종종 발생 합니다.", fontSize: 18, bold: true },
+      { type: "text", content: "코런은 의뢰 받은 수리건에 대하여 동일 트러블이 발생하지 않도록 구조 보완까지 완벽하게", fontSize: 18, bold: true },
+      { type: "text", content: "검토 반영 대응해 드리고 있습니다.", fontSize: 18, bold: true },
+      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/5f7e651a0f7c6.jpg" },
+      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/d8571880fed2d.png", width: 616, block: true },
+      { type: "br" },
+      { type: "text", content: "금형의 노후와 핫런너 초기 내구성 제작불량 등의 복합적인 사유로 인하여" },
+      { type: "text", content: "수지 누출이 발생한 건으로 양산에 차질이발생 한 사례 임." },
+      { type: "br" },
+      { type: "text", content: "수리 핫런너의 정밀 진단 후 노후된 노즐 및 기타 부품교체 판재 뒤틀림 변형" },
+      { type: "text", content: "방지를 위한 써포트봉 추가 설치, 베이스 체결볼트 추가 등 빠른 판단 과 대응으로" },
+      { type: "text", content: "수리를 실시한 건 임." },
+      { type: "br" },
+      { type: "text", content: ". 수리 보다도 제품 및 수지특성, 수량등을 고려하여 안정한 제품 제작이 중요하다는" },
+      { type: "text", content: "사례를 보여준 사안 임." },
     ],
     files: [],
   },
 ];
+
+export type SitePolicyModal = {
+  title: string;
+  html: string;
+};
+
+export const sitePolicyModals: Record<"policy" | "privacy", SitePolicyModal> = {
+  policy: {
+    title: "이용약관",
+    html: `
+	제1조 목적<br>
+<br>
+본 이용약관은 “사이트명”(이하 "사이트")의 서비스의 이용조건과 운영에 관한 제반 사항 규정을 목적으로 합니다.<br>
+<br>
+제2조 용어의 정의<br>
+<br>
+본 약관에서 사용되는 주요한 용어의 정의는 다음과 같습니다.<br>
+<br>
+① 회원 : 사이트의 약관에 동의하고 개인정보를 제공하여 회원등록을 한 자로서, 사이트와의 이용계약을 체결하고 사이트를 이용하는 이용자를 말합니다.<br>
+② 이용계약 : 사이트 이용과 관련하여 사이트와 회원간에 체결 하는 계약을 말합니다.<br>
+③ 회원 아이디(이하 "ID") : 회원의 식별과 회원의 서비스 이용을 위하여 회원별로 부여하는 고유한 문자와 숫자의 조합을 말합니다.<br>
+④ 비밀번호 : 회원이 부여받은 ID와 일치된 회원임을 확인하고 회원의 권익 보호를 위하여 회원이 선정한 문자와 숫자의 조합을 말합니다.<br>
+⑤ 운영자 : 서비스에 홈페이지를 개설하여 운영하는 운영자를 말합니다.<br>
+⑥ 해지 : 회원이 이용계약을 해약하는 것을 말합니다.<br>
+<br>
+제3조 약관 외 준칙<br>
+<br>
+운영자는 필요한 경우 별도로 운영정책을 공지 안내할 수 있으며, 본 약관과 운영정책이 중첩될 경우 운영정책이 우선 적용됩니다.<br>
+<br>
+제4조 이용계약 체결<br>
+<br>
+① 이용계약은 회원으로 등록하여 사이트를 이용하려는 자의 본 약관 내용에 대한 동의와 가입신청에 대하여 운영자의 이용승낙으로 성립합니다.<br>
+② 회원으로 등록하여 서비스를 이용하려는 자는 사이트 가입신청 시 본 약관을 읽고 아래에 있는 "동의합니다"를 선택하는 것으로 본 약관에 대한 동의 의사 표시를 합니다.<br>
+<br>
+제5조 서비스 이용 신청<br>
+<br>
+① 회원으로 등록하여 사이트를 이용하려는 이용자는 사이트에서 요청하는 제반정보(이용자ID,비밀번호, 닉네임 등)를 제공해야 합니다.<br>
+② 타인의 정보를 도용하거나 허위의 정보를 등록하는 등 본인의 진정한 정보를 등록하지 않은 회원은 사이트 이용과 관련하여 아무런 권리를 주장할 수 없으며, 관계 법령에 따라 처벌받을 수 있습니다.<br>
+<br>
+제6조 개인정보처리방침<br>
+<br>
+사이트 및 운영자는 회원가입 시 제공한 개인정보 중 비밀번호를 가지고 있지 않으며 이와 관련된 부분은 사이트의 개인정보처리방침을 따릅니다.<br>
+운영자는 관계 법령이 정하는 바에 따라 회원등록정보를 포함한 회원의 개인정보를 보호하기 위하여 노력합니다.<br>
+<br>
+회원의 개인정보보호에 관하여 관계법령 및 사이트가 정하는 개인정보처리방침에 정한 바에 따릅니다.<br>
+<br>
+단, 회원의 귀책 사유로 인해 노출된 정보에 대해 운영자는 일체의 책임을 지지 않습니다.<br>
+운영자는 회원이 미풍양속에 저해되거나 국가안보에 위배되는 게시물 등 위법한 게시물을 등록 · 배포할 경우 관련 기관의 요청이 있을 시 회원의 자료를 열람 및 해당 자료를 관련 기관에 제출할 수 있습니다.<br>
+<br>
+제7조 운영자의 의무<br>
+<br>
+① 운영자는 이용회원으로부터 제기되는 의견이나 불만이 정당하다고 인정할 경우에는 가급적 빨리 처리하여야 합니다. 다만, 개인적인 사정으로 신속한 처리가 곤란한 경우에는 사후에 공지 또는 이용회원에게 쪽지, 전자우편 등을 보내는 등 최선을 다합니다.<br>
+② 운영자는 계속적이고 안정적인 사이트 제공을 위하여 설비에 장애가 생기거나 유실된 때에는 이를 지체 없이 수리 또는 복구할 수 있도록 사이트에 요구할 수 있습니다. 다만, 천재지변 또는 사이트나 운영자에 부득이한 사유가 있는 경우, 사이트 운영을 일시 정지할 수 있습니다.<br>
+<br>
+제8조 회원의 의무<br>
+<br>
+① 회원은 본 약관에서 규정하는 사항과 운영자가 정한 제반 규정, 공지사항 및 운영정책 등 사이트가 공지하는 사항 및 관계 법령을 준수하여야 하며, 기타 사이트의 업무에 방해가 되는 행위, 사이트의 명예를 손상하는 행위를 해서는 안 됩니다.<br>
+② 회원은 사이트의 명시적 동의가 없는 한 서비스의 이용 권한, 기타 이용계약상 지위를 타인에게 양도, 증여할 수 없으며, 이를 담보로 제공할 수 없습니다.<br>
+③ 이용고객은 아이디 및 비밀번호 관리에 상당한 주의를 기울여야 하며, 운영자나 사이트의 동의 없이 제3자에게 아이디를 제공하여 이용하게 할 수 없습니다.<br>
+④ 회원은 운영자와 사이트 및 제3자의 지적 재산권을 침해해서는 안 됩니다.<br>
+<br>
+제9조 서비스 이용 시간<br>
+<br>
+① 서비스 이용 시간은 업무상 또는 기술상 특별한 지장이 없는 한 연중무휴 1일 24시간을 원칙으로 합니다. 단, 사이트는 시스템 정기점검, 증설 및 교체를 위해 사이트가 정한 날이나 시간에 서비스를 일시중단 할 수 있으며 예정된 작업으로 인한 서비스 일시 중단은 사이트의 홈페이지에 사전에 공지하오니 수시로 참고하시길 바랍니다.<br>
+② 단, 사이트는 다음 경우에 대하여 사전 공지나 예고 없이 서비스를 일시적 혹은 영구적으로 중단할 수 있습니다.<br>
+- 긴급한 시스템 점검, 증설, 교체, 고장 혹은 오동작을 일으키는 경우<br>
+- 국가비상사태, 정전, 천재지변 등의 불가항력적인 사유가 있는 경우<br>
+- 전기통신사업법에 규정된 기간통신사업자가 전기통신 서비스를 중지한 경우<br>
+- 서비스 이용의 폭주 등으로 정상적인 서비스 이용에 지장이 있는 경우<br>
+③ 전항에 의한 서비스 중단의 경우 사이트는 사전에 공지사항 등을 통하여 회원에게 통지합니다. 단, 사이트가 통제할 수 없는 사유로 발생한 서비스의 중단에 대하여 사전공지가 불가능한 경우에는 사후공지로 대신합니다.<br>
+<br>
+제10조 서비스 이용 해지<br>
+<br>
+① 회원이 사이트와의 이용계약을 해지하고자 하는 경우에는 회원 본인이 온라인을 통하여 등록해지 신청을 하여야 합니다. 한편, 사이트 이용 해지와 별개로 사이트에 대한 이용계약 해지는 별도로 하셔야 합니다.<br>
+② 해지 신청과 동시에 사이트가 제공하는 사이트 관련 프로그램이 회원 관리 화면에서 자동적으로 삭제됨으로 운영자는 더 이상 해지신청자의 정보를 볼 수 없습니다.<br>
+<br>
+제11조 서비스 이용 제한<br>
+<br>
+회원은 다음 각호에 해당하는 행위를 하여서는 아니 되며 해당 행위를 한 경우에 사이트는 회원의 서비스 이용 제한 및 적법한 조치를 할 수 있으며 이용계약을 해지하거나 기간을 정하여 서비스를 중지할 수 있습니다.<br>
+① 회원 가입시 혹은 가입 후 정보 변경 시 허위 내용을 등록하는 행위<br>
+② 타인의 사이트 이용을 방해하거나 정보를 도용하는 행위<br>
+③ 사이트의 운영진, 직원 또는 관계자를 사칭하는 행위<br>
+④ 사이트, 기타 제3자의 인격권 또는 지적재산권을 침해하거나 업무를 방해하는 행위<br>
+⑤ 다른 회원의 ID를 부정하게 사용하는 행위<br>
+⑥ 다른 회원에 대한 개인정보를 그 동의 없이 수집, 저장, 공개하는 행위<br>
+⑦ 범죄와 결부된다고 객관적으로 판단되는 행위<br>
+⑧ 기타 관련 법령에 위배되는 행위<br>
+<br>
+제12조 게시물의 관리<br>
+<br>
+① 사이트의 게시물과 자료의 관리 및 운영의 책임은 운영자에게 있습니다. 운영자는 항상 불량 게시물 및 자료에 대하여 모니터링을 하여야 하며, 불량 게시물 및 자료를 발견하거나 신고를 받으면 해당 게시물 및 자료를 삭제하고 이를 등록한 회원에게 주의를 주어야 합니다.<br>
+한편, 이용회원이 올린 게시물에 대해서는 게시자 본인에게 책임이 있으니 회원 스스로 본 이용약관에서 위배되는 게시물은 게재해서는 안 됩니다.<br>
+② 정보통신윤리위원회 등 공공기관의 시정요구가 있는 경우 운영자는 회원의 사전동의 없이 게시물을 삭제하거나 이동 할 수 있습니다.<br>
+③ 불량게시물의 판단기준은 다음과 같습니다.<br>
+- 다른 회원 또는 제3자에게 심한 모욕을 주거나 명예를 손상하는 내용인 경우<br>
+- 공공질서 및 미풍양속에 위반되는 내용을 유포하거나 링크 시키는 경우<br>
+- 불법 복제 또는 해킹을 조장하는 내용인 경우<br>
+- 영리를 목적으로 하는 광고일 경우<br>
+- 범죄와 결부된다고 객관적으로 인정되는 내용일 경우<br>
+- 다른 이용자 또는 제3자와 저작권 등 기타 권리를 침해하는 경우<br>
+- 기타 관계 법령에 위배된다고 판단되는 경우<br>
+④ 사이트 및 운영자는 게시물 등에 대하여 제3자로부터 명예훼손, 지적재산권 등의 권리 침해를 이유로 게시중단 요청을 받은 경우 이를 임시로 게시 중단(전송중단)할 수 있으며, 게시중단 요청자와 게시물 등록자 간에 소송, 합의 기타 이에 준하는 관련 기관의 결정 등이 이루어져 사이트에 접수된 경우 이에 따릅니다.<br>
+<br>
+제13조 게시물의 보관<br>
+<br>
+사이트 운영자가 불가피한 사정으로 본 사이트를 중단하게 될 경우, 회원에게 사전 공지를 하고 게시물의 이전이 쉽도록 모든 조치를 하기 위해 노력합니다.<br>
+<br>
+제14조 게시물에 대한 저작권<br>
+<br>
+① 회원이 사이트 내에 게시한 게시물의 저작권은 게시한 회원에게 귀속됩니다. 또한 사이트는 게시자의 동의 없이 게시물을 상업적으로 이용할 수 없습니다. 다만 비영리 목적인 경우는 그러하지 아니하며, 또한 서비스 내의 게재권을 갖습니다.<br>
+② 회원은 서비스를 이용하여 취득한 정보를 임의 가공, 판매하는 행위 등 서비스에 게재된 자료를 상업적으로 사용할 수 없습니다.<br>
+③ 운영자는 회원이 게시하거나 등록하는 사이트 내의 내용물, 게시 내용에 대해 제12조 각호에 해당한다고 판단되는 경우 사전통지 없이 삭제하거나 이동 또는 등록 거부할 수 있습니다.<br>
+<br>
+제15조 손해배상<br>
+<br>
+① 본 사이트의 발생한 모든 민, 형법상 책임은 회원 본인에게 1차적으로 있습니다.<br>
+② 본 사이트로부터 회원이 받은 손해가 천재지변 등 불가항력적이거나 회원의 고의 또는 과실로 인하여 발생한 때에는 손해배상을 하지 않습니다.<br>
+<br>
+제16조 면책<br>
+<br>
+① 운영자는 회원이 사이트의 서비스 제공으로부터 기대되는 이익을 얻지 못하였거나 서비스 자료에 대한 취사선택 또는 이용으로 발생하는 손해 등에 대해서는 책임이 면제됩니다.<br>
+② 운영자는 본 사이트의 서비스 기반 및 타 통신업자가 제공하는 전기통신 서비스의 장애로 인한 경우에는 책임이 면제되며 본 사이트의 서비스 기반과 관련되어 발생한 손해에 대해서는 사이트의 이용약관에 준합니다<br>
+③ 운영자는 회원이 저장, 게시 또는 전송한 자료와 관련하여 일체의 책임을 지지 않습니다.<br>
+④ 운영자는 회원의 귀책 사유로 인하여 서비스 이용의 장애가 발생한 경우에는 책임지지 아니합니다.<br>
+⑤ 운영자는 회원 상호 간 또는 회원과 제3자 상호 간, 기타 회원의 본 서비스 내외를 불문한 일체의 활동(데이터 전송, 기타 커뮤니티 활동 포함)에 대하여 책임을 지지 않습니다.<br>
+⑥ 운영자는 회원이 게시 또는 전송한 자료 및 본 사이트로 회원이 제공받을 수 있는 모든 자료들의 진위, 신뢰도, 정확성 등 그 내용에 대해서는 책임지지 아니합니다.<br>
+⑦ 운영자는 회원 상호 간 또는 회원과 제3자 상호 간에 서비스를 매개로 하여 물품거래 등을 한 경우에 그로부터 발생하는 일체의 손해에 대하여 책임지지 아니합니다.<br>
+⑧ 운영자는 운영자의 귀책 사유 없이 회원간 또는 회원과 제3자간에 발생한 일체의 분쟁에 대하여 책임지지 아니합니다.<br>
+⑨ 운영자는 서버 등 설비의 관리, 점검, 보수, 교체 과정 또는 소프트웨어의 운용 과정에서 고의 또는 고의에 준하는 중대한 과실 없이 발생할 수 있는 시스템의 장애, 제3자의 공격으로 인한 시스템의 장애, 국내외의 저명한 연구기관이나 보안 관련 업체에 의해 대응 방법이 개발되지 아니한 컴퓨터 바이러스 등의 유포나 기타 운영자가 통제할 수 없는 불가항력적 사유로 인한 회원의 손해에 대하여 책임지지 않습니다.<br>
+<br>
+부칙<br>
+<br>
+이 약관은 &lt;사이트 개설일&gt;부터 시행합니다.`,
+  },
+  privacy: {
+    title: "개인정보처리방침",
+    html: `
+	회사명(이하 ‘회사’라 한다)는 개인정보 보호법 제30조에 따라 정보 주체의 개인정보를 보호하고 이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여 다음과 같이 개인정보 처리지침을 수립, 공개합니다.<br>
+<br>
+<strong>제1조 (개인정보의 처리목적)</strong><br>
+회사는 다음의 목적을 위하여 개인정보를 처리합니다. 처리하고 있는 개인정보는 다음의 목적 이외의 용도로는 이용되지 않으며, 이용 목적이 변경되는 경우에는 개인정보보호법 제18조에 따라 별도의 동의를 받는 등 필요한 조치를 이행할 예정입니다.<br>
+<br>
+1. 홈페이지 회원 가입 및 관리<br>
+회원 가입 의사 확인, 회원제 서비스 제공에 따른 본인 식별․인증, 회원자격 유지․관리, 제한적 본인확인제 시행에 따른 본인확인, 서비스 부정 이용 방지, 만 14세 미만 아동의 개인정보처리 시 법정대리인의 동의 여부 확인, 각종 고지․통지, 고충 처리 등을 목적으로 개인정보를 처리합니다.<br>
+<br>
+2. 재화 또는 서비스 제공<br>
+물품 배송, 서비스 제공, 계약서 및 청구서 발송, 콘텐츠 제공, 맞춤서비스 제공, 본인인증, 연령인증, 요금 결제 및 정산, 채권추심 등을 목적으로 개인정보를 처리합니다.<br>
+<br>
+3. 고충 처리<br>
+민원인의 신원 확인, 민원사항 확인, 사실조사를 위한 연락․통지, 처리 결과 통보 등의 목적으로 개인정보를 처리합니다.<br>
+<br>
+<strong>제2조 (개인정보의 처리 및 보유기간)</strong><br>
+① 회사는 법령에 따른 개인정보 보유, 이용 기간 또는 정보주체로부터 개인정보를 수집 시에 동의 받은 개인정보 보유, 이용 기간 내에서 개인정보를 처리, 보유합니다.<br>
+② 각각의 개인정보 처리 및 보유 기간은 다음과 같습니다.<br>
+<br>
+1. 홈페이지 회원 가입 및 관리 : 사업자/단체 홈페이지 탈퇴 시까지<br>
+다만, 다음의 사유에 해당하는 경우에는 해당 사유 종료 시까지<br>
+1) 관계 법령 위반에 따른 수사, 조사 등이 진행 중인 경우에는 해당 수사, 조사 종료 시까지<br>
+2) 홈페이지 이용에 따른 채권 및 채무관계 잔존 시에는 해당 채권, 채무 관계 정산 시까지<br>
+<br>
+<!-- 쇼핑몰 또는 예약 결제를 받지 않는다면 삭제 --><br>
+2. 재화 또는 서비스 제공 : 재화․서비스 공급완료 및 요금결제․정산 완료 시까지<br>
+다만, 다음의 사유에 해당하는 경우에는 해당 기간 종료 시까지<br>
+1) 「전자상거래 등에서의 소비자 보호에 관한 법률」에 따른 표시․광고, 계약내용 및 이행 등 거래에 관한 기록<br>
+- 표시․광고에 관한 기록 : 6월<br>
+- 계약 또는 청약 철회, 대금결제, 재화 등의 공급기록 : 5년<br>
+- 소비자 불만 또는 분쟁 처리에 관한 기록 : 3년<br>
+2) 「통신비밀보호법」 제41조에 따른 통신사실확인자료 보관<br>
+- 가입자 전기통신일시, 개시․종료 시간, 상대방 가입자 번호, 사용도수, 발신기지국 위치추적자료 : 1년<br>
+- 컴퓨터 통신, 인터넷 로그 기록자료, 접속지 추적자료 : 3개월<br>
+<br>
+<!-- 수정 필요. 개인정보 제3자 제공 사용하지 않는다면 삭제 --><br>
+<strong>제3조 (개인정보의 제3자 제공)</strong><br>
+① 회사는 정보주체의 개인정보를 제1조(개인정보의 처리목적)에서 명시한 범위 내에서만 처리하며, 정보주체의 동의, 법률의 특별한 규정 등 개인정보 보호법 제17조 및 제 18조에 해당하는 경우에만 개인정보를 제3자에게 제공하고 그 외에는 정보주체의 개인정보를 제3자에게 제공하지 않습니다.<br>
+② 회사는 원활한 서비스 제공을 위해 다음의 경우 개인정보보호법 제17조 제1항 제1호에 따라 정보주체의 동의를 얻어 필요 최소한의 범위로만 개인정보를 제3자에게 제공할 수 있습니다.<br>
+- 개인정보를 제공받는 자 : &lt;예) (주) OOO 카드&gt;<br>
+- 제공받는 자의 개인정보 이용목적 : &lt;예) 이벤트 공동개최 등 업무제휴 및 제휴 신용카드 발급&gt;<br>
+- 제공하는 개인정보 항목 : &lt;예) 성명, 주소, 전화번호, 이메일주소, 카드결제계좌정보&gt;<br>
+- 제공받는 자의 보유, 이용기간 : &lt;예) 신용카드 발급계약에 따른 거래기간동안&gt;<br>
+<br>
+<!-- 수정 필요. 개인정보처리 위탁하는 별도 회사가 있는 경우 수정하거나 추가. 해당없는 경우 삭제 --><br>
+<strong>제4조(개인정보처리의 위탁)</strong><br>
+① 회사는 원활한 개인정보 업무처리를 위하여 다음과 같이 개인정보 처리업무를 위탁하고 있습니다.<br>
+- 위탁업무 내용<br>
+- 위탁받는 자 (수탁자) : (주)아임웹<br>
+- 위탁하는 업무의 내용 : 쇼핑몰 호스팅 서비스의 시스템 제공, 모바일 앱 서비스, 마케팅 서비스 및 부가, 제휴서비스 제공 및 알림톡, 친구톡, 문자메시지 발송대행 서비스, 판매 채널 주문 연동 서비스 등<br>
+- 위탁받는 자 (수탁자) : OOO PG<br>
+- 위탁하는 업무의 내용 : 결제 및 에스크로 업무<br>
+- 위탁받는 자 (수탁자) : OOO 택배<br>
+- 위탁하는 업무의 내용 : 상품 배송 업무<br>
+- 위탁받는 자 (수탁자) : OOO 고객센터<br>
+- 위탁하는 업무의 내용 : 고객상담 업무<br>
+- 위탁받는 자 (수탁자) : OOO<br>
+- 위탁하는 업무의 내용 : 본인확인 업무<br>
+- **재위탁사**<br>
+- **재위탁받는 자(수탁자) : (주)아임웹 → 인포빕(유)**<br>
+- **위탁하는 업무의 내용 : 문자메시지 발송, 카카오톡 알림톡(정보성 메시지) 발송 업무**<br>
+- **재위탁받는 자(수탁자) : (주)아임웹 → (주)루나소프트**<br>
+- **위탁하는 업무의 내용 : 문자메시지 발송, 카카오톡 알림톡(정보성 메시지) 및 친구톡 발송 업무**<br>
+② 회사는 위탁계약 체결 시 개인정보 보호법 제25조에 따라 위탁업무 수행목적 외 개인정보 처리금지, 기술적․관리적 보호조치, 재위탁 제한, 수탁자에 대한 관리․감독, 손해배상 등 책임에 관한 사항을 계약서 등 문서에 명시하고, 수탁자가 개인정보를 안전하게 처리하는지를 감독하고 있습니다.<br>
+③ 위탁업무의 내용이나 수탁자가 변경될 경우에는 지체없이 본 개인정보 처리방침을 통하여 공개하도록 하겠습니다.<br>
+<br>
+<strong>제5조(정보주체 및 법정대리인의 권리와 그 행사 방법)</strong><br>
+<br>
+① 정보주체는 회사에 대해 언제든지 다음 각 호의 개인정보 보호 관련 권리를 행사할 수 있습니다.<br>
+1. 개인정보 열람 요구<br>
+2. 오류 등이 있을 경우 정정 요구<br>
+3. 삭제요구<br>
+4. 처리정지 요구<br>
+② 제1항에 따른 권리 행사는 회사에 대해 서면, 전화, 전자우편, 모사전송(FAX) 등을 통하여 하실 수 있으며 회사는 이에 대해 지체없이 조치하겠습니다.<br>
+③ 정보주체가 개인정보의 오류 등에 대한 정정 또는 삭제를 요구한 경우에는 회사는 정정 또는 삭제를 완료할 때까지 당해 개인정보를 이용하거나 제공하지 않습니다.<br>
+④ 제1항에 따른 권리 행사는 정보주체의 법정대리인이나 위임을 받은 자 등 대리인을 통하여 하실 수 있습니다. 이 경우 개인정보 보호법 시행규칙 별지 제11호 서식에 따른 위임장을 제출하셔야 합니다.<br>
+⑤ 정보주체는 개인정보 보호법 등 관계 법령을 위반하여 회사가 처리하고 있는 정보주체 본인이나 타인의 개인정보 및 사생활을 침해하여서는 아니 됩니다.<br>
+<br>
+<!-- 사이트 운영 환경에 맞게 1항, 2항 수정 필요 --><br>
+<strong>제6조(처리하는 개인정보 항목)</strong><br>
+회사는 다음의 개인정보 항목을 처리하고 있습니다.<br>
+<br>
+1. 홈페이지 회원 가입 및 관리<br>
+필수항목 : &lt;예) 성명, 생년월일, 아이디, 비밀번호, 주소, 전화번호, 성별, 이메일주소, 아이핀번호&gt;<br>
+선택항목 : &lt;예) 결혼 여부, 관심 분야&gt;<br>
+<br>
+2. 재화 또는 서비스 제공<br>
+필수항목 : &lt;예) 성명, 생년월일, 아이디, 비밀번호, 주소, 전화번호, 이메일주소, 아이핀번호, 신용카드번호, 은행계좌정보 등 결제정보&gt;<br>
+선택항목 : &lt;관심분야, 과거 구매내역&gt;<br>
+<br>
+<strong>제7조(개인정보의 파기)</strong><br>
+① 회사는 개인정보 보유 기간의 경과, 처리목적 달성 등 개인정보가 불필요하게 되었을 때에는 지체없이 해당 개인정보를 파기합니다.<br>
+② 정보주체로부터 동의받은 개인정보 보유 기간이 경과하거나 처리목적이 달성되었음에도 불구하고 다른 법령에 따라 개인정보를 계속 보존하여야 하는 경우에는, 해당 개인정보를 별도의 데이터베이스(DB)로 옮기거나 보관장소를 달리하여 보존합니다.<br>
+③ 개인정보 파기의 절차 및 방법은 다음과 같습니다.<br>
+1. 파기 절차<br>
+회사는 파기 사유가 발생한 개인정보를 선정하고, 회사의 개인정보 보호책임자의 승인을 받아 개인정보를 파기합니다.<br>
+2. 파기 방법<br>
+회사는 전자적 파일 형태로 기록․저장된 개인정보는 기록을 재생할 수 없도록 파기하며, 종이 문서에 기록․저장된 개인정보는 분쇄기로 분쇄하거나 소각하여 파기합니다.<br>
+<br>
+<strong>제8조(개인정보의 안전성 확보조치)</strong><br>
+회사는 개인정보의 안전성 확보를 위해 다음과 같은 조치를 하고 있습니다.<br>
+1. 관리적 조치 : 내부관리계획 수립 및 시행, 정기적 직원 교육 등<br>
+2. 기술적 조치 : 개인정보처리시스템 등의 접근 권한 관리, 접근통제시스템 설치, 고유 식별정보<br>
+등의 암호화, 보안프로그램 설치<br>
+3. 물리적 조치 : 전산실, 자료보관실 등의 접근통제<br>
+<br>
+<strong>제9조(개인정보 자동 수집 장치의 설치∙운영 및 거부에 관한 사항)</strong><br>
+① 회사는 이용자에게 개별적인 맞춤 서비스를 제공하기 위해 이용정보를 저장하고 수시로 불러오는 ‘쿠키(cookie)’를 사용합니다.<br>
+② 쿠키는 웹사이트를 운영하는데 이용되는 서버(http)가 이용자의 컴퓨터 브라우저에 보내는 소량의 정보이며 이용자들의 PC 또는 모바일에 저장됩니다.<br>
+③ 정보주체는 웹 브라우저 옵션 설정을 통해 쿠키 허용, 차단 등의 설정을 할 수 있습니다. 다만, 쿠키 저장을 거부할 경우 맞춤형 서비스 이용에 어려움이 발생할 수 있습니다.<br>
+<br>
+▶ 웹 브라우저에서 쿠키 허용/차단<br>
+- 크롬(Chrome) : 웹 브라우저 설정 &gt; 개인정보 보호 및 보안 &gt; 인터넷 사용기록 삭제<br>
+- 엣지(Edge) : 웹 브라우저 설정 &gt; 쿠키 및 사이트 권한 &gt; 쿠키 및 사이트 데이터 관리 및 삭제<br>
+<br>
+▶ 모바일 브라우저에서 쿠키 허용/차단<br>
+- 크롬(Chrome) : 모바일 브라우저 설정 &gt; 개인정보 보호 및 보안 &gt; 인터넷 사용기록 삭제<br>
+- 사파리(Safari) : 모바일 기기 설정 &gt; 사파리(Safari) &gt; 고급 &gt; 모든 쿠키 차단<br>
+- 삼성 인터넷 : 모바일 브라우저 설정 &gt; 인터넷 사용 기록 &gt; 인터넷 사용 기록 삭제<br>
+<br>
+④ 회사는 서비스 이용과정에서 사용자가 방문한 각 서비스와 웹 사이트들에 대한 방문 및 이용형태, 인기 검색어, 보안접속 여부 등을  파악하여 이용자에게 최적화된 정보 제공을 위해 수집・이용하고 있습니다.<br>
+<br>
+<!-- 사이트 운영 환경에 맞게 수정 필요 --><br>
+<strong>제10조(개인정보 보호책임자)</strong><br>
+① 회사는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의 불만 처리 및 피해구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.<br>
+<br>
+▶ 개인정보 보호책임자<br>
+성명 : OOO<br>
+직책 : OOO<br>
+연락처 : &lt;전화번호&gt;, &lt;이메일&gt;, &lt;팩스번호&gt;<br>
+※ 개인정보 보호 담당부서로 연결됩니다.<br>
+<br>
+▶ 개인정보 보호 담당부서<br>
+부서명 : OOO 팀<br>
+연락처 : &lt;전화번호&gt;, &lt;이메일&gt;, &lt;팩스번호&gt;<br>
+<br>
+② 정보주체께서는 회사의 서비스(또는 사업)을 이용하시면서 발생한 모든 개인정보 보호 관련 문의, 불만 처리, 피해구제 등에 관한 사항을 개인정보 보호책임자 및 담당부서로 문의하실 수 있습니다. 회사는 정보주체의 문의에 대해 지체없이 답변 및 처리해드릴 것입니다.<br>
+<br>
+<!-- 사이트 운영 환경에 맞게 수정 필요 --><br>
+<strong>제11조(개인정보 열람청구)</strong><br>
+정보주체는 개인정보 보호법 제35조에 따른 개인정보의 열람 청구를 아래의 부서에 할 수 있습니다. 회사는 정보주체의 개인정보 열람 청구가 신속하게 처리되도록 노력하겠습니다.<br>
+<br>
+▶ 개인정보 열람청구 접수․처리 부서<br>
+부서명 : OOO<br>
+연락처 : &lt;전화번호&gt;, &lt;이메일&gt;, &lt;팩스번호&gt;<br>
+<br>
+<strong>제12조(권익침해 구제 방법)</strong><br>
+정보주체는 아래의 기관에 대해 개인정보 침해에 대한 피해구제, 상담 등을 문의하실 수 있습니다.<br>
+1. 개인정보 분쟁조정위원회 : (국번없이) 1833-6972 (www.kopico.go.kr)<br>
+2. 개인정보침해신고센터 : (국번없이) 118 (privacy.kisa.or.kr)<br>
+3. 대검찰청 : (국번없이) 1301 (www.spo.go.kr)<br>
+4. 경찰청 : (국번없이) 182 (ecrm.police.go.kr/minwon/main)<br>
+<br>
+<!-- 사이트 오픈일에 맞게 수정 필요 --><br>
+<strong>제13조(개인정보 처리방침 시행 및 변경)</strong><br>
+이 개인정보 처리방침은 20XX. X. X. 부터 적용됩니다.`,
+  },
+};

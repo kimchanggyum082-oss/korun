@@ -3,13 +3,23 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import type { ServiceNewsItem } from "@/lib/data";
+import BoardSearch from "@/components/service/BoardSearch";
+import BoardPagination from "@/components/service/BoardPagination";
+import {
+  CaretDownIcon,
+  FlagIcon,
+  HeartIcon,
+} from "@/components/service/ServiceIcons";
 
 const PAGE_SIZE = 10;
+
+const COLUMNS = "grid-cols-[62.5px_187.5px_637.5px_150px_125px_87.5px]";
 
 export default function NewsList({ items }: { items: ServiceNewsItem[] }) {
   const [category, setCategory] = useState<"ALL" | "NEWS" | "EVENT">("ALL");
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const filtered = useMemo(() => {
     let list =
@@ -32,191 +42,194 @@ export default function NewsList({ items }: { items: ServiceNewsItem[] }) {
     current * PAGE_SIZE,
   );
 
-  const goCategory = (c: "ALL" | "NEWS" | "EVENT") => {
-    setCategory(c);
-    setPage(1);
-  };
-
   const catColor = (cat: string) => (cat === "EVENT" ? "#6ecc51" : "#00b8ff");
+
+  const categories = [
+    { key: "ALL", label: "전체" },
+    { key: "NEWS", label: "NEWS" },
+    { key: "EVENT", label: "EVENT" },
+  ] as const;
 
   return (
     <>
-      {/* Search */}
-      <div className="relative mx-auto mb-6 max-w-[420px]">
-        <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400">
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            aria-hidden
-          >
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
-        </span>
-        <input
-          type="search"
-          value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
-            setPage(1);
-          }}
-          placeholder="검색"
-          aria-label="뉴스 검색"
-          className="w-full rounded-full border border-neutral-200 bg-white py-3 pl-11 pr-4 text-[14px] text-ink outline-none transition-colors focus:border-brand md:text-[15px]"
-        />
-      </div>
-
-      {/* Category filter */}
-      <div className="mb-6 flex flex-wrap gap-2">
-        {(
-          [
-            { key: "ALL", label: "전체" },
-            { key: "NEWS", label: "NEWS" },
-            { key: "EVENT", label: "EVENT" },
-          ] as const
-        ).map((c) => {
-          const active = category === c.key;
-          return (
-            <button
-              key={c.key}
-              type="button"
-              onClick={() => goCategory(c.key)}
-              className={`rounded-full px-4 py-1.5 text-[13px] font-semibold transition-colors ${
-                active
-                  ? "bg-ink text-white"
-                  : "bg-neutral-100 text-neutral-600 hover:bg-neutral-200"
-              }`}
+      {/* PC board */}
+      <div className="hidden pc:block">
+        <div className="pc:pt-[15px] pc:pb-[15px]">
+          <div className="border-t border-[#363636]">
+            <ul
+              className={`grid h-[45px] ${COLUMNS} items-center border-b border-[rgba(54,54,54,0.3)] text-[15px] leading-[24px] text-[rgba(54,54,54,0.5)]`}
             >
-              {c.label}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Table */}
-      <div className="overflow-hidden border border-neutral-200 bg-white">
-        {/* Header (desktop) */}
-        <div className="hidden grid-cols-[64px_120px_1fr_120px_90px_90px] border-b border-neutral-200 bg-neutral-50 text-[12px] font-semibold text-neutral-500 md:grid">
-          <div className="px-3 py-3 text-center">No</div>
-          <div className="px-3 py-3 text-center">카테고리</div>
-          <div className="px-3 py-3 text-left">제목</div>
-          <div className="px-3 py-3 text-center">작성시간</div>
-          <div className="px-3 py-3 text-center">조회수</div>
-          <div className="px-3 py-3 text-center">좋아요</div>
-        </div>
-
-        <ul>
-          {pageItems.map((item, i) => {
-            const no = filtered.length - ((current - 1) * PAGE_SIZE + i);
-            return (
-              <li
-                key={item.idx}
-                className="border-b border-neutral-100 last:border-0"
-              >
-                {/* Desktop row */}
-                <Link
-                  href={`/news/${item.idx}`}
-                  className="hidden grid-cols-[64px_120px_1fr_120px_90px_90px] items-center px-3 py-4 text-[13px] transition-colors hover:bg-neutral-50 md:grid"
+              <li className="text-center">No</li>
+              <li className="relative text-center">
+                <button
+                  type="button"
+                  onClick={() => setMenuOpen((v) => !v)}
+                  aria-expanded={menuOpen}
+                  className="relative inline-block"
                 >
-                  <div className="text-center text-neutral-400">{no}</div>
+                  카테고리
+                  <CaretDownIcon className="absolute left-full top-[8px] ml-[11px] text-[#363636]" />
+                </button>
+                {menuOpen && (
+                  <div className="absolute left-1/2 top-[32px] z-10 w-[110px] -translate-x-1/2 border border-neutral-200 bg-white py-1 text-[13px] text-ink shadow">
+                    {categories.map((c) => (
+                      <button
+                        key={c.key}
+                        type="button"
+                        onClick={() => {
+                          setCategory(c.key);
+                          setPage(1);
+                          setMenuOpen(false);
+                        }}
+                        className="block w-full px-3 py-1.5 text-center hover:bg-neutral-50"
+                      >
+                        {c.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </li>
+              <li className="text-center">제목</li>
+              <li className="text-center">작성시간</li>
+              <li className="text-center">조회수</li>
+              <li className="text-center">좋아요</li>
+            </ul>
+
+            {pageItems.map((item, i) => {
+              const no = filtered.length - ((current - 1) * PAGE_SIZE + i);
+              const notice = Boolean(item.notice);
+              return (
+                <Link
+                  key={item.idx}
+                  href={`/news/${item.idx}`}
+                  className={`grid h-[45px] ${COLUMNS} items-center border-b border-[rgba(54,54,54,0.15)] text-[15px] leading-[24px] ${
+                    notice ? "bg-[rgba(54,54,54,0.04)]" : ""
+                  }`}
+                >
+                  <div className="text-center">
+                    {notice ? <FlagIcon className="mx-auto" /> : no}
+                  </div>
                   <div
-                    className="text-center font-semibold"
+                    className="text-center"
                     style={{ color: catColor(item.category) }}
                   >
-                    {item.category}
+                    <em className="not-italic pr-[5px]">{item.category}</em>
                   </div>
-                  <div className="truncate pr-3 font-medium text-ink">
+                  <div className="truncate pl-[7px] pr-[7px] text-[14px] leading-[22.4px] text-ink">
                     {item.title}
                   </div>
-                  <div className="text-center text-neutral-500">
+                  <div className="text-center text-[12px] leading-[19.2px] text-[rgba(54,54,54,0.65)]">
                     {item.date}
                   </div>
-                  <div className="text-center text-neutral-500">
+                  <div className="text-center text-[12px] leading-[19.2px] text-[rgba(54,54,54,0.65)]">
                     {item.views}
                   </div>
-                  <div className="text-center text-neutral-500">
+                  <div className="text-center text-[12px] leading-[19.2px] text-[rgba(54,54,54,0.65)]">
                     {item.likes}
                   </div>
                 </Link>
+              );
+            })}
 
-                {/* Mobile row */}
-                <Link
-                  href={`/news/${item.idx}`}
-                  className="flex flex-col gap-1 px-3 py-4 transition-colors hover:bg-neutral-50 md:hidden"
-                >
-                  <div className="flex items-center gap-2">
-                    <span
-                      className="font-semibold"
-                      style={{ color: catColor(item.category) }}
-                    >
-                      {item.category}
-                    </span>
-                    <span className="text-[12px] text-neutral-400">
-                      {item.date}
-                    </span>
-                  </div>
-                  <p className="font-medium text-ink">{item.title}</p>
-                  <div className="text-[12px] text-neutral-400">
-                    조회 {item.views} · 좋아요 {item.likes}
-                  </div>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+            {pageItems.length === 0 && (
+              <p className="border-b border-[rgba(54,54,54,0.15)] py-16 text-center text-[14px] text-[rgba(54,54,54,0.65)]">
+                등록된 게시물이 없습니다.
+              </p>
+            )}
+          </div>
 
-        {pageItems.length === 0 && (
-          <p className="py-16 text-center text-[14px] text-neutral-500">
-            등록된 게시물이 없습니다.
-          </p>
-        )}
+          <div className="mt-[15px] h-[41px] text-center">
+            <BoardSearch
+              query={query}
+              onQueryChange={(v) => {
+                setQuery(v);
+                setPage(1);
+              }}
+              ariaLabel="뉴스 검색"
+            />
+          </div>
+
+          {totalPages > 1 && (
+            <BoardPagination
+              page={current}
+              totalPages={totalPages}
+              onChange={setPage}
+            />
+          )}
+        </div>
+
+        <div className="pc:h-[110px] pc:pt-[15px]">
+          <div className="pc:h-[80px]" />
+        </div>
       </div>
 
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <nav
-          aria-label="페이지 네비게이션"
-          className="mt-8 flex items-center justify-center gap-1"
-        >
-          <button
-            type="button"
-            onClick={() => setPage((p) => Math.max(1, p - 1))}
-            disabled={current === 1}
-            className="flex h-9 min-w-9 items-center justify-center rounded border border-neutral-200 px-3 text-[13px] text-neutral-600 transition-colors hover:bg-neutral-100 disabled:opacity-40"
-          >
-            이전
-          </button>
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => {
-            const active = p === current;
-            return (
-              <button
-                key={p}
-                type="button"
-                onClick={() => setPage(p)}
-                className={`flex h-9 min-w-9 items-center justify-center rounded border px-3 text-[13px] transition-colors ${
-                  active
-                    ? "border-ink bg-ink text-white"
-                    : "border-neutral-200 text-neutral-600 hover:bg-neutral-100"
-                }`}
-              >
-                {p}
-              </button>
-            );
-          })}
-          <button
-            type="button"
-            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-            disabled={current === totalPages}
-            className="flex h-9 min-w-9 items-center justify-center rounded border border-neutral-200 px-3 text-[13px] text-neutral-600 transition-colors hover:bg-neutral-100 disabled:opacity-40"
-          >
-            다음
-          </button>
-        </nav>
-      )}
+      {/* Mobile list */}
+      <div className="pc:hidden">
+        <div className="py-[7.5px]">
+          <ul className="border-t border-[rgba(54,54,54,0.15)]">
+            {pageItems.map((item) => {
+              const notice = Boolean(item.notice);
+              return (
+                <li
+                  key={item.idx}
+                  className={`relative block border-b border-[rgba(54,54,54,0.15)] px-[15px] pt-[10px] pb-[15px] text-[15px] leading-[24px] ${
+                    notice ? "bg-[rgba(54,54,54,0.04)]" : ""
+                  }`}
+                >
+                  <Link
+                    href={`/news/${item.idx}`}
+                    className="absolute inset-0 z-[1]"
+                  >
+                    <span className="sr-only">{item.title}</span>
+                  </Link>
+                  <div className="relative block pr-[45px] text-left leading-[21px]">
+                    {!notice && (
+                      <a
+                        className="text-[15px] leading-[21px]"
+                        style={{ color: catColor(item.category) }}
+                      >
+                        <em className="not-italic pr-[5px]">
+                          {item.category}
+                        </em>
+                      </a>
+                    )}
+                    {!notice && " "}
+                    <span className="text-[18px] leading-[25.2px]">
+                      {notice && (
+                        <FlagIcon className="mr-[9.5px] inline-block h-[18px] w-[18px] align-middle text-[#363636]" />
+                      )}
+                    </span>
+                    <a className="text-[14px] leading-[19.6px] text-[#363636]">
+                      {item.title}
+                    </a>
+                  </div>
+                  <div className="table-cell pt-[5px] pr-[10px] text-center text-[12px] leading-[19.2px] text-[rgba(54,54,54,0.65)]">
+                    {item.date}
+                  </div>
+                  <div className="table-cell pt-[5px] pr-[10px] text-center text-[12px] leading-[19.2px] text-[rgba(54,54,54,0.65)]">
+                    조회수{item.views}
+                  </div>
+                  <div className="table-cell pt-[5px] pr-[10px] text-center text-[12px] leading-[19.2px] text-[rgba(54,54,54,0.65)]">
+                    <HeartIcon className="mr-[3px] inline-block h-[12px] w-[13.7px] align-middle" />
+                    {item.likes}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+
+          {totalPages > 1 && (
+            <div className="mt-[10px]">
+              <BoardPagination
+                page={current}
+                totalPages={totalPages}
+                onChange={setPage}
+              />
+            </div>
+          )}
+        </div>
+        <div className="h-[55px]" />
+      </div>
     </>
   );
 }

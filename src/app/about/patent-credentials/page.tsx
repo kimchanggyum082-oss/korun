@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { assets, company } from "@/lib/data";
 import AboutNav from "@/components/layout/AboutNav";
-import Gallery from "@/components/home/Gallery";
+import AboutGallery from "@/components/about/AboutGallery";
 
 export const metadata: Metadata = {
   title: `Patent & Credentials | ${company.name}`,
@@ -15,15 +15,22 @@ export default function PatentCredentialsPage() {
 
       {/* Page title banner */}
       <section className="bg-white">
-        <div className="mx-auto max-w-[1280px] px-4 py-10 text-center md:px-6 md:py-12 pc:px-[15px] pc:py-[50px]">
-          <h1 className="text-[30px] font-bold leading-[1.2] text-ink md:text-[40px] pc:text-[50px]">
-            Patent &amp; Credentials
-          </h1>
+        <div className="mx-auto flex max-w-[1280px] flex-col px-[15px] py-[50px] text-center pc:py-[80px]">
+          <div className="hidden pc:block pc:col-span-12 pc:h-[60px]" />
+          <div className="my-[7.5px] pc:my-0 pc:pt-[20px] pc:pb-[10px]">
+            <h1 className="text-[30px] leading-[36px] font-bold text-ink pc:text-[50px] pc:leading-[60px]">
+              Patent &amp; Credentials&nbsp;
+            </h1>
+          </div>
         </div>
       </section>
 
       {/* Gallery */}
-      <Gallery images={assets.patentImages} variant="contain" />
+      <AboutGallery
+        images={assets.patentImages}
+        variant="certificate"
+        galleryId="img_lg"
+      />
     </>
   );
 }

@@ -1,10 +1,196 @@
 @import "tailwindcss";
 
+/*
+ * Latin font parity with the original.
+ *
+ * The original's body stack lists "Pretendard English", but no page CSS
+ * declares an @font-face for that family, so it silently falls through to the
+ * static Pretendard faces served from vendor-cdn.imweb.me (Regular/Bold are the
+ * only ones the original actually downloads on the home page). The clone was
+ * resolving Latin through "Pretendard Variable" (npm dynamic subset), which
+ * rasterizes slightly differently from the original's static faces.
+ *
+ * We declare the original's static faces explicitly, pointing at its exact
+ * binaries: "Pretendard English" scoped to ASCII (U+0020-007E) and
+ * "Pretendard" for everything else, so Latin and Korean both resolve to the
+ * same glyphs as the original. This mirrors the original's stack.
+ */
+@font-face {
+  font-family: "Pretendard English";
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url("https://vendor-cdn.imweb.me/fonts/pretendard/web/static/woff2/Pretendard-Thin.woff2")
+    format("woff2");
+  unicode-range: U+0020-007E;
+}
+
+@font-face {
+  font-family: "Pretendard English";
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url("https://vendor-cdn.imweb.me/fonts/pretendard/web/static/woff2/Pretendard-ExtraLight.woff2")
+    format("woff2");
+  unicode-range: U+0020-007E;
+}
+
+@font-face {
+  font-family: "Pretendard English";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("https://vendor-cdn.imweb.me/fonts/pretendard/web/static/woff2/Pretendard-Light.woff2")
+    format("woff2");
+  unicode-range: U+0020-007E;
+}
+
+@font-face {
+  font-family: "Pretendard English";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://vendor-cdn.imweb.me/fonts/pretendard/web/static/woff2/Pretendard-Regular.woff2")
+    format("woff2");
+  unicode-range: U+0020-007E;
+}
+
+@font-face {
+  font-family: "Pretendard English";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("https://vendor-cdn.imweb.me/fonts/pretendard/web/static/woff2/Pretendard-Medium.woff2")
+    format("woff2");
+  unicode-range: U+0020-007E;
+}
+
+@font-face {
+  font-family: "Pretendard English";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("https://vendor-cdn.imweb.me/fonts/pretendard/web/static/woff2/Pretendard-SemiBold.woff2")
+    format("woff2");
+  unicode-range: U+0020-007E;
+}
+
+@font-face {
+  font-family: "Pretendard English";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("https://vendor-cdn.imweb.me/fonts/pretendard/web/static/woff2/Pretendard-Bold.woff2")
+    format("woff2");
+  unicode-range: U+0020-007E;
+}
+
+@font-face {
+  font-family: "Pretendard English";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("https://vendor-cdn.imweb.me/fonts/pretendard/web/static/woff2/Pretendard-ExtraBold.woff2")
+    format("woff2");
+  unicode-range: U+0020-007E;
+}
+
+@font-face {
+  font-family: "Pretendard English";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("https://vendor-cdn.imweb.me/fonts/pretendard/web/static/woff2/Pretendard-Black.woff2")
+    format("woff2");
+  unicode-range: U+0020-007E;
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url("https://vendor-cdn.imweb.me/fonts/pretendard/web/static/woff2/Pretendard-Thin.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url("https://vendor-cdn.imweb.me/fonts/pretendard/web/static/woff2/Pretendard-ExtraLight.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("https://vendor-cdn.imweb.me/fonts/pretendard/web/static/woff2/Pretendard-Light.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("https://vendor-cdn.imweb.me/fonts/pretendard/web/static/woff2/Pretendard-Regular.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("https://vendor-cdn.imweb.me/fonts/pretendard/web/static/woff2/Pretendard-Medium.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("https://vendor-cdn.imweb.me/fonts/pretendard/web/static/woff2/Pretendard-SemiBold.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("https://vendor-cdn.imweb.me/fonts/pretendard/web/static/woff2/Pretendard-Bold.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("https://vendor-cdn.imweb.me/fonts/pretendard/web/static/woff2/Pretendard-ExtraBold.woff2")
+    format("woff2");
+}
+
+@font-face {
+  font-family: "Pretendard";
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url("https://vendor-cdn.imweb.me/fonts/pretendard/web/static/woff2/Pretendard-Black.woff2")
+    format("woff2");
+}
+
 @theme {
   --font-sans:
-    "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Malgun Gothic",
+    "Pretendard English", Pretendard, "Apple SD Gothic Neo", "Malgun Gothic",
     "Nanum Gothic", "Noto Sans", sans-serif;
-  --breakpoint-pc: 992px;
+  --breakpoint-pc: 62rem;
   --color-ink: #363636;
   --color-brand-red: #c9072b;
   --color-brand-teal: #0e5f53;
@@ -19,5 +205,5 @@ html {
 body {
   color: var(--color-ink);
   background: #ffffff;
-  word-break: keep-all;
+  word-break: normal;
 }

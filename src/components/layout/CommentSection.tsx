@@ -1,26 +1,22 @@
 "use client";
 
 import { useState } from "react";
+import { PictureIcon, RefreshIcon } from "@/components/service/ServiceIcons";
 
 type Comment = { name: string; body: string; date: string };
 
-/**
- * Frontend-only comment section (no backend / database yet).
- * Mirrors the original non-member comment form (name + password + textarea +
- * submit) and renders submitted comments locally so the UI is fully interactive.
- */
 export default function CommentSection({
-  initialCount = 0,
+  variant = "guest",
 }: {
   initialCount?: number;
+  variant?: "guest" | "login";
 }) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [body, setBody] = useState("");
+  const [captcha, setCaptcha] = useState("");
   const [error, setError] = useState("");
-
-  const total = initialCount + comments.length;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,66 +34,112 @@ export default function CommentSection({
     setName("");
     setPassword("");
     setBody("");
+    setCaptcha("");
   };
 
-  return (
-    <div className="mt-8 border-t border-neutral-200 pt-6">
-      <p className="mb-4 text-[14px] font-bold text-ink md:text-[15px]">
-        댓글 {total}
-      </p>
-
-      {/* Leave comment form (non-member) */}
-      <form
-        onSubmit={handleSubmit}
-        className="rounded-md border border-neutral-200 bg-neutral-50 p-3 md:p-4"
-      >
-        <div className="flex flex-col gap-2 sm:flex-row">
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="이름"
-            className="w-full rounded border border-neutral-200 bg-white px-3 py-2 text-[13px] text-ink outline-none focus:border-brand sm:w-40 md:text-[14px]"
-          />
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="비밀번호"
-            className="w-full rounded border border-neutral-200 bg-white px-3 py-2 text-[13px] text-ink outline-none focus:border-brand sm:w-40 md:text-[14px]"
-          />
-        </div>
+  const fields = (
+    <>
+      <div className="mb-[10px] flex">
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="이름"
+          aria-label="이름"
+          className="mr-[2%] h-[43.6px] w-[49%] border border-[rgba(128,128,128,0.2)] px-4 py-2 text-[16px] leading-[25.6px] text-ink outline-none pc:mr-[10px] pc:h-[42px] pc:w-[150px] pc:text-[15px] pc:leading-[24px]"
+        />
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="비밀번호"
+          aria-label="비밀번호"
+          className="h-[43.6px] w-[49%] border border-[rgba(128,128,128,0.2)] px-4 py-2 text-[16px] leading-[25.6px] text-ink outline-none pc:h-[42px] pc:w-[150px] pc:text-[15px] pc:leading-[24px]"
+        />
+      </div>
+      <div className="border border-[rgba(128,128,128,0.2)] p-[12px] pc:h-[140px] pc:p-4">
         <textarea
           value={body}
           onChange={(e) => setBody(e.target.value)}
           placeholder="댓글을 남겨주세요"
-          rows={3}
-          className="mt-2 w-full resize-none rounded border border-neutral-200 bg-white px-3 py-2 text-[13px] text-ink outline-none focus:border-brand md:text-[14px]"
+          aria-label="댓글"
+          className="mb-[12px] h-[62px] w-full resize-none align-top text-[16px] leading-[25.6px] text-ink outline-none pc:text-[15px] pc:leading-[24px]"
         />
-        <div className="mt-2 flex items-center justify-between">
-          {error ? (
-            <span className="text-[12px] text-brand-red">{error}</span>
-          ) : (
-            <span className="text-[12px] text-neutral-400">
-              비회원 댓글은 비밀번호로 관리됩니다.
-            </span>
-          )}
+        <div className="flex items-center justify-between">
+          <span className="flex h-[26px] w-[26px] items-center justify-center text-ink">
+            <PictureIcon />
+          </span>
           <button
             type="submit"
-            className="bg-ink px-5 py-2 text-[13px] font-semibold text-white transition-colors hover:bg-brand md:text-[14px]"
+            className="h-[32px] border border-[#363636] bg-[#363636] px-5 py-[6px] text-[12px] leading-[18px] text-white"
           >
             작성
           </button>
         </div>
-      </form>
+      </div>
+      <div className="mt-[16px] pc:h-[40px]">
+        <div className="flex flex-wrap items-center">
+          <div className="mr-[16px] flex items-center gap-[8px]">
+            <span className="flex h-[30px] w-[113px] items-center justify-center gap-[3px] bg-[#f0eef4] text-[19px] font-bold tracking-[1px] text-[#5b3a7a]">
+              gvdE4
+            </span>
+            <span className="flex h-[28px] w-[28px] items-center justify-center rounded-full border border-neutral-300 text-neutral-500">
+              <RefreshIcon />
+            </span>
+          </div>
+          <input
+            type="text"
+            value={captcha}
+            onChange={(e) => setCaptcha(e.target.value)}
+            placeholder="보안 문자를 입력해 주세요."
+            aria-label="보안 문자"
+            className="h-[40px] w-[185px] border border-[#dbdee3] bg-white px-[10px] text-[14px] leading-[20px] text-[#212121] outline-none pc:w-[200px]"
+          />
+          <span className="mt-[8px] text-[14px] leading-[24px] text-[#9fa3ab] pc:mt-0 pc:ml-4">
+            공백 없이 입력하세요.
+          </span>
+        </div>
+      </div>
+      {error && (
+        <p className="mt-2 text-[12px] text-brand-red pc:text-[13px]">
+          {error}
+        </p>
+      )}
+    </>
+  );
 
-      {/* Submitted comments */}
-      <ul className="mt-5 space-y-4">
-        {comments.length === 0 && (
-          <li className="text-[13px] text-neutral-400 md:text-[14px]">
-            등록된 댓글이 없습니다.
-          </li>
-        )}
+  const loginBox = (
+    <div className="border border-[rgba(128,128,128,0.2)] p-[12px] pc:h-[140px] pc:p-4">
+      <textarea
+        disabled
+        placeholder="로그인이 필요합니다."
+        aria-label="댓글"
+        className="mb-[12px] h-[62px] w-full resize-none align-top text-[16px] leading-[25.6px] text-ink outline-none pc:text-[15px] pc:leading-[24px]"
+      />
+      <div className="flex justify-end">
+        <button
+          type="button"
+          disabled
+          className="h-[32px] border border-[#363636] bg-[#363636] px-5 py-[6px] text-[12px] leading-[18px] text-white"
+        >
+          작성
+        </button>
+      </div>
+    </div>
+  );
+
+  const form = (
+    <div className="mt-[30px] pt-[10px]">
+      <form onSubmit={variant === "login" ? undefined : handleSubmit}>
+        {variant === "login" ? loginBox : fields}
+      </form>
+    </div>
+  );
+
+  return (
+    <div className="pc:mb-[24px]">
+      {form}
+      <ul className="pc:hidden">
         {comments.map((c, i) => (
           <li
             key={i}
@@ -107,7 +149,7 @@ export default function CommentSection({
               <span className="font-semibold text-ink">{c.name}</span>
               <span className="text-neutral-400">{c.date}</span>
             </div>
-            <p className="mt-1.5 whitespace-pre-line text-[13px] leading-[1.6] text-neutral-700 md:text-[14px]">
+            <p className="mt-1.5 whitespace-pre-line text-[13px] leading-[1.6] text-neutral-700">
               {c.body}
             </p>
           </li>

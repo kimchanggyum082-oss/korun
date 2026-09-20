@@ -1,25 +1,55 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { assets, nav } from "@/lib/data";
+import MobileSlideMenu from "./MobileSlideMenu";
+import SearchOverlay from "./SearchOverlay";
 
 export default function Header() {
-  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+  const pathname = usePathname();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+
+  useEffect(() => {
+    if (!menuOpen && !searchOpen) {
+      return;
+    }
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMenuOpen(false);
+        setSearchOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [menuOpen, searchOpen]);
+
+  const isActive = (hrefs: readonly string[]) =>
+    hrefs.some((href) => pathname === href || pathname.startsWith(`${href}/`));
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white pc:hidden">
-        <div className="mx-auto flex h-12 max-w-6xl items-center justify-between px-4 md:h-14 md:px-6">
+      <header className="sticky top-0 z-50 border-b border-[#e7e7e7] bg-white pc:hidden">
+        <div className="relative flex h-12 items-center justify-between px-2.5">
           <button
             type="button"
             aria-label="메뉴 열기"
-            className="flex h-9 w-9 flex-col items-center justify-center gap-[5px]"
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen(true)}
+            className="flex h-12 items-center px-[5px] text-[#212121]"
           >
-            <span className="block h-[2px] w-5 bg-neutral-800" />
-            <span className="block h-[2px] w-5 bg-neutral-800" />
-            <span className="block h-[2px] w-3.5 bg-neutral-800" />
+            <span className="mt-[16px] flex flex-col gap-[5.25px] self-start">
+              <span className="block h-[1.5px] w-[18px] bg-current" />
+              <span className="block h-[1.5px] w-[18px] bg-current" />
+              <span className="block h-[1.5px] w-[18px] bg-current" />
+            </span>
+            <span className="hidden">MENU</span>
           </button>
 
           <Link
@@ -33,34 +63,37 @@ export default function Header() {
               width={121}
               height={40}
               priority
-              className="h-6 w-auto md:h-8"
+              unoptimized
+              className="h-auto w-[78.65px]"
             />
           </Link>
 
           <button
             type="button"
             aria-label="site search"
-            className="flex h-9 w-9 items-center justify-center"
+            aria-expanded={searchOpen}
+            onClick={() => setSearchOpen(true)}
+            className="flex h-12 w-[30px] items-start pl-[10px] pt-[11px] text-[#212121]"
           >
             <svg
               width="20"
               height="20"
-              viewBox="0 0 24 24"
+              viewBox="0 0 20 20"
               fill="none"
               stroke="currentColor"
-              strokeWidth="1.8"
+              strokeWidth="1.5"
               aria-hidden
             >
-              <circle cx="11" cy="11" r="7" />
-              <line x1="21" y1="21" x2="16.5" y2="16.5" />
+              <circle cx="7.5" cy="7.5" r="6.6" />
+              <line x1="12.2" y1="12.2" x2="19" y2="19" />
             </svg>
           </button>
         </div>
       </header>
 
-      <div className="relative hidden h-[60px] pc:block">
-        <div className="fixed inset-x-0 top-0 z-50 bg-white">
-          <div className="mx-auto flex h-[60px] max-w-[1280px] items-center justify-between px-[15px]">
+      <div className="relative hidden h-[90px] pc:block">
+        <div className="fixed inset-x-0 top-0 z-50 h-[90px] bg-white">
+          <div className="mx-auto flex h-[90px] max-w-[1280px] items-center justify-between px-[15px]">
             <Link href="/" aria-label="코런 홈">
               <Image
                 src={assets.logo}
@@ -68,48 +101,50 @@ export default function Header() {
                 width={121}
                 height={40}
                 priority
-                className="h-auto w-[88px]"
+                unoptimized
+                className="h-auto w-[121px]"
               />
             </Link>
 
-            <nav aria-label="주 메뉴" onMouseLeave={() => setHoveredItem(null)}>
-              <ul className="flex items-center gap-6">
-                {nav.map((item) => (
-                  <li
-                    key={item.label}
-                    className="relative flex h-[60px] items-center"
-                    onMouseEnter={() => setHoveredItem(item.label)}
-                  >
-                    <a
-                      href={item.href}
-                      className={`block py-1 text-[14px] leading-[17px] transition-colors duration-300 ${
-                        hoveredItem === item.label
-                          ? "text-[#212121]/50"
-                          : "text-[#212121] hover:text-[#212121]/50"
-                      }`}
-                    >
-                      {item.label}
-                    </a>
-                    {hoveredItem === item.label && (
-                      <div className="absolute left-0 top-full z-50 min-w-[180px] bg-[#333333]">
+            <nav aria-label="주 메뉴">
+              <ul className="flex h-[90px] items-center">
+                {nav.map((item) => {
+                  const active = isActive(
+                    item.children.map((child) => child.href),
+                  );
+
+                  return (
+                    <li key={item.label} className="group relative h-[90px]">
+                      <a
+                        href={item.href}
+                        className={`flex h-[90px] items-center px-[18px] text-[18px] leading-[1.6] hover:text-[#212121]/50 ${
+                          active ? "font-bold text-ink" : "text-[#212121]"
+                        }`}
+                      >
+                        {item.label}
+                      </a>
+                      <div className="invisible absolute left-[18px] top-full z-[1000] min-w-[160px] bg-[#333] opacity-0 transition-[opacity,visibility] duration-300 ease-[ease] after:absolute after:inset-x-0 after:top-full after:h-[150px] after:bg-transparent after:content-[''] group-hover:visible group-hover:opacity-100">
                         {item.children.map((child) => (
                           <Link
                             key={child.label}
                             href={child.href}
-                            className="block whitespace-nowrap px-3.5 py-1.5 text-[12px] text-white/60 transition-colors duration-300 hover:bg-[#444444] hover:text-white"
+                            className="block whitespace-nowrap px-5 py-2.5 text-[13px] leading-[1.42857] text-white/60 hover:bg-[#444] hover:text-white"
                           >
                             {child.label}
                           </Link>
                         ))}
                       </div>
-                    )}
-                  </li>
-                ))}
+                    </li>
+                  );
+                })}
               </ul>
             </nav>
           </div>
         </div>
       </div>
+
+      <MobileSlideMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   );
 }

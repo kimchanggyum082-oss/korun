@@ -1,7 +1,27 @@
 import Image from "next/image";
 import Link from "next/link";
-import { SectionHeading } from "./Products";
 import { assets, news, downloads, type NewsItem } from "@/lib/data";
+
+const MOBILE_PEN =
+  "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/3ab2e78924f62.png";
+
+function MobileHeading({ en, ko }: { en: string; ko: string }) {
+  return (
+    <div className="my-[7.5px]">
+      <p className="text-[15px] font-bold leading-[24px] text-brand">{en}</p>
+      <p className="text-[24px] font-bold leading-[28.8px] text-ink">
+        {ko}
+        <Image
+          src={MOBILE_PEN}
+          alt=""
+          width={156}
+          height={537}
+          className="my-[5px] inline-block w-[16px] align-middle"
+        />
+      </p>
+    </div>
+  );
+}
 
 function MobileRow({
   href,
@@ -15,24 +35,20 @@ function MobileRow({
   date: string;
 }) {
   return (
-    <li className="border-b border-neutral-200">
-      <Link
-        href={href}
-        className="flex items-center gap-3 py-4 transition-colors hover:text-brand-teal md:gap-4 md:py-5"
-      >
-        {badge && (
-          <span
-            className={`shrink-0 rounded-full px-2.5 py-1 text-[10px] font-bold tracking-wide text-white ${
-              badge === "EVENT" ? "bg-[#6ecc51]" : "bg-[#00b8ff]"
-            }`}
-          >
-            {badge}
-          </span>
-        )}
-        <span className="min-w-0 flex-1 truncate text-sm text-neutral-700 md:text-[15px]">
+    <li className="flex h-[41.8125px] items-center border-b border-[rgba(54,54,54,0.1)]">
+      <Link href={href} className="flex min-w-0 flex-1 items-center">
+        <span className="h-[20px] min-w-0 flex-1 overflow-hidden pr-[4px] text-[14px] leading-[20px] text-ink">
+          {badge && (
+            <em
+              className="pr-[5px] text-[14px] not-italic"
+              style={{ color: badge === "EVENT" ? "#6ecc51" : "#00b8ff" }}
+            >
+              {badge}
+            </em>
+          )}
           {title}
         </span>
-        <span className="shrink-0 text-xs text-neutral-400 md:text-sm">
+        <span className="w-[67.92px] shrink-0 text-[12px] leading-[20px] text-ink/70">
           {date}
         </span>
       </Link>
@@ -54,25 +70,31 @@ function PcRow({
   showWriter?: boolean;
 }) {
   return (
-    <li className="border-b border-ink/10">
+    <li className="border-b border-ink/10 text-[15px] leading-[20px]">
       <Link
         href={href}
-        className="flex items-center py-[10px] transition-colors hover:text-brand-teal"
+        className="flex items-center py-[10px] leading-[20px] transition-colors hover:text-brand-teal"
       >
-        {badge && (
-          <em
-            className="shrink-0 pr-[5px] not-italic"
-            style={{ color: badge === "EVENT" ? "#6ecc51" : "#00b8ff" }}
-          >
-            {badge}
-          </em>
+        <span className="min-w-0 flex-1 truncate leading-[20px]">
+          {badge && (
+            <em
+              className="shrink-0 pr-[5px] text-[14px] not-italic"
+              style={{ color: badge === "EVENT" ? "#6ecc51" : "#00b8ff" }}
+            >
+              {badge}
+            </em>
+          )}
+          <span className="text-[14px] text-ink">{title}</span>
+        </span>
+        {showWriter ? (
+          <span className="shrink-0 text-[12px] leading-[20px] text-ink">
+            코런 관리자
+          </span>
+        ) : (
+          <span className="w-[67.92px] shrink-0 text-[12px] leading-[20px] text-ink/70">
+            <span className="inline-block align-middle">{date}</span>
+          </span>
         )}
-        <span className="min-w-0 flex-1 truncate text-[14px] text-ink">
-          {title}
-        </span>
-        <span className="shrink-0 text-[12px] text-ink/70">
-          {showWriter ? "코런 관리자" : date}
-        </span>
       </Link>
     </li>
   );
@@ -80,17 +102,23 @@ function PcRow({
 
 function PcHeading({ en, ko }: { en: string; ko: string }) {
   return (
-    <div className="mb-12">
-      <p className="text-[18px] font-bold leading-[1.2] text-brand">{en}</p>
-      <p className="mt-[6px] text-[36px] font-bold leading-[1.2] text-ink">
-        {ko}
-        <Image
-          src={assets.penSmall}
-          alt=""
-          width={15}
-          height={30}
-          className="ml-[6px] inline-block w-[15px] align-middle"
-        />
+    <div className="py-[15px]">
+      <p className="text-[36px] leading-[43.2px]">
+        <span className="text-[18px] font-bold leading-[21.6px] text-brand">
+          {en}
+        </span>
+      </p>
+      <p className="text-[36px] leading-[43.2px]">
+        <span className="text-[36px] font-bold leading-[43.2px] text-ink">
+          {ko}
+          <Image
+            src={assets.penSmall}
+            alt=""
+            width={156}
+            height={537}
+            className="my-[5px] ml-[6px] inline-block w-[15px] align-middle"
+          />
+        </span>
       </p>
     </div>
   );
@@ -98,13 +126,14 @@ function PcHeading({ en, ko }: { en: string; ko: string }) {
 
 export function NewsEvents() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
-      <SectionHeading en="News & Events" ko="뉴스&이벤트" />
-      <ul className="-mt-6 md:-mt-8">
+    <section className="pc:hidden flex flex-col break-keep px-[15px]">
+      <div className="my-[7.5px] h-[30px]" />
+      <MobileHeading en="News & Events" ko="뉴스&이벤트" />
+      <ul className="my-[7.5px]">
         {news.map((item) => (
           <MobileRow
-            key={item.href}
-            href={item.href}
+            key={item.idx}
+            href={`/news/${item.idx}`}
             badge={item.category}
             title={item.title}
             date={item.date}
@@ -117,20 +146,20 @@ export function NewsEvents() {
 
 export function Downloads() {
   return (
-    <section className="bg-paper">
-      <div className="mx-auto max-w-6xl px-4 py-16 md:px-6 md:py-24">
-        <SectionHeading en="Downloads" ko="다운로드" />
-        <ul className="-mt-6 md:-mt-8">
-          {downloads.map((item) => (
-            <MobileRow
-              key={item.href}
-              href={item.href}
-              title={item.title}
-              date={item.date}
-            />
-          ))}
-        </ul>
-      </div>
+    <section className="pc:hidden flex flex-col break-keep px-[15px]">
+      <div className="my-[7.5px] h-[30px]" />
+      <MobileHeading en="Downloads" ko="다운로드" />
+      <ul className="my-[7.5px]">
+        {downloads.map((item) => (
+          <MobileRow
+            key={item.idx}
+            href={`/downloads/${item.idx}`}
+            title={item.title}
+            date={item.date}
+          />
+        ))}
+      </ul>
+      <div className="my-[7.5px] h-[30px]" />
     </section>
   );
 }
@@ -139,11 +168,11 @@ function PcNews() {
   return (
     <div>
       <PcHeading en="News & Events" ko="뉴스&이벤트" />
-      <ul>
+      <ul className="py-[15px]">
         {news.map((item) => (
           <PcRow
-            key={item.href}
-            href={item.href}
+            key={item.idx}
+            href={`/news/${item.idx}`}
             badge={item.category}
             title={item.title}
             date={item.date}
@@ -158,11 +187,11 @@ function PcDownloads() {
   return (
     <div>
       <PcHeading en="Downloads" ko="다운로드" />
-      <ul>
+      <ul className="py-[15px]">
         {downloads.map((item) => (
           <PcRow
-            key={item.href}
-            href={item.href}
+            key={item.idx}
+            href={`/downloads/${item.idx}`}
             title={item.title}
             date={item.date}
             showWriter
@@ -176,10 +205,8 @@ function PcDownloads() {
 export function ListsSection() {
   return (
     <>
-      <div className="pc:hidden">
-        <NewsEvents />
-        <Downloads />
-      </div>
+      <NewsEvents />
+      <Downloads />
       <div className="mx-auto hidden max-w-[1280px] grid-cols-2 gap-[30px] px-[15px] py-20 pc:grid">
         <PcNews />
         <PcDownloads />

@@ -50,14 +50,14 @@ Product and asset images are served from `https://cdn.imweb.me` (configured in `
 
 Custom design tokens are defined in `src/app/globals.css` under `@theme`:
 
-| Token            | Value     | Usage                       |
-| ---------------- | --------- | --------------------------- |
-| `--color-ink`    | `#363636` | primary text                |
-| `--color-brand`  | `#23463f` | brand dark green            |
-| `--color-brand-red`   | `#c9072b` | accent / CTAs          |
-| `--color-brand-teal`  | `#0e5f53` | hover states           |
-| `--color-paper`  | `#f7f7f7` | subtle backgrounds          |
-| `--breakpoint-pc`| `992px`   | desktop layout breakpoint   |
+| Token                | Value     | Usage                     |
+| -------------------- | --------- | ------------------------- |
+| `--color-ink`        | `#363636` | primary text              |
+| `--color-brand`      | `#23463f` | brand dark green          |
+| `--color-brand-red`  | `#c9072b` | accent / CTAs             |
+| `--color-brand-teal` | `#0e5f53` | hover states              |
+| `--color-paper`      | `#f7f7f7` | subtle backgrounds        |
+| `--breakpoint-pc`    | `992px`   | desktop layout breakpoint |
 
 ## Conventions
 

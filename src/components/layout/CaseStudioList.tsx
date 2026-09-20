@@ -1,9 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
-import SmartImage from "@/components/ui/SmartImage";
 import type { ServiceCaseStudioItem } from "@/lib/data";
+import BoardCardGrid, { bodyText } from "@/components/service/BoardCardGrid";
+import BoardSearch from "@/components/service/BoardSearch";
 
 export default function CaseStudioList({
   items,
@@ -24,68 +24,57 @@ export default function CaseStudioList({
 
   return (
     <>
-      {/* Search */}
-      <div className="relative mx-auto mb-8 max-w-[420px]">
-        <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-neutral-400">
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            aria-hidden
-          >
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
-        </span>
-        <input
-          type="search"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="검색"
-          aria-label="케이스 스튜디오 검색"
-          className="w-full rounded-full border border-neutral-200 bg-white py-3 pl-11 pr-4 text-[14px] text-ink outline-none transition-colors focus:border-brand md:text-[15px]"
-        />
+      {/* PC board */}
+      <div className="hidden pc:block">
+        <div className="pc:pb-[15px]">
+          <BoardCardGrid
+            showLike={false}
+            showWriter={false}
+            items={filtered.map((item) => ({
+              idx: item.idx,
+              href: `/case-studio/${item.idx}`,
+              thumbnail: item.thumbnail,
+              title: item.title,
+              description: item.description,
+              body: item.summary ?? bodyText(item.blocks),
+              date: item.date,
+              views: item.views,
+            }))}
+          />
+          <div className="mt-[15px] h-[41px] text-center">
+            <BoardSearch
+              query={query}
+              onQueryChange={setQuery}
+              ariaLabel="케이스 스튜디오 검색"
+            />
+          </div>
+        </div>
+
+        <div className="pc:h-[110px] pc:pt-[15px]">
+          <div className="pc:h-[80px]" />
+        </div>
       </div>
 
-      {filtered.length === 0 ? (
-        <p className="py-16 text-center text-[14px] text-neutral-500 md:text-[15px]">
-          &ldquo;{query}&rdquo; 에 대한 검색 결과가 없습니다.
-        </p>
-      ) : (
-        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filtered.map((item) => (
-            <li key={item.idx} className="h-full">
-              <Link
-                href={`/case-studio/${item.idx}`}
-                className="group block h-full overflow-hidden bg-white shadow-sm ring-1 ring-neutral-100 transition-all duration-300 hover:shadow-xl hover:ring-1 hover:ring-brand/30"
-              >
-                <div className="relative aspect-[4/3] w-full overflow-hidden">
-                  <SmartImage
-                    src={item.thumbnail}
-                    alt={item.title}
-                    fill
-                    sizes="(min-width: 1280px) 300px, (min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 flex items-end bg-gradient-to-t from-black/50 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <span className="m-3 rounded bg-white/90 px-3 py-1 text-[12px] font-semibold text-brand">
-                      자세히 보기
-                    </span>
-                  </div>
-                </div>
-                <div className="p-4">
-                  <h2 className="line-clamp-2 text-[14px] font-bold leading-[1.4] text-ink md:text-[15px]">
-                    {item.title}
-                  </h2>
-                </div>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
+      {/* Mobile grid */}
+      <div className="pc:hidden">
+        <div className="pt-[7.5px] pb-[17.5px]">
+          <BoardCardGrid
+            showLike={false}
+            showWriter={false}
+            items={filtered.map((item) => ({
+              idx: item.idx,
+              href: `/case-studio/${item.idx}`,
+              thumbnail: item.thumbnail,
+              title: item.title,
+              description: item.description,
+              body: item.summary ?? bodyText(item.blocks),
+              date: item.date,
+              views: item.views,
+            }))}
+          />
+        </div>
+        <div className="h-[55px]" />
+      </div>
     </>
   );
 }

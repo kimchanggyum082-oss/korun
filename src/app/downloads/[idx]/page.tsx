@@ -35,14 +35,24 @@ export default async function DownloadDetailPage({
   return (
     <PostDetail
       activeHref="/downloads"
-      subtitle="코런 제품 자료를 내려받기 하실 수 있습니다"
+      subtitle={"\u00a0코런의 제품과 회사소개서를 다운받을 수 있습니다.\u00a0"}
+      mobileSubtitle="다운로드 파일을 제공해드립니다"
       sectionLabel="Downloads"
+      boardName="Downloads"
       title={item.title}
+      meta={{
+        date: item.date,
+        views: item.views,
+      }}
       blocks={item.blocks}
       files={item.files}
       listHref="/downloads"
       fileLabel="다운로드 파일"
-      pagerItems={downloadItems.map((p) => ({ idx: p.idx, title: p.title }))}
+      pagerItems={downloadItems.map((p) => ({
+        idx: p.idx,
+        title: p.title,
+        date: p.date,
+      }))}
       currentIdx={item.idx}
       pagerBasePath="/downloads"
     />

@@ -30,36 +30,66 @@ export function SectionHeading({ en, ko }: { en: string; ko: string }) {
   );
 }
 
+const MOBILE_PEN =
+  "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/cd3f41b48aeae.png";
+const MOBILE_PRODUCT_HEIGHTS = [208, 211, 208, 208];
+
 export default function Products() {
   return (
     <>
-      <section className="mx-auto max-w-6xl px-4 py-16 pc:hidden md:px-6 md:py-24">
-        <SectionHeading en="We making" ko="smart flow of Resin" />
-        <p className="-mt-6 mb-10 text-sm leading-relaxed text-neutral-500 md:-mt-8 md:mb-14 md:text-base">
-          HOT RUNNER SYSTEM 전문 제조 회사로서
-          <br />
-          가격, 품질, 서비스로 보답하는 국내 핫런너 제조 전문 메이커입니다.
-        </p>
+      <section className="pc:hidden flex flex-col break-keep px-[15px] text-[#363636]">
+        <div className="my-[7.5px] h-[30px]" />
 
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:gap-8">
-          {assets.products.map((product) => (
-            <a
-              key={product.title}
-              href={product.href}
-              aria-label={product.title}
-              className="block overflow-hidden"
-            >
-              <SmartImage
-                src={product.mobileSrc}
-                alt={product.title}
-                width={1200}
-                height={1440}
-                sizes="(min-width: 640px) 50vw, 100vw"
-                className="h-auto w-full transition-transform duration-500 hover:scale-[1.03]"
-              />
-            </a>
-          ))}
+        <div className="my-[7.5px]">
+          <p className="text-[24px] font-bold leading-[28.8px]">We making</p>
+          <p className="text-[24px] font-bold leading-[28.8px]">
+            smart flow of Resin
+            <Image
+              src={MOBILE_PEN}
+              alt=""
+              width={156}
+              height={537}
+              className="my-[5px] inline-block w-[16px] align-middle"
+            />
+          </p>
         </div>
+
+        <div className="my-[7.5px] text-[15px] leading-[24px]">
+          <p>HOT RUNNER SYSTEM 전문 제조 회사로서</p>
+          <p>
+            가격, 품질, 서비스로 보답하는 국내 핫런너 제조 전문 메이커입니다.
+          </p>
+        </div>
+
+        {[0, 2].map((start) => (
+          <div key={start} className="-mx-[7.5px] flex">
+            {assets.products.slice(start, start + 2).map((product, i) => (
+              <div key={product.href} className="w-1/2 px-[7.5px]">
+                <a
+                  href={product.href}
+                  aria-label={product.title}
+                  className="my-[7.5px] block"
+                >
+                  <div
+                    className="relative overflow-hidden"
+                    style={{ height: MOBILE_PRODUCT_HEIGHTS[start + i] }}
+                  >
+                    <SmartImage
+                      src={product.mobileSrc}
+                      alt={product.title}
+                      fill
+                      unoptimized
+                      sizes="50vw"
+                      className="object-cover"
+                    />
+                  </div>
+                </a>
+              </div>
+            ))}
+          </div>
+        ))}
+
+        <div className="my-[7.5px] h-[30px]" />
       </section>
 
       <section className="relative hidden overflow-hidden bg-white pc:block">
@@ -76,22 +106,32 @@ export default function Products() {
         />
 
         <div className="relative mx-auto max-w-[1280px] px-[15px] pb-[150px] pt-[150px]">
-          <h2 className="text-[48px] font-bold leading-[1.35] text-ink">
-            We making smart flow of Resin
-            <Image
-              src={assets.penLarge}
-              alt=""
-              width={20}
-              height={40}
-              className="ml-[8px] inline-block w-[20px] align-middle"
-            />
-          </h2>
-          <p className="mt-[8px] text-[22px] leading-[1.5] text-ink">
-            HOT RUNNER SYSTEM 전문 제조 회사로서 가격, 품질, 서비스로 보답하는
-            국내 핫런너 제조 전문 메이커입니다.
-          </p>
+          <div className="py-[15px]">
+            <h2 className="leading-[24px]">
+              <span className="text-[48px] font-bold leading-[57.6px] text-ink">
+                We making smart flow of Resin{" "}
+                <Image
+                  src={assets.penLarge}
+                  alt=""
+                  width={156}
+                  height={537}
+                  className="my-[5px] inline-block w-[20px] align-middle"
+                />
+              </span>
+            </h2>
+            <p className="leading-[24px]">
+              <span className="text-[22px] leading-[26.4px] text-ink">
+                HOT RUNNER SYSTEM 전문 제조 회사로서 가격, 품질, 서비스로
+                보답하는 국내 핫런너 제조 전문 메이커입니다.
+              </span>
+            </p>
+          </div>
 
-          <div className="mt-[33px] grid grid-cols-4 gap-[30px]">
+          <div className="py-[15px]">
+            <div className="h-[3px]" />
+          </div>
+
+          <div className="grid grid-cols-4 gap-[30px] py-[15px]">
             {assets.products.map((product) => (
               <a
                 key={product.href}

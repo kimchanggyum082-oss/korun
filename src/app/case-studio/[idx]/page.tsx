@@ -35,15 +35,25 @@ export default async function CaseStudioDetailPage({
   return (
     <PostDetail
       activeHref="/case-studio"
-      subtitle="코런의 다양한 적용 사례를 소개합니다"
       sectionLabel="Case Studio"
+      mobileSubtitle="다운로드 파일을 제공해드립니다"
+      mobileTitle="Downloads"
+      boardName="Case Studio"
       title={item.title}
+      meta={{
+        date: item.date,
+        views: item.views,
+      }}
       blocks={item.blocks}
       files={item.files}
       listHref="/case-studio"
       fileLabel="첨부파일"
       showComments={false}
-      pagerItems={caseStudioItems.map((p) => ({ idx: p.idx, title: p.title }))}
+      pagerItems={caseStudioItems.map((p) => ({
+        idx: p.idx,
+        title: p.title,
+        date: p.date,
+      }))}
       currentIdx={item.idx}
       pagerBasePath="/case-studio"
     />
