@@ -1,10 +1,5 @@
-import {
-  caseStudioItems,
-  downloadItems,
-  interestingItems,
-  newsItems,
-  type InterestingItemBlock,
-} from "@/lib/data";
+import { getSearchIndex } from "@/lib/content";
+import type { InterestingItemBlock } from "@/lib/data";
 
 export type SearchHit = {
   key: string;
@@ -45,6 +40,8 @@ function firstImage(blocks: InterestingItemBlock[]): string {
 }
 
 export function allSearchHits(): SearchHit[] {
+  const { newsItems, downloadItems, caseStudioItems, interestingItems } =
+    getSearchIndex();
   return [
     ...newsItems.map((item) => ({
       key: `news-${item.idx}`,

@@ -1,6 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
 import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "./globals.css";
 
@@ -56,11 +54,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className="h-full antialiased">
-      <body className="flex flex-col">
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
-      </body>
+      <body className="flex flex-col">{children}</body>
     </html>
   );
 }
