@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { PictureIcon, RefreshIcon } from "@/components/service/ServiceIcons";
+import { chrome } from "@/lib/i18n/chrome";
+import { useLocale } from "@/lib/i18n/client";
 
 type Comment = { name: string; body: string; date: string };
 
@@ -11,6 +13,7 @@ export default function CommentSection({
   initialCount?: number;
   variant?: "guest" | "login";
 }) {
+  const t = chrome[useLocale()];
   const [comments, setComments] = useState<Comment[]>([]);
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -21,7 +24,7 @@ export default function CommentSection({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name.trim() || !body.trim()) {
-      setError("이름과 댓글 내용을 입력해 주세요.");
+      setError(t.comment.validation.nameAndBody);
       return;
     }
     setError("");
@@ -44,16 +47,16 @@ export default function CommentSection({
           type="text"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          placeholder="이름"
-          aria-label="이름"
+          placeholder={t.comment.name}
+          aria-label={t.comment.name}
           className="mr-[2%] h-[43.6px] w-[49%] border border-[rgba(128,128,128,0.2)] px-4 py-2 text-[16px] leading-[25.6px] text-ink outline-none pc:mr-[10px] pc:h-[42px] pc:w-[150px] pc:text-[15px] pc:leading-[24px]"
         />
         <input
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="비밀번호"
-          aria-label="비밀번호"
+          placeholder={t.comment.password}
+          aria-label={t.comment.password}
           className="h-[43.6px] w-[49%] border border-[rgba(128,128,128,0.2)] px-4 py-2 text-[16px] leading-[25.6px] text-ink outline-none pc:h-[42px] pc:w-[150px] pc:text-[15px] pc:leading-[24px]"
         />
       </div>
@@ -61,8 +64,8 @@ export default function CommentSection({
         <textarea
           value={body}
           onChange={(e) => setBody(e.target.value)}
-          placeholder="댓글을 남겨주세요"
-          aria-label="댓글"
+          placeholder={t.comment.bodyPlaceholder}
+          aria-label={t.comment.body}
           className="mb-[12px] h-[62px] w-full resize-none align-top text-[16px] leading-[25.6px] text-ink outline-none pc:text-[15px] pc:leading-[24px]"
         />
         <div className="flex items-center justify-between">
@@ -73,7 +76,7 @@ export default function CommentSection({
             type="submit"
             className="h-[32px] border border-[#363636] bg-[#363636] px-5 py-[6px] text-[12px] leading-[18px] text-white"
           >
-            작성
+            {t.comment.submit}
           </button>
         </div>
       </div>
@@ -91,12 +94,12 @@ export default function CommentSection({
             type="text"
             value={captcha}
             onChange={(e) => setCaptcha(e.target.value)}
-            placeholder="보안 문자를 입력해 주세요."
-            aria-label="보안 문자"
+            placeholder={t.comment.captchaPlaceholder}
+            aria-label={t.comment.captcha}
             className="h-[40px] w-[185px] border border-[#dbdee3] bg-white px-[10px] text-[14px] leading-[20px] text-[#212121] outline-none pc:w-[200px]"
           />
           <span className="mt-[8px] text-[14px] leading-[24px] text-[#9fa3ab] pc:mt-0 pc:ml-4">
-            공백 없이 입력하세요.
+            {t.comment.captchaHint}
           </span>
         </div>
       </div>
@@ -112,8 +115,8 @@ export default function CommentSection({
     <div className="border border-[rgba(128,128,128,0.2)] p-[12px] pc:h-[140px] pc:p-4">
       <textarea
         disabled
-        placeholder="로그인이 필요합니다."
-        aria-label="댓글"
+        placeholder={t.comment.loginRequired}
+        aria-label={t.comment.body}
         className="mb-[12px] h-[62px] w-full resize-none align-top text-[16px] leading-[25.6px] text-ink outline-none pc:text-[15px] pc:leading-[24px]"
       />
       <div className="flex justify-end">
@@ -122,7 +125,7 @@ export default function CommentSection({
           disabled
           className="h-[32px] border border-[#363636] bg-[#363636] px-5 py-[6px] text-[12px] leading-[18px] text-white"
         >
-          작성
+          {t.comment.submit}
         </button>
       </div>
     </div>

@@ -1,8 +1,11 @@
 "use client";
 
 import EntityEditor from "@/components/admin/EntityEditor";
-import { studioEntityKey, type EntitySource } from "@/lib/admin/entities";
-import type { ServiceCaseStudioItem } from "@/lib/data";
+import {
+  studioEntityKey,
+  type EntitySource,
+  type ServiceCaseStudioItemEntity,
+} from "@/lib/admin/entities";
 import CaseStudioForms from "./CaseStudioForms";
 import CaseStudioPreviews from "./CaseStudioPreviews";
 
@@ -12,13 +15,13 @@ export default function CaseStudioEditor({
   storeReady,
   uploadConfigured,
 }: {
-  initial: ServiceCaseStudioItem;
+  initial: ServiceCaseStudioItemEntity;
   source: EntitySource;
   storeReady: boolean;
   uploadConfigured: boolean;
 }) {
   return (
-    <EntityEditor<ServiceCaseStudioItem>
+    <EntityEditor<ServiceCaseStudioItemEntity>
       entityKey={studioEntityKey(initial.idx)}
       label="Service"
       title="케이스 스튜디오"

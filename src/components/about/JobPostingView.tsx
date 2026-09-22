@@ -1,16 +1,22 @@
 import Link from "next/link";
 
 import type { getAboutPage } from "@/lib/content";
-import type { AboutJobPostingEntity } from "@/lib/admin/entities";
+import type { AboutContentMap } from "@/lib/data";
+import type { ChromeDict } from "@/lib/i18n/chrome";
+import { defaultLocale, localizeHref, type Locale } from "@/lib/i18n/locales";
 
 type AboutPageData = Awaited<ReturnType<typeof getAboutPage>>;
 
 export type JobPostingViewProps = {
-  content: AboutJobPostingEntity["content"];
+  t: ChromeDict;
+  locale?: Locale;
+  content: AboutContentMap["job-posting"];
   jobPosts: AboutPageData["jobPosts"];
 };
 
 export default function JobPostingView({
+  t,
+  locale = defaultLocale,
   content,
   jobPosts,
 }: JobPostingViewProps) {
@@ -43,7 +49,7 @@ export default function JobPostingView({
                 className="relative border-b border-[rgba(54,54,54,0.15)] px-[15px] pt-[10px] pb-[15px]"
               >
                 <Link
-                  href={`/about/job-posting/${post.idx}`}
+                  href={localizeHref(`/about/job-posting/${post.idx}`, locale)}
                   className="absolute inset-0"
                   aria-label={post.title}
                 />
@@ -52,7 +58,10 @@ export default function JobPostingView({
                     {"\u200b"}
                   </span>
                   <Link
-                    href={`/about/job-posting/${post.idx}`}
+                    href={localizeHref(
+                      `/about/job-posting/${post.idx}`,
+                      locale,
+                    )}
                     className="text-[14px] leading-[19.6px]"
                   >
                     {post.title}
@@ -62,7 +71,7 @@ export default function JobPostingView({
                   <span className="pr-[10px] pt-[5px]">{post.author}</span>
                   <span className="pr-[10px] pt-[5px]">{post.date}</span>
                   <span className="pr-[10px] pt-[5px]">
-                    조회수 {post.views}
+                    {t.post.views(post.views)}
                   </span>
                   <span className="pr-[10px] pt-[5px]">♡ 0</span>
                 </div>
@@ -85,31 +94,31 @@ export default function JobPostingView({
                   scope="col"
                   className="py-2.5 text-center font-bold text-ink"
                 >
-                  제목
+                  {t.board.title}
                 </th>
                 <th
                   scope="col"
                   className="w-[10%] py-2.5 text-center font-bold text-ink"
                 >
-                  글쓴이
+                  {t.board.author}
                 </th>
                 <th
                   scope="col"
                   className="w-[12%] py-2.5 text-center font-bold text-ink"
                 >
-                  작성시간
+                  {t.board.date}
                 </th>
                 <th
                   scope="col"
                   className="w-[10%] py-2.5 text-center font-bold text-ink"
                 >
-                  조회수
+                  {t.board.views}
                 </th>
                 <th
                   scope="col"
                   className="w-[7%] py-2.5 text-center font-bold text-ink"
                 >
-                  좋아요
+                  {t.board.likes}
                 </th>
               </tr>
             </thead>
@@ -124,7 +133,10 @@ export default function JobPostingView({
                   </td>
                   <td className="py-2.5 text-left text-[14px] text-ink">
                     <Link
-                      href={`/about/job-posting/${post.idx}`}
+                      href={localizeHref(
+                        `/about/job-posting/${post.idx}`,
+                        locale,
+                      )}
                       className="hover:text-brand hover:underline"
                     >
                       {post.title}

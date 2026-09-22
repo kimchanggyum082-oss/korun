@@ -2,19 +2,28 @@
 
 import type { UpdateDraft } from "@/components/admin/EntityEditor";
 import ImageField from "@/components/admin/ImageField";
+import LocalizedField from "@/components/admin/LocalizedField";
 import {
   Field,
+  readLocalized,
   SectionCard,
   TextInput,
   TwoColumn,
+  type LocalizedValue,
 } from "@/components/admin/fields";
 import type {
-  HomeContent,
-  HomeHeroSlide,
-  HomeMobilePill,
-  HomePill,
-  HomeProductCard,
-} from "@/lib/data";
+  HomeEntity,
+  HomeHeroSlideEntity,
+  HomeMobilePillEntity,
+  HomePillEntity,
+  HomeProductCardEntity,
+} from "@/lib/admin/entities";
+import type { Localized } from "@/lib/content/merge";
+
+function toLocalized(next: LocalizedValue): Localized<string> {
+  const { ko, en } = readLocalized(next);
+  return en.length > 0 ? { ko, en } : ko;
+}
 
 function moveAt<T>(list: T[], index: number, delta: number): T[] {
   const target = index + delta;
@@ -105,8 +114,8 @@ function HeroList({
 }: {
   title: string;
   description: string;
-  slides: HomeHeroSlide[];
-  onChange: (next: HomeHeroSlide[]) => void;
+  slides: HomeHeroSlideEntity[];
+  onChange: (next: HomeHeroSlideEntity[]) => void;
   uploadConfigured: boolean;
 }) {
   return (
@@ -135,19 +144,18 @@ function HeroList({
               onChange(replaceAt(slides, index, { ...slide, src: next }))
             }
           />
-          <Field label="대체 텍스트 (alt)">
-            <TextInput
-              value={slide.alt}
-              onChange={(event) =>
-                onChange(
-                  replaceAt(slides, index, {
-                    ...slide,
-                    alt: event.target.value,
-                  }),
-                )
-              }
-            />
-          </Field>
+          <LocalizedField
+            label="대체 텍스트 (alt)"
+            value={slide.alt}
+            onChange={(next) =>
+              onChange(
+                replaceAt(slides, index, {
+                  ...slide,
+                  alt: toLocalized(next),
+                }),
+              )
+            }
+          />
         </div>
       ))}
       <AddButton onClick={() => onChange([...slides, { src: "", alt: "" }])}>
@@ -164,12 +172,12 @@ function PillRow({
   href,
   onChange,
 }: {
-  title: string;
+  title: Localized<string>;
   color: string;
   padding: string;
   href?: string;
   onChange: (next: {
-    label: string;
+    label: Localized<string>;
     color: string;
     padding: string;
     href?: string;
@@ -177,15 +185,14 @@ function PillRow({
 }) {
   return (
     <div className="flex flex-col gap-2 rounded-md border border-neutral-200 p-3">
+      <LocalizedField
+        label="라벨"
+        value={title}
+        onChange={(next) =>
+          onChange({ label: toLocalized(next), color, padding, href })
+        }
+      />
       <TwoColumn>
-        <Field label="라벨">
-          <TextInput
-            value={title}
-            onChange={(event) =>
-              onChange({ label: event.target.value, color, padding, href })
-            }
-          />
-        </Field>
         <Field label="색상">
           <div className="flex items-center gap-2">
             <span
@@ -205,8 +212,6 @@ function PillRow({
             />
           </div>
         </Field>
-      </TwoColumn>
-      <TwoColumn>
         <Field label="여백 (padding)">
           <TextInput
             value={padding}
@@ -220,22 +225,22 @@ function PillRow({
             }
           />
         </Field>
-        {href !== undefined && (
-          <Field label="링크 (href)">
-            <TextInput
-              value={href}
-              onChange={(event) =>
-                onChange({
-                  label: title,
-                  color,
-                  padding,
-                  href: event.target.value,
-                })
-              }
-            />
-          </Field>
-        )}
       </TwoColumn>
+      {href !== undefined && (
+        <Field label="링크 (href)">
+          <TextInput
+            value={href}
+            onChange={(event) =>
+              onChange({
+                label: title,
+                color,
+                padding,
+                href: event.target.value,
+              })
+            }
+          />
+        </Field>
+      )}
     </div>
   );
 }
@@ -245,11 +250,11 @@ export default function HomeForms({
   update,
   uploadConfigured,
 }: {
-  draft: HomeContent;
-  update: UpdateDraft<HomeContent>;
+  draft: HomeEntity;
+  update: UpdateDraft<HomeEntity>;
   uploadConfigured: boolean;
 }) {
-  const setProduct = (index: number, patch: Partial<HomeProductCard>) =>
+  const setProduct = (index: number, patch: Partial<HomeProductCardEntity>) =>
     update((current) => ({
       ...current,
       products: {
@@ -261,7 +266,7 @@ export default function HomeForms({
       },
     }));
 
-  const setDesktopPill = (index: number, patch: Partial<HomePill>) =>
+  const setDesktopPill = (index: number, patch: Partial<HomePillEntity>) =>
     update((current) => ({
       ...current,
       values: {
@@ -273,7 +278,7 @@ export default function HomeForms({
       },
     }));
 
-  const setMobilePill = (index: number, patch: Partial<HomeMobilePill>) =>
+  const setMobilePill = (index: number, patch: Partial<HomeMobilePillEntity>) =>
     update((current) => ({
       ...current,
       values: {
@@ -285,32 +290,16 @@ export default function HomeForms({
       },
     }));
 
-  const setCta = (patch: Partial<HomeContent["cta"]>) =>
+  const setCta = (patch: Partial<HomeEntity["cta"]>) =>
     update((current) => ({ ...current, cta: { ...current.cta, ...patch } }));
 
-  const setNewsHeading = (
-    patch: Partial<HomeContent["lists"]["newsHeading"]>,
-  ) =>
+  const setLists = (patch: Partial<HomeEntity["lists"]>) =>
     update((current) => ({
       ...current,
-      lists: {
-        ...current.lists,
-        newsHeading: { ...current.lists.newsHeading, ...patch },
-      },
+      lists: { ...current.lists, ...patch },
     }));
 
-  const setDownloadsHeading = (
-    patch: Partial<HomeContent["lists"]["downloadsHeading"]>,
-  ) =>
-    update((current) => ({
-      ...current,
-      lists: {
-        ...current.lists,
-        downloadsHeading: { ...current.lists.downloadsHeading, ...patch },
-      },
-    }));
-
-  const setLocation = (patch: Partial<HomeContent["location"]>) =>
+  const setLocation = (patch: Partial<HomeEntity["location"]>) =>
     update((current) => ({
       ...current,
       location: { ...current.location, ...patch },
@@ -356,24 +345,21 @@ export default function HomeForms({
             <span className="text-[12px] font-semibold text-neutral-500">
               카드 {index + 1}
             </span>
-            <TwoColumn>
-              <Field label="제목">
-                <TextInput
-                  value={card.title}
-                  onChange={(event) =>
-                    setProduct(index, { title: event.target.value })
-                  }
-                />
-              </Field>
-              <Field label="링크 (href)">
-                <TextInput
-                  value={card.href}
-                  onChange={(event) =>
-                    setProduct(index, { href: event.target.value })
-                  }
-                />
-              </Field>
-            </TwoColumn>
+            <LocalizedField
+              label="제목"
+              value={card.title}
+              onChange={(next) =>
+                setProduct(index, { title: toLocalized(next) })
+              }
+            />
+            <Field label="링크 (href)">
+              <TextInput
+                value={card.href}
+                onChange={(event) =>
+                  setProduct(index, { href: event.target.value })
+                }
+              />
+            </Field>
             <ImageField
               label="이미지"
               value={card.src}
@@ -434,18 +420,16 @@ export default function HomeForms({
       </SectionCard>
 
       <SectionCard title="CTA 배너" description="카피와 이미지입니다.">
-        <Field label="문구 1">
-          <TextInput
-            value={draft.cta.line1}
-            onChange={(event) => setCta({ line1: event.target.value })}
-          />
-        </Field>
-        <Field label="문구 2">
-          <TextInput
-            value={draft.cta.line2}
-            onChange={(event) => setCta({ line2: event.target.value })}
-          />
-        </Field>
+        <LocalizedField
+          label="문구 1"
+          value={draft.cta.line1}
+          onChange={(next) => setCta({ line1: toLocalized(next) })}
+        />
+        <LocalizedField
+          label="문구 2"
+          value={draft.cta.line2}
+          onChange={(next) => setCta({ line2: toLocalized(next) })}
+        />
         <ImageField
           label="데스크톱 사진"
           value={draft.cta.photo}
@@ -479,46 +463,49 @@ export default function HomeForms({
         <TwoColumn>
           <Field label="뉴스 영문 제목">
             <TextInput
-              value={draft.lists.newsHeading.en}
-              onChange={(event) => setNewsHeading({ en: event.target.value })}
+              value={draft.lists.newsHeadingEn}
+              onChange={(event) =>
+                setLists({ newsHeadingEn: event.target.value })
+              }
             />
           </Field>
           <Field label="뉴스 국문 제목">
             <TextInput
-              value={draft.lists.newsHeading.ko}
-              onChange={(event) => setNewsHeading({ ko: event.target.value })}
+              value={draft.lists.newsHeadingKo}
+              onChange={(event) =>
+                setLists({ newsHeadingKo: event.target.value })
+              }
             />
           </Field>
         </TwoColumn>
         <TwoColumn>
           <Field label="자료실 영문 제목">
             <TextInput
-              value={draft.lists.downloadsHeading.en}
+              value={draft.lists.downloadsHeadingEn}
               onChange={(event) =>
-                setDownloadsHeading({ en: event.target.value })
+                setLists({ downloadsHeadingEn: event.target.value })
               }
             />
           </Field>
           <Field label="자료실 국문 제목">
             <TextInput
-              value={draft.lists.downloadsHeading.ko}
+              value={draft.lists.downloadsHeadingKo}
               onChange={(event) =>
-                setDownloadsHeading({ ko: event.target.value })
+                setLists({ downloadsHeadingKo: event.target.value })
               }
             />
           </Field>
         </TwoColumn>
-        <Field label="작성자 라벨">
-          <TextInput
-            value={draft.lists.writer}
-            onChange={(event) =>
-              update((current) => ({
-                ...current,
-                lists: { ...current.lists, writer: event.target.value },
-              }))
-            }
-          />
-        </Field>
+        <LocalizedField
+          label="작성자 라벨"
+          value={draft.lists.writer}
+          onChange={(next) =>
+            update((current) => ({
+              ...current,
+              lists: { ...current.lists, writer: toLocalized(next) },
+            }))
+          }
+        />
       </SectionCard>
 
       <SectionCard
@@ -543,12 +530,11 @@ export default function HomeForms({
             />
           </Field>
         </TwoColumn>
-        <Field label="지도 제목 (iframe title)">
-          <TextInput
-            value={draft.location.mapTitle}
-            onChange={(event) => setLocation({ mapTitle: event.target.value })}
-          />
-        </Field>
+        <LocalizedField
+          label="지도 제목 (iframe title)"
+          value={draft.location.mapTitle}
+          onChange={(next) => setLocation({ mapTitle: toLocalized(next) })}
+        />
       </SectionCard>
     </>
   );

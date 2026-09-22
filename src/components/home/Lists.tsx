@@ -7,6 +7,7 @@ import {
   type HomeContent,
   type NewsItem,
 } from "@/lib/data";
+import { defaultLocale, localizeHref, type Locale } from "@/lib/i18n/locales";
 
 function MobileHeading({
   en,
@@ -36,18 +37,23 @@ function MobileHeading({
 
 function MobileRow({
   href,
+  locale,
   badge,
   title,
   date,
 }: {
   href: string;
+  locale: Locale;
   badge?: NewsItem["category"];
   title: string;
   date: string;
 }) {
   return (
     <li className="flex h-[41.8125px] items-center border-b border-[rgba(54,54,54,0.1)]">
-      <Link href={href} className="flex min-w-0 flex-1 items-center">
+      <Link
+        href={href.startsWith("/") ? localizeHref(href, locale) : href}
+        className="flex min-w-0 flex-1 items-center"
+      >
         <span className="h-[20px] min-w-0 flex-1 overflow-hidden pr-[4px] text-[14px] leading-[20px] text-ink">
           {badge && (
             <em
@@ -69,6 +75,7 @@ function MobileRow({
 
 function PcRow({
   href,
+  locale,
   badge,
   title,
   date,
@@ -76,6 +83,7 @@ function PcRow({
   writer,
 }: {
   href: string;
+  locale: Locale;
   badge?: NewsItem["category"];
   title: string;
   date: string;
@@ -85,7 +93,7 @@ function PcRow({
   return (
     <li className="border-b border-ink/10 text-[15px] leading-[20px]">
       <Link
-        href={href}
+        href={href.startsWith("/") ? localizeHref(href, locale) : href}
         className="flex items-center py-[10px] leading-[20px] transition-colors hover:text-brand-teal"
       >
         <span className="min-w-0 flex-1 truncate leading-[20px]">
@@ -145,13 +153,19 @@ function PcHeading({
   );
 }
 
-export function NewsEvents({ lists }: { lists: HomeContent["lists"] }) {
+export function NewsEvents({
+  lists,
+  locale,
+}: {
+  lists: HomeContent["lists"];
+  locale: Locale;
+}) {
   return (
     <section className="pc:hidden flex flex-col break-keep px-[15px]">
       <div className="my-[7.5px] h-[30px]" />
       <MobileHeading
-        en={lists.newsHeading.en}
-        ko={lists.newsHeading.ko}
+        en={lists.newsHeadingEn}
+        ko={lists.newsHeadingKo}
         penMobile={lists.penMobile}
       />
       <ul className="my-[7.5px]">
@@ -159,6 +173,7 @@ export function NewsEvents({ lists }: { lists: HomeContent["lists"] }) {
           <MobileRow
             key={item.idx}
             href={`/news/${item.idx}`}
+            locale={locale}
             badge={item.category}
             title={item.title}
             date={item.date}
@@ -169,13 +184,19 @@ export function NewsEvents({ lists }: { lists: HomeContent["lists"] }) {
   );
 }
 
-export function Downloads({ lists }: { lists: HomeContent["lists"] }) {
+export function Downloads({
+  lists,
+  locale,
+}: {
+  lists: HomeContent["lists"];
+  locale: Locale;
+}) {
   return (
     <section className="pc:hidden flex flex-col break-keep px-[15px]">
       <div className="my-[7.5px] h-[30px]" />
       <MobileHeading
-        en={lists.downloadsHeading.en}
-        ko={lists.downloadsHeading.ko}
+        en={lists.downloadsHeadingEn}
+        ko={lists.downloadsHeadingKo}
         penMobile={lists.penMobile}
       />
       <ul className="my-[7.5px]">
@@ -183,6 +204,7 @@ export function Downloads({ lists }: { lists: HomeContent["lists"] }) {
           <MobileRow
             key={item.idx}
             href={`/downloads/${item.idx}`}
+            locale={locale}
             title={item.title}
             date={item.date}
           />
@@ -193,12 +215,18 @@ export function Downloads({ lists }: { lists: HomeContent["lists"] }) {
   );
 }
 
-function PcNews({ lists }: { lists: HomeContent["lists"] }) {
+function PcNews({
+  lists,
+  locale,
+}: {
+  lists: HomeContent["lists"];
+  locale: Locale;
+}) {
   return (
     <div>
       <PcHeading
-        en={lists.newsHeading.en}
-        ko={lists.newsHeading.ko}
+        en={lists.newsHeadingEn}
+        ko={lists.newsHeadingKo}
         penSmall={lists.penSmall}
       />
       <ul className="py-[15px]">
@@ -206,6 +234,7 @@ function PcNews({ lists }: { lists: HomeContent["lists"] }) {
           <PcRow
             key={item.idx}
             href={`/news/${item.idx}`}
+            locale={locale}
             badge={item.category}
             title={item.title}
             date={item.date}
@@ -217,12 +246,18 @@ function PcNews({ lists }: { lists: HomeContent["lists"] }) {
   );
 }
 
-function PcDownloads({ lists }: { lists: HomeContent["lists"] }) {
+function PcDownloads({
+  lists,
+  locale,
+}: {
+  lists: HomeContent["lists"];
+  locale: Locale;
+}) {
   return (
     <div>
       <PcHeading
-        en={lists.downloadsHeading.en}
-        ko={lists.downloadsHeading.ko}
+        en={lists.downloadsHeadingEn}
+        ko={lists.downloadsHeadingKo}
         penSmall={lists.penSmall}
       />
       <ul className="py-[15px]">
@@ -230,6 +265,7 @@ function PcDownloads({ lists }: { lists: HomeContent["lists"] }) {
           <PcRow
             key={item.idx}
             href={`/downloads/${item.idx}`}
+            locale={locale}
             title={item.title}
             date={item.date}
             showWriter
@@ -243,16 +279,18 @@ function PcDownloads({ lists }: { lists: HomeContent["lists"] }) {
 
 export function ListsSection({
   lists = homeContent.lists,
+  locale = defaultLocale,
 }: {
   lists?: HomeContent["lists"];
+  locale?: Locale;
 } = {}) {
   return (
     <>
-      <NewsEvents lists={lists} />
-      <Downloads lists={lists} />
+      <NewsEvents lists={lists} locale={locale} />
+      <Downloads lists={lists} locale={locale} />
       <div className="mx-auto hidden max-w-[1280px] grid-cols-2 gap-[30px] px-[15px] py-20 pc:grid">
-        <PcNews lists={lists} />
-        <PcDownloads lists={lists} />
+        <PcNews lists={lists} locale={locale} />
+        <PcDownloads lists={lists} locale={locale} />
       </div>
     </>
   );

@@ -1,5 +1,13 @@
 "use client";
 
+import { readLocalized, type LocalizedValue } from "@/components/admin/fields";
+import type { Localized } from "@/lib/content/merge";
+
+export function toLocalized(next: LocalizedValue): Localized<string> {
+  const { ko, en } = readLocalized(next);
+  return en.length > 0 ? { ko, en } : ko;
+}
+
 export function PreviewCard({
   title,
   children,

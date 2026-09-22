@@ -2,6 +2,9 @@
 
 import { useRef, useState } from "react";
 import { ClearGlyph, SearchGlyph } from "@/components/search/SearchIcons";
+import { chrome } from "@/lib/i18n/chrome";
+import { useLocale } from "@/lib/i18n/client";
+import { localizeHref } from "@/lib/i18n/locales";
 
 export default function SearchForm({
   type,
@@ -12,6 +15,8 @@ export default function SearchForm({
   keyword: string;
   sort: string;
 }) {
+  const locale = useLocale();
+  const t = chrome[locale];
   const formRef = useRef<HTMLFormElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const [value, setValue] = useState(keyword);
@@ -31,7 +36,7 @@ export default function SearchForm({
     >
       <form
         ref={formRef}
-        action="/search"
+        action={localizeHref("/search", locale)}
         method="get"
         id="s_form"
         style={{
@@ -66,8 +71,8 @@ export default function SearchForm({
               type="text"
               className="form-control"
               name="keyword"
-              placeholder="검색"
-              title="검색"
+              placeholder={t.search.placeholder}
+              title={t.search.label}
               autoComplete="off"
               value={value}
               onChange={(event) => setValue(event.target.value)}
@@ -107,7 +112,7 @@ export default function SearchForm({
               }}
             >
               <SearchGlyph />
-              <span className="sr-only">검색</span>
+              <span className="sr-only">{t.search.submit}</span>
             </button>
             <button
               type="button"
@@ -138,7 +143,7 @@ export default function SearchForm({
               }}
             >
               <ClearGlyph />
-              <span className="sr-only">삭제</span>
+              <span className="sr-only">{t.search.clear}</span>
             </button>
           </div>
         </div>

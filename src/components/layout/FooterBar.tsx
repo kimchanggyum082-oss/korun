@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { localizeHref, type Locale } from "@/lib/i18n/locales";
 
 export type FooterBarLabels = {
   company: string;
@@ -44,15 +45,20 @@ export default function FooterBar({
   labels = DEFAULT_LABELS,
   links = DEFAULT_LINKS,
   copyright,
+  locale = "ko",
 }: {
   contact: FooterBarContact;
   labels?: FooterBarLabels;
   links?: FooterBarLinks;
   copyright?: string;
+  locale?: Locale;
 }) {
   const copyrightLine =
     copyright ??
     `COPYRIGHT © ${contact.name.replace(/\s+/g, "")}. ALL RIGHTS RESERVED. DESIGN HOSTING BY WEMENTO.`;
+
+  const policyHref = `${localizeHref("/", locale)}?mode=policy`;
+  const privacyHref = `${localizeHref("/", locale)}?mode=privacy`;
 
   return (
     <footer className="bg-[#020202] text-[#9b9b9b] pc:bg-[#131313] pc:text-[#b3b3b3]">
@@ -112,7 +118,7 @@ export default function FooterBar({
           <div className="-mx-[7.5px] flex text-[15px] leading-[24px]">
             <div className="w-[93.75px] px-[7.5px] py-[7.5px] font-bold">
               <Link
-                href="/?mode=policy"
+                href={policyHref}
                 className="transition-colors hover:text-white"
               >
                 {links.policy}
@@ -121,7 +127,7 @@ export default function FooterBar({
             <div className="w-[281.25px] px-[7.5px] py-[7.5px] font-bold">
               <p>
                 <Link
-                  href="/?mode=privacy"
+                  href={privacyHref}
                   className="transition-colors hover:text-white"
                 >
                   {links.privacy}
@@ -165,14 +171,14 @@ export default function FooterBar({
           </p>
           <p className="font-bold">
             <Link
-              href="/?mode=policy"
+              href={policyHref}
               className="transition-colors hover:text-white"
             >
               {links.policy}
             </Link>
             <strong className="pc:font-bold">&nbsp; &nbsp; &nbsp;</strong>
             <Link
-              href="/?mode=privacy"
+              href={privacyHref}
               className="transition-colors hover:text-white"
             >
               {links.privacy}

@@ -2,19 +2,20 @@
 
 import { useState } from "react";
 import EntityEditor from "@/components/admin/EntityEditor";
+import LocalizedField from "@/components/admin/LocalizedField";
 import ScaledDesktop from "@/components/admin/ScaledDesktop";
 import PolicyModal from "@/components/layout/PolicyModal";
 import {
-  Field,
+  readLocalized,
   SectionCard,
-  TextArea,
-  TextInput,
+  type LocalizedValue,
 } from "@/components/admin/fields";
 import {
   ENTITY_KEYS,
   type EntitySource,
   type PolicyEntity,
 } from "@/lib/admin/entities";
+import type { Localized } from "@/lib/content/merge";
 
 type PolicyMode = "policy" | "privacy";
 
@@ -22,6 +23,11 @@ const MODE_LABEL: Record<PolicyMode, string> = {
   policy: "이용약관",
   privacy: "개인정보처리방침",
 };
+
+function toLocalized(next: LocalizedValue): Localized<string> {
+  const { ko, en } = readLocalized(next);
+  return en.length > 0 ? { ko, en } : ko;
+}
 
 function PolicyPreview({
   draft,
@@ -34,7 +40,10 @@ function PolicyPreview({
     <ScaledDesktop>
       <PolicyModal
         kind={kind}
-        modal={{ title: draft.title, html: draft.html }}
+        modal={{
+          title: readLocalized(draft.title).ko,
+          html: readLocalized(draft.html).ko,
+        }}
         contained
       />
     </ScaledDesktop>
@@ -103,18 +112,16 @@ export default function PolicyEditor({
         form={(draft, update) => (
           <>
             <SectionCard title="문서 정보">
-              <Field label="제목" htmlFor="policy-title">
-                <TextInput
-                  id="policy-title"
-                  value={draft.title}
-                  onChange={(event) =>
-                    update((current) => ({
-                      ...current,
-                      title: event.target.value,
-                    }))
-                  }
-                />
-              </Field>
+              <LocalizedField
+                label="제목"
+                value={draft.title}
+                onChange={(next) =>
+                  update((current) => ({
+                    ...current,
+                    title: toLocalized(next),
+                  }))
+                }
+              />
             </SectionCard>
 
             <SectionCard title="본문 (HTML)">
@@ -127,21 +134,18 @@ export default function PolicyEditor({
                   단계에서 적용됩니다. 신뢰할 수 있는 내용만 입력해 주세요.
                 </p>
               </div>
-              <Field label="HTML" htmlFor="policy-html">
-                <TextArea
-                  id="policy-html"
-                  rows={18}
-                  spellCheck={false}
-                  value={draft.html}
-                  onChange={(event) =>
-                    update((current) => ({
-                      ...current,
-                      html: event.target.value,
-                    }))
-                  }
-                  className="font-mono text-[12px]"
-                />
-              </Field>
+              <LocalizedField
+                label="HTML"
+                value={draft.html}
+                onChange={(next) =>
+                  update((current) => ({
+                    ...current,
+                    html: toLocalized(next),
+                  }))
+                }
+                multiline
+                rows={18}
+              />
             </SectionCard>
           </>
         )}

@@ -6,6 +6,22 @@ export const inputClass =
 export const textareaClass =
   "w-full rounded-md border border-neutral-300 bg-white px-2.5 py-2 text-[13px] leading-relaxed text-ink transition-colors outline-none placeholder:text-neutral-400 hover:border-neutral-400 focus:border-brand focus:ring-2 focus:ring-brand/20 disabled:bg-neutral-50 disabled:text-neutral-400";
 
+export type LocalizedValue = string | { ko?: string; en?: string };
+
+export function readLocalized(value: LocalizedValue): {
+  ko: string;
+  en: string;
+} {
+  if (typeof value === "string") return { ko: value, en: "" };
+  return { ko: value.ko ?? "", en: value.en ?? "" };
+}
+
+export function normalizeLocalized(ko: string, en: string): LocalizedValue {
+  if (ko.length === 0 && en.length === 0) return "";
+  if (en.length === 0) return { ko };
+  return { ko, en };
+}
+
 export function SectionCard({
   title,
   description,

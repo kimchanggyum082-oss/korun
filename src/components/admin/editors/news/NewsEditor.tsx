@@ -1,8 +1,11 @@
 "use client";
 
 import EntityEditor from "@/components/admin/EntityEditor";
-import { newsEntityKey, type EntitySource } from "@/lib/admin/entities";
-import type { ServiceNewsItem } from "@/lib/data";
+import {
+  newsEntityKey,
+  type EntitySource,
+  type ServiceNewsItemEntity,
+} from "@/lib/admin/entities";
 import NewsForms from "./NewsForms";
 import NewsPreviews from "./NewsPreviews";
 
@@ -12,13 +15,13 @@ export default function NewsEditor({
   storeReady,
   uploadConfigured,
 }: {
-  initial: ServiceNewsItem;
+  initial: ServiceNewsItemEntity;
   source: EntitySource;
   storeReady: boolean;
   uploadConfigured: boolean;
 }) {
   return (
-    <EntityEditor<ServiceNewsItem>
+    <EntityEditor<ServiceNewsItemEntity>
       entityKey={newsEntityKey(initial.idx)}
       label="Service"
       title="뉴스"

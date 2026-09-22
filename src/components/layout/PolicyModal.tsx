@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { chrome } from "@/lib/i18n/chrome";
+import { useLocale } from "@/lib/i18n/client";
 import type { SitePolicyModal } from "@/lib/data";
 
 function CloseIcon() {
@@ -23,6 +25,7 @@ export default function PolicyModal({
    *  fixed full-screen overlay (used by the admin preview frame). */
   contained?: boolean;
 }) {
+  const t = chrome[useLocale()];
   const [open, setOpen] = useState(true);
 
   useEffect(() => {
@@ -135,7 +138,7 @@ export default function PolicyModal({
                 }}
               >
                 <CloseIcon />
-                <span className="sr-only">닫기</span>
+                <span className="sr-only">{t.common.close}</span>
               </a>
             </div>
             <div

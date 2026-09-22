@@ -2,6 +2,7 @@ import Image from "next/image";
 import SmartImage from "@/components/ui/SmartImage";
 import SmartBackground from "@/components/ui/SmartBackground";
 import { homeContent, type HomeContent } from "@/lib/data";
+import { defaultLocale, localizeHref, type Locale } from "@/lib/i18n/locales";
 
 function PenAccent() {
   return (
@@ -32,8 +33,10 @@ export function SectionHeading({ en, ko }: { en: string; ko: string }) {
 
 export default function Products({
   content = homeContent.products,
+  locale = defaultLocale,
 }: {
   content?: HomeContent["products"];
+  locale?: Locale;
 }) {
   return (
     <>
@@ -66,7 +69,11 @@ export default function Products({
             {content.items.slice(start, start + 2).map((product, i) => (
               <div key={product.href} className="w-1/2 px-[7.5px]">
                 <a
-                  href={product.href}
+                  href={
+                    product.href.startsWith("/")
+                      ? localizeHref(product.href, locale)
+                      : product.href
+                  }
                   aria-label={product.title}
                   className="my-[7.5px] block"
                 >
@@ -134,7 +141,11 @@ export default function Products({
             {content.items.map((product) => (
               <a
                 key={product.href}
-                href={product.href}
+                href={
+                  product.href.startsWith("/")
+                    ? localizeHref(product.href, locale)
+                    : product.href
+                }
                 aria-label={product.title}
                 className="group relative block aspect-[290/348] w-full overflow-hidden rounded-[10px]"
               >

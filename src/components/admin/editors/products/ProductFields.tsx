@@ -1,35 +1,49 @@
 "use client";
 
 import ImageField from "@/components/admin/ImageField";
+import LocalizedField from "@/components/admin/LocalizedField";
 import { Field, TextInput } from "@/components/admin/fields";
-import { AddButton, MoveButtons, moveAt, removeAt, replaceAt } from "./shared";
+import type { Localized } from "@/lib/content/merge";
+import {
+  AddButton,
+  MoveButtons,
+  moveAt,
+  removeAt,
+  replaceAt,
+  toLocalized,
+} from "./shared";
 
 export function StringList({
   label,
   hint,
   values,
   placeholder,
+  enPlaceholder,
   onChange,
 }: {
   label: string;
   hint?: string;
-  values: readonly string[];
+  values: readonly Localized<string>[];
   placeholder?: string;
-  onChange: (next: string[]) => void;
+  enPlaceholder?: string;
+  onChange: (next: Localized<string>[]) => void;
 }) {
   const list = [...values];
   return (
     <Field label={label} hint={hint}>
       <div className="flex flex-col gap-2">
         {list.map((value, index) => (
-          <div key={index} className="flex items-center gap-2">
-            <TextInput
-              value={value}
-              placeholder={placeholder}
-              onChange={(event) =>
-                onChange(replaceAt(list, index, event.target.value))
-              }
-            />
+          <div key={index} className="flex items-start gap-2">
+            <div className="min-w-0 flex-1">
+              <LocalizedField
+                value={value}
+                placeholder={placeholder}
+                enPlaceholder={enPlaceholder}
+                onChange={(next) =>
+                  onChange(replaceAt(list, index, toLocalized(next)))
+                }
+              />
+            </div>
             <MoveButtons
               index={index}
               count={list.length}

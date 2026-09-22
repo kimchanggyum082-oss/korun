@@ -1,12 +1,12 @@
 import type { getAboutPage } from "@/lib/content";
-import type { AboutGreetingsEntity } from "@/lib/admin/entities";
+import type { AboutContentMap } from "@/lib/data";
 import SmartImage from "@/components/ui/SmartImage";
 import AboutGallery from "@/components/about/AboutGallery";
 
 type AboutPageData = Awaited<ReturnType<typeof getAboutPage>>;
 
 export type GreetingsViewProps = {
-  content: AboutGreetingsEntity["content"];
+  content: AboutContentMap["greetings"];
   assets: AboutPageData["assets"];
 };
 

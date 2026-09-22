@@ -1,5 +1,7 @@
 import { getSearchIndex } from "@/lib/content";
 import type { InterestingItemBlock } from "@/lib/data";
+import { localizeHref, type Locale } from "@/lib/i18n/locales";
+import { pagesService } from "@/lib/i18n/pages-service";
 
 export type SearchHit = {
   key: string;
@@ -39,15 +41,16 @@ function firstImage(blocks: InterestingItemBlock[]): string {
   return image && image.type === "image" ? image.src : "";
 }
 
-export async function allSearchHits(): Promise<SearchHit[]> {
+export async function allSearchHits(locale: Locale): Promise<SearchHit[]> {
   const { newsItems, downloadItems, caseStudioItems, interestingItems } =
     await getSearchIndex();
+  const copy = pagesService[locale];
   return [
     ...newsItems.map((item) => ({
       key: `news-${item.idx}`,
-      href: `/news/${item.idx}`,
-      listHref: "/news",
-      boardName: "뉴스&이벤트",
+      href: localizeHref(`/news/${item.idx}`, locale),
+      listHref: localizeHref("/news", locale),
+      boardName: copy.news.boardName,
       title: item.title,
       summary: plainText(item.blocks) || item.description,
       thumbnail: firstImage(item.blocks),
@@ -55,8 +58,8 @@ export async function allSearchHits(): Promise<SearchHit[]> {
     })),
     ...downloadItems.map((item) => ({
       key: `downloads-${item.idx}`,
-      href: `/downloads/${item.idx}`,
-      listHref: "/downloads",
+      href: localizeHref(`/downloads/${item.idx}`, locale),
+      listHref: localizeHref("/downloads", locale),
       boardName: "Downloads",
       title: item.title,
       summary: plainText(item.blocks) || item.summary || item.description,
@@ -65,8 +68,8 @@ export async function allSearchHits(): Promise<SearchHit[]> {
     })),
     ...caseStudioItems.map((item) => ({
       key: `case-studio-${item.idx}`,
-      href: `/case-studio/${item.idx}`,
-      listHref: "/case-studio",
+      href: localizeHref(`/case-studio/${item.idx}`, locale),
+      listHref: localizeHref("/case-studio", locale),
       boardName: "Case Studio",
       title: item.title,
       summary: plainText(item.blocks) || item.summary || item.description,
@@ -75,8 +78,8 @@ export async function allSearchHits(): Promise<SearchHit[]> {
     })),
     ...interestingItems.map((item) => ({
       key: `interesting-items-${item.idx}`,
-      href: `/technology/interesting-items/${item.idx}`,
-      listHref: "/technology/interesting-items",
+      href: localizeHref(`/technology/interesting-items/${item.idx}`, locale),
+      listHref: localizeHref("/technology/interesting-items", locale),
       boardName: "Interesting Items",
       title: item.title,
       summary: plainText(item.blocks) || item.description,
@@ -89,10 +92,11 @@ export async function allSearchHits(): Promise<SearchHit[]> {
 export async function runSearch(
   keyword: string,
   sort: string,
+  locale: Locale,
 ): Promise<SearchHit[]> {
   const query = keyword.trim().toLowerCase();
   if (!query) return [];
-  const scored = (await allSearchHits())
+  const scored = (await allSearchHits(locale))
     .map((hit) => {
       const title = hit.title.toLowerCase();
       const body = hit.summary.toLowerCase();

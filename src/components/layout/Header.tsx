@@ -4,12 +4,18 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useLocale } from "@/lib/i18n/client";
+import { chrome } from "@/lib/i18n/chrome";
+import { localizeHref, stripLocalePrefix } from "@/lib/i18n/locales";
 import { assets, nav } from "@/lib/data";
+import LocaleMenu from "./LocaleMenu";
 import MobileSlideMenu from "./MobileSlideMenu";
 import SearchOverlay from "./SearchOverlay";
 
 export default function Header() {
   const pathname = usePathname();
+  const locale = useLocale();
+  const t = chrome[locale];
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
@@ -30,8 +36,15 @@ export default function Header() {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [menuOpen, searchOpen]);
 
+  const currentPath = stripLocalePrefix(pathname);
+
   const isActive = (hrefs: readonly string[]) =>
-    hrefs.some((href) => pathname === href || pathname.startsWith(`${href}/`));
+    hrefs.some(
+      (href) => currentPath === href || currentPath.startsWith(`${href}/`),
+    );
+
+  const localize = (href: string) =>
+    href.startsWith("/") ? localizeHref(href, locale) : href;
 
   return (
     <>
@@ -39,7 +52,7 @@ export default function Header() {
         <div className="relative flex h-12 items-center justify-between px-2.5">
           <button
             type="button"
-            aria-label="메뉴 열기"
+            aria-label={t.header.menuOpen}
             aria-expanded={menuOpen}
             onClick={() => setMenuOpen(true)}
             className="flex h-12 items-center px-[5px] text-[#212121]"
@@ -53,8 +66,8 @@ export default function Header() {
           </button>
 
           <Link
-            href="/"
-            aria-label="코런 홈"
+            href={localize("/")}
+            aria-label={t.header.home}
             className="absolute left-1/2 -translate-x-1/2"
           >
             <Image
@@ -70,7 +83,7 @@ export default function Header() {
 
           <button
             type="button"
-            aria-label="site search"
+            aria-label={t.header.searchOpen}
             aria-expanded={searchOpen}
             onClick={() => setSearchOpen(true)}
             className="flex h-12 w-[30px] items-start pl-[10px] pt-[11px] text-[#212121]"
@@ -94,19 +107,23 @@ export default function Header() {
       <div className="relative hidden h-[90px] pc:block">
         <div className="fixed inset-x-0 top-0 z-50 h-[90px] bg-white">
           <div className="mx-auto flex h-[90px] max-w-[1280px] items-center justify-between px-[15px]">
-            <Link href="/" aria-label="코런 홈">
-              <Image
-                src={assets.logo}
-                alt="KORUN"
-                width={121}
-                height={40}
-                priority
-                unoptimized
-                className="h-auto w-[121px]"
-              />
-            </Link>
+            <div className="flex items-center gap-[18px]">
+              <Link href={localize("/")} aria-label={t.header.home}>
+                <Image
+                  src={assets.logo}
+                  alt="KORUN"
+                  width={121}
+                  height={40}
+                  priority
+                  unoptimized
+                  className="h-auto w-[121px]"
+                />
+              </Link>
 
-            <nav aria-label="주 메뉴">
+              <LocaleMenu />
+            </div>
+
+            <nav aria-label={t.header.menu}>
               <ul className="flex h-[90px] items-center">
                 {nav.map((item) => {
                   const active = isActive(
@@ -116,21 +133,21 @@ export default function Header() {
                   return (
                     <li key={item.label} className="group relative h-[90px]">
                       <a
-                        href={item.href}
+                        href={localize(item.href)}
                         className={`flex h-[90px] items-center px-[18px] text-[18px] leading-[1.6] hover:text-[#212121]/50 ${
                           active ? "font-bold text-ink" : "text-[#212121]"
                         }`}
                       >
-                        {item.label}
+                        {t.nav.sections[item.label]}
                       </a>
                       <div className="invisible absolute left-[18px] top-full z-[1000] min-w-[160px] bg-[#333] opacity-0 transition-[opacity,visibility] duration-300 ease-[ease] after:absolute after:inset-x-0 after:top-full after:h-[150px] after:bg-transparent after:content-[''] group-hover:visible group-hover:opacity-100">
                         {item.children.map((child) => (
                           <Link
                             key={child.label}
-                            href={child.href}
+                            href={localize(child.href)}
                             className="block whitespace-nowrap px-5 py-2.5 text-[13px] leading-[1.42857] text-white/60 hover:bg-[#444] hover:text-white"
                           >
-                            {child.label}
+                            {t.nav.links[child.href]}
                           </Link>
                         ))}
                       </div>
@@ -144,7 +161,11 @@ export default function Header() {
       </div>
 
       <MobileSlideMenu open={menuOpen} onClose={() => setMenuOpen(false)} />
-      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
+      <SearchOverlay
+        open={searchOpen}
+        action={localize("/search")}
+        onClose={() => setSearchOpen(false)}
+      />
     </>
   );
 }

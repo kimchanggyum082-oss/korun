@@ -24,21 +24,29 @@ Bundled default content lives in `src/lib/data.ts` as `as const` typed objects. 
 
 The admin dashboard at `/admin` edits the overlay (save draft → publish), uploads images to Vercel Blob, and is gated by an admin session cookie. Entity keys are registered in `src/lib/admin/entities.ts`; `src/lib/admin/entity-store.ts` maps each key to its bundled default and load/edit flow.
 
-Content leaves may be `{ ko, en }` localized values; resolvers apply `localizeTree(locale, …)` so English falls back to Korean when a translation is missing.
+Content leaves may be `{ ko, en }` localized values. The public resolvers unwrap leaves for every locale, including Korean — a Korean page must never receive a raw `{ ko, en }` object — and English falls back to Korean when a translation is missing. Every public content resolver accepts an optional `locale`, resolved by `resolveActiveLocale` in `src/lib/content/locale.ts`. Admin editors use the `LocalizedField` control and store `""` (fall back to the bundled default), `{ ko }`, or `{ ko, en }`.
 
-Product pages are keyed by string IDs (`"21"`–`"24"`) and rendered by `src/app/(site)/[page]/page.tsx`, which calls `generateStaticParams` from `Object.keys(productPages)`.
+Product pages are keyed by string IDs (`"21"`–`"24"`) and rendered by `src/app/(site)/[lang]/[page]/page.tsx`, which calls `generateStaticParams` from `Object.keys(productPages)`.
 
 ### Routing
 
-- `/` — homepage (`src/app/(site)/page.tsx`)
-- `/21`, `/22`, `/23`, `/24` — product pages (`src/app/(site)/[page]/page.tsx`, `dynamicParams = false`)
-- `/about/*`, `/cases/[slug]`, `/case-studio`, `/news`, `/downloads`, `/technology/interesting-items`, `/search` — site sections
-- `/admin` — dashboard (`src/app/(site)/admin/**`, session-gated) and `/admin/login` (`src/app/(auth)/admin/login`)
+- `/` — homepage; Korean at the root paths and English under `/en/*` (`src/app/(site)/[lang]/page.tsx`)
+- `/21`, `/22`, `/23`, `/24` — product pages (`src/app/(site)/[lang]/[page]/page.tsx`, `dynamicParams = false`)
+- `/about/*`, `/cases/[slug]`, `/case-studio`, `/news`, `/downloads`, `/technology/interesting-items`, `/search` — site sections under `(site)/[lang]`
+- `/admin` — unlocalized dashboard under `(admin)/admin/` with its own root layout (`lang="ko"`); guarded pages live under `(admin)/admin/(protected)/` and login at `(admin)/admin/login` outside it
 - `/api/admin/*` — content, upload, login, logout route handlers
+
+`src/app/(site)/[lang]/layout.tsx` is the public root layout (`<html lang>`) with `generateStaticParams()` for `["ko","en"]` and `dynamicParams = false`. `src/proxy.ts` performs two jobs: the admin session-cookie guard (redirect to `/admin/login`) and a rewrite of unprefixed public paths to `/ko<path>`. It deliberately does not auto-detect `Accept-Language` or redirect by cookie — the default is always Korean.
+
+### Localization
+
+- **URL model**: Korean is served at the existing root paths (`/`, `/about`, `/21`, …); English is served under `/en/*`. Locale helpers live in `src/lib/i18n/`: `locales.ts` (`locales`, `Locale`, `defaultLocale`, `hasLocale`, `stripLocalePrefix`, `localizeHref`), `client.ts` (`useLocale`, `localeSwitchHref`), `server.ts` (`getChrome`), `chrome.ts` (typed `Record<Locale, ChromeDict>` UI chrome strings, Korean copied verbatim from the components), `pages-*.ts` (per-area page-level copy — a stopgap until the CMS covers it), and `seo.ts` (`siteUrl`, `absoluteUrl`, `metadataAlternates`, `metadataBaseUrl`).
+- **CRITICAL**: never import `@/lib/i18n/server` (or `next/root-params`) from a component that can be rendered inside a client component — this caused a real build failure. Shared presentational components take a `t: ChromeDict` prop instead: server pages pass `await getChrome()`, client callers (e.g. admin previews) pass `chrome.ko`.
+- Canonical URLs, hreflang alternates and the sitemap need a site URL from `NEXT_PUBLIC_SITE_URL` or `SITE_URL` (see `src/lib/i18n/seo.ts`); `sitemap.ts` and the alternates are omitted when it is unset.
 
 ### Layout
 
-`src/app/(site)/layout.tsx` wraps every page with `<Header />` + `<main>` + `<Footer />`. The header has separate mobile (`pc:hidden`) and desktop (`hidden pc:block`) markup. The `pc` breakpoint is 992px, defined in `globals.css`.
+`src/app/(site)/[lang]/layout.tsx` wraps every public page with `<Header />` + `<main>` + `<Footer />`. The header has separate mobile (`pc:hidden`) and desktop (`hidden pc:block`) markup. The `pc` breakpoint is 992px, defined in `globals.css`.
 
 ### Product pages
 
@@ -60,7 +68,7 @@ Session tokens are HS256 JWTs (`jose`) in an httpOnly cookie. Production require
 - **No comments** in source code unless explicitly requested by the user.
 - **Prettier** is the formatter. Config in `.prettierrc.json` (markdown files use `proseWrap: preserve`).
 - **Path alias**: import via `@/` (e.g. `@/lib/data`, `@/components/home/HeroSlider`).
-- **Localized copy** is written inline in JSX and data files; do not introduce an i18n framework without an explicit request.
+- **Localization** is hand-rolled (see the Localization section). Do not introduce an i18n framework — next-intl was evaluated and deliberately rejected — without an explicit request.
 - **Mobile-first**: write base styles for mobile, add `md:` and `pc:` variants for larger screens.
 
 ## Conventions for edits

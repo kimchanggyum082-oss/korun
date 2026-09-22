@@ -3,13 +3,12 @@
 import EntityEditor, {
   type UpdateDraft,
 } from "@/components/admin/EntityEditor";
+import LocalizedField from "@/components/admin/LocalizedField";
 import ScaledDesktop from "@/components/admin/ScaledDesktop";
 import {
-  Field,
+  readLocalized,
   SectionCard,
-  TextArea,
-  TextInput,
-  TwoColumn,
+  type LocalizedValue,
 } from "@/components/admin/fields";
 import FooterBar from "@/components/layout/FooterBar";
 import {
@@ -17,14 +16,20 @@ import {
   type EntitySource,
   type SiteFooterEntity,
 } from "@/lib/admin/entities";
+import type { Localized } from "@/lib/content/merge";
 
 export type FooterContact = {
-  name: string;
-  address: string;
-  tel: string;
-  fax: string;
-  email: string;
+  name: LocalizedValue;
+  address: LocalizedValue;
+  tel: LocalizedValue;
+  fax: LocalizedValue;
+  email: LocalizedValue;
 };
+
+function toLocalized(next: LocalizedValue): Localized<string> {
+  const { ko, en } = readLocalized(next);
+  return en.length > 0 ? { ko, en } : ko;
+}
 
 function FooterForm({
   draft,
@@ -33,16 +38,22 @@ function FooterForm({
   draft: SiteFooterEntity;
   update: UpdateDraft<SiteFooterEntity>;
 }) {
-  const setLabel = (key: keyof SiteFooterEntity["labels"], value: string) =>
+  const setLabel = (
+    key: keyof SiteFooterEntity["labels"],
+    value: LocalizedValue,
+  ) =>
     update((current) => ({
       ...current,
-      labels: { ...current.labels, [key]: value },
+      labels: { ...current.labels, [key]: toLocalized(value) },
     }));
 
-  const setLink = (key: keyof SiteFooterEntity["links"], value: string) =>
+  const setLink = (
+    key: keyof SiteFooterEntity["links"],
+    value: LocalizedValue,
+  ) =>
     update((current) => ({
       ...current,
-      links: { ...current.links, [key]: value },
+      links: { ...current.links, [key]: toLocalized(value) },
     }));
 
   return (
@@ -51,83 +62,62 @@ function FooterForm({
         title="표기 이름"
         description="푸터에서 각 항목 앞에 붙는 라벨입니다."
       >
-        <TwoColumn>
-          <Field label="회사명 라벨" htmlFor="footer-label-company">
-            <TextInput
-              id="footer-label-company"
-              value={draft.labels.company}
-              onChange={(event) => setLabel("company", event.target.value)}
-            />
-          </Field>
-          <Field label="주소 라벨" htmlFor="footer-label-address">
-            <TextInput
-              id="footer-label-address"
-              value={draft.labels.address}
-              onChange={(event) => setLabel("address", event.target.value)}
-            />
-          </Field>
-        </TwoColumn>
-        <TwoColumn>
-          <Field label="전화 라벨" htmlFor="footer-label-tel">
-            <TextInput
-              id="footer-label-tel"
-              value={draft.labels.tel}
-              onChange={(event) => setLabel("tel", event.target.value)}
-            />
-          </Field>
-          <Field label="팩스 라벨" htmlFor="footer-label-fax">
-            <TextInput
-              id="footer-label-fax"
-              value={draft.labels.fax}
-              onChange={(event) => setLabel("fax", event.target.value)}
-            />
-          </Field>
-        </TwoColumn>
-        <Field label="이메일 라벨" htmlFor="footer-label-email">
-          <TextInput
-            id="footer-label-email"
-            value={draft.labels.email}
-            onChange={(event) => setLabel("email", event.target.value)}
-          />
-        </Field>
+        <LocalizedField
+          label="회사명 라벨"
+          value={draft.labels.company}
+          onChange={(next) => setLabel("company", next)}
+        />
+        <LocalizedField
+          label="주소 라벨"
+          value={draft.labels.address}
+          onChange={(next) => setLabel("address", next)}
+        />
+        <LocalizedField
+          label="전화 라벨"
+          value={draft.labels.tel}
+          onChange={(next) => setLabel("tel", next)}
+        />
+        <LocalizedField
+          label="팩스 라벨"
+          value={draft.labels.fax}
+          onChange={(next) => setLabel("fax", next)}
+        />
+        <LocalizedField
+          label="이메일 라벨"
+          value={draft.labels.email}
+          onChange={(next) => setLabel("email", next)}
+        />
       </SectionCard>
 
       <SectionCard title="저작권 문구">
-        <Field label="COPYRIGHT 줄" htmlFor="footer-copyright">
-          <TextArea
-            id="footer-copyright"
-            rows={3}
-            value={draft.copyright}
-            onChange={(event) =>
-              update((current) => ({
-                ...current,
-                copyright: event.target.value,
-              }))
-            }
-          />
-        </Field>
+        <LocalizedField
+          label="COPYRIGHT 줄"
+          value={draft.copyright}
+          onChange={(next) =>
+            update((current) => ({
+              ...current,
+              copyright: toLocalized(next),
+            }))
+          }
+          multiline
+          rows={3}
+        />
       </SectionCard>
 
       <SectionCard
         title="정책 링크"
         description="푸터 하단의 약관 링크 이름입니다."
       >
-        <TwoColumn>
-          <Field label="이용약관 링크" htmlFor="footer-link-policy">
-            <TextInput
-              id="footer-link-policy"
-              value={draft.links.policy}
-              onChange={(event) => setLink("policy", event.target.value)}
-            />
-          </Field>
-          <Field label="개인정보 링크" htmlFor="footer-link-privacy">
-            <TextInput
-              id="footer-link-privacy"
-              value={draft.links.privacy}
-              onChange={(event) => setLink("privacy", event.target.value)}
-            />
-          </Field>
-        </TwoColumn>
+        <LocalizedField
+          label="이용약관 링크"
+          value={draft.links.policy}
+          onChange={(next) => setLink("policy", next)}
+        />
+        <LocalizedField
+          label="개인정보 링크"
+          value={draft.links.privacy}
+          onChange={(next) => setLink("privacy", next)}
+        />
       </SectionCard>
     </>
   );
@@ -158,10 +148,25 @@ export default function FooterEditor({
       preview={(draft) => (
         <ScaledDesktop>
           <FooterBar
-            contact={contact}
-            labels={draft.labels}
-            links={draft.links}
-            copyright={draft.copyright}
+            contact={{
+              name: readLocalized(contact.name).ko,
+              address: readLocalized(contact.address).ko,
+              tel: readLocalized(contact.tel).ko,
+              fax: readLocalized(contact.fax).ko,
+              email: readLocalized(contact.email).ko,
+            }}
+            labels={{
+              company: readLocalized(draft.labels.company).ko,
+              address: readLocalized(draft.labels.address).ko,
+              tel: readLocalized(draft.labels.tel).ko,
+              fax: readLocalized(draft.labels.fax).ko,
+              email: readLocalized(draft.labels.email).ko,
+            }}
+            links={{
+              policy: readLocalized(draft.links.policy).ko,
+              privacy: readLocalized(draft.links.privacy).ko,
+            }}
+            copyright={readLocalized(draft.copyright).ko}
           />
         </ScaledDesktop>
       )}

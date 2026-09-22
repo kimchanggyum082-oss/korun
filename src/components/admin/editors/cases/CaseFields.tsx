@@ -1,9 +1,17 @@
 "use client";
 
 import ImageField from "@/components/admin/ImageField";
+import LocalizedField from "@/components/admin/LocalizedField";
 import { Field, TextInput } from "@/components/admin/fields";
-import type { GalleryImage } from "@/lib/data";
-import { AddButton, MoveButtons, moveAt, removeAt, replaceAt } from "./shared";
+import type { CaseGalleryImageEntity } from "@/lib/admin/entities";
+import {
+  AddButton,
+  MoveButtons,
+  moveAt,
+  removeAt,
+  replaceAt,
+  toLocalized,
+} from "./shared";
 
 type SectionImage = { src: string; width: number; height: number };
 
@@ -110,9 +118,9 @@ export function GalleryImageList({
   uploadConfigured,
   onChange,
 }: {
-  values: GalleryImage[];
+  values: CaseGalleryImageEntity[];
   uploadConfigured: boolean;
-  onChange: (next: GalleryImage[]) => void;
+  onChange: (next: CaseGalleryImageEntity[]) => void;
 }) {
   return (
     <div className="flex flex-col gap-3">
@@ -151,19 +159,18 @@ export function GalleryImageList({
               onChange(replaceAt(values, index, { ...image, fullSrc: next }))
             }
           />
-          <Field label="대체 텍스트 (alt)">
-            <TextInput
-              value={image.alt}
-              onChange={(event) =>
-                onChange(
-                  replaceAt(values, index, {
-                    ...image,
-                    alt: event.target.value,
-                  }),
-                )
-              }
-            />
-          </Field>
+          <LocalizedField
+            label="대체 텍스트 (alt)"
+            value={image.alt}
+            onChange={(next) =>
+              onChange(
+                replaceAt(values, index, {
+                  ...image,
+                  alt: toLocalized(next),
+                }),
+              )
+            }
+          />
         </div>
       ))}
       <AddButton

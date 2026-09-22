@@ -1,20 +1,24 @@
 "use client";
 
 import EntityEditor from "@/components/admin/EntityEditor";
+import LocalizedField from "@/components/admin/LocalizedField";
 import {
   Field,
   SectionCard,
   TextInput,
   TwoColumn,
+  type LocalizedValue,
 } from "@/components/admin/fields";
 import ScaledDesktop from "@/components/admin/ScaledDesktop";
 import CompanyLocationView from "@/components/about/CompanyLocationView";
 import {
   ENTITY_KEYS,
+  toAboutLocationContent,
   type AboutLocationEntity,
   type EntitySource,
 } from "@/lib/admin/entities";
 import type { getAboutPage } from "@/lib/content";
+import { toLocalized } from "./shared";
 
 type AboutPageCompany = Awaited<ReturnType<typeof getAboutPage>>["company"];
 
@@ -34,15 +38,22 @@ function LocationForm({
       content: { ...current.content, ...patch },
     }));
 
+  const setLabel = (
+    key: keyof AboutLocationEntity["content"]["labels"],
+    next: LocalizedValue,
+  ) =>
+    setContent({
+      labels: { ...content.labels, [key]: toLocalized(next) },
+    });
+
   return (
     <>
       <SectionCard title="페이지 제목" description="상단 제목입니다.">
-        <Field label="제목">
-          <TextInput
-            value={content.title}
-            onChange={(event) => setContent({ title: event.target.value })}
-          />
-        </Field>
+        <LocalizedField
+          label="제목"
+          value={content.title}
+          onChange={(next) => setContent({ title: toLocalized(next) })}
+        />
       </SectionCard>
 
       <SectionCard
@@ -73,47 +84,29 @@ function LocationForm({
         title="연락처 라벨"
         description="표의 라벨입니다. 실제 회사명·연락처 값은 사이트 기본 설정(site:settings)에서 관리됩니다."
       >
-        <TwoColumn>
-          <Field label="TEL 라벨">
-            <TextInput
-              value={content.labels.tel}
-              onChange={(event) =>
-                setContent({
-                  labels: { ...content.labels, tel: event.target.value },
-                })
-              }
-            />
-          </Field>
-          <Field label="EMAIL 라벨">
-            <TextInput
-              value={content.labels.email}
-              onChange={(event) =>
-                setContent({
-                  labels: { ...content.labels, email: event.target.value },
-                })
-              }
-            />
-          </Field>
-        </TwoColumn>
-        <Field label="ADDRESS 라벨">
-          <TextInput
-            value={content.labels.address}
-            onChange={(event) =>
-              setContent({
-                labels: { ...content.labels, address: event.target.value },
-              })
-            }
-          />
-        </Field>
+        <LocalizedField
+          label="TEL 라벨"
+          value={content.labels.tel}
+          onChange={(next) => setLabel("tel", next)}
+        />
+        <LocalizedField
+          label="EMAIL 라벨"
+          value={content.labels.email}
+          onChange={(next) => setLabel("email", next)}
+        />
+        <LocalizedField
+          label="ADDRESS 라벨"
+          value={content.labels.address}
+          onChange={(next) => setLabel("address", next)}
+        />
       </SectionCard>
 
       <SectionCard title="지도" description="지도 iframe의 제목입니다.">
-        <Field label="지도 제목 (iframe title)">
-          <TextInput
-            value={content.mapTitle}
-            onChange={(event) => setContent({ mapTitle: event.target.value })}
-          />
-        </Field>
+        <LocalizedField
+          label="지도 제목 (iframe title)"
+          value={content.mapTitle}
+          onChange={(next) => setContent({ mapTitle: toLocalized(next) })}
+        />
       </SectionCard>
     </>
   );
@@ -143,7 +136,10 @@ export default function AboutLocationEditor({
       form={(draft, update) => <LocationForm draft={draft} update={update} />}
       preview={(draft) => (
         <ScaledDesktop>
-          <CompanyLocationView content={draft.content} company={company} />
+          <CompanyLocationView
+            content={toAboutLocationContent(draft.content)}
+            company={company}
+          />
         </ScaledDesktop>
       )}
     />

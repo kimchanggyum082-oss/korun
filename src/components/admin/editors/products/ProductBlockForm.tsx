@@ -1,17 +1,28 @@
 "use client";
 
+import LocalizedField from "@/components/admin/LocalizedField";
 import {
   Field,
   SectionCard,
-  TextArea,
   TextInput,
   TwoColumn,
 } from "@/components/admin/fields";
-import type { ProductApplication, ProductBlock, SpecRow } from "@/lib/data";
+import type {
+  ProductApplicationEntity,
+  ProductBlockEntity,
+  SpecRowEntity,
+} from "@/lib/admin/entities";
 import { ImageList, NumberField, StringList, Toggle } from "./ProductFields";
-import { AddButton, MoveButtons, moveAt, removeAt, replaceAt } from "./shared";
+import {
+  AddButton,
+  MoveButtons,
+  moveAt,
+  removeAt,
+  replaceAt,
+  toLocalized,
+} from "./shared";
 
-function emptyRow(): SpecRow {
+function emptyRow(): SpecRowEntity {
   return { label: "", values: [""] };
 }
 
@@ -24,11 +35,11 @@ export default function ProductBlockForm({
   onMove,
   onRemove,
 }: {
-  block: ProductBlock;
+  block: ProductBlockEntity;
   index: number;
   count: number;
   uploadConfigured: boolean;
-  onChange: (patch: Partial<ProductBlock>) => void;
+  onChange: (patch: Partial<ProductBlockEntity>) => void;
   onMove: (index: number, delta: number) => void;
   onRemove: (index: number) => void;
 }) {
@@ -39,7 +50,7 @@ export default function ProductBlockForm({
 
   const setApplication = (
     appIndex: number,
-    patch: Partial<ProductApplication>,
+    patch: Partial<ProductApplicationEntity>,
   ) =>
     onChange({
       applications: replaceAt(applications, appIndex, {
@@ -48,7 +59,7 @@ export default function ProductBlockForm({
       }),
     });
 
-  const setRow = (rowIndex: number, patch: Partial<SpecRow>) => {
+  const setRow = (rowIndex: number, patch: Partial<SpecRowEntity>) => {
     if (!spec) return;
     onChange({
       spec: {
@@ -76,26 +87,23 @@ export default function ProductBlockForm({
       </div>
 
       <TwoColumn>
-        <Field label="상단 문구 (eyebrow)">
-          <TextInput
-            value={block.eyebrow ?? ""}
-            onChange={(event) => onChange({ eyebrow: event.target.value })}
-          />
-        </Field>
-        <Field label="제목 (title)">
-          <TextInput
-            value={block.title ?? ""}
-            onChange={(event) => onChange({ title: event.target.value })}
-          />
-        </Field>
+        <LocalizedField
+          label="상단 문구 (eyebrow)"
+          value={block.eyebrow ?? ""}
+          onChange={(next) => onChange({ eyebrow: toLocalized(next) })}
+        />
+        <LocalizedField
+          label="제목 (title)"
+          value={block.title ?? ""}
+          onChange={(next) => onChange({ title: toLocalized(next) })}
+        />
       </TwoColumn>
 
-      <Field label="소개 제목 (introTitle)">
-        <TextInput
-          value={block.introTitle}
-          onChange={(event) => onChange({ introTitle: event.target.value })}
-        />
-      </Field>
+      <LocalizedField
+        label="소개 제목 (introTitle)"
+        value={block.introTitle}
+        onChange={(next) => onChange({ introTitle: toLocalized(next) })}
+      />
 
       <ImageList
         label="소개 이미지 (introImage)"
@@ -104,13 +112,13 @@ export default function ProductBlockForm({
         onChange={(next) => onChange({ introImage: next[0] })}
       />
 
-      <Field label="소개 문단 (introText)">
-        <TextArea
-          rows={5}
-          value={block.introText ?? ""}
-          onChange={(event) => onChange({ introText: event.target.value })}
-        />
-      </Field>
+      <LocalizedField
+        label="소개 문단 (introText)"
+        value={block.introText ?? ""}
+        onChange={(next) => onChange({ introText: toLocalized(next) })}
+        multiline
+        rows={5}
+      />
 
       <StringList
         label="소개 불릿 (introBullets)"
@@ -139,12 +147,11 @@ export default function ProductBlockForm({
         />
       </TwoColumn>
 
-      <Field label="갤러리 라벨 (galleryLabel)">
-        <TextInput
-          value={block.galleryLabel}
-          onChange={(event) => onChange({ galleryLabel: event.target.value })}
-        />
-      </Field>
+      <LocalizedField
+        label="갤러리 라벨 (galleryLabel)"
+        value={block.galleryLabel}
+        onChange={(next) => onChange({ galleryLabel: toLocalized(next) })}
+      />
 
       <ImageList
         label="갤러리 이미지 (gallery)"
@@ -194,14 +201,13 @@ export default function ProductBlockForm({
                 }
               />
             </div>
-            <Field label="제목">
-              <TextInput
-                value={app.title}
-                onChange={(event) =>
-                  setApplication(appIndex, { title: event.target.value })
-                }
-              />
-            </Field>
+            <LocalizedField
+              label="제목"
+              value={app.title}
+              onChange={(next) =>
+                setApplication(appIndex, { title: toLocalized(next) })
+              }
+            />
             <ImageList
               label="이미지"
               values={app.images}
@@ -238,14 +244,15 @@ export default function ProductBlockForm({
         </div>
         {spec ? (
           <>
-            <Field label="모델명 (model)">
-              <TextInput
-                value={spec.model}
-                onChange={(event) =>
-                  onChange({ spec: { ...spec, model: event.target.value } })
-                }
-              />
-            </Field>
+            <LocalizedField
+              label="모델명 (model)"
+              value={spec.model}
+              onChange={(next) =>
+                onChange({
+                  spec: { ...spec, model: toLocalized(next) },
+                })
+              }
+            />
             {spec.rows.map((row, rowIndex) => (
               <div
                 key={rowIndex}
@@ -270,14 +277,13 @@ export default function ProductBlockForm({
                     }
                   />
                 </div>
-                <Field label="라벨">
-                  <TextInput
-                    value={row.label}
-                    onChange={(event) =>
-                      setRow(rowIndex, { label: event.target.value })
-                    }
-                  />
-                </Field>
+                <LocalizedField
+                  label="라벨"
+                  value={row.label}
+                  onChange={(next) =>
+                    setRow(rowIndex, { label: toLocalized(next) })
+                  }
+                />
                 <StringList
                   label="값 (values)"
                   values={row.values}

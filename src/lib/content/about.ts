@@ -4,17 +4,20 @@ import {
   jobPosts,
   type AboutContentMap,
 } from "@/lib/data";
+import { type Locale } from "@/lib/i18n/locales";
 import { resolveEntity } from "./resolve";
 import { getSiteSettings } from "./site";
 import { localizeTree } from "./merge";
+import { resolveActiveLocale } from "./locale";
 
 export type AboutPageKey = keyof AboutContentMap;
 
 export async function getAboutPage<K extends AboutPageKey>(
   key: K,
-  locale = "ko",
+  locale?: Locale,
 ) {
-  const company = await getSiteSettings();
+  const activeLocale = await resolveActiveLocale(locale);
+  const company = await getSiteSettings(activeLocale);
   const value = await resolveEntity(`page:about:${key}`, {
     key,
     company,
@@ -22,5 +25,5 @@ export async function getAboutPage<K extends AboutPageKey>(
     jobPosts,
     content: aboutContent[key],
   });
-  return locale === "ko" ? value : localizeTree(locale, value);
+  return localizeTree(activeLocale, value);
 }

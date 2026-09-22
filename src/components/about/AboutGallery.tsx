@@ -3,6 +3,8 @@
 import { useState } from "react";
 import SmartImage from "@/components/ui/SmartImage";
 import Lightbox, { useGalleryHashSlide } from "@/components/home/Lightbox";
+import { chrome } from "@/lib/i18n/chrome";
+import { useLocale } from "@/lib/i18n/client";
 import type { GalleryImage } from "@/lib/data";
 
 export default function AboutGallery({
@@ -14,6 +16,7 @@ export default function AboutGallery({
   variant: "facility" | "certificate";
   galleryId: string;
 }) {
+  const t = chrome[useLocale()];
   const [manualIndex, setManualIndex] = useState<number | null>(null);
   const hashSlide = useGalleryHashSlide(galleryId, images.length);
   const lightboxIndex = manualIndex ?? hashSlide;
@@ -36,7 +39,7 @@ export default function AboutGallery({
                 key={img.fullSrc}
                 type="button"
                 onClick={() => setManualIndex(i)}
-                aria-label={`${img.alt} 보기`}
+                aria-label={t.gallery.openImage(img.alt)}
                 className={
                   isFacility
                     ? "group block text-center p-[7.5px] pc:p-[15px]"

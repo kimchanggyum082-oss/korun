@@ -1,8 +1,11 @@
 "use client";
 
 import EntityEditor from "@/components/admin/EntityEditor";
-import { downloadEntityKey, type EntitySource } from "@/lib/admin/entities";
-import type { ServiceDownloadItem } from "@/lib/data";
+import {
+  downloadEntityKey,
+  type EntitySource,
+  type ServiceDownloadItemEntity,
+} from "@/lib/admin/entities";
 import DownloadForms from "./DownloadForms";
 import DownloadPreviews from "./DownloadPreviews";
 
@@ -12,13 +15,13 @@ export default function DownloadEditor({
   storeReady,
   uploadConfigured,
 }: {
-  initial: ServiceDownloadItem;
+  initial: ServiceDownloadItemEntity;
   source: EntitySource;
   storeReady: boolean;
   uploadConfigured: boolean;
 }) {
   return (
-    <EntityEditor<ServiceDownloadItem>
+    <EntityEditor<ServiceDownloadItemEntity>
       entityKey={downloadEntityKey(initial.idx)}
       label="Service"
       title="다운로드"

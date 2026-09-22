@@ -2,8 +2,18 @@ import Image from "next/image";
 import SmartImage from "@/components/ui/SmartImage";
 import Link from "next/link";
 import { assets, caseNav } from "@/lib/data";
+import { localizeHref, type Locale } from "@/lib/i18n/locales";
 
-export default function CaseNav({ activeHref }: { activeHref: string }) {
+export default function CaseNav({
+  activeHref,
+  locale = "ko",
+}: {
+  activeHref: string;
+  locale?: Locale;
+}) {
+  const localize = (href: string) =>
+    href.startsWith("/") ? localizeHref(href, locale) : href;
+
   return (
     <>
       {/* Mobile */}
@@ -30,7 +40,7 @@ export default function CaseNav({ activeHref }: { activeHref: string }) {
                 return (
                   <li key={item.label} className="inline-block">
                     <Link
-                      href={item.href}
+                      href={localize(item.href)}
                       aria-current={active ? "page" : undefined}
                       className={`mr-[25px] inline-block pb-[5px] text-[15px] leading-[24px] transition-colors ${
                         active
@@ -75,7 +85,7 @@ export default function CaseNav({ activeHref }: { activeHref: string }) {
                   return (
                     <li key={item.label} className="inline-block">
                       <Link
-                        href={item.href}
+                        href={localize(item.href)}
                         aria-current={active ? "page" : undefined}
                         className={`mr-[25px] inline-block pb-[5px] text-[15px] leading-[24px] ${
                           active

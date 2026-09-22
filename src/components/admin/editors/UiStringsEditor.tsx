@@ -4,10 +4,16 @@ import { useState } from "react";
 import EntityEditor, {
   type UpdateDraft,
 } from "@/components/admin/EntityEditor";
-import { SectionCard, TextInput } from "@/components/admin/fields";
+import LocalizedField from "@/components/admin/LocalizedField";
+import {
+  SectionCard,
+  TextInput,
+  type LocalizedValue,
+} from "@/components/admin/fields";
 import {
   ENTITY_KEYS,
   type EntitySource,
+  type UiStringEntry,
   type UiStringsEntity,
 } from "@/lib/admin/entities";
 
@@ -16,6 +22,11 @@ function uniqueKey(current: UiStringsEntity, base: string): string {
   let index = 2;
   while (`${base}${index}` in current) index += 1;
   return `${base}${index}`;
+}
+
+function toEntry(next: LocalizedValue): UiStringEntry {
+  if (typeof next === "string") return { ko: next, en: "" };
+  return { ko: next.ko ?? "", en: next.en ?? "" };
 }
 
 function UiStringsForm({
@@ -27,12 +38,13 @@ function UiStringsForm({
 }) {
   const rows = Object.entries(draft);
 
-  const setEntry = (index: number, patch: { ko?: string; en?: string }) =>
+  const setEntry = (index: number, next: LocalizedValue) =>
     update((current) => {
       const entries = Object.entries(current);
+      const entry = toEntry(next);
       return Object.fromEntries(
         entries.map(([key, value], i) =>
-          i === index ? [key, { ...value, ...patch }] : [key, value],
+          i === index ? [key, entry] : [key, value],
         ),
       );
     });
@@ -57,49 +69,28 @@ function UiStringsForm({
       title="UI 문자열"
       description="사이트 공통 문구를 언어별로 관리합니다."
     >
-      <div className="overflow-hidden rounded-md border border-neutral-200">
-        <div className="grid grid-cols-[1fr_1fr_1fr_44px] gap-2 border-b border-neutral-100 bg-neutral-50 px-2.5 py-2 text-[11px] font-semibold text-neutral-500">
-          <span>키</span>
-          <span>한국어</span>
-          <span>English</span>
-          <span className="sr-only">삭제</span>
-        </div>
-
-        {rows.length === 0 ? (
-          <p className="px-3 py-6 text-center text-[12px] text-neutral-400">
-            등록된 문자열이 없습니다. 아래에서 추가하세요.
-          </p>
-        ) : (
-          rows.map(([key, value], index) => (
-            <div
-              key={index}
-              className="grid grid-cols-[1fr_1fr_1fr_44px] items-center gap-2 border-b border-neutral-100 px-2.5 py-2 last:border-b-0"
-            >
+      {rows.length === 0 ? (
+        <p className="rounded-md border border-dashed border-neutral-200 px-3 py-6 text-center text-[12px] text-neutral-400">
+          등록된 문자열이 없습니다. 아래에서 추가하세요.
+        </p>
+      ) : (
+        rows.map(([key, value], index) => (
+          <div
+            key={index}
+            className="flex flex-col gap-2 rounded-md border border-neutral-200 p-3"
+          >
+            <div className="flex items-center gap-2">
               <TextInput
                 aria-label={`키 ${index + 1}`}
                 value={key}
                 onChange={(event) => renameKey(index, event.target.value)}
                 className="font-mono text-[12px]"
               />
-              <TextInput
-                aria-label={`${key} 한국어`}
-                value={value.ko}
-                onChange={(event) =>
-                  setEntry(index, { ko: event.target.value })
-                }
-              />
-              <TextInput
-                aria-label={`${key} English`}
-                value={value.en}
-                onChange={(event) =>
-                  setEntry(index, { en: event.target.value })
-                }
-              />
               <button
                 type="button"
                 onClick={() => removeKey(index)}
                 aria-label={`${key} 삭제`}
-                className="flex h-9 w-9 items-center justify-center rounded-md text-neutral-400 transition-colors outline-none hover:bg-neutral-100 hover:text-[#a51c1c] focus-visible:ring-2 focus-visible:ring-brand/30"
+                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-neutral-400 transition-colors outline-none hover:bg-neutral-100 hover:text-[#a51c1c] focus-visible:ring-2 focus-visible:ring-brand/30"
               >
                 <svg width="14" height="14" viewBox="0 0 14 14" aria-hidden>
                   <path
@@ -112,9 +103,13 @@ function UiStringsForm({
                 </svg>
               </button>
             </div>
-          ))
-        )}
-      </div>
+            <LocalizedField
+              value={value}
+              onChange={(next) => setEntry(index, next)}
+            />
+          </div>
+        ))
+      )}
 
       <button
         type="button"

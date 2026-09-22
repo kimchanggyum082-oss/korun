@@ -4,8 +4,8 @@ import EntityEditor from "@/components/admin/EntityEditor";
 import {
   interestingItemEntityKey,
   type EntitySource,
+  type InterestingItemEntity,
 } from "@/lib/admin/entities";
-import type { InterestingItem } from "@/lib/data";
 import ItemForms from "./ItemForms";
 import ItemPreviews from "./ItemPreviews";
 
@@ -15,13 +15,13 @@ export default function ItemEditor({
   storeReady,
   uploadConfigured,
 }: {
-  initial: InterestingItem;
+  initial: InterestingItemEntity;
   source: EntitySource;
   storeReady: boolean;
   uploadConfigured: boolean;
 }) {
   return (
-    <EntityEditor<InterestingItem>
+    <EntityEditor<InterestingItemEntity>
       entityKey={interestingItemEntityKey(initial.idx)}
       label="Service"
       title="기술 자료"

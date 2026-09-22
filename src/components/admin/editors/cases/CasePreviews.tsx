@@ -2,18 +2,18 @@
 
 import ScaledDesktop from "@/components/admin/ScaledDesktop";
 import CaseDetailView from "@/components/cases/CaseDetailView";
-import type { CasePageData } from "@/lib/data";
+import { toCasePageData, type CasePageEntity } from "@/lib/admin/entities";
 
 export default function CasePreviews({
   draft,
   slug,
 }: {
-  draft: CasePageData;
+  draft: CasePageEntity;
   slug: string;
 }) {
   return (
     <ScaledDesktop>
-      <CaseDetailView page={draft} slug={slug} />
+      <CaseDetailView page={toCasePageData(draft)} slug={slug} />
     </ScaledDesktop>
   );
 }

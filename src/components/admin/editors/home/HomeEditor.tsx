@@ -1,8 +1,11 @@
 "use client";
 
 import EntityEditor from "@/components/admin/EntityEditor";
-import { ENTITY_KEYS, type EntitySource } from "@/lib/admin/entities";
-import type { HomeContent } from "@/lib/data";
+import {
+  ENTITY_KEYS,
+  type EntitySource,
+  type HomeEntity,
+} from "@/lib/admin/entities";
 import HomeForms from "./HomeForms";
 import HomePreviews from "./HomePreviews";
 
@@ -12,13 +15,13 @@ export default function HomeEditor({
   storeReady,
   uploadConfigured,
 }: {
-  initial: HomeContent;
+  initial: HomeEntity;
   source: EntitySource;
   storeReady: boolean;
   uploadConfigured: boolean;
 }) {
   return (
-    <EntityEditor<HomeContent>
+    <EntityEditor<HomeEntity>
       entityKey={ENTITY_KEYS.home}
       label="Home"
       title="홈"

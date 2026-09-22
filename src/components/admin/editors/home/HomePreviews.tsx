@@ -7,7 +7,7 @@ import { ListsSection } from "@/components/home/Lists";
 import LocationSection from "@/components/home/LocationSection";
 import Products from "@/components/home/Products";
 import ValuesBanner from "@/components/home/ValuesBanner";
-import type { HomeContent } from "@/lib/data";
+import { toHomeContent, type HomeEntity } from "@/lib/admin/entities";
 
 function PreviewFrame({
   title,
@@ -26,45 +26,47 @@ function PreviewFrame({
   );
 }
 
-export default function HomePreviews({ draft }: { draft: HomeContent }) {
+export default function HomePreviews({ draft }: { draft: HomeEntity }) {
+  const content = toHomeContent(draft);
+
   return (
     <div className="flex flex-col gap-4">
       <PreviewFrame title="Hero">
         <ScaledDesktop>
           <HeroSlider
-            slides={draft.hero.slides}
-            slidesMobile={draft.hero.slidesMobile}
+            slides={content.hero.slides}
+            slidesMobile={content.hero.slidesMobile}
           />
         </ScaledDesktop>
       </PreviewFrame>
 
       <PreviewFrame title="Products">
         <ScaledDesktop>
-          <Products content={draft.products} />
+          <Products content={content.products} />
         </ScaledDesktop>
       </PreviewFrame>
 
       <PreviewFrame title="CTA">
         <ScaledDesktop>
-          <CtaBanner content={draft.cta} />
+          <CtaBanner content={content.cta} />
         </ScaledDesktop>
       </PreviewFrame>
 
       <PreviewFrame title="Lists">
         <ScaledDesktop>
-          <ListsSection lists={draft.lists} />
+          <ListsSection lists={content.lists} />
         </ScaledDesktop>
       </PreviewFrame>
 
       <PreviewFrame title="Values">
         <ScaledDesktop>
-          <ValuesBanner values={draft.values} />
+          <ValuesBanner values={content.values} />
         </ScaledDesktop>
       </PreviewFrame>
 
       <PreviewFrame title="Location">
         <ScaledDesktop>
-          <LocationSection location={draft.location} />
+          <LocationSection location={content.location} />
         </ScaledDesktop>
       </PreviewFrame>
     </div>

@@ -8,6 +8,8 @@ import CommentSection from "@/components/layout/CommentSection";
 import PostPager, { type PostPagerItem } from "@/components/layout/PostPager";
 import PageHead from "@/components/service/PageHead";
 import FileList from "@/components/service/FileList";
+import type { ChromeDict } from "@/lib/i18n/chrome";
+import { localizeHref, type Locale } from "@/lib/i18n/locales";
 
 export type PostMeta = {
   author?: string;
@@ -17,6 +19,7 @@ export type PostMeta = {
 };
 
 export default function PostDetail({
+  t,
   activeHref,
   subtitle,
   sectionLabel,
@@ -41,7 +44,9 @@ export default function PostDetail({
   mobileTitle,
   bodyAlign = "center",
   commentVariant = "guest",
+  locale = "ko",
 }: {
+  t: ChromeDict;
   activeHref: string;
   subtitle?: string;
   sectionLabel: string;
@@ -66,8 +71,13 @@ export default function PostDetail({
   mobileTitle?: string;
   bodyAlign?: TextAlign;
   commentVariant?: "guest" | "login";
+  locale?: Locale;
 }) {
   const catColor = category === "EVENT" ? "#6ecc51" : "#00b8ff";
+
+  const localize = (href: string) =>
+    href.startsWith("/") ? localizeHref(href, locale) : href;
+  const localizedListHref = localize(listHref);
 
   const summary = (
     <>
@@ -76,7 +86,7 @@ export default function PostDetail({
       )}
       <div className="flex flex-wrap items-center">
         <div className="mr-[10px] text-[13px] leading-[15.6px]">
-          <Link href={listHref} className="text-[#757575]">
+          <Link href={localizedListHref} className="text-[#757575]">
             {boardName}
           </Link>
         </div>
@@ -87,7 +97,7 @@ export default function PostDetail({
         )}
         {meta?.views !== undefined && (
           <div className="mr-[10px] text-[13px] leading-[15.6px] text-[rgba(54,54,54,0.7)]">
-            조회수 {meta.views}
+            {t.post.views(meta.views)}
           </div>
         )}
       </div>
@@ -97,7 +107,7 @@ export default function PostDetail({
   const titleLine = (
     <h1 className="m-0 text-[20px] leading-[32px] font-normal text-ink">
       {category && (
-        <Link href={listHref}>
+        <Link href={localizedListHref}>
           <span className="pr-[10px]" style={{ color: catColor }}>
             {category}
           </span>
@@ -109,7 +119,7 @@ export default function PostDetail({
 
   return (
     <>
-      {nav ?? <ServiceNav activeHref={activeHref} />}
+      {nav ?? <ServiceNav activeHref={activeHref} locale={locale} />}
 
       {head ?? (
         <PageHead
@@ -172,6 +182,8 @@ export default function PostDetail({
                   items={pagerItems}
                   currentIdx={currentIdx}
                   basePath={pagerBasePath}
+                  t={t}
+                  locale={locale}
                 />
               )}
             </div>
@@ -188,7 +200,7 @@ export default function PostDetail({
         <div className="pt-[7.5px]">
           <h1 className="pt-[7.5px] pr-[30px] pb-[15px] text-[20px] leading-[32px] font-normal text-ink">
             {category && (
-              <Link href={listHref}>
+              <Link href={localizedListHref}>
                 <span className="pr-[10px]" style={{ color: catColor }}>
                   {category}
                 </span>
@@ -216,7 +228,7 @@ export default function PostDetail({
               </div>
             )}
             <div className="float-left mr-[10px] text-[11px] leading-[13.2px] text-[#363636]">
-              <Link href={listHref} className="text-[#757575]">
+              <Link href={localizedListHref} className="text-[#757575]">
                 {boardName}
               </Link>
             </div>
@@ -227,7 +239,7 @@ export default function PostDetail({
             )}
             {meta?.views !== undefined && (
               <div className="float-left mr-[10px] text-[11px] leading-[13.2px] text-[rgba(54,54,54,0.7)]">
-                조회수 {meta.views}
+                {t.post.views(meta.views)}
               </div>
             )}
           </div>
@@ -255,6 +267,8 @@ export default function PostDetail({
               items={pagerItems}
               currentIdx={currentIdx}
               basePath={pagerBasePath}
+              t={t}
+              locale={locale}
             />
           )}
         </div>

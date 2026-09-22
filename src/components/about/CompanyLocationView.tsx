@@ -1,10 +1,10 @@
 import type { getAboutPage } from "@/lib/content";
-import type { AboutLocationEntity } from "@/lib/admin/entities";
+import type { AboutContentMap } from "@/lib/data";
 
 type AboutPageData = Awaited<ReturnType<typeof getAboutPage>>;
 
 export type CompanyLocationViewProps = {
-  content: AboutLocationEntity["content"];
+  content: AboutContentMap["company-location"];
   company: AboutPageData["company"];
 };
 

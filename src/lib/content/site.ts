@@ -1,19 +1,28 @@
 import { company, nav } from "@/lib/data";
 import { siteFooterDefault } from "@/lib/admin/entity-store";
+import { type Locale } from "@/lib/i18n/locales";
 import { resolveEntity } from "./resolve";
 import { localizeTree } from "./merge";
+import { resolveActiveLocale } from "./locale";
 
-export async function getSiteSettings(locale = "ko") {
+export async function getSiteSettings(locale?: Locale) {
+  const activeLocale = await resolveActiveLocale(locale);
   const value = await resolveEntity("site:settings", company);
-  return locale === "ko" ? value : localizeTree(locale, value);
+  const settings = localizeTree(activeLocale, value);
+  if (activeLocale === "en" && settings.nameEn) {
+    return { ...settings, name: settings.nameEn };
+  }
+  return settings;
 }
 
-export async function getNav(locale = "ko") {
+export async function getNav(locale?: Locale) {
+  const activeLocale = await resolveActiveLocale(locale);
   const value = await resolveEntity("site:nav", nav);
-  return locale === "ko" ? value : localizeTree(locale, value);
+  return localizeTree(activeLocale, value);
 }
 
-export async function getFooter(locale = "ko") {
+export async function getFooter(locale?: Locale) {
+  const activeLocale = await resolveActiveLocale(locale);
   const value = await resolveEntity("site:footer", siteFooterDefault());
-  return locale === "ko" ? value : localizeTree(locale, value);
+  return localizeTree(activeLocale, value);
 }

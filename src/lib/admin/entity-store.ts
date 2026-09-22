@@ -20,8 +20,8 @@ import {
   type EditableEntityValue,
   type EntitySource,
   type PolicyEntity,
-  type SiteFooterEntity,
-  type SiteSettingsEntity,
+  type SiteFooterData,
+  type SiteSettingsData,
   type UiStringsEntity,
 } from "./entities";
 
@@ -34,11 +34,11 @@ export const SITE_METADATA_DEFAULT = {
     "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/2b04303145abc.png",
 };
 
-export function siteSettingsDefault(): SiteSettingsEntity {
+export function siteSettingsDefault(): SiteSettingsData {
   return { ...company, metadata: { ...SITE_METADATA_DEFAULT } };
 }
 
-export function siteFooterDefault(): SiteFooterEntity {
+export function siteFooterDefault(): SiteFooterData {
   return {
     labels: {
       company: "회사명",

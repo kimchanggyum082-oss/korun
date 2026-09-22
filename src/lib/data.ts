@@ -1340,8 +1340,10 @@ export type HomeContent = {
   lists: {
     penSmall: string;
     penMobile: string;
-    newsHeading: { en: string; ko: string };
-    downloadsHeading: { en: string; ko: string };
+    newsHeadingEn: string;
+    newsHeadingKo: string;
+    downloadsHeadingEn: string;
+    downloadsHeadingKo: string;
     writer: string;
   };
   location: {
@@ -1394,8 +1396,10 @@ export const homeContent: HomeContent = {
   lists: {
     penSmall: assets.penSmall,
     penMobile: `${UPLOAD}/3ab2e78924f62.png`,
-    newsHeading: { en: "News & Events", ko: "뉴스&이벤트" },
-    downloadsHeading: { en: "Downloads", ko: "다운로드" },
+    newsHeadingEn: "News & Events",
+    newsHeadingKo: "뉴스&이벤트",
+    downloadsHeadingEn: "Downloads",
+    downloadsHeadingKo: "다운로드",
     writer: "코런 관리자",
   },
   location: {

@@ -2,7 +2,11 @@
 
 import ScaledDesktop from "@/components/admin/ScaledDesktop";
 import ProductBlockView from "@/components/products/ProductBlockView";
-import type { ProductPageData } from "@/lib/data";
+import {
+  toProductPageData,
+  type ProductPageEntity,
+} from "@/lib/admin/entities";
+import { chrome } from "@/lib/i18n/chrome";
 
 function PreviewFrame({
   title,
@@ -21,17 +25,23 @@ function PreviewFrame({
   );
 }
 
-export default function ProductPreviews({ draft }: { draft: ProductPageData }) {
+export default function ProductPreviews({
+  draft,
+}: {
+  draft: ProductPageEntity;
+}) {
+  const content = toProductPageData(draft);
   return (
     <div className="flex flex-col gap-4">
-      {draft.blocks.map((block, index) => (
+      {content.blocks.map((block, index) => (
         <PreviewFrame key={index} title={`블록 ${index + 1}`}>
           <ScaledDesktop>
             <ProductBlockView
+              t={chrome.ko}
               block={block}
               blockIndex={index}
-              page={draft.id}
-              isLastBlock={index === draft.blocks.length - 1}
+              page={content.id}
+              isLastBlock={index === content.blocks.length - 1}
             />
           </ScaledDesktop>
         </PreviewFrame>

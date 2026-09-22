@@ -1,15 +1,16 @@
 "use client";
 
 import type { UpdateDraft } from "@/components/admin/EntityEditor";
+import LocalizedField from "@/components/admin/LocalizedField";
 import {
   Field,
   SectionCard,
-  TextArea,
   TextInput,
   TwoColumn,
 } from "@/components/admin/fields";
-import type { ServiceNewsItem } from "@/lib/data";
-import BlockEditor from "./BlockEditor";
+import type { ServiceNewsItemEntity } from "@/lib/admin/entities";
+import BlockEditor from "../items/BlockEditor";
+import { toLocalized } from "../items/shared";
 import FileList from "./FileList";
 
 function NumberInput({
@@ -41,11 +42,11 @@ export default function NewsForms({
   update,
   uploadConfigured,
 }: {
-  draft: ServiceNewsItem;
-  update: UpdateDraft<ServiceNewsItem>;
+  draft: ServiceNewsItemEntity;
+  update: UpdateDraft<ServiceNewsItemEntity>;
   uploadConfigured: boolean;
 }) {
-  const set = (patch: Partial<ServiceNewsItem>) =>
+  const set = (patch: Partial<ServiceNewsItemEntity>) =>
     update((current) => ({ ...current, ...patch }));
 
   return (
@@ -54,26 +55,21 @@ export default function NewsForms({
         title="게시글 정보"
         description="목록과 상세 상단에 노출되는 메타데이터입니다."
       >
-        <TwoColumn>
-          <Field label="분류 (category)">
-            <TextInput
-              value={draft.category}
-              onChange={(event) => set({ category: event.target.value })}
-            />
-          </Field>
-          <Field label="작성자 (author)">
-            <TextInput
-              value={draft.author}
-              onChange={(event) => set({ author: event.target.value })}
-            />
-          </Field>
-        </TwoColumn>
-        <Field label="제목 (title)">
-          <TextInput
-            value={draft.title}
-            onChange={(event) => set({ title: event.target.value })}
-          />
-        </Field>
+        <LocalizedField
+          label="분류 (category)"
+          value={draft.category}
+          onChange={(next) => set({ category: toLocalized(next) })}
+        />
+        <LocalizedField
+          label="작성자 (author)"
+          value={draft.author}
+          onChange={(next) => set({ author: toLocalized(next) })}
+        />
+        <LocalizedField
+          label="제목 (title)"
+          value={draft.title}
+          onChange={(next) => set({ title: toLocalized(next) })}
+        />
         <TwoColumn>
           <Field label="작성일 (date)">
             <TextInput
@@ -107,13 +103,13 @@ export default function NewsForms({
           />
           공지글로 표시 (notice)
         </label>
-        <Field label="요약 (description)">
-          <TextArea
-            rows={3}
-            value={draft.description}
-            onChange={(event) => set({ description: event.target.value })}
-          />
-        </Field>
+        <LocalizedField
+          label="요약 (description)"
+          value={draft.description}
+          onChange={(next) => set({ description: toLocalized(next) })}
+          multiline
+          rows={3}
+        />
       </SectionCard>
 
       <SectionCard

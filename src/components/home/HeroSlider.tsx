@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { homeContent } from "@/lib/data";
+import { chrome } from "@/lib/i18n/chrome";
+import { useLocale } from "@/lib/i18n/client";
 
 type HeroSlide = { readonly src: string; readonly alt: string };
 
@@ -20,6 +22,7 @@ function HeroCarousel({
   paneClassName: string;
   showDots: boolean;
 }) {
+  const t = chrome[useLocale()];
   const count = slides.length;
   const [position, setPosition] = useState(0);
   const [withTransition, setWithTransition] = useState(true);
@@ -84,7 +87,7 @@ function HeroCarousel({
             <button
               key={slide.src}
               type="button"
-              aria-label={`${i + 1}번 슬라이드로 이동`}
+              aria-label={t.gallery.slideTo(i + 1)}
               onClick={() => goTo(i)}
               className="flex h-[18px] w-4 items-center justify-center"
             >

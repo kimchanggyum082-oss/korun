@@ -1,8 +1,18 @@
 import SmartImage from "@/components/ui/SmartImage";
 import Link from "next/link";
 import { aboutNav, assets } from "@/lib/data";
+import { localizeHref, type Locale } from "@/lib/i18n/locales";
 
-export default function AboutNav({ activeHref }: { activeHref: string }) {
+export default function AboutNav({
+  activeHref,
+  locale = "ko",
+}: {
+  activeHref: string;
+  locale?: Locale;
+}) {
+  const localize = (href: string) =>
+    href.startsWith("/") ? localizeHref(href, locale) : href;
+
   return (
     <>
       {/* Mobile */}
@@ -29,7 +39,7 @@ export default function AboutNav({ activeHref }: { activeHref: string }) {
                   return (
                     <li key={item.label} className="mr-[25px]">
                       <Link
-                        href={item.href}
+                        href={localize(item.href)}
                         aria-current={active ? "page" : undefined}
                         className={`inline-block pb-[5px] text-[15px] leading-[24px] transition-colors ${
                           active
@@ -73,7 +83,7 @@ export default function AboutNav({ activeHref }: { activeHref: string }) {
                   return (
                     <li key={item.label}>
                       <Link
-                        href={item.href}
+                        href={localize(item.href)}
                         aria-current={active ? "page" : undefined}
                         className={`inline-block pb-[5px] text-[15px] leading-[24px] transition-colors ${
                           active

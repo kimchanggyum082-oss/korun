@@ -4,6 +4,7 @@ import { isEditableEntityKey } from "@/lib/admin/entities";
 import { getAdminSession } from "@/lib/auth/session";
 import { publish, saveDraft } from "@/lib/content/store";
 import { isDatabaseConfigured } from "@/lib/db/client";
+import { locales } from "@/lib/i18n/locales";
 
 const MAX_BODY_BYTES = 512 * 1024;
 
@@ -124,7 +125,9 @@ export async function POST(request: Request) {
   try {
     if (body.action === "publish") {
       await publish(body.key, body.json, session.email);
-      revalidatePath("/", "layout");
+      for (const locale of locales) {
+        revalidatePath(`/${locale}`, "layout");
+      }
     } else {
       await saveDraft(body.key, body.json, session.email);
     }

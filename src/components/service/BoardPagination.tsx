@@ -4,6 +4,8 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@/components/service/ServiceIcons";
+import { chrome } from "@/lib/i18n/chrome";
+import { useLocale } from "@/lib/i18n/client";
 
 /**
  * Board pagination: 24x24 cells, 3px gaps, the active page in bold, inside a
@@ -18,10 +20,11 @@ export default function BoardPagination({
   totalPages: number;
   onChange: (page: number) => void;
 }) {
+  const t = chrome[useLocale()];
   const pages = Array.from({ length: totalPages }, (_, i) => i + 1);
 
   return (
-    <nav aria-label="페이지 네비게이션" className="h-[64px] text-center">
+    <nav aria-label={t.pagination.label} className="h-[64px] text-center">
       <ul className="my-[20px] inline-flex h-[24px] items-center">
         <li className="text-center">
           <button
@@ -30,7 +33,7 @@ export default function BoardPagination({
             disabled={page === 1}
             className="flex h-[24px] w-[24px] items-center justify-center text-[14px] leading-[24px] text-[rgba(54,54,54,0.4)] disabled:cursor-default"
           >
-            <span className="sr-only">Previous</span>
+            <span className="sr-only">{t.pagination.prev}</span>
             <ChevronLeftIcon className="-mt-[2px] [stroke-width:1.6]" />
           </button>
         </li>
@@ -58,7 +61,7 @@ export default function BoardPagination({
             disabled={page === totalPages}
             className="flex h-[24px] w-[24px] items-center justify-center text-[14px] leading-[24px] text-[rgba(54,54,54,0.4)] disabled:cursor-default"
           >
-            <span className="sr-only">Next</span>
+            <span className="sr-only">{t.pagination.next}</span>
             <ChevronRightIcon className="-mt-[2px] [stroke-width:1.6]" />
           </button>
         </li>

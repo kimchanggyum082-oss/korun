@@ -7,6 +7,8 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
+import { chrome } from "@/lib/i18n/chrome";
+import { useLocale } from "@/lib/i18n/client";
 import type { GalleryImage } from "@/lib/data";
 
 const FADE_MS = 200;
@@ -171,6 +173,7 @@ export default function Lightbox({
   onClose: () => void;
   galleryId?: string;
 }) {
+  const t = chrome[useLocale()];
   const count = images.length;
   const [index, setIndex] = useState(startIndex);
   const [loaded, setLoaded] = useState<Record<number, boolean>>({});
@@ -380,7 +383,7 @@ export default function Lightbox({
       className="fixed inset-0 z-100 bg-black/90"
       role="dialog"
       aria-modal="true"
-      aria-label="이미지 뷰어"
+      aria-label={t.gallery.viewer}
       style={{
         opacity: entered ? 1 : 0,
         transition: `opacity ${ENTER_MS}ms ease ${ENTER_DELAY_MS}ms`,
@@ -449,7 +452,7 @@ export default function Lightbox({
         <button
           type="button"
           onClick={goPrev}
-          aria-label="이전 이미지"
+          aria-label={t.gallery.prevImage}
           className="absolute left-4 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/25 md:left-6 md:h-12 md:w-12"
           style={{
             opacity: idleHidden ? 0 : 1,
@@ -475,7 +478,7 @@ export default function Lightbox({
         <button
           type="button"
           onClick={goNext}
-          aria-label="다음 이미지"
+          aria-label={t.gallery.nextImage}
           className="absolute right-4 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/25 md:right-6 md:h-12 md:w-12"
           style={{
             opacity: idleHidden ? 0 : 1,
@@ -513,20 +516,23 @@ export default function Lightbox({
           <span>{index + 1}</span> / <span>{count}</span>
         </div>
         <div className="absolute inset-y-0 right-0 flex items-center">
-          <ToolbarButton label="실제 크기" onClick={handleActualSize}>
+          <ToolbarButton
+            label={t.gallery.actualSize}
+            onClick={handleActualSize}
+          >
             <ActualSizeIcon />
           </ToolbarButton>
           <ToolbarButton
-            label="축소"
+            label={t.gallery.zoomOut}
             onClick={handleZoomOut}
             disabled={!zoomed}
           >
             <ZoomOutIcon />
           </ToolbarButton>
-          <ToolbarButton label="확대" onClick={handleZoomIn}>
+          <ToolbarButton label={t.gallery.zoomIn} onClick={handleZoomIn}>
             <ZoomInIcon />
           </ToolbarButton>
-          <ToolbarButton label="닫기" onClick={close}>
+          <ToolbarButton label={t.gallery.close} onClick={close}>
             <CloseIcon />
           </ToolbarButton>
         </div>

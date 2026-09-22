@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Lightbox from "@/components/home/Lightbox";
+import { chrome } from "@/lib/i18n/chrome";
+import { useLocale } from "@/lib/i18n/client";
 import type { GalleryImage } from "@/lib/data";
 import type { InterestingItemBlock, TextAlign, TextRun } from "@/lib/data";
 
@@ -14,6 +16,7 @@ export default function ItemBody({
   title: string;
   defaultAlign?: TextAlign;
 }) {
+  const t = chrome[useLocale()];
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const images: GalleryImage[] = blocks
@@ -148,7 +151,7 @@ export default function ItemBody({
                 loading="lazy"
                 role="button"
                 tabIndex={0}
-                aria-label="이미지 확대 보기"
+                aria-label={t.gallery.zoomImage}
                 onClick={open}
                 onKeyDown={onKeyDown}
                 className="h-auto max-w-full cursor-pointer"

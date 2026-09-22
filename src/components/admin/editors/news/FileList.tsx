@@ -1,16 +1,17 @@
 "use client";
 
+import LocalizedField from "@/components/admin/LocalizedField";
 import { Field, TextInput } from "@/components/admin/fields";
+import type { ServiceFileEntity } from "@/lib/admin/entities";
+import { toLocalized } from "../items/shared";
 import { AddButton, MoveButtons, moveAt, removeAt, replaceAt } from "./shared";
-
-export type FileEntry = { name: string; size: string; url: string };
 
 export default function FileList({
   values,
   onChange,
 }: {
-  values: FileEntry[];
-  onChange: (next: FileEntry[]) => void;
+  values: ServiceFileEntity[];
+  onChange: (next: ServiceFileEntity[]) => void;
 }) {
   return (
     <div className="flex flex-col gap-3">
@@ -30,19 +31,18 @@ export default function FileList({
               onRemove={(i) => onChange(removeAt(values, i))}
             />
           </div>
-          <Field label="이름 (name)">
-            <TextInput
-              value={file.name}
-              onChange={(event) =>
-                onChange(
-                  replaceAt(values, index, {
-                    ...file,
-                    name: event.target.value,
-                  }),
-                )
-              }
-            />
-          </Field>
+          <LocalizedField
+            label="이름 (name)"
+            value={file.name}
+            onChange={(next) =>
+              onChange(
+                replaceAt(values, index, {
+                  ...file,
+                  name: toLocalized(next),
+                }),
+              )
+            }
+          />
           <Field label="크기 (size)">
             <TextInput
               value={file.size}

@@ -1,15 +1,19 @@
 "use client";
 
 import EntityEditor from "@/components/admin/EntityEditor";
+import LocalizedField from "@/components/admin/LocalizedField";
 import ScaledDesktop from "@/components/admin/ScaledDesktop";
-import { Field, SectionCard, TextInput } from "@/components/admin/fields";
+import { SectionCard } from "@/components/admin/fields";
 import JobPostingView from "@/components/about/JobPostingView";
 import type { getAboutPage } from "@/lib/content";
 import {
   ENTITY_KEYS,
+  toAboutJobPostingContent,
   type AboutJobPostingEntity,
   type EntitySource,
 } from "@/lib/admin/entities";
+import { chrome } from "@/lib/i18n/chrome";
+import { toLocalized } from "./shared";
 
 type AboutPageJobPosts = Awaited<ReturnType<typeof getAboutPage>>["jobPosts"];
 
@@ -35,40 +39,36 @@ function JobPostingForm({
         title="목록 페이지"
         description="채용 공고 목록 상단의 문구와 제목입니다."
       >
-        <Field label="상단 문구">
-          <TextInput
-            value={content.tagline}
-            onChange={(event) => setContent({ tagline: event.target.value })}
-          />
-        </Field>
-        <Field label="제목">
-          <TextInput
-            value={content.title}
-            onChange={(event) => setContent({ title: event.target.value })}
-          />
-        </Field>
+        <LocalizedField
+          label="상단 문구"
+          value={content.tagline}
+          onChange={(next) => setContent({ tagline: toLocalized(next) })}
+        />
+        <LocalizedField
+          label="제목"
+          value={content.title}
+          onChange={(next) => setContent({ title: toLocalized(next) })}
+        />
       </SectionCard>
 
       <SectionCard
         title="상세 페이지 헤더"
         description="상세 페이지 상단의 모바일/데스크톱 문구입니다. 기존의 서로 다른 문구를 그대로 유지합니다."
       >
-        <Field label="모바일 문구">
-          <TextInput
-            value={content.detailTaglineMobile}
-            onChange={(event) =>
-              setContent({ detailTaglineMobile: event.target.value })
-            }
-          />
-        </Field>
-        <Field label="데스크톱 문구">
-          <TextInput
-            value={content.detailTaglineDesktop}
-            onChange={(event) =>
-              setContent({ detailTaglineDesktop: event.target.value })
-            }
-          />
-        </Field>
+        <LocalizedField
+          label="모바일 문구"
+          value={content.detailTaglineMobile}
+          onChange={(next) =>
+            setContent({ detailTaglineMobile: toLocalized(next) })
+          }
+        />
+        <LocalizedField
+          label="데스크톱 문구"
+          value={content.detailTaglineDesktop}
+          onChange={(next) =>
+            setContent({ detailTaglineDesktop: toLocalized(next) })
+          }
+        />
       </SectionCard>
     </>
   );
@@ -98,7 +98,11 @@ export default function AboutJobPostingEditor({
       form={(draft, update) => <JobPostingForm draft={draft} update={update} />}
       preview={(draft) => (
         <ScaledDesktop>
-          <JobPostingView content={draft.content} jobPosts={jobPosts} />
+          <JobPostingView
+            t={chrome.ko}
+            content={toAboutJobPostingContent(draft.content)}
+            jobPosts={jobPosts}
+          />
         </ScaledDesktop>
       )}
     />

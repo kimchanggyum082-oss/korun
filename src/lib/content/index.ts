@@ -6,6 +6,7 @@ export { getCasePage, getCasePages } from "./cases";
 export { getBoardItems, getBoardItem } from "./boards";
 export { getSearchIndex } from "./search";
 export { getPolicyModal } from "./policy";
+export { resolveActiveLocale } from "./locale";
 export {
   getPublished,
   getDraft,
@@ -20,6 +21,7 @@ export {
   isLocalizedValue,
   isPlainObject,
   resolveLeaf,
+  localizeTree,
 } from "./merge";
 export type { AboutPageKey } from "./about";
 export type { BoardName } from "./boards";

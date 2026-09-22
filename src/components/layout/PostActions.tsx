@@ -6,6 +6,8 @@ import {
   HeartIcon,
   ShareIcon,
 } from "@/components/service/ServiceIcons";
+import { chrome } from "@/lib/i18n/chrome";
+import { useLocale } from "@/lib/i18n/client";
 
 export default function PostActions({
   likeCount = 0,
@@ -15,6 +17,7 @@ export default function PostActions({
   commentCount?: number;
   listHref?: string;
 }) {
+  const t = chrome[useLocale()];
   return (
     <>
       {/* PC */}
@@ -35,14 +38,14 @@ export default function PostActions({
         <div className="flex items-center">
           <button
             type="button"
-            aria-label="공유"
+            aria-label={t.post.share}
             className="flex h-[46.28px] items-center px-[12px] py-[11px] text-ink"
           >
             <ShareIcon />
           </button>
           <button
             type="button"
-            aria-label="인쇄"
+            aria-label={t.post.print}
             onClick={() => window.print()}
             className="hidden h-[46.28px] items-center py-[11px] pl-[12px] text-ink pc:flex"
           >
@@ -69,7 +72,7 @@ export default function PostActions({
         <div className="float-right">
           <button
             type="button"
-            aria-label="공유"
+            aria-label={t.post.share}
             className="border-y border-transparent py-[11px] pl-[12px] text-ink"
           >
             <ShareIcon />

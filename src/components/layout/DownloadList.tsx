@@ -4,12 +4,17 @@ import { useMemo, useState } from "react";
 import type { ServiceDownloadItem } from "@/lib/data";
 import BoardCardGrid, { bodyText } from "@/components/service/BoardCardGrid";
 import BoardSearch from "@/components/service/BoardSearch";
+import { chrome } from "@/lib/i18n/chrome";
+import { useLocale } from "@/lib/i18n/client";
+import { localizeHref } from "@/lib/i18n/locales";
 
 export default function DownloadList({
   items,
 }: {
   items: ServiceDownloadItem[];
 }) {
+  const locale = useLocale();
+  const t = chrome[locale];
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
@@ -32,7 +37,7 @@ export default function DownloadList({
             showWriter={false}
             items={filtered.map((item) => ({
               idx: item.idx,
-              href: `/downloads/${item.idx}`,
+              href: localizeHref(`/downloads/${item.idx}`, locale),
               thumbnail: item.thumbnail,
               title: item.title,
               description: item.description,
@@ -45,7 +50,7 @@ export default function DownloadList({
             <BoardSearch
               query={query}
               onQueryChange={setQuery}
-              ariaLabel="다운로드 검색"
+              ariaLabel={t.board.searchLabel("다운로드")}
             />
           </div>
         </div>
@@ -63,7 +68,7 @@ export default function DownloadList({
             showWriter={false}
             items={filtered.map((item) => ({
               idx: item.idx,
-              href: `/downloads/${item.idx}`,
+              href: localizeHref(`/downloads/${item.idx}`, locale),
               thumbnail: item.thumbnail,
               title: item.title,
               description: item.description,

@@ -4,12 +4,17 @@ import { useMemo, useState } from "react";
 import type { ServiceCaseStudioItem } from "@/lib/data";
 import BoardCardGrid, { bodyText } from "@/components/service/BoardCardGrid";
 import BoardSearch from "@/components/service/BoardSearch";
+import { chrome } from "@/lib/i18n/chrome";
+import { useLocale } from "@/lib/i18n/client";
+import { localizeHref } from "@/lib/i18n/locales";
 
 export default function CaseStudioList({
   items,
 }: {
   items: ServiceCaseStudioItem[];
 }) {
+  const locale = useLocale();
+  const t = chrome[locale];
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
@@ -32,7 +37,7 @@ export default function CaseStudioList({
             showWriter={false}
             items={filtered.map((item) => ({
               idx: item.idx,
-              href: `/case-studio/${item.idx}`,
+              href: localizeHref(`/case-studio/${item.idx}`, locale),
               thumbnail: item.thumbnail,
               title: item.title,
               description: item.description,
@@ -45,7 +50,7 @@ export default function CaseStudioList({
             <BoardSearch
               query={query}
               onQueryChange={setQuery}
-              ariaLabel="케이스 스튜디오 검색"
+              ariaLabel={t.board.searchLabel("케이스 스튜디오")}
             />
           </div>
         </div>
@@ -63,7 +68,7 @@ export default function CaseStudioList({
             showWriter={false}
             items={filtered.map((item) => ({
               idx: item.idx,
-              href: `/case-studio/${item.idx}`,
+              href: localizeHref(`/case-studio/${item.idx}`, locale),
               thumbnail: item.thumbnail,
               title: item.title,
               description: item.description,

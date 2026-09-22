@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { HeartIcon } from "@/components/service/ServiceIcons";
+import { chrome } from "@/lib/i18n/chrome";
+import { useLocale } from "@/lib/i18n/client";
 
 export type BoardCardItem = {
   idx: string;
@@ -39,6 +41,8 @@ export default function BoardCardGrid({
   showLike: boolean;
   showWriter: boolean;
 }) {
+  const t = chrome[useLocale()];
+
   return (
     <ul className="grid grid-cols-2 items-start gap-[15px] pc:-mx-[15px] pc:flex pc:flex-wrap pc:gap-0">
       {items.map((item) => (
@@ -77,7 +81,8 @@ export default function BoardCardGrid({
                   {item.date}{" "}
                 </span>
                 <span className="text-[11px] leading-[13.2px]">
-                  <i className="not-italic">조회</i> {item.views}
+                  <i className="not-italic">{t.board.viewsShort}</i>{" "}
+                  {item.views}
                 </span>
               </div>
             </div>

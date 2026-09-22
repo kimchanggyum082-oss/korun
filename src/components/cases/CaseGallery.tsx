@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import Lightbox from "@/components/home/Lightbox";
+import { chrome } from "@/lib/i18n/chrome";
+import { useLocale } from "@/lib/i18n/client";
 import type { GalleryImage } from "@/lib/data";
 
 export default function CaseGallery({
@@ -11,6 +13,7 @@ export default function CaseGallery({
   images: GalleryImage[];
   label: string;
 }) {
+  const t = chrome[useLocale()];
   const [index, setIndex] = useState<number | null>(null);
 
   return (
@@ -21,7 +24,7 @@ export default function CaseGallery({
             <button
               type="button"
               onClick={() => setIndex(i)}
-              aria-label={`${img.alt || `${label} ${i + 1}`} 보기`}
+              aria-label={t.gallery.openImage(img.alt || `${label} ${i + 1}`)}
               className="block h-[89px] w-full border border-[#eee]"
             >
               <span

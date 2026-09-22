@@ -1,16 +1,17 @@
 "use client";
 
 import type { UpdateDraft } from "@/components/admin/EntityEditor";
+import LocalizedField from "@/components/admin/LocalizedField";
 import {
   Field,
   SectionCard,
-  TextArea,
   TextInput,
   TwoColumn,
 } from "@/components/admin/fields";
 import ImageField from "@/components/admin/ImageField";
-import type { InterestingItem } from "@/lib/data";
-import BlockEditor from "../news/BlockEditor";
+import type { InterestingItemEntity } from "@/lib/admin/entities";
+import BlockEditor from "./BlockEditor";
+import { toLocalized } from "./shared";
 
 function NumberInput({
   label,
@@ -40,8 +41,8 @@ function ItemFileList({
   values,
   onChange,
 }: {
-  values: InterestingItem["files"];
-  onChange: (next: InterestingItem["files"]) => void;
+  values: InterestingItemEntity["files"];
+  onChange: (next: InterestingItemEntity["files"]) => void;
 }) {
   return (
     <div className="flex flex-col gap-3">
@@ -63,20 +64,17 @@ function ItemFileList({
               ✕
             </button>
           </div>
-          <Field label="이름 (name)">
-            <TextInput
-              value={file.name}
-              onChange={(event) =>
-                onChange(
-                  values.map((entry, i) =>
-                    i === index
-                      ? { ...entry, name: event.target.value }
-                      : entry,
-                  ),
-                )
-              }
-            />
-          </Field>
+          <LocalizedField
+            label="이름 (name)"
+            value={file.name}
+            onChange={(next) =>
+              onChange(
+                values.map((entry, i) =>
+                  i === index ? { ...entry, name: toLocalized(next) } : entry,
+                ),
+              )
+            }
+          />
           <Field label="크기 (size)">
             <TextInput
               value={file.size}
@@ -110,11 +108,11 @@ export default function ItemForms({
   update,
   uploadConfigured,
 }: {
-  draft: InterestingItem;
-  update: UpdateDraft<InterestingItem>;
+  draft: InterestingItemEntity;
+  update: UpdateDraft<InterestingItemEntity>;
   uploadConfigured: boolean;
 }) {
-  const set = (patch: Partial<InterestingItem>) =>
+  const set = (patch: Partial<InterestingItemEntity>) =>
     update((current) => ({ ...current, ...patch }));
 
   return (
@@ -123,26 +121,21 @@ export default function ItemForms({
         title="게시글 정보"
         description="목록과 상세에 노출되는 메타데이터입니다."
       >
-        <TwoColumn>
-          <Field label="분류 (category)">
-            <TextInput
-              value={draft.category}
-              onChange={(event) => set({ category: event.target.value })}
-            />
-          </Field>
-          <Field label="작성자 (author)">
-            <TextInput
-              value={draft.author}
-              onChange={(event) => set({ author: event.target.value })}
-            />
-          </Field>
-        </TwoColumn>
-        <Field label="제목 (title)">
-          <TextInput
-            value={draft.title}
-            onChange={(event) => set({ title: event.target.value })}
-          />
-        </Field>
+        <LocalizedField
+          label="분류 (category)"
+          value={draft.category}
+          onChange={(next) => set({ category: toLocalized(next) })}
+        />
+        <LocalizedField
+          label="작성자 (author)"
+          value={draft.author}
+          onChange={(next) => set({ author: toLocalized(next) })}
+        />
+        <LocalizedField
+          label="제목 (title)"
+          value={draft.title}
+          onChange={(next) => set({ title: toLocalized(next) })}
+        />
         <TwoColumn>
           <Field label="작성일 (date)">
             <TextInput
@@ -166,13 +159,13 @@ export default function ItemForms({
           uploadConfigured={uploadConfigured}
           onChange={(next) => set({ thumbnail: next })}
         />
-        <Field label="설명 (description)">
-          <TextArea
-            rows={3}
-            value={draft.description}
-            onChange={(event) => set({ description: event.target.value })}
-          />
-        </Field>
+        <LocalizedField
+          label="설명 (description)"
+          value={draft.description}
+          onChange={(next) => set({ description: toLocalized(next) })}
+          multiline
+          rows={3}
+        />
       </SectionCard>
 
       <SectionCard

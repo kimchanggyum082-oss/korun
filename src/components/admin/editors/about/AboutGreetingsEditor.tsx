@@ -2,18 +2,22 @@
 
 import type { getAboutPage } from "@/lib/content";
 import EntityEditor from "@/components/admin/EntityEditor";
-import {
-  Field,
-  SectionCard,
-  TextArea,
-  TextInput,
-} from "@/components/admin/fields";
+import LocalizedField from "@/components/admin/LocalizedField";
+import { SectionCard } from "@/components/admin/fields";
 import {
   ENTITY_KEYS,
+  toAboutGreetingsContent,
   type AboutGreetingsEntity,
   type EntitySource,
 } from "@/lib/admin/entities";
-import { AddButton, MoveButtons, moveAt, removeAt, replaceAt } from "./shared";
+import {
+  AddButton,
+  MoveButtons,
+  moveAt,
+  removeAt,
+  replaceAt,
+  toLocalized,
+} from "./shared";
 import ScaledDesktop from "@/components/admin/ScaledDesktop";
 import GreetingsView from "@/components/about/GreetingsView";
 
@@ -41,52 +45,48 @@ function GreetingsForm({
         title="배너"
         description="상단 배너 문구와 페이지 제목입니다."
       >
-        <Field label="문구 1">
-          <TextInput
-            value={content.banner.line1}
-            onChange={(event) =>
-              setContent({
-                banner: { ...content.banner, line1: event.target.value },
-              })
-            }
-          />
-        </Field>
-        <Field label="문구 2">
-          <TextInput
-            value={content.banner.line2}
-            onChange={(event) =>
-              setContent({
-                banner: { ...content.banner, line2: event.target.value },
-              })
-            }
-          />
-        </Field>
-        <Field label="페이지 제목">
-          <TextInput
-            value={content.banner.title}
-            onChange={(event) =>
-              setContent({
-                banner: { ...content.banner, title: event.target.value },
-              })
-            }
-          />
-        </Field>
+        <LocalizedField
+          label="문구 1"
+          value={content.banner.line1}
+          onChange={(next) =>
+            setContent({
+              banner: { ...content.banner, line1: toLocalized(next) },
+            })
+          }
+        />
+        <LocalizedField
+          label="문구 2"
+          value={content.banner.line2}
+          onChange={(next) =>
+            setContent({
+              banner: { ...content.banner, line2: toLocalized(next) },
+            })
+          }
+        />
+        <LocalizedField
+          label="페이지 제목"
+          value={content.banner.title}
+          onChange={(next) =>
+            setContent({
+              banner: { ...content.banner, title: toLocalized(next) },
+            })
+          }
+        />
       </SectionCard>
 
       <SectionCard title="본문" description="인사말 제목과 본문 단락입니다.">
-        <Field label="제목">
-          <TextInput
-            value={content.heading}
-            onChange={(event) => setContent({ heading: event.target.value })}
-          />
-        </Field>
-        <Field label="도입 문단">
-          <TextArea
-            rows={3}
-            value={content.intro}
-            onChange={(event) => setContent({ intro: event.target.value })}
-          />
-        </Field>
+        <LocalizedField
+          label="제목"
+          value={content.heading}
+          onChange={(next) => setContent({ heading: toLocalized(next) })}
+        />
+        <LocalizedField
+          label="도입 문단"
+          value={content.intro}
+          onChange={(next) => setContent({ intro: toLocalized(next) })}
+          multiline
+          rows={3}
+        />
 
         {content.paragraphs.map((paragraph, index) => (
           <div
@@ -110,18 +110,19 @@ function GreetingsForm({
                 }
               />
             </div>
-            <TextArea
-              rows={3}
+            <LocalizedField
               value={paragraph}
-              onChange={(event) =>
+              onChange={(next) =>
                 setContent({
                   paragraphs: replaceAt(
                     content.paragraphs,
                     index,
-                    event.target.value,
+                    toLocalized(next),
                   ),
                 })
               }
+              multiline
+              rows={3}
             />
           </div>
         ))}
@@ -133,12 +134,11 @@ function GreetingsForm({
           단락 추가
         </AddButton>
 
-        <Field label="서명">
-          <TextInput
-            value={content.signature}
-            onChange={(event) => setContent({ signature: event.target.value })}
-          />
-        </Field>
+        <LocalizedField
+          label="서명"
+          value={content.signature}
+          onChange={(next) => setContent({ signature: toLocalized(next) })}
+        />
       </SectionCard>
     </>
   );
@@ -168,7 +168,10 @@ export default function AboutGreetingsEditor({
       form={(draft, update) => <GreetingsForm draft={draft} update={update} />}
       preview={(draft) => (
         <ScaledDesktop>
-          <GreetingsView content={draft.content} assets={assets} />
+          <GreetingsView
+            content={toAboutGreetingsContent(draft.content)}
+            assets={assets}
+          />
         </ScaledDesktop>
       )}
     />

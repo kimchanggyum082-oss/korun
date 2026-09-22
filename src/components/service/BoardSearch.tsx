@@ -1,6 +1,8 @@
 "use client";
 
 import { MagnifierIcon } from "@/components/service/ServiceIcons";
+import { chrome } from "@/lib/i18n/chrome";
+import { useLocale } from "@/lib/i18n/client";
 
 /**
  * Desktop board search box (220x34) that the original renders centred below
@@ -19,6 +21,8 @@ export default function BoardSearch({
   placeholder?: string;
   onSubmit?: () => void;
 }) {
+  const t = chrome[useLocale()];
+
   return (
     <div className="text-center">
       {/* PC */}
@@ -40,7 +44,7 @@ export default function BoardSearch({
         />
         <button
           type="submit"
-          aria-label="검색"
+          aria-label={t.search.submit}
           className="absolute right-1 top-0 flex h-[34px] w-[23px] items-center justify-center text-[#212121]"
         >
           <MagnifierIcon />
@@ -53,7 +57,7 @@ export default function BoardSearch({
           type="search"
           value={query}
           onChange={(e) => onQueryChange(e.target.value)}
-          placeholder="검색"
+          placeholder={t.search.placeholder}
           aria-label={ariaLabel}
           className="w-full rounded-full border border-neutral-200 bg-white py-3 pl-11 pr-4 text-[14px] text-ink outline-none transition-colors focus:border-brand"
         />

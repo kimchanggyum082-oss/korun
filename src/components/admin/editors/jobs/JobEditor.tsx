@@ -1,8 +1,11 @@
 "use client";
 
 import EntityEditor from "@/components/admin/EntityEditor";
-import { jobPostEntityKey, type EntitySource } from "@/lib/admin/entities";
-import type { JobPost } from "@/lib/data";
+import {
+  jobPostEntityKey,
+  type EntitySource,
+  type JobPostEntity,
+} from "@/lib/admin/entities";
 import JobForms from "./JobForms";
 import JobPreviews from "./JobPreviews";
 
@@ -12,13 +15,13 @@ export default function JobEditor({
   storeReady,
   uploadConfigured,
 }: {
-  initial: JobPost;
+  initial: JobPostEntity;
   source: EntitySource;
   storeReady: boolean;
   uploadConfigured: boolean;
 }) {
   return (
-    <EntityEditor<JobPost>
+    <EntityEditor<JobPostEntity>
       entityKey={jobPostEntityKey(initial.idx)}
       label="Service"
       title="채용정보"

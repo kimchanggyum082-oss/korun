@@ -4,8 +4,9 @@ import FooterBar, {
   type FooterBarLinks,
 } from "@/components/layout/FooterBar";
 import { siteSettingsDefault } from "@/lib/admin/entity-store";
+import { resolveActiveLocale } from "@/lib/content";
 
-export default function Footer({
+export default async function Footer({
   contact = siteSettingsDefault(),
   labels,
   links,
@@ -16,12 +17,14 @@ export default function Footer({
   links?: FooterBarLinks;
   copyright?: string;
 }) {
+  const locale = await resolveActiveLocale();
   return (
     <FooterBar
       contact={contact}
       labels={labels}
       links={links}
       copyright={copyright}
+      locale={locale}
     />
   );
 }

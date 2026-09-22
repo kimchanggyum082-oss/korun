@@ -1,6 +1,8 @@
 import { getPublished, listEntities } from "./store";
 import { applyOverride } from "./merge";
 import { localizeTree } from "./merge";
+import { type Locale } from "@/lib/i18n/locales";
+import { resolveActiveLocale } from "./locale";
 
 import {
   caseStudioItems,
@@ -35,8 +37,9 @@ const boardSources: { [B in BoardName]: BoardItemMap[B][] } = {
 
 export async function getBoardItems<B extends BoardName>(
   board: B,
-  locale = "ko",
+  locale?: Locale,
 ): Promise<BoardItemMap[B][]> {
+  const activeLocale = await resolveActiveLocale(locale);
   const defaults: BoardItemMap[B][] = boardSources[board];
   const collectionOverride = await getPublished(`boards:${board}`);
   let items: BoardItemMap[B][] =
@@ -59,14 +62,15 @@ export async function getBoardItems<B extends BoardName>(
         : (applyOverride(item, override) as BoardItemMap[B]);
     });
   }
-  return locale === "ko" ? items : localizeTree(locale, items);
+  return localizeTree(activeLocale, items);
 }
 
 export async function getBoardItem<B extends BoardName>(
   board: B,
   idx: string,
-  locale = "ko",
+  locale?: Locale,
 ): Promise<BoardItemMap[B] | undefined> {
-  const items = await getBoardItems(board, locale);
+  const activeLocale = await resolveActiveLocale(locale);
+  const items = await getBoardItems(board, activeLocale);
   return items.find((item) => item.idx === idx);
 }

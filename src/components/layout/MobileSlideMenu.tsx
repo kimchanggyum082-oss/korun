@@ -2,7 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useLocale } from "@/lib/i18n/client";
+import { chrome } from "@/lib/i18n/chrome";
+import { localizeHref } from "@/lib/i18n/locales";
 import { nav } from "@/lib/data";
+import LocaleMenu from "./LocaleMenu";
 
 type MobileSlideMenuProps = {
   open: boolean;
@@ -13,7 +17,12 @@ export default function MobileSlideMenu({
   open,
   onClose,
 }: MobileSlideMenuProps) {
+  const locale = useLocale();
+  const t = chrome[locale];
   const [expandedItem, setExpandedItem] = useState<string | null>(null);
+
+  const localize = (href: string) =>
+    href.startsWith("/") ? localizeHref(href, locale) : href;
 
   return (
     <div
@@ -37,15 +46,19 @@ export default function MobileSlideMenu({
           <div className="relative border border-transparent bg-[#2b2b2b] p-5 text-left">
             <div className="w-full text-[14px] font-normal text-white">
               <span className="leading-[26px] opacity-60">
-                로그인이 필요합니다.
+                {t.header.loginRequired}
               </span>
               <button
                 type="button"
                 className="float-right bg-transparent px-3 py-1.5 text-[12px] leading-none text-white"
               >
-                로그인
+                {t.header.login}
               </button>
             </div>
+          </div>
+
+          <div className="border-t border-[#f3f3f3] px-5 py-[13px]">
+            <LocaleMenu variant="mobile" onSelect={onClose} />
           </div>
 
           <ul>
@@ -67,21 +80,23 @@ export default function MobileSlideMenu({
                         }
                         className="block w-full pb-[14px] pl-5 pr-[50px] pt-[13px] text-left text-[14px] leading-none text-[#212121]/[0.89]"
                       >
-                        {item.label}
+                        {t.nav.sections[item.label]}
                       </button>
                     ) : (
                       <Link
-                        href={item.href}
+                        href={localize(item.href)}
                         onClick={onClose}
                         className="block pb-[14px] pl-5 pr-[50px] pt-[13px] text-[14px] leading-none text-[#212121]/[0.89]"
                       >
-                        {item.label}
+                        {t.nav.sections[item.label]}
                       </Link>
                     )}
                     {item.children.length > 0 && (
                       <button
                         type="button"
-                        aria-label={`${item.label} 하위 메뉴`}
+                        aria-label={t.header.submenu(
+                          t.nav.sections[item.label],
+                        )}
                         aria-expanded={isExpanded}
                         onClick={() =>
                           setExpandedItem(isExpanded ? null : item.label)
@@ -111,11 +126,11 @@ export default function MobileSlideMenu({
                       {item.children.map((child) => (
                         <li key={child.label}>
                           <Link
-                            href={child.href}
+                            href={localize(child.href)}
                             onClick={onClose}
                             className="block py-2 pl-[30px] pr-[50px] text-[13px] leading-none text-[#212121]/[0.89]"
                           >
-                            {child.label}
+                            {t.nav.links[child.href]}
                           </Link>
                         </li>
                       ))}
@@ -130,7 +145,7 @@ export default function MobileSlideMenu({
 
       <button
         type="button"
-        aria-label="메뉴 닫기"
+        aria-label={t.header.menuClose}
         onClick={onClose}
         className={`fixed left-[310px] top-[17px] z-[1100] flex h-[32.72px] w-8 items-start p-2 text-white transition-opacity duration-300 ease-out ${
           open ? "opacity-100" : "pointer-events-none opacity-0"

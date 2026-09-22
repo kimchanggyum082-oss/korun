@@ -2,28 +2,24 @@
 
 import type { UpdateDraft } from "@/components/admin/EntityEditor";
 import ImageField from "@/components/admin/ImageField";
-import {
-  Field,
-  SectionCard,
-  TextArea,
-  TextInput,
-} from "@/components/admin/fields";
-import type { CasePageData } from "@/lib/data";
+import LocalizedField from "@/components/admin/LocalizedField";
+import { SectionCard } from "@/components/admin/fields";
+import type { CasePageEntity } from "@/lib/admin/entities";
 import { GalleryImageList, NumberField, SectionImageList } from "./CaseFields";
-import { AddButton } from "./shared";
+import { AddButton, toLocalized } from "./shared";
 
 export default function CaseForms({
   draft,
   update,
   uploadConfigured,
 }: {
-  draft: CasePageData;
-  update: UpdateDraft<CasePageData>;
+  draft: CasePageEntity;
+  update: UpdateDraft<CasePageEntity>;
   uploadConfigured: boolean;
 }) {
   const section = draft.section;
 
-  const setSection = (patch: Partial<NonNullable<CasePageData["section"]>>) =>
+  const setSection = (patch: Partial<NonNullable<CasePageEntity["section"]>>) =>
     update((current) =>
       current.section
         ? { ...current, section: { ...current.section, ...patch } }
@@ -36,25 +32,23 @@ export default function CaseForms({
         title="페이지 정보"
         description="사례 페이지 상단의 부제와 제목입니다."
       >
-        <Field label="부제 (subtitle)">
-          <TextInput
-            value={draft.subtitle}
-            onChange={(event) =>
-              update((current) => ({
-                ...current,
-                subtitle: event.target.value,
-              }))
-            }
-          />
-        </Field>
-        <Field label="제목 (title)">
-          <TextInput
-            value={draft.title}
-            onChange={(event) =>
-              update((current) => ({ ...current, title: event.target.value }))
-            }
-          />
-        </Field>
+        <LocalizedField
+          label="부제 (subtitle)"
+          value={draft.subtitle}
+          onChange={(next) =>
+            update((current) => ({
+              ...current,
+              subtitle: toLocalized(next),
+            }))
+          }
+        />
+        <LocalizedField
+          label="제목 (title)"
+          value={draft.title}
+          onChange={(next) =>
+            update((current) => ({ ...current, title: toLocalized(next) }))
+          }
+        />
       </SectionCard>
 
       <div className="rounded-lg border border-neutral-200 bg-paper px-4 py-3">
@@ -109,21 +103,18 @@ export default function CaseForms({
       >
         {section ? (
           <>
-            <Field label="섹션 제목 (heading)">
-              <TextInput
-                value={section.heading}
-                onChange={(event) =>
-                  setSection({ heading: event.target.value })
-                }
-              />
-            </Field>
-            <Field label="섹션 문단 (text)">
-              <TextArea
-                rows={5}
-                value={section.text}
-                onChange={(event) => setSection({ text: event.target.value })}
-              />
-            </Field>
+            <LocalizedField
+              label="섹션 제목 (heading)"
+              value={section.heading}
+              onChange={(next) => setSection({ heading: toLocalized(next) })}
+            />
+            <LocalizedField
+              label="섹션 문단 (text)"
+              value={section.text}
+              onChange={(next) => setSection({ text: toLocalized(next) })}
+              multiline
+              rows={5}
+            />
             <SectionImageList
               values={section.images}
               uploadConfigured={uploadConfigured}

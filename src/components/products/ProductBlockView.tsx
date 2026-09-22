@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import SmartImage from "@/components/ui/SmartImage";
 import ProductGallery from "@/components/products/ProductGallery";
+import type { ChromeDict } from "@/lib/i18n/chrome";
 import type { ProductBlock } from "@/lib/data";
 import { company } from "@/lib/data";
 
@@ -144,7 +145,7 @@ export function ProductTitleBlock({
   );
 }
 
-function IntroBody({ block }: { block: ProductBlock }) {
+function IntroBody({ block, t }: { block: ProductBlock; t: ChromeDict }) {
   const bulletLines = block.introBullets ?? [];
   const tagLines =
     bulletLines.length > 0 ? [] : splitTags(block.tags as readonly string[]);
@@ -204,7 +205,7 @@ function IntroBody({ block }: { block: ProductBlock }) {
               className="inline-block rounded-[2px] border border-brand bg-paper px-[22px] py-[6px]"
             >
               <span className="text-[16px] leading-[24px] text-brand">
-                문의하기 &gt;
+                {t.product.inquiry}
               </span>
             </a>
           </p>
@@ -223,9 +224,11 @@ function splitTags(tags: readonly string[]) {
 export function IntroSection({
   block,
   blockIndex,
+  t,
 }: {
   block: ProductBlock;
   blockIndex: number;
+  t: ChromeDict;
 }) {
   if (!block.introImage) return null;
   const [frameH, fit] = INTRO_FRAME[fileOf(block.introImage)] ?? [343, "cover"];
@@ -255,7 +258,7 @@ export function IntroSection({
           </div>
           <div className="w-1/2 px-[15px]">
             <div className="py-[15px] pl-[50px] pr-[15px]">
-              <IntroBody block={block} />
+              <IntroBody block={block} t={t} />
             </div>
           </div>
         </div>
@@ -267,7 +270,13 @@ export function IntroSection({
   );
 }
 
-export function GallerySection({ block }: { block: ProductBlock }) {
+export function GallerySection({
+  block,
+  t,
+}: {
+  block: ProductBlock;
+  t: ChromeDict;
+}) {
   const slots = Math.max(
     block.galleryColumns ?? block.gallery.length,
     block.gallery.length,
@@ -290,7 +299,7 @@ export function GallerySection({ block }: { block: ProductBlock }) {
           <>
             <SectionTitle>Specification</SectionTitle>
             <div className="py-[15px]">
-              <SpecTable spec={block.spec} />
+              <SpecTable spec={block.spec} t={t} />
             </div>
             <Pad height={80} />
           </>
@@ -340,7 +349,13 @@ export function AppSection({
   );
 }
 
-function SpecTable({ spec }: { spec: NonNullable<ProductBlock["spec"]> }) {
+function SpecTable({
+  spec,
+  t,
+}: {
+  spec: NonNullable<ProductBlock["spec"]>;
+  t: ChromeDict;
+}) {
   return (
     <table className="w-full text-[15px] leading-[24px]">
       <tbody>
@@ -361,7 +376,9 @@ function SpecTable({ spec }: { spec: NonNullable<ProductBlock["spec"]> }) {
               <br />
             </div>
             <div className="text-center">
-              <span className="text-[20px] font-bold text-white">사양</span>
+              <span className="text-[20px] font-bold text-white">
+                {t.product.specs}
+              </span>
             </div>
             <p>
               <br />
@@ -628,11 +645,13 @@ function MGallery({
   bg,
   specHeights,
   trim = 0,
+  t,
 }: {
   block: ProductBlock;
   bg?: string;
   specHeights?: number[];
   trim?: number;
+  t: ChromeDict;
 }) {
   return (
     <MSection bg={bg}>
@@ -661,7 +680,7 @@ function MGallery({
             </p>
           </MRow>
           <MRow>
-            <MSpecTable spec={block.spec} heights={specHeights ?? []} />
+            <MSpecTable spec={block.spec} heights={specHeights ?? []} t={t} />
           </MRow>
           <MPad height={40 - trim} />
         </>
@@ -712,9 +731,11 @@ function MValueCell({
 function MSpecTable({
   spec,
   heights,
+  t,
 }: {
   spec: NonNullable<ProductBlock["spec"]>;
   heights: number[];
+  t: ChromeDict;
 }) {
   return (
     <table className="w-full text-[15px] leading-[18px]">
@@ -735,7 +756,9 @@ function MSpecTable({
                 <br />
               </div>
               <div>
-                <span className="text-[15px] font-bold text-white">사양</span>
+                <span className="text-[15px] font-bold text-white">
+                  {t.product.specs}
+                </span>
               </div>
               <p>
                 <br />
@@ -843,11 +866,13 @@ function MApp({
 }
 
 export default function ProductBlockView({
+  t,
   block,
   blockIndex,
   page,
   isLastBlock = false,
 }: {
+  t: ChromeDict;
   block: ProductBlock;
   blockIndex: number;
   page: string;
@@ -881,6 +906,7 @@ export default function ProductBlockView({
           bg={mBg}
           specHeights={MOBILE_SPEC_ROWS[`${page}:${blockIndex}`]}
           trim={block.spec ? tailTrim : 0}
+          t={t}
         />
       ) : null}
 
@@ -895,9 +921,9 @@ export default function ProductBlockView({
         />
       ))}
 
-      <IntroSection block={block} blockIndex={blockIndex} />
+      <IntroSection block={block} blockIndex={blockIndex} t={t} />
 
-      {block.gallery.length ? <GallerySection block={block} /> : null}
+      {block.gallery.length ? <GallerySection block={block} t={t} /> : null}
 
       {apps.map((app, i) => (
         <AppSection

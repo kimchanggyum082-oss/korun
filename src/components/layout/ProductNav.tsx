@@ -1,8 +1,18 @@
 import SmartImage from "@/components/ui/SmartImage";
 import Link from "next/link";
 import { assets } from "@/lib/data";
+import { localizeHref, type Locale } from "@/lib/i18n/locales";
 
-export default function ProductNav({ activeId }: { activeId: string }) {
+export default function ProductNav({
+  activeId,
+  locale = "ko",
+}: {
+  activeId: string;
+  locale?: Locale;
+}) {
+  const localize = (href: string) =>
+    href.startsWith("/") ? localizeHref(href, locale) : href;
+
   return (
     <section className="relative overflow-hidden bg-neutral-900">
       <SmartImage
@@ -31,7 +41,7 @@ export default function ProductNav({ activeId }: { activeId: string }) {
                 return (
                   <li key={p.href} className="inline-block">
                     <Link
-                      href={p.href}
+                      href={localize(p.href)}
                       aria-current={active ? "page" : undefined}
                       className={`mr-[25px] inline-block pb-[5px] text-[15px] leading-[24px] ${
                         active

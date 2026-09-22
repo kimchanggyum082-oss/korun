@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { ArrowDownIcon, ArrowUpIcon } from "@/components/service/ServiceIcons";
+import type { ChromeDict } from "@/lib/i18n/chrome";
+import { localizeHref, type Locale } from "@/lib/i18n/locales";
 
 export type PostPagerItem = { idx: string; title: string; date?: string };
 
@@ -15,14 +17,21 @@ function orderedItems(items: PostPagerItem[]): PostPagerItem[] {
 }
 
 export default function PostPager({
+  t,
   items,
   currentIdx,
   basePath,
+  locale = "ko",
 }: {
+  t: ChromeDict;
   items: PostPagerItem[];
   currentIdx: string;
   basePath: string;
+  locale?: Locale;
 }) {
+  const localize = (href: string) =>
+    href.startsWith("/") ? localizeHref(href, locale) : href;
+  const localizedBasePath = localize(basePath);
   const ordered = orderedItems(items);
   const index = ordered.findIndex((i) => i.idx === currentIdx);
   const prev = index > 0 ? ordered[index - 1] : null;
@@ -45,7 +54,7 @@ export default function PostPager({
             {rows.map((row, i) => (
               <Link
                 key={row.item.idx}
-                href={`${basePath}/${row.item.idx}`}
+                href={`${localizedBasePath}/${row.item.idx}`}
                 className={`${rowClass} ${
                   i === 0 && rows.length > 1
                     ? "border-t border-t-[rgba(128,128,128,0.2)]"
@@ -60,21 +69,21 @@ export default function PostPager({
         )}
         <div className="pt-[12px]">
           <Link
-            href={basePath}
+            href={localizedBasePath}
             className="inline-block h-[32px] border border-[#363636] bg-[#363636] px-5 py-[6px] text-[12px] leading-[18px] text-white"
           >
-            목록
+            {t.post.list}
           </Link>
         </div>
       </div>
 
       {/* Mobile */}
-      <nav aria-label="이전글 다음글" className="-mx-[15px] pc:hidden">
+      <nav aria-label={t.post.prevNext} className="-mx-[15px] pc:hidden">
         <div className="mt-[32px]">
           {rows.map((row, i) => (
             <Link
               key={row.item.idx}
-              href={`${basePath}/${row.item.idx}`}
+              href={`${localizedBasePath}/${row.item.idx}`}
               className={`relative block px-[12px] py-[8px] text-[14px] leading-[22.4px] text-ink ${
                 i > 0 ? "-mt-px" : ""
               }`}
@@ -99,10 +108,10 @@ export default function PostPager({
         </div>
         <div className="px-[15px] pt-[12px]">
           <Link
-            href={basePath}
+            href={localizedBasePath}
             className="inline-block h-[32px] border border-[#363636] bg-[#363636] px-5 py-[6px] text-center text-[12px] leading-[18px] text-white"
           >
-            목록
+            {t.post.list}
           </Link>
         </div>
       </nav>

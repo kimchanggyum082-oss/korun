@@ -10,12 +10,17 @@ import {
   FlagIcon,
   HeartIcon,
 } from "@/components/service/ServiceIcons";
+import { chrome } from "@/lib/i18n/chrome";
+import { useLocale } from "@/lib/i18n/client";
+import { localizeHref } from "@/lib/i18n/locales";
 
 const PAGE_SIZE = 10;
 
 const COLUMNS = "grid-cols-[62.5px_187.5px_637.5px_150px_125px_87.5px]";
 
 export default function NewsList({ items }: { items: ServiceNewsItem[] }) {
+  const locale = useLocale();
+  const t = chrome[locale];
   const [category, setCategory] = useState<"ALL" | "NEWS" | "EVENT">("ALL");
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
@@ -45,7 +50,7 @@ export default function NewsList({ items }: { items: ServiceNewsItem[] }) {
   const catColor = (cat: string) => (cat === "EVENT" ? "#6ecc51" : "#00b8ff");
 
   const categories = [
-    { key: "ALL", label: "전체" },
+    { key: "ALL", label: t.board.all },
     { key: "NEWS", label: "NEWS" },
     { key: "EVENT", label: "EVENT" },
   ] as const;
@@ -67,7 +72,7 @@ export default function NewsList({ items }: { items: ServiceNewsItem[] }) {
                   aria-expanded={menuOpen}
                   className="relative inline-block"
                 >
-                  카테고리
+                  {t.board.category}
                   <CaretDownIcon className="absolute left-full top-[8px] ml-[11px] text-[#363636]" />
                 </button>
                 {menuOpen && (
@@ -89,10 +94,10 @@ export default function NewsList({ items }: { items: ServiceNewsItem[] }) {
                   </div>
                 )}
               </li>
-              <li className="text-center">제목</li>
-              <li className="text-center">작성시간</li>
-              <li className="text-center">조회수</li>
-              <li className="text-center">좋아요</li>
+              <li className="text-center">{t.board.title}</li>
+              <li className="text-center">{t.board.date}</li>
+              <li className="text-center">{t.board.views}</li>
+              <li className="text-center">{t.board.likes}</li>
             </ul>
 
             {pageItems.map((item, i) => {
@@ -101,7 +106,7 @@ export default function NewsList({ items }: { items: ServiceNewsItem[] }) {
               return (
                 <Link
                   key={item.idx}
-                  href={`/news/${item.idx}`}
+                  href={localizeHref(`/news/${item.idx}`, locale)}
                   className={`grid h-[45px] ${COLUMNS} items-center border-b border-[rgba(54,54,54,0.15)] text-[15px] leading-[24px] ${
                     notice ? "bg-[rgba(54,54,54,0.04)]" : ""
                   }`}
@@ -133,7 +138,7 @@ export default function NewsList({ items }: { items: ServiceNewsItem[] }) {
 
             {pageItems.length === 0 && (
               <p className="border-b border-[rgba(54,54,54,0.15)] py-16 text-center text-[14px] text-[rgba(54,54,54,0.65)]">
-                등록된 게시물이 없습니다.
+                {t.board.empty}
               </p>
             )}
           </div>
@@ -145,7 +150,7 @@ export default function NewsList({ items }: { items: ServiceNewsItem[] }) {
                 setQuery(v);
                 setPage(1);
               }}
-              ariaLabel="뉴스 검색"
+              ariaLabel={t.board.searchLabel("뉴스")}
             />
           </div>
 
@@ -177,7 +182,7 @@ export default function NewsList({ items }: { items: ServiceNewsItem[] }) {
                   }`}
                 >
                   <Link
-                    href={`/news/${item.idx}`}
+                    href={localizeHref(`/news/${item.idx}`, locale)}
                     className="absolute inset-0 z-[1]"
                   >
                     <span className="sr-only">{item.title}</span>
@@ -205,7 +210,8 @@ export default function NewsList({ items }: { items: ServiceNewsItem[] }) {
                     {item.date}
                   </div>
                   <div className="table-cell pt-[5px] pr-[10px] text-center text-[12px] leading-[19.2px] text-[rgba(54,54,54,0.65)]">
-                    조회수{item.views}
+                    {t.board.views}
+                    {item.views}
                   </div>
                   <div className="table-cell pt-[5px] pr-[10px] text-center text-[12px] leading-[19.2px] text-[rgba(54,54,54,0.65)]">
                     <HeartIcon className="mr-[3px] inline-block h-[12px] w-[13.7px] align-middle" />

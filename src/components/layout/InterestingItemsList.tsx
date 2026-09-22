@@ -4,6 +4,9 @@ import { useMemo, useState } from "react";
 import type { InterestingItem } from "@/lib/data";
 import BoardCardGrid, { bodyText } from "@/components/service/BoardCardGrid";
 import BoardSearch from "@/components/service/BoardSearch";
+import { chrome } from "@/lib/i18n/chrome";
+import { useLocale } from "@/lib/i18n/client";
+import { localizeHref } from "@/lib/i18n/locales";
 
 function searchableText(item: InterestingItem): string {
   const parts = [
@@ -22,6 +25,8 @@ export default function InterestingItemsList({
 }: {
   items: InterestingItem[];
 }) {
+  const locale = useLocale();
+  const t = chrome[locale];
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
@@ -40,7 +45,10 @@ export default function InterestingItemsList({
             showWriter
             items={filtered.map((item) => ({
               idx: item.idx,
-              href: `/technology/interesting-items/${item.idx}`,
+              href: localizeHref(
+                `/technology/interesting-items/${item.idx}`,
+                locale,
+              ),
               thumbnail: item.thumbnail,
               title: item.title,
               description: item.description,
@@ -54,7 +62,7 @@ export default function InterestingItemsList({
             <BoardSearch
               query={query}
               onQueryChange={setQuery}
-              ariaLabel="아이템 검색"
+              ariaLabel={t.board.searchLabel("아이템")}
             />
           </div>
         </div>
@@ -72,7 +80,10 @@ export default function InterestingItemsList({
             showWriter
             items={filtered.map((item) => ({
               idx: item.idx,
-              href: `/technology/interesting-items/${item.idx}`,
+              href: localizeHref(
+                `/technology/interesting-items/${item.idx}`,
+                locale,
+              ),
               thumbnail: item.thumbnail,
               title: item.title,
               description: item.description,

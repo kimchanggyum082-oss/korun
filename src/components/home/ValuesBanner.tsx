@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import SmartImage from "@/components/ui/SmartImage";
 import { homeContent, type HomeContent } from "@/lib/data";
+import { useLocale } from "@/lib/i18n/client";
+import { localizeHref } from "@/lib/i18n/locales";
 
 // Matches animate.css fadeInUp as used by the original home (0.7s, ease, both).
 const REVEAL_KEYFRAMES = `@keyframes fadeInUp {
@@ -17,6 +19,7 @@ export default function ValuesBanner({
 }: {
   values?: HomeContent["values"];
 } = {}) {
+  const locale = useLocale();
   const pillsRef = useRef<HTMLDivElement>(null);
   const [revealed, setRevealed] = useState(false);
 
@@ -91,7 +94,9 @@ export default function ValuesBanner({
           {values.pc.map((v, i) => (
             <a
               key={v.label}
-              href={v.href}
+              href={
+                v.href.startsWith("/") ? localizeHref(v.href, locale) : v.href
+              }
               style={
                 {
                   "--pill-bg": v.color,

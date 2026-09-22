@@ -1,9 +1,8 @@
 import AboutGallery from "@/components/about/AboutGallery";
-import type { AboutPatentEntity } from "@/lib/admin/entities";
-import type { GalleryImage } from "@/lib/data";
+import type { AboutContentMap, GalleryImage } from "@/lib/data";
 
 export type PatentCredentialsViewProps = {
-  content: AboutPatentEntity["content"];
+  content: AboutContentMap["patent-credentials"];
   assets: { patentImages: readonly GalleryImage[] };
 };
 

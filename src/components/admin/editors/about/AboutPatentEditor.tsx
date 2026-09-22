@@ -2,16 +2,26 @@
 
 import EntityEditor from "@/components/admin/EntityEditor";
 import ImageField from "@/components/admin/ImageField";
+import LocalizedField from "@/components/admin/LocalizedField";
 import ScaledDesktop from "@/components/admin/ScaledDesktop";
-import { Field, SectionCard, TextInput } from "@/components/admin/fields";
+import { SectionCard } from "@/components/admin/fields";
 import PatentCredentialsView from "@/components/about/PatentCredentialsView";
 import {
   ENTITY_KEYS,
+  toAboutPatentContent,
+  toPatentImages,
   type AboutPatentEntity,
   type EntitySource,
+  type GalleryImageEntity,
 } from "@/lib/admin/entities";
-import type { GalleryImage } from "@/lib/data";
-import { AddButton, MoveButtons, moveAt, removeAt, replaceAt } from "./shared";
+import {
+  AddButton,
+  MoveButtons,
+  moveAt,
+  removeAt,
+  replaceAt,
+  toLocalized,
+} from "./shared";
 
 function PatentForm({
   draft,
@@ -23,7 +33,7 @@ function PatentForm({
   uploadConfigured: boolean;
 }) {
   const { content, assets } = draft;
-  const setImages = (patentImages: GalleryImage[]) =>
+  const setImages = (patentImages: GalleryImageEntity[]) =>
     update((current) => ({
       ...current,
       assets: { ...current.assets, patentImages },
@@ -32,17 +42,16 @@ function PatentForm({
   return (
     <>
       <SectionCard title="제목" description="페이지 상단 제목입니다.">
-        <Field label="제목">
-          <TextInput
-            value={content.title}
-            onChange={(event) =>
-              update((current) => ({
-                ...current,
-                content: { ...current.content, title: event.target.value },
-              }))
-            }
-          />
-        </Field>
+        <LocalizedField
+          label="제목"
+          value={content.title}
+          onChange={(next) =>
+            update((current) => ({
+              ...current,
+              content: { ...current.content, title: toLocalized(next) },
+            }))
+          }
+        />
       </SectionCard>
 
       <SectionCard
@@ -93,19 +102,18 @@ function PatentForm({
                 )
               }
             />
-            <Field label="대체 텍스트 (alt)">
-              <TextInput
-                value={image.alt}
-                onChange={(event) =>
-                  setImages(
-                    replaceAt(assets.patentImages, index, {
-                      ...image,
-                      alt: event.target.value,
-                    }),
-                  )
-                }
-              />
-            </Field>
+            <LocalizedField
+              label="대체 텍스트 (alt)"
+              value={image.alt}
+              onChange={(next) =>
+                setImages(
+                  replaceAt(assets.patentImages, index, {
+                    ...image,
+                    alt: toLocalized(next),
+                  }),
+                )
+              }
+            />
           </div>
         ))}
         <AddButton
@@ -154,8 +162,8 @@ export default function AboutPatentEditor({
       preview={(draft) => (
         <ScaledDesktop>
           <PatentCredentialsView
-            content={draft.content}
-            assets={draft.assets}
+            content={toAboutPatentContent(draft.content)}
+            assets={{ patentImages: toPatentImages(draft.assets.patentImages) }}
           />
         </ScaledDesktop>
       )}

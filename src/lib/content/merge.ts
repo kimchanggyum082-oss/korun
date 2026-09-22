@@ -64,7 +64,7 @@ export function isLocalizedValue(
 
 export function resolveLeaf(locale: string, value: unknown): unknown {
   if (isLocalizedValue(value)) {
-    if (locale === "en") return value.en ?? value.ko;
+    if (locale === "en") return value.en || value.ko;
     return value.ko;
   }
   return value;

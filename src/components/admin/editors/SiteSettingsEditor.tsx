@@ -4,14 +4,17 @@ import EntityEditor, {
   type UpdateDraft,
 } from "@/components/admin/EntityEditor";
 import ImageField from "@/components/admin/ImageField";
+import LocalizedField from "@/components/admin/LocalizedField";
 import ScaledDesktop from "@/components/admin/ScaledDesktop";
 import FooterBar from "@/components/layout/FooterBar";
 import {
   Field,
+  readLocalized,
   SectionCard,
   TextArea,
   TextInput,
   TwoColumn,
+  type LocalizedValue,
 } from "@/components/admin/fields";
 import {
   ENTITY_KEYS,
@@ -19,6 +22,12 @@ import {
   type SiteMetadata,
   type SiteSettingsEntity,
 } from "@/lib/admin/entities";
+import type { Localized } from "@/lib/content/merge";
+
+function toLocalized(next: LocalizedValue): Localized<string> {
+  const { ko, en } = readLocalized(next);
+  return en.length > 0 ? { ko, en } : ko;
+}
 
 function SettingsForm({
   draft,
@@ -41,52 +50,42 @@ function SettingsForm({
         title="회사 정보"
         description="푸터, 상세 페이지, 지도 안내에 함께 사용됩니다."
       >
-        <TwoColumn>
-          <Field label="회사명" htmlFor="settings-name">
-            <TextInput
-              id="settings-name"
-              value={draft.name}
-              onChange={(event) =>
-                update((current) => ({ ...current, name: event.target.value }))
-              }
-            />
-          </Field>
-          <Field label="영문명" htmlFor="settings-name-en">
-            <TextInput
-              id="settings-name-en"
-              value={draft.nameEn}
-              onChange={(event) =>
-                update((current) => ({
-                  ...current,
-                  nameEn: event.target.value,
-                }))
-              }
-            />
-          </Field>
-        </TwoColumn>
+        <LocalizedField
+          label="회사명"
+          value={draft.name}
+          onChange={(next) =>
+            update((current) => ({ ...current, name: toLocalized(next) }))
+          }
+        />
 
-        <Field label="대표 문구" htmlFor="settings-tagline">
+        <Field label="영문명" htmlFor="settings-name-en">
           <TextInput
-            id="settings-tagline"
-            value={draft.tagline}
-            onChange={(event) =>
-              update((current) => ({ ...current, tagline: event.target.value }))
-            }
-          />
-        </Field>
-
-        <Field label="보조 문구" htmlFor="settings-tagline-sub">
-          <TextInput
-            id="settings-tagline-sub"
-            value={draft.taglineSub}
+            id="settings-name-en"
+            value={draft.nameEn}
             onChange={(event) =>
               update((current) => ({
                 ...current,
-                taglineSub: event.target.value,
+                nameEn: event.target.value,
               }))
             }
           />
         </Field>
+
+        <LocalizedField
+          label="대표 문구"
+          value={draft.tagline}
+          onChange={(next) =>
+            update((current) => ({ ...current, tagline: toLocalized(next) }))
+          }
+        />
+
+        <LocalizedField
+          label="보조 문구"
+          value={draft.taglineSub}
+          onChange={(next) =>
+            update((current) => ({ ...current, taglineSub: toLocalized(next) }))
+          }
+        />
 
         <TwoColumn>
           <Field label="전화" htmlFor="settings-tel">
@@ -109,30 +108,24 @@ function SettingsForm({
           </Field>
         </TwoColumn>
 
-        <TwoColumn>
-          <Field label="이메일" htmlFor="settings-email">
-            <TextInput
-              id="settings-email"
-              type="email"
-              value={draft.email}
-              onChange={(event) =>
-                update((current) => ({ ...current, email: event.target.value }))
-              }
-            />
-          </Field>
-          <Field label="주소" htmlFor="settings-address">
-            <TextInput
-              id="settings-address"
-              value={draft.address}
-              onChange={(event) =>
-                update((current) => ({
-                  ...current,
-                  address: event.target.value,
-                }))
-              }
-            />
-          </Field>
-        </TwoColumn>
+        <Field label="이메일" htmlFor="settings-email">
+          <TextInput
+            id="settings-email"
+            type="email"
+            value={draft.email}
+            onChange={(event) =>
+              update((current) => ({ ...current, email: event.target.value }))
+            }
+          />
+        </Field>
+
+        <LocalizedField
+          label="주소"
+          value={draft.address}
+          onChange={(next) =>
+            update((current) => ({ ...current, address: toLocalized(next) }))
+          }
+        />
 
         <Field
           label="지도 임베드 URL"
@@ -157,24 +150,19 @@ function SettingsForm({
         title="사이트 메타데이터"
         description="검색 결과와 공유 카드에 사용되는 값입니다."
       >
-        <Field label="사이트 제목" htmlFor="settings-title">
-          <TextInput
-            id="settings-title"
-            value={draft.metadata.title}
-            onChange={(event) => setMetadata({ title: event.target.value })}
-          />
-        </Field>
+        <LocalizedField
+          label="사이트 제목"
+          value={draft.metadata.title}
+          onChange={(next) => setMetadata({ title: toLocalized(next) })}
+        />
 
-        <Field label="설명" htmlFor="settings-description">
-          <TextArea
-            id="settings-description"
-            rows={4}
-            value={draft.metadata.description}
-            onChange={(event) =>
-              setMetadata({ description: event.target.value })
-            }
-          />
-        </Field>
+        <LocalizedField
+          label="설명"
+          value={draft.metadata.description}
+          onChange={(next) => setMetadata({ description: toLocalized(next) })}
+          multiline
+          rows={4}
+        />
 
         <Field
           label="키워드"
@@ -208,14 +196,19 @@ function SettingsForm({
 }
 
 function SettingsPreview({ draft }: { draft: SiteSettingsEntity }) {
+  const name = readLocalized(draft.name).ko;
+  const address = readLocalized(draft.address).ko;
+  const title = readLocalized(draft.metadata.title).ko;
+  const description = readLocalized(draft.metadata.description).ko;
+
   return (
     <div className="flex flex-col gap-4">
       <div className="overflow-hidden rounded-md border border-neutral-200">
         <ScaledDesktop>
           <FooterBar
             contact={{
-              name: draft.name,
-              address: draft.address,
+              name,
+              address,
               tel: draft.tel,
               fax: draft.fax,
               email: draft.email,
@@ -264,10 +257,10 @@ function SettingsPreview({ draft }: { draft: SiteSettingsEntity }) {
           />
           <div className="min-w-0">
             <p className="truncate text-[13px] font-semibold text-ink">
-              {draft.metadata.title || "제목 없음"}
+              {title || "제목 없음"}
             </p>
             <p className="mt-0.5 line-clamp-2 text-[12px] text-neutral-500">
-              {draft.metadata.description || "설명이 비어 있습니다."}
+              {description || "설명이 비어 있습니다."}
             </p>
             <p className="mt-1 truncate text-[11px] text-neutral-400">
               {draft.metadata.keywords.join(", ") || "키워드 없음"}

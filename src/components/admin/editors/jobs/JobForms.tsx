@@ -1,14 +1,16 @@
 "use client";
 
 import type { UpdateDraft } from "@/components/admin/EntityEditor";
+import LocalizedField from "@/components/admin/LocalizedField";
 import {
   Field,
   SectionCard,
   TextInput,
   TwoColumn,
 } from "@/components/admin/fields";
-import type { JobPost } from "@/lib/data";
-import BlockEditor from "../news/BlockEditor";
+import type { JobPostEntity } from "@/lib/admin/entities";
+import BlockEditor from "../items/BlockEditor";
+import { toLocalized } from "../items/shared";
 
 function NumberInput({
   label,
@@ -38,8 +40,8 @@ function JobFileList({
   values,
   onChange,
 }: {
-  values: JobPost["files"];
-  onChange: (next: JobPost["files"]) => void;
+  values: JobPostEntity["files"];
+  onChange: (next: JobPostEntity["files"]) => void;
 }) {
   return (
     <div className="flex flex-col gap-3">
@@ -61,20 +63,17 @@ function JobFileList({
               ✕
             </button>
           </div>
-          <Field label="이름 (name)">
-            <TextInput
-              value={file.name}
-              onChange={(event) =>
-                onChange(
-                  values.map((entry, i) =>
-                    i === index
-                      ? { ...entry, name: event.target.value }
-                      : entry,
-                  ),
-                )
-              }
-            />
-          </Field>
+          <LocalizedField
+            label="이름 (name)"
+            value={file.name}
+            onChange={(next) =>
+              onChange(
+                values.map((entry, i) =>
+                  i === index ? { ...entry, name: toLocalized(next) } : entry,
+                ),
+              )
+            }
+          />
           <Field label="크기 (size)">
             <TextInput
               value={file.size}
@@ -108,11 +107,11 @@ export default function JobForms({
   update,
   uploadConfigured,
 }: {
-  draft: JobPost;
-  update: UpdateDraft<JobPost>;
+  draft: JobPostEntity;
+  update: UpdateDraft<JobPostEntity>;
   uploadConfigured: boolean;
 }) {
-  const set = (patch: Partial<JobPost>) =>
+  const set = (patch: Partial<JobPostEntity>) =>
     update((current) => ({ ...current, ...patch }));
 
   return (
@@ -121,19 +120,17 @@ export default function JobForms({
         title="게시글 정보"
         description="목록과 상세에 노출되는 메타데이터입니다."
       >
-        <Field label="제목 (title)">
-          <TextInput
-            value={draft.title}
-            onChange={(event) => set({ title: event.target.value })}
-          />
-        </Field>
+        <LocalizedField
+          label="제목 (title)"
+          value={draft.title}
+          onChange={(next) => set({ title: toLocalized(next) })}
+        />
         <TwoColumn>
-          <Field label="작성자 (author)">
-            <TextInput
-              value={draft.author}
-              onChange={(event) => set({ author: event.target.value })}
-            />
-          </Field>
+          <LocalizedField
+            label="작성자 (author)"
+            value={draft.author}
+            onChange={(next) => set({ author: toLocalized(next) })}
+          />
           <Field label="작성일 (date)">
             <TextInput
               value={draft.date}

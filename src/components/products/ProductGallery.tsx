@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { chrome } from "@/lib/i18n/chrome";
+import { useLocale } from "@/lib/i18n/client";
 import type { GalleryImage } from "@/lib/data";
 import SmartImage from "@/components/ui/SmartImage";
 import Lightbox, { useGalleryHashSlide } from "@/components/home/Lightbox";
@@ -26,6 +28,7 @@ export default function ProductGallery({
   galleryId?: string;
   frameHeight?: number;
 }) {
+  const t = chrome[useLocale()];
   const [manualIndex, setManualIndex] = useState<number | null>(null);
   const id = galleryId ?? defaultGalleryId(images[0] ?? label);
   const hashSlide = useGalleryHashSlide(id, images.length);
@@ -50,7 +53,7 @@ export default function ProductGallery({
               <button
                 type="button"
                 onClick={() => setManualIndex(i)}
-                aria-label={`${label} ${i + 1} 보기`}
+                aria-label={t.gallery.openImage(`${label} ${i + 1}`)}
                 className="block w-full border border-[#eee]"
               >
                 <span
@@ -76,7 +79,7 @@ export default function ProductGallery({
                   <button
                     type="button"
                     onClick={() => setManualIndex(i)}
-                    aria-label={`${label} ${i + 1} 보기`}
+                    aria-label={t.gallery.openImage(`${label} ${i + 1}`)}
                     className="block w-full cursor-pointer overflow-hidden border border-[#eee]"
                   >
                     <div

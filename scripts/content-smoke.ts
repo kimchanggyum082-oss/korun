@@ -17,6 +17,7 @@ import {
   getSearchIndex,
   getSiteSettings,
   listEntities,
+  localizeTree,
   resolveLeaf,
 } from "@/lib/content";
 import { isDatabaseConfigured } from "@/lib/db/client";
@@ -72,6 +73,62 @@ check("resolveLeaf resolves localized values with fallback", () => {
   assert.strictEqual(resolveLeaf("ko", { ko: "가", en: "A" }), "가");
   assert.strictEqual(resolveLeaf("en", "plain"), "plain");
 });
+
+check("localizeTree unwraps localized leaves for every locale", () => {
+  assert.strictEqual(
+    localizeTree("ko", { ko: "한국어", en: "English" }),
+    "한국어",
+  );
+  assert.strictEqual(
+    localizeTree("en", { ko: "한국어", en: "English" }),
+    "English",
+  );
+  assert.strictEqual(localizeTree("ko", { ko: "한국어" }), "한국어");
+  assert.strictEqual(localizeTree("en", { ko: "한국어" }), "한국어");
+  assert.strictEqual(localizeTree("ko", "plain"), "plain");
+  assert.strictEqual(localizeTree("en", "plain"), "plain");
+});
+
+check("localizeTree traverses arrays/objects and keeps plain values", () => {
+  const input = {
+    title: { ko: "제목", en: "Title" },
+    count: 3,
+    active: true,
+    list: [{ ko: "가" }, { ko: "나", en: "B" }],
+    nested: { deep: { ko: "깊이", en: "Deep" } },
+  };
+  assert.deepStrictEqual(localizeTree("ko", input), {
+    title: "제목",
+    count: 3,
+    active: true,
+    list: ["가", "나"],
+    nested: { deep: "깊이" },
+  });
+  assert.deepStrictEqual(localizeTree("en", input), {
+    title: "Title",
+    count: 3,
+    active: true,
+    list: ["가", "B"],
+    nested: { deep: "Deep" },
+  });
+});
+
+check(
+  "overlay localized leaf over plain-string default resolves to a string",
+  () => {
+    const fallback = { title: "기본 제목", body: "기본 본문" };
+    const override = { title: { ko: "수정 제목", en: "Edited title" } };
+    const merged = applyOverride(fallback, override);
+    const ko = localizeTree("ko", merged);
+    const en = localizeTree("en", merged);
+    assert.strictEqual(typeof ko.title, "string");
+    assert.strictEqual(typeof en.title, "string");
+    assert.strictEqual(ko.title, "수정 제목");
+    assert.strictEqual(en.title, "Edited title");
+    assert.strictEqual(ko.body, "기본 본문");
+    assert.strictEqual(en.body, "기본 본문");
+  },
+);
 
 async function main() {
   assert.strictEqual(

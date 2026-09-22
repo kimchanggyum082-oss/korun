@@ -1,16 +1,17 @@
 "use client";
 
 import type { UpdateDraft } from "@/components/admin/EntityEditor";
+import LocalizedField from "@/components/admin/LocalizedField";
 import {
   Field,
   SectionCard,
-  TextArea,
   TextInput,
   TwoColumn,
 } from "@/components/admin/fields";
 import ImageField from "@/components/admin/ImageField";
-import type { ServiceDownloadItem } from "@/lib/data";
-import BlockEditor from "../news/BlockEditor";
+import type { ServiceDownloadItemEntity } from "@/lib/admin/entities";
+import BlockEditor from "../items/BlockEditor";
+import { toLocalized } from "../items/shared";
 import FileList from "../news/FileList";
 
 function NumberInput({
@@ -42,11 +43,11 @@ export default function DownloadForms({
   update,
   uploadConfigured,
 }: {
-  draft: ServiceDownloadItem;
-  update: UpdateDraft<ServiceDownloadItem>;
+  draft: ServiceDownloadItemEntity;
+  update: UpdateDraft<ServiceDownloadItemEntity>;
   uploadConfigured: boolean;
 }) {
-  const set = (patch: Partial<ServiceDownloadItem>) =>
+  const set = (patch: Partial<ServiceDownloadItemEntity>) =>
     update((current) => ({ ...current, ...patch }));
 
   return (
@@ -55,12 +56,11 @@ export default function DownloadForms({
         title="다운로드 정보"
         description="목록과 상세에 노출되는 메타데이터입니다."
       >
-        <Field label="제목 (title)">
-          <TextInput
-            value={draft.title}
-            onChange={(event) => set({ title: event.target.value })}
-          />
-        </Field>
+        <LocalizedField
+          label="제목 (title)"
+          value={draft.title}
+          onChange={(next) => set({ title: toLocalized(next) })}
+        />
         <TwoColumn>
           <Field label="작성일 (date)">
             <TextInput
@@ -84,20 +84,20 @@ export default function DownloadForms({
           uploadConfigured={uploadConfigured}
           onChange={(next) => set({ thumbnail: next })}
         />
-        <Field label="요약 (summary)">
-          <TextArea
-            rows={2}
-            value={draft.summary ?? ""}
-            onChange={(event) => set({ summary: event.target.value })}
-          />
-        </Field>
-        <Field label="설명 (description)">
-          <TextArea
-            rows={3}
-            value={draft.description}
-            onChange={(event) => set({ description: event.target.value })}
-          />
-        </Field>
+        <LocalizedField
+          label="요약 (summary)"
+          value={draft.summary ?? ""}
+          onChange={(next) => set({ summary: toLocalized(next) })}
+          multiline
+          rows={2}
+        />
+        <LocalizedField
+          label="설명 (description)"
+          value={draft.description}
+          onChange={(next) => set({ description: toLocalized(next) })}
+          multiline
+          rows={3}
+        />
       </SectionCard>
 
       <SectionCard
