@@ -1,4 +1,7 @@
-import { DownloadIcon, DownloadSolidIcon } from "@/components/service/ServiceIcons";
+import {
+  DownloadIcon,
+  DownloadSolidIcon,
+} from "@/components/service/ServiceIcons";
 
 export default function FileList({
   files,

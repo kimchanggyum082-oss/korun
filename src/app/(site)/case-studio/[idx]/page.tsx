@@ -3,12 +3,11 @@ import { notFound } from "next/navigation";
 import { getBoardItem, getBoardItems, getSiteSettings } from "@/lib/content";
 import PostDetail from "@/components/layout/PostDetail";
 
-const company = getSiteSettings();
-
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return getBoardItems("case-studio").map((item) => ({ idx: item.idx }));
+export async function generateStaticParams() {
+  const items = await getBoardItems("case-studio");
+  return items.map((item) => ({ idx: item.idx }));
 }
 
 export async function generateMetadata({
@@ -17,8 +16,9 @@ export async function generateMetadata({
   params: Promise<{ idx: string }>;
 }): Promise<Metadata> {
   const { idx } = await params;
-  const item = getBoardItem("case-studio", idx);
+  const item = await getBoardItem("case-studio", idx);
   if (!item) return {};
+  const company = await getSiteSettings();
   return {
     title: `${item.title} | ${company.name}`,
     description: item.description,
@@ -31,8 +31,9 @@ export default async function CaseStudioDetailPage({
   params: Promise<{ idx: string }>;
 }) {
   const { idx } = await params;
-  const item = getBoardItem("case-studio", idx);
+  const item = await getBoardItem("case-studio", idx);
   if (!item) notFound();
+  const items = await getBoardItems("case-studio");
 
   return (
     <PostDetail
@@ -51,7 +52,7 @@ export default async function CaseStudioDetailPage({
       listHref="/case-studio"
       fileLabel="첨부파일"
       showComments={false}
-      pagerItems={getBoardItems("case-studio").map((p) => ({
+      pagerItems={items.map((p) => ({
         idx: p.idx,
         title: p.title,
         date: p.date,

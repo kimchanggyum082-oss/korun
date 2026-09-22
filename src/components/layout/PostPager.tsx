@@ -72,32 +72,29 @@ export default function PostPager({
       <nav aria-label="이전글 다음글" className="-mx-[15px] pc:hidden">
         <div className="mt-[32px]">
           {rows.map((row, i) => (
-              <Link
-                key={row.item.idx}
-                href={`${basePath}/${row.item.idx}`}
-                className={`relative block px-[12px] py-[8px] text-[14px] leading-[22.4px] text-ink ${
-                  i > 0 ? "-mt-px" : ""
-                }`}
-                style={{
-                  borderBottom: "1px solid rgba(128,128,128,0.2)",
-                  borderTop:
-                    i === 0 && rows.length > 1
-                      ? "1px solid rgba(128,128,128,0.2)"
-                      : undefined,
-                }}
-              >
-                {row.direction === "up" ? (
-                  <ArrowUpIcon className="absolute top-1/2 left-[12px] -mt-[7px] h-[14px] w-[14px]" />
-                ) : (
-                  <ArrowDownIcon className="absolute top-1/2 left-[12px] -mt-[7px] h-[14px] w-[14px]" />
-                )}
-                <span
-                  className="block truncate"
-                  style={{ paddingLeft: "45px" }}
-                >
-                  {row.item.title}
-                </span>
-              </Link>
+            <Link
+              key={row.item.idx}
+              href={`${basePath}/${row.item.idx}`}
+              className={`relative block px-[12px] py-[8px] text-[14px] leading-[22.4px] text-ink ${
+                i > 0 ? "-mt-px" : ""
+              }`}
+              style={{
+                borderBottom: "1px solid rgba(128,128,128,0.2)",
+                borderTop:
+                  i === 0 && rows.length > 1
+                    ? "1px solid rgba(128,128,128,0.2)"
+                    : undefined,
+              }}
+            >
+              {row.direction === "up" ? (
+                <ArrowUpIcon className="absolute top-1/2 left-[12px] -mt-[7px] h-[14px] w-[14px]" />
+              ) : (
+                <ArrowDownIcon className="absolute top-1/2 left-[12px] -mt-[7px] h-[14px] w-[14px]" />
+              )}
+              <span className="block truncate" style={{ paddingLeft: "45px" }}>
+                {row.item.title}
+              </span>
+            </Link>
           ))}
         </div>
         <div className="px-[15px] pt-[12px]">

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import SmartImage from "@/components/ui/SmartImage";
 import SmartBackground from "@/components/ui/SmartBackground";
-import { assets } from "@/lib/data";
+import { homeContent, type HomeContent } from "@/lib/data";
 
 function PenAccent() {
   return (
@@ -30,22 +30,24 @@ export function SectionHeading({ en, ko }: { en: string; ko: string }) {
   );
 }
 
-const MOBILE_PEN =
-  "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/cd3f41b48aeae.png";
-const MOBILE_PRODUCT_HEIGHTS = [208, 211, 208, 208];
-
-export default function Products() {
+export default function Products({
+  content = homeContent.products,
+}: {
+  content?: HomeContent["products"];
+}) {
   return (
     <>
       <section className="pc:hidden flex flex-col break-keep px-[15px] text-[#363636]">
         <div className="my-[7.5px] h-[30px]" />
 
         <div className="my-[7.5px]">
-          <p className="text-[24px] font-bold leading-[28.8px]">We making</p>
           <p className="text-[24px] font-bold leading-[28.8px]">
-            smart flow of Resin
+            {content.mobileTitleLines[0]}
+          </p>
+          <p className="text-[24px] font-bold leading-[28.8px]">
+            {content.mobileTitleLines[1]}
             <Image
-              src={MOBILE_PEN}
+              src={content.penMobile}
               alt=""
               width={156}
               height={537}
@@ -55,15 +57,13 @@ export default function Products() {
         </div>
 
         <div className="my-[7.5px] text-[15px] leading-[24px]">
-          <p>HOT RUNNER SYSTEM 전문 제조 회사로서</p>
-          <p>
-            가격, 품질, 서비스로 보답하는 국내 핫런너 제조 전문 메이커입니다.
-          </p>
+          <p>{content.mobileBodyLines[0]}</p>
+          <p>{content.mobileBodyLines[1]}</p>
         </div>
 
         {[0, 2].map((start) => (
           <div key={start} className="-mx-[7.5px] flex">
-            {assets.products.slice(start, start + 2).map((product, i) => (
+            {content.items.slice(start, start + 2).map((product, i) => (
               <div key={product.href} className="w-1/2 px-[7.5px]">
                 <a
                   href={product.href}
@@ -72,7 +72,7 @@ export default function Products() {
                 >
                   <div
                     className="relative overflow-hidden"
-                    style={{ height: MOBILE_PRODUCT_HEIGHTS[start + i] }}
+                    style={{ height: content.mobileHeights[start + i] }}
                   >
                     <SmartImage
                       src={product.mobileSrc}
@@ -96,7 +96,7 @@ export default function Products() {
         <SmartBackground
           aria-hidden
           className="absolute inset-0"
-          src={assets.productsBg}
+          src={content.bg}
           style={{
             backgroundAttachment: "fixed",
             backgroundSize: "cover",
@@ -109,9 +109,9 @@ export default function Products() {
           <div className="py-[15px]">
             <h2 className="leading-[24px]">
               <span className="text-[48px] font-bold leading-[57.6px] text-ink">
-                We making smart flow of Resin{" "}
+                {content.pcTitle}{" "}
                 <Image
-                  src={assets.penLarge}
+                  src={content.penLarge}
                   alt=""
                   width={156}
                   height={537}
@@ -121,8 +121,7 @@ export default function Products() {
             </h2>
             <p className="leading-[24px]">
               <span className="text-[22px] leading-[26.4px] text-ink">
-                HOT RUNNER SYSTEM 전문 제조 회사로서 가격, 품질, 서비스로
-                보답하는 국내 핫런너 제조 전문 메이커입니다.
+                {content.pcBody}
               </span>
             </p>
           </div>
@@ -132,7 +131,7 @@ export default function Products() {
           </div>
 
           <div className="grid grid-cols-4 gap-[30px] py-[15px]">
-            {assets.products.map((product) => (
+            {content.items.map((product) => (
               <a
                 key={product.href}
                 href={product.href}

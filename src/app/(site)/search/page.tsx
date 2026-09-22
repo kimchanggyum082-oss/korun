@@ -133,7 +133,7 @@ export default async function SearchPage({
   const currentPage =
     Number.isFinite(rawPage) && rawPage > 0 ? Math.floor(rawPage) : 1;
 
-  const hits: SearchHit[] = runSearch(keyword, sort);
+  const hits: SearchHit[] = await runSearch(keyword, sort);
   const totalPages = Math.max(1, Math.ceil(hits.length / SEARCH_PAGE_SIZE));
   const pageHits = hits.slice(
     (currentPage - 1) * SEARCH_PAGE_SIZE,
@@ -204,7 +204,10 @@ export default async function SearchPage({
               alignItems: "center",
             }}
           >
-            <div className="inline-blocked float_l" style={{ display: "block" }}>
+            <div
+              className="inline-blocked float_l"
+              style={{ display: "block" }}
+            >
               {hits.length > 0 && (
                 <span style={{ color: "rgba(54, 54, 54, 0.7)" }}>
                   {hits.length}개의 검색 결과

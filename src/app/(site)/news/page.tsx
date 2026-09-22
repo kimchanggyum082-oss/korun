@@ -4,14 +4,16 @@ import NewsList from "@/components/layout/NewsList";
 import PageHead from "@/components/service/PageHead";
 import { getBoardItems, getSiteSettings } from "@/lib/content";
 
-const company = getSiteSettings();
+export async function generateMetadata(): Promise<Metadata> {
+  const company = await getSiteSettings();
+  return {
+    title: `News&Events | ${company.name}`,
+    description: "코런의 새로운 소식과 이벤트를 확인하실 수 있습니다.",
+  };
+}
 
-export const metadata: Metadata = {
-  title: `News&Events | ${company.name}`,
-  description: "코런의 새로운 소식과 이벤트를 확인하실 수 있습니다.",
-};
-
-export default function NewsPage() {
+export default async function NewsPage() {
+  const items = await getBoardItems("news");
   return (
     <>
       <ServiceNav activeHref="/news" />
@@ -21,7 +23,7 @@ export default function NewsPage() {
         mobileTitle="News & Events"
       />
       <section className="mx-auto max-w-[1280px] px-[15px] pc:py-0">
-        <NewsList items={getBoardItems("news")} />
+        <NewsList items={items} />
       </section>
     </>
   );

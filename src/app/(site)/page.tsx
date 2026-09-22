@@ -19,6 +19,7 @@ export default async function Home({
       : params.mode === "privacy"
         ? "privacy"
         : null;
+  const modal = kind ? await getPolicyModal(kind) : null;
 
   return (
     <>
@@ -28,7 +29,7 @@ export default async function Home({
       <ListsSection />
       <ValuesBanner />
       <LocationSection />
-      {kind && <PolicyModal kind={kind} modal={getPolicyModal(kind)} />}
+      {kind && modal && <PolicyModal kind={kind} modal={modal} />}
     </>
   );
 }

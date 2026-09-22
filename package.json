@@ -10,9 +10,16 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "capture": "node scripts/capture.mjs",
-    "compare": "node scripts/compare.mjs"
+    "compare": "node scripts/compare.mjs",
+    "smoke": "tsx scripts/content-smoke.ts",
+    "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
+    "@vercel/blob": "^2.8.0",
+    "bcryptjs": "^3.0.3",
+    "drizzle-orm": "^0.45.2",
+    "jose": "^6.2.12",
     "next": "16.3.2",
     "pretendard": "^1.3.9",
     "react": "19.2.8",
@@ -23,6 +30,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "drizzle-kit": "^0.31.10",
     "eslint": "^9",
     "eslint-config-next": "16.3.2",
     "pixelmatch": "^7.2.0",
@@ -30,6 +38,7 @@
     "pngjs": "^7.0.0",
     "prettier": "^3.9.6",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }

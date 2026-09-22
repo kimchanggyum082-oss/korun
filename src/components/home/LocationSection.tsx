@@ -1,15 +1,21 @@
 import Image from "next/image";
-import { assets, company } from "@/lib/data";
+import { company, homeContent, type HomeContent } from "@/lib/data";
 
-export default function LocationSection() {
+export default function LocationSection({
+  location = homeContent.location,
+  contact = company,
+}: {
+  location?: HomeContent["location"];
+  contact?: typeof company;
+} = {}) {
   return (
     <>
       <section className="pc:hidden flex flex-col break-keep px-[15px] py-[80px] text-[15px] leading-[24px]">
         <div className="my-[7.5px]">
           <p>
             <iframe
-              src={company.mapEmbed}
-              title="코런 본사 위치 지도"
+              src={contact.mapEmbed}
+              title={location.mapTitle}
               className="inline h-[380px] w-full border-0 align-baseline"
               loading="lazy"
               allowFullScreen
@@ -21,14 +27,14 @@ export default function LocationSection() {
         <div className="my-[7.5px]">
           <p className="text-[24px] leading-[29px]">
             <span className="text-[15px] font-bold leading-[18px] text-brand">
-              HEAD OFFICE &amp; FACTORY
+              {location.headingEn}
             </span>
           </p>
           <p className="text-[24px] font-bold leading-[28.8px]">
-            본사 및 공장&nbsp;
+            {location.headingKo}
             <span className="text-[15px] leading-[18px]">
               <Image
-                src={assets.penSmall}
+                src={location.penSmall}
                 alt=""
                 width={156}
                 height={537}
@@ -44,7 +50,7 @@ export default function LocationSection() {
               <tr>
                 <td className="w-[25.4918%] p-[8px] font-bold text-brand">
                   <span className="text-[15px] leading-[18px]">
-                    {company.name}
+                    {contact.name}
                   </span>
                   <br />
                 </td>
@@ -58,7 +64,7 @@ export default function LocationSection() {
                 </td>
                 <td className="w-[74.3443%] p-[8px] text-ink">
                   <span className="text-[15px] leading-[18px]">
-                    {company.tel}
+                    {contact.tel}
                   </span>
                 </td>
               </tr>
@@ -68,7 +74,7 @@ export default function LocationSection() {
                 </td>
                 <td className="w-[74.3443%] p-[8px] text-ink">
                   <span className="text-[15px] leading-[18px]">
-                    {company.email}
+                    {contact.email}
                   </span>
                 </td>
               </tr>
@@ -78,7 +84,7 @@ export default function LocationSection() {
                 </td>
                 <td className="w-[74.3443%] p-[8px] text-ink">
                   <span className="text-[15px] leading-[18px]">
-                    {company.address}
+                    {contact.address}
                   </span>
                 </td>
               </tr>
@@ -91,8 +97,8 @@ export default function LocationSection() {
         <div className="mx-auto max-w-[1280px] px-[15px] pb-[80px] pt-[80px]">
           <p className="py-[15px]">
             <iframe
-              src={company.mapEmbed}
-              title="코런 본사 위치 지도"
+              src={contact.mapEmbed}
+              title={location.mapTitle}
               className="inline h-[380px] w-full border-0 align-baseline"
               loading="lazy"
               allowFullScreen
@@ -103,16 +109,16 @@ export default function LocationSection() {
           <div className="py-[15px]">
             <p className="text-[36px] leading-[43.2px]">
               <span className="text-[20px] font-bold leading-[24px] text-brand">
-                HEAD OFFICE &amp; FACTORY
+                {location.headingEn}
               </span>
             </p>
             <p className="text-[36px] leading-[43.2px]">
               <span className="text-[36px] font-bold leading-[43.2px] text-ink">
-                본사 및 공장&nbsp;
+                {location.headingKo}
               </span>
               <span className="text-[20px] leading-[24px]">
                 <Image
-                  src={assets.penSmall}
+                  src={location.penSmall}
                   alt=""
                   width={156}
                   height={537}
@@ -130,7 +136,7 @@ export default function LocationSection() {
                     scope="row"
                     className="w-[25.4918%] p-[8px] text-left font-bold text-brand"
                   >
-                    <span className="text-[20px]">{company.name}</span>
+                    <span className="text-[20px]">{contact.name}</span>
                   </th>
                   <td className="w-[74.3443%] p-[8px]" />
                 </tr>
@@ -142,7 +148,7 @@ export default function LocationSection() {
                     <span className="text-[20px]">TEL.</span>
                   </th>
                   <td className="w-[74.3443%] p-[8px] text-ink">
-                    <span className="text-[20px]">{company.tel}</span>
+                    <span className="text-[20px]">{contact.tel}</span>
                   </td>
                 </tr>
                 <tr>
@@ -153,7 +159,7 @@ export default function LocationSection() {
                     <span className="text-[20px]">EMAIL.</span>
                   </th>
                   <td className="w-[74.3443%] p-[8px] text-ink">
-                    <span className="text-[20px]">{company.email}</span>
+                    <span className="text-[20px]">{contact.email}</span>
                   </td>
                 </tr>
                 <tr>
@@ -164,7 +170,7 @@ export default function LocationSection() {
                     <span className="text-[20px]">ADDRESS.</span>
                   </th>
                   <td className="w-[74.3443%] p-[8px] text-ink">
-                    <span className="text-[20px]">{company.address}</span>
+                    <span className="text-[20px]">{contact.address}</span>
                   </td>
                 </tr>
               </tbody>

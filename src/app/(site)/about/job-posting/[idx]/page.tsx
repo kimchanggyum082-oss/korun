@@ -4,11 +4,10 @@ import { getAboutPage } from "@/lib/content";
 import AboutNav from "@/components/layout/AboutNav";
 import PostDetail from "@/components/layout/PostDetail";
 
-const { company, jobPosts } = getAboutPage("job-posting");
-
 export const dynamicParams = false;
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const { jobPosts } = await getAboutPage("job-posting");
   return jobPosts.map((post) => ({ idx: post.idx }));
 }
 
@@ -18,6 +17,7 @@ export async function generateMetadata({
   params: Promise<{ idx: string }>;
 }): Promise<Metadata> {
   const { idx } = await params;
+  const { company, jobPosts } = await getAboutPage("job-posting");
   const post = jobPosts.find((p) => p.idx === idx);
   if (!post) return {};
   const firstText = post.blocks.find((block) => block.type === "text");
@@ -27,23 +27,31 @@ export async function generateMetadata({
   };
 }
 
-function JobPostHead() {
+function JobPostHead({
+  title,
+  mobileTagline,
+  desktopTagline,
+}: {
+  title: string;
+  mobileTagline: string;
+  desktopTagline: string;
+}) {
   return (
     <section className="bg-white">
       <div className="mx-auto max-w-[1280px] px-[15px] py-[50px] text-center pc:py-[80px]">
         <div className="mt-[7.5px] mb-[15px] pc:my-0 pc:py-[15px]">
           <p className="text-center text-[15px] leading-[24px] font-bold pc:text-[22px] pc:leading-[31px]">
             <span className="pc:hidden" style={{ color: "rgb(0, 53, 29)" }}>
-              오시는 길을 알려드립니다
+              {mobileTagline}
             </span>
             <span className="hidden text-brand pc:inline">
-              자사의 채용정보를 알려드립니다.
+              {desktopTagline}
             </span>
           </p>
         </div>
         <div className="mt-[7.5px] mb-[7.5px] pc:my-0 pc:pt-[20px] pc:pb-[10px]">
           <h1 className="text-[30px] font-bold leading-[36px] text-ink pc:mt-0 pc:text-[50px] pc:leading-[60px]">
-            Job Posting
+            {title}
           </h1>
         </div>
       </div>
@@ -57,6 +65,7 @@ export default async function JobPostDetailPage({
   params: Promise<{ idx: string }>;
 }) {
   const { idx } = await params;
+  const { content, jobPosts } = await getAboutPage("job-posting");
   const post = jobPosts.find((p) => p.idx === idx);
   if (!post) notFound();
 
@@ -64,7 +73,13 @@ export default async function JobPostDetailPage({
     <PostDetail
       activeHref="/about/job-posting"
       nav={<AboutNav activeHref="/about/job-posting" />}
-      head={<JobPostHead />}
+      head={
+        <JobPostHead
+          title={content.title}
+          mobileTagline={content.detailTaglineMobile}
+          desktopTagline={content.detailTaglineDesktop}
+        />
+      }
       sectionLabel="Job Posting"
       boardName="Job Posting"
       title={post.title}

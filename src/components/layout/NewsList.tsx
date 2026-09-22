@@ -188,9 +188,7 @@ export default function NewsList({ items }: { items: ServiceNewsItem[] }) {
                         className="text-[15px] leading-[21px]"
                         style={{ color: catColor(item.category) }}
                       >
-                        <em className="not-italic pr-[5px]">
-                          {item.category}
-                        </em>
+                        <em className="not-italic pr-[5px]">{item.category}</em>
                       </a>
                     )}
                     {!notice && " "}

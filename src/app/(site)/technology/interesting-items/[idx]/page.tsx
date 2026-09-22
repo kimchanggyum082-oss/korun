@@ -4,12 +4,11 @@ import { getBoardItem, getBoardItems, getSiteSettings } from "@/lib/content";
 import PostDetail from "@/components/layout/PostDetail";
 import TechNav from "@/components/layout/TechNav";
 
-const company = getSiteSettings();
-
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return getBoardItems("interesting-items").map((item) => ({ idx: item.idx }));
+export async function generateStaticParams() {
+  const items = await getBoardItems("interesting-items");
+  return items.map((item) => ({ idx: item.idx }));
 }
 
 export async function generateMetadata({
@@ -18,8 +17,9 @@ export async function generateMetadata({
   params: Promise<{ idx: string }>;
 }): Promise<Metadata> {
   const { idx } = await params;
-  const item = getBoardItem("interesting-items", idx);
+  const item = await getBoardItem("interesting-items", idx);
   if (!item) return {};
+  const company = await getSiteSettings();
   return {
     title: `${item.title} | ${company.name}`,
     description: item.description,
@@ -32,8 +32,9 @@ export default async function InterestingItemDetailPage({
   params: Promise<{ idx: string }>;
 }) {
   const { idx } = await params;
-  const item = getBoardItem("interesting-items", idx);
+  const item = await getBoardItem("interesting-items", idx);
   if (!item) notFound();
+  const items = await getBoardItems("interesting-items");
 
   return (
     <PostDetail
@@ -53,7 +54,7 @@ export default async function InterestingItemDetailPage({
       files={item.files.map((file) => ({ ...file, url: "#" }))}
       listHref="/technology/interesting-items"
       showWriter
-      pagerItems={getBoardItems("interesting-items").map((p) => ({
+      pagerItems={items.map((p) => ({
         idx: p.idx,
         title: p.title,
         date: p.date,

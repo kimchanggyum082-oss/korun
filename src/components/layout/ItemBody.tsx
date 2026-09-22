@@ -104,7 +104,10 @@ export default function ItemBody({
 
           if (block.type === "button") {
             return (
-              <p key={i} style={{ margin: 0, textAlign: block.align ?? defaultAlign }}>
+              <p
+                key={i}
+                style={{ margin: 0, textAlign: block.align ?? defaultAlign }}
+              >
                 <a
                   href={block.href}
                   target="_blank"

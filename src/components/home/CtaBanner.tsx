@@ -1,13 +1,12 @@
 import Image from "next/image";
 import SmartImage from "@/components/ui/SmartImage";
-import { assets } from "@/lib/data";
+import { homeContent, type HomeContent } from "@/lib/data";
 
-const MOBILE_PHOTO =
-  "https://cdn.imweb.me/thumbnail/20240625/fb07ee567ca78.jpg";
-const MOBILE_PEN =
-  "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/02c58f25f7fbf.png";
-
-export default function CtaBanner() {
+export default function CtaBanner({
+  content = homeContent.cta,
+}: {
+  content?: HomeContent["cta"];
+}) {
   return (
     <>
       <section className="pc:hidden flex flex-col break-keep bg-[#f5f5f5] px-[15px] text-[#363636]">
@@ -15,7 +14,7 @@ export default function CtaBanner() {
 
         <div className="my-[7.5px] h-[230px] overflow-hidden">
           <Image
-            src={MOBILE_PHOTO}
+            src={content.photoMobile}
             alt=""
             width={1280}
             height={854}
@@ -27,15 +26,15 @@ export default function CtaBanner() {
 
         <div className="my-[7.5px]">
           <p className="text-[20px] font-bold leading-[24px]">
-            틀에 대한 Hot Runner의 색다른 접근,
+            {content.line1}
           </p>
           <p className="text-[20px] font-bold leading-[24px]">
-            항상 제품이 완벽할 수 있도록 생각합니다.
+            {content.line2}
           </p>
           <p className="h-[15px] leading-[15px]" />
           <div className="mt-[5px] h-[69.39px]">
             <Image
-              src={MOBILE_PEN}
+              src={content.penMobile}
               alt=""
               width={156}
               height={537}
@@ -51,7 +50,7 @@ export default function CtaBanner() {
             <div className="col-span-5 px-[15px]">
               <div className="py-[15px]">
                 <SmartImage
-                  src={assets.ctaPhoto}
+                  src={content.photo}
                   alt=""
                   width={1280}
                   height={854}
@@ -67,9 +66,9 @@ export default function CtaBanner() {
               <div className="py-[15px] pl-[50px] pr-[15px]">
                 <p className="leading-[30px]">
                   <span className="text-[36px] font-bold leading-[43.2px] text-ink">
-                    틀에 대한 Hot Runner의 색다른 접근,
+                    {content.line1}
                     <br />
-                    항상 제품이 완벽할 수 있도록 생각합니다.
+                    {content.line2}
                   </span>
                 </p>
                 <p className="leading-[30px]">
@@ -79,7 +78,7 @@ export default function CtaBanner() {
                   <span className="text-[20px] leading-[24px]">
                     <br />
                     <Image
-                      src={assets.arrowDark}
+                      src={content.arrowDark}
                       alt=""
                       width={152}
                       height={152}

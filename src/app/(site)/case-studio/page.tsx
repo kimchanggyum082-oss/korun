@@ -4,14 +4,16 @@ import CaseStudioList from "@/components/layout/CaseStudioList";
 import PageHead from "@/components/service/PageHead";
 import { getBoardItems, getSiteSettings } from "@/lib/content";
 
-const company = getSiteSettings();
+export async function generateMetadata(): Promise<Metadata> {
+  const company = await getSiteSettings();
+  return {
+    title: `Case Studio | ${company.name}`,
+    description: "코런의 다양한 적용 사례를 확인하실 수 있습니다.",
+  };
+}
 
-export const metadata: Metadata = {
-  title: `Case Studio | ${company.name}`,
-  description: "코런의 다양한 적용 사례를 확인하실 수 있습니다.",
-};
-
-export default function CaseStudioPage() {
+export default async function CaseStudioPage() {
+  const items = await getBoardItems("case-studio");
   return (
     <>
       <ServiceNav activeHref="/case-studio" />
@@ -21,7 +23,7 @@ export default function CaseStudioPage() {
         mobileTitle="Downloads"
       />
       <section className="mx-auto max-w-[1280px] px-[15px] pc:py-0">
-        <CaseStudioList items={getBoardItems("case-studio")} />
+        <CaseStudioList items={items} />
       </section>
     </>
   );

@@ -3,12 +3,11 @@ import { notFound } from "next/navigation";
 import { getBoardItem, getBoardItems, getSiteSettings } from "@/lib/content";
 import PostDetail from "@/components/layout/PostDetail";
 
-const company = getSiteSettings();
-
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return getBoardItems("downloads").map((item) => ({ idx: item.idx }));
+export async function generateStaticParams() {
+  const items = await getBoardItems("downloads");
+  return items.map((item) => ({ idx: item.idx }));
 }
 
 export async function generateMetadata({
@@ -17,8 +16,9 @@ export async function generateMetadata({
   params: Promise<{ idx: string }>;
 }): Promise<Metadata> {
   const { idx } = await params;
-  const item = getBoardItem("downloads", idx);
+  const item = await getBoardItem("downloads", idx);
   if (!item) return {};
+  const company = await getSiteSettings();
   return {
     title: `${item.title} | ${company.name}`,
     description: item.description,
@@ -31,8 +31,9 @@ export default async function DownloadDetailPage({
   params: Promise<{ idx: string }>;
 }) {
   const { idx } = await params;
-  const item = getBoardItem("downloads", idx);
+  const item = await getBoardItem("downloads", idx);
   if (!item) notFound();
+  const items = await getBoardItems("downloads");
 
   return (
     <PostDetail
@@ -50,7 +51,7 @@ export default async function DownloadDetailPage({
       files={item.files}
       listHref="/downloads"
       fileLabel="다운로드 파일"
-      pagerItems={getBoardItems("downloads").map((p) => ({
+      pagerItems={items.map((p) => ({
         idx: p.idx,
         title: p.title,
         date: p.date,

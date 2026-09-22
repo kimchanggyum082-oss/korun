@@ -235,6 +235,84 @@ export const aboutNav = [
   { label: "Job Posting", href: "/about/job-posting" },
 ] as const;
 
+export type AboutBannerContent = {
+  line1: string;
+  line2: string;
+  title: string;
+};
+
+export type AboutGreetingsContent = {
+  banner: AboutBannerContent;
+  heading: string;
+  intro: string;
+  paragraphs: string[];
+  signature: string;
+};
+
+export type AboutPatentContent = {
+  title: string;
+};
+
+export type AboutLocationContent = {
+  title: string;
+  headingEn: string;
+  headingKo: string;
+  labels: {
+    tel: string;
+    email: string;
+    address: string;
+  };
+  mapTitle: string;
+};
+
+export type AboutJobPostingContent = {
+  title: string;
+  tagline: string;
+  detailTaglineMobile: string;
+  detailTaglineDesktop: string;
+};
+
+export type AboutContentMap = {
+  greetings: AboutGreetingsContent;
+  "patent-credentials": AboutPatentContent;
+  "company-location": AboutLocationContent;
+  "job-posting": AboutJobPostingContent;
+};
+
+export const aboutContent: AboutContentMap = {
+  greetings: {
+    banner: {
+      line1: "HOT RUNNER SYSTEM 전문 제조 회사로서",
+      line2: "가격, 품질, 서비스로 보답하는 국내 핫런너 전문메이커",
+      title: "Greetings",
+    },
+    heading: "틀에 대한 HOT RUNNER의 색다른 접근!",
+    intro:
+      "주식회사 코런은 2014년에 설립되어 고품질의 런너리스 사출성형 시스템 Hot Runner System 전문 제조 회사 입니다.",
+    paragraphs: [
+      "고객의 목표에 가장 적합하고, 정확하도록 문의 단계 부터 철저한 분석과 정확한 공학 이론과 혁신적인 설계를 적용하여 완벽한 핫런너 솔루션을 제공 합니다.",
+      "전기차베터리 부품(MPPO+GF) 부터 의료용 제품 부품까지 다양한 제품 적용 실적 노하우로 신뢰 할 수 있는 고객의 파트너로서 고객의 원가 절감과 안정적 제품 생산에 파트너 되어 드리겠습니다.",
+    ],
+    signature: "주식회사 코런 임직원 일동",
+  },
+  "patent-credentials": {
+    title: "Patent & Credentials\u00a0",
+  },
+  "company-location": {
+    title: "Company Location",
+    headingEn: "HEAD OFFICE & FACTORY",
+    headingKo: "본사 및 공장",
+    labels: { tel: "TEL.", email: "EMAIL.", address: "ADDRESS." },
+    mapTitle: "코런 본사 위치 지도",
+  },
+  "job-posting": {
+    title: "Job Posting",
+    tagline: "오시는 길을 알려드립니다",
+    detailTaglineMobile: "오시는 길을 알려드립니다",
+    detailTaglineDesktop: "자사의 채용정보를 알려드립니다.",
+  },
+};
+
 export const caseNav = [
   { label: "Automotive Parts", href: "/cases/automotive-parts" },
   { label: "Transparent Parts", href: "/cases/transparent-parts" },
@@ -836,49 +914,109 @@ export const interestingItems: InterestingItem[] = [
     blocks: [
       { type: "br" },
       { type: "br" },
-      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/4d3e418ec2a28.png" },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/4d3e418ec2a28.png",
+      },
       { type: "text", content: "메니폴드 블럭은 핫런너에 있어서 수지흐름의" },
       { type: "text", content: "매우 중요한 역활을 하는 것으로 각각의" },
-      { type: "text", content: "구성요소가 역학적 설계구조로 이뤄져야 합니다." },
-      { type: "text", content: "코런의 메니폴드 블럭은 히타 발열 바운더리량을" },
+      {
+        type: "text",
+        content: "구성요소가 역학적 설계구조로 이뤄져야 합니다.",
+      },
+      {
+        type: "text",
+        content: "코런의 메니폴드 블럭은 히타 발열 바운더리량을",
+      },
       { type: "text", content: "계산하여 설계되며, 게이트의 위치에 따라" },
       { type: "text", content: "밸런스 구조 또는 심플구조로 제작 됩니다." },
       { type: "hr" },
       { type: "br" },
-      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/1adc9ccc1936a.png" },
-      { type: "text", content: "메니폴드 블럭의 센서는 표면형 센서가 아닌, 노즐에 적용되는" },
-      { type: "text", content: "씨즈센서를 동일하게 적용하여 수지홀과 가까운곳의 온도를" },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/1adc9ccc1936a.png",
+      },
+      {
+        type: "text",
+        content: "메니폴드 블럭의 센서는 표면형 센서가 아닌, 노즐에 적용되는",
+      },
+      {
+        type: "text",
+        content: "씨즈센서를 동일하게 적용하여 수지홀과 가까운곳의 온도를",
+      },
       { type: "text", content: "체크할 수 있도록 하고 있습니다." },
-      { type: "text", content: "코런 고유 디자인의 센서 고정편은 센서를 안정적으로" },
+      {
+        type: "text",
+        content: "코런 고유 디자인의 센서 고정편은 센서를 안정적으로",
+      },
       { type: "text", content: "고정하여 세밀한 온도 유지를 하고 있습니다." },
       { type: "hr" },
       { type: "br" },
-      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/4e11a657be63b.png" },
-      { type: "text", content: "메니폴드 블럭의 체결볼트 머리 아래 슬라이딩와셔를" },
-      { type: "text", content: "체택 적용함으로 볼트의 체결럭을 높이는 동시에 열팽창시" },
-      { type: "text", content: "볼트 체결에 의한 과도한 눌림을 없에 열팽창 변형에" },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/4e11a657be63b.png",
+      },
+      {
+        type: "text",
+        content: "메니폴드 블럭의 체결볼트 머리 아래 슬라이딩와셔를",
+      },
+      {
+        type: "text",
+        content: "체택 적용함으로 볼트의 체결럭을 높이는 동시에 열팽창시",
+      },
+      {
+        type: "text",
+        content: "볼트 체결에 의한 과도한 눌림을 없에 열팽창 변형에",
+      },
       { type: "text", content: "안정함 더 하였습니다." },
-      { type: "text", content: "볼트의 체결방식은 토크랜치를 이용하여 체결되는 모든볼트가" },
+      {
+        type: "text",
+        content: "볼트의 체결방식은 토크랜치를 이용하여 체결되는 모든볼트가",
+      },
       { type: "text", content: "일정한 힘으로 체결 되도록 조립 합니다." },
       { type: "hr" },
       { type: "br" },
-      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/f3d4ddb61b4bf.png" },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/f3d4ddb61b4bf.png",
+      },
       { type: "br" },
-      { type: "text", content: "메니폴드 블럭 설계 제작시 다수의 센서홀을 미리 설치하여" },
-      { type: "text", content: "조립전 승온테스트 시에 기준된 센서위치 외의 다른부분의" },
-      { type: "text", content: "온도를 체크하여, 발열 밸런스와 열응집도를 체크 합니다." },
-      { type: "text", content: "Resin의 물성이 예민 할 수록 핫런너의 메니폴드 블럭은" },
-      { type: "text", content: "더욱 까다롭게 설계되고 면밀히 체크하여 제작 합니다." },
+      {
+        type: "text",
+        content: "메니폴드 블럭 설계 제작시 다수의 센서홀을 미리 설치하여",
+      },
+      {
+        type: "text",
+        content: "조립전 승온테스트 시에 기준된 센서위치 외의 다른부분의",
+      },
+      {
+        type: "text",
+        content: "온도를 체크하여, 발열 밸런스와 열응집도를 체크 합니다.",
+      },
+      {
+        type: "text",
+        content: "Resin의 물성이 예민 할 수록 핫런너의 메니폴드 블럭은",
+      },
+      {
+        type: "text",
+        content: "더욱 까다롭게 설계되고 면밀히 체크하여 제작 합니다.",
+      },
       { type: "br" },
       { type: "br" },
-      { type: "text", content: "< 가열 승온 테스트 후 메니폴드 블럭의 변색 상태 >" },
-      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/171a2008ac6ce.png" },
+      {
+        type: "text",
+        content: "< 가열 승온 테스트 후 메니폴드 블럭의 변색 상태 >",
+      },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/171a2008ac6ce.png",
+      },
     ],
     files: [],
   },
 ];
 
-type JobPost = {
+export type JobPost = {
   idx: string;
   no: number;
   title: string;
@@ -900,32 +1038,110 @@ export const jobPosts: JobPost[] = [
     views: 397,
     blocks: [
       { type: "text", content: "안녕 하십니까?", align: "left" },
-      { type: "text", content: "핫런너 업게에 종사하시는 모든 분들께 존경으로 표하는 바 입니다.  주식회사 코런 대표 김창겸 입니다.", align: "left" },
-      { type: "text", content: "곧 다가오는 25년도 영업 전략 기획 일환으로 하기의 국내 지역의 영업 및 서비스 확대를 위하여", align: "left" },
-      { type: "text", content: "하기의 지역 기준으로 핫런너 업계의 숨은 고수님들과의 대리점 계약을 맺고자 본 공고를 올립니다.", align: "left" },
-      { type: "br" },
-      { type: "br" },
-      { type: "text", content: "1. 타겟 지역 :  경기북부 지역 (남양주, 의정부, 파주)  / 경기중부 지역 (광주, 수원)  / 경기남부지역 (화성, 평택)", align: "left" },
-      { type: "text", content: "                      충청남도 (천안, 아산)  / 충청북도 (옥산, 음성)", align: "left" },
-      { type: "text", content: "                      대구 , 울산 , 부산", align: "left" },
-      { type: "text", content: "                      상기 지역 중 어디든 괜찬습니다.", align: "left" },
-      { type: "text", content: "2. 자격 : 2-1. 핫런너 업계(회사무관)에 영업 또는 개발,설계 근무 13년 이상", align: "left" },
-      { type: "text", content: "              2-2. 해외 출장 업무에 문제가 없을 것 (본사와의 업무 공조 차원의 출장이 있을 수 있습니다) ", align: "left" },
-      { type: "text", content: "              2-3. 자체 적으로 공장 또는 사무실 계약이 가능하신 분", align: "left" },
       {
         type: "text",
-        content: "              ※ 대리점 계약을 원하시는데 상기 내용이 만약 문제가 있으신 경우 사전 상담 요청 부탁 드립니다.",
-        parts: [{ text: "             " }, { text: " ※", fontSize: 22 }, { text: " 대리점 계약을 원하시는데 상기 내용이 만약 문제가 있으신 경우 사전 상담 요청 부탁 드립니다." }],
+        content:
+          "핫런너 업게에 종사하시는 모든 분들께 존경으로 표하는 바 입니다.  주식회사 코런 대표 김창겸 입니다.",
         align: "left",
       },
-      { type: "text", content: "3. 신청 요청시 필수 서류 사항 :  대리점 개설 신청서, 직무(경력) 기술서 영업분야, 대리점 사업 계획서", align: "left" },
-      { type: "text", content: "                                                (아래의 데이타를 다운받아 작성하시어 송부 바랍니다)", align: "left" },
-      { type: "text", content: "4. 신청 : 이메일 접수   korun15@naver.com   /  담당자 HP : 010-8867-3060", align: "left" },
+      {
+        type: "text",
+        content:
+          "곧 다가오는 25년도 영업 전략 기획 일환으로 하기의 국내 지역의 영업 및 서비스 확대를 위하여",
+        align: "left",
+      },
+      {
+        type: "text",
+        content:
+          "하기의 지역 기준으로 핫런너 업계의 숨은 고수님들과의 대리점 계약을 맺고자 본 공고를 올립니다.",
+        align: "left",
+      },
+      { type: "br" },
       { type: "br" },
       {
         type: "text",
-        content: "                                    ※  코런의 지사 설립 문의도  언제든지 연락 주시기 바랍니다.",
-        parts: [{ text: "                                    " }, { text: "※", fontSize: 22, underline: true }, { text: "  코런의 지사 설립 문의도  언제든지 연락 주시기 바랍니다.", underline: true }],
+        content:
+          "1. 타겟 지역 :  경기북부 지역 (남양주, 의정부, 파주)  / 경기중부 지역 (광주, 수원)  / 경기남부지역 (화성, 평택)",
+        align: "left",
+      },
+      {
+        type: "text",
+        content:
+          "                      충청남도 (천안, 아산)  / 충청북도 (옥산, 음성)",
+        align: "left",
+      },
+      {
+        type: "text",
+        content: "                      대구 , 울산 , 부산",
+        align: "left",
+      },
+      {
+        type: "text",
+        content: "                      상기 지역 중 어디든 괜찬습니다.",
+        align: "left",
+      },
+      {
+        type: "text",
+        content:
+          "2. 자격 : 2-1. 핫런너 업계(회사무관)에 영업 또는 개발,설계 근무 13년 이상",
+        align: "left",
+      },
+      {
+        type: "text",
+        content:
+          "              2-2. 해외 출장 업무에 문제가 없을 것 (본사와의 업무 공조 차원의 출장이 있을 수 있습니다) ",
+        align: "left",
+      },
+      {
+        type: "text",
+        content:
+          "              2-3. 자체 적으로 공장 또는 사무실 계약이 가능하신 분",
+        align: "left",
+      },
+      {
+        type: "text",
+        content:
+          "              ※ 대리점 계약을 원하시는데 상기 내용이 만약 문제가 있으신 경우 사전 상담 요청 부탁 드립니다.",
+        parts: [
+          { text: "             " },
+          { text: " ※", fontSize: 22 },
+          {
+            text: " 대리점 계약을 원하시는데 상기 내용이 만약 문제가 있으신 경우 사전 상담 요청 부탁 드립니다.",
+          },
+        ],
+        align: "left",
+      },
+      {
+        type: "text",
+        content:
+          "3. 신청 요청시 필수 서류 사항 :  대리점 개설 신청서, 직무(경력) 기술서 영업분야, 대리점 사업 계획서",
+        align: "left",
+      },
+      {
+        type: "text",
+        content:
+          "                                                (아래의 데이타를 다운받아 작성하시어 송부 바랍니다)",
+        align: "left",
+      },
+      {
+        type: "text",
+        content:
+          "4. 신청 : 이메일 접수   korun15@naver.com   /  담당자 HP : 010-8867-3060",
+        align: "left",
+      },
+      { type: "br" },
+      {
+        type: "text",
+        content:
+          "                                    ※  코런의 지사 설립 문의도  언제든지 연락 주시기 바랍니다.",
+        parts: [
+          { text: "                                    " },
+          { text: "※", fontSize: 22, underline: true },
+          {
+            text: "  코런의 지사 설립 문의도  언제든지 연락 주시기 바랍니다.",
+            underline: true,
+          },
+        ],
         align: "left",
       },
       { type: "br" },
@@ -1063,6 +1279,132 @@ export const values = [
   { label: "안정성 Stability", color: "#e5a627", padding: "40px" },
   { label: "효율성 Effciency", color: "#2771e5", padding: "40px" },
 ] as const;
+
+export type HomeHeroSlide = {
+  src: string;
+  alt: string;
+};
+
+export type HomeProductCard = {
+  title: string;
+  href: string;
+  src: string;
+  hoverSrc: string;
+  mobileSrc: string;
+};
+
+export type HomePill = {
+  label: string;
+  color: string;
+  padding: string;
+  href: string;
+};
+
+export type HomeMobilePill = {
+  label: string;
+  color: string;
+  padding: string;
+};
+
+export type HomeContent = {
+  hero: {
+    slides: HomeHeroSlide[];
+    slidesMobile: HomeHeroSlide[];
+  };
+  products: {
+    bg: string;
+    penLarge: string;
+    penMobile: string;
+    mobileHeights: number[];
+    mobileTitleLines: string[];
+    mobileBodyLines: string[];
+    pcTitle: string;
+    pcBody: string;
+    items: HomeProductCard[];
+  };
+  values: {
+    bg: string;
+    bgMobile: string;
+    bgAlt: string;
+    pc: HomePill[];
+    mobile: HomeMobilePill[];
+  };
+  cta: {
+    photo: string;
+    photoMobile: string;
+    penMobile: string;
+    arrowDark: string;
+    line1: string;
+    line2: string;
+  };
+  lists: {
+    penSmall: string;
+    penMobile: string;
+    newsHeading: { en: string; ko: string };
+    downloadsHeading: { en: string; ko: string };
+    writer: string;
+  };
+  location: {
+    penSmall: string;
+    mapTitle: string;
+    headingEn: string;
+    headingKo: string;
+  };
+};
+
+export const homeContent: HomeContent = {
+  hero: {
+    slides: assets.heroSlides.map((slide) => ({ ...slide })),
+    slidesMobile: assets.heroSlidesMobile.map((slide) => ({ ...slide })),
+  },
+  products: {
+    bg: assets.productsBg,
+    penLarge: assets.penLarge,
+    penMobile: `${UPLOAD}/cd3f41b48aeae.png`,
+    mobileHeights: [208, 211, 208, 208],
+    mobileTitleLines: ["We making", "smart flow of Resin"],
+    mobileBodyLines: [
+      "HOT RUNNER SYSTEM 전문 제조 회사로서",
+      "가격, 품질, 서비스로 보답하는 국내 핫런너 제조 전문 메이커입니다.",
+    ],
+    pcTitle: "We making smart flow of Resin",
+    pcBody:
+      "HOT RUNNER SYSTEM 전문 제조 회사로서 가격, 품질, 서비스로 보답하는 국내 핫런너 제조 전문 메이커입니다.",
+    items: assets.products.map((product) => ({ ...product })),
+  },
+  values: {
+    bg: assets.valuesBg,
+    bgMobile: `${CDN}/thumbnail/20240625/c23d13b2d5be7.png`,
+    bgAlt: "코런 전시 부스",
+    pc: values.map((value) => ({ ...value, href: "#" })),
+    mobile: [
+      { label: "기술성 Technology", color: "#00ac68", padding: "30px" },
+      { label: "안정성 Stability", color: "#e9b346", padding: "45px" },
+      { label: "효율성 Effciency", color: "#005dac", padding: "40px" },
+    ],
+  },
+  cta: {
+    photo: assets.ctaPhoto,
+    photoMobile: `${CDN}/thumbnail/20240625/fb07ee567ca78.jpg`,
+    penMobile: `${UPLOAD}/02c58f25f7fbf.png`,
+    arrowDark: assets.arrowDark,
+    line1: "틀에 대한 Hot Runner의 색다른 접근,",
+    line2: "항상 제품이 완벽할 수 있도록 생각합니다.",
+  },
+  lists: {
+    penSmall: assets.penSmall,
+    penMobile: `${UPLOAD}/3ab2e78924f62.png`,
+    newsHeading: { en: "News & Events", ko: "뉴스&이벤트" },
+    downloadsHeading: { en: "Downloads", ko: "다운로드" },
+    writer: "코런 관리자",
+  },
+  location: {
+    penSmall: assets.penSmall,
+    mapTitle: "코런 본사 위치 지도",
+    headingEn: "HEAD OFFICE & FACTORY",
+    headingKo: "본사 및 공장\u00a0",
+  },
+};
 
 export type SpecRow = {
   label: string;
@@ -1693,26 +2035,87 @@ export const newsItems: ServiceNewsItem[] = [
     description:
       "주식회사 코런은 금번 개최되는 제28회 한국금형비전포럼 2025 에 후원사로써 기업 홍보부스 참여 합니다. 이번 포럼을 통하여 국내 사출 및 금형의 수준 높은 금형지식을 나누고, 상호 교류 및 정보 교류의 유익한 자리가 되길 기원 합니다. 주최 : 사...",
     blocks: [
-      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/97e75f51ed60b.jpg" },
-      { type: "text", content: "주식회사 코런은 금번 개최되는 제28회 한국금형비전포럼 2025 에 후원사로써 기업 홍보부스 참여 합니다.", fontSize: 16 },
-      { type: "text", content: "이번 포럼을 통하여 국내 사출 및 금형의 수준 높은 금형지식을 나누고, 상호 교류 및 정보 교류의 유익한 자리가 되길 기원 합니다.", fontSize: 16 },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/97e75f51ed60b.jpg",
+      },
+      {
+        type: "text",
+        content:
+          "주식회사 코런은 금번 개최되는 제28회 한국금형비전포럼 2025 에 후원사로써 기업 홍보부스 참여 합니다.",
+        fontSize: 16,
+      },
+      {
+        type: "text",
+        content:
+          "이번 포럼을 통하여 국내 사출 및 금형의 수준 높은 금형지식을 나누고, 상호 교류 및 정보 교류의 유익한 자리가 되길 기원 합니다.",
+        fontSize: 16,
+      },
       { type: "br" },
-      { type: "text", content: "주최 : 사단법인 한국금형기술사회 , 중소벤처기업연수원", fontSize: 20 },
-      { type: "text", content: "주관 : 한국금형산업협동조합 , 한국금형공학회 , 핸들러", fontSize: 20 },
+      {
+        type: "text",
+        content: "주최 : 사단법인 한국금형기술사회 , 중소벤처기업연수원",
+        fontSize: 20,
+      },
+      {
+        type: "text",
+        content: "주관 : 한국금형산업협동조합 , 한국금형공학회 , 핸들러",
+        fontSize: 20,
+      },
       { type: "br" },
       { type: "text", content: "일시 및 장소", fontSize: 20 },
-      { type: "text", content: "일시 : 2025년 05년 09일 금요일  / 10:00 ~ 16:00  (등록 09:30 부터)", fontSize: 20 },
-      { type: "text", content: "장소 : 수원컨벤션센터 컨벤션홀 (경기도 수원시 영통구 광교중앙로 140)", fontSize: 20 },
-      { type: "text", content: "사전  등록 : 한국금형기술사회 홈페이지 공지 참조  (www.moldpe.or.kr)", fontSize: 20 },
-      { type: "button", href: "https://docs.google.com/forms/d/1HJUJ6E2DgxD2ZXNI5ZNzcQe0n3qF3aOLj2oeSxphDyI/edit", label: "https://docs.google.com/forms/d/1HJUJ6E2DgxD2ZXNI5ZNzcQe0n3qF3aOLj2oeSxphDyI/edit" },
-      { type: "text", content: "문의 :      한국금형기술사회 031-364-8808 ", fontSize: 20 },
+      {
+        type: "text",
+        content:
+          "일시 : 2025년 05년 09일 금요일  / 10:00 ~ 16:00  (등록 09:30 부터)",
+        fontSize: 20,
+      },
+      {
+        type: "text",
+        content:
+          "장소 : 수원컨벤션센터 컨벤션홀 (경기도 수원시 영통구 광교중앙로 140)",
+        fontSize: 20,
+      },
+      {
+        type: "text",
+        content:
+          "사전  등록 : 한국금형기술사회 홈페이지 공지 참조  (www.moldpe.or.kr)",
+        fontSize: 20,
+      },
+      {
+        type: "button",
+        href: "https://docs.google.com/forms/d/1HJUJ6E2DgxD2ZXNI5ZNzcQe0n3qF3aOLj2oeSxphDyI/edit",
+        label:
+          "https://docs.google.com/forms/d/1HJUJ6E2DgxD2ZXNI5ZNzcQe0n3qF3aOLj2oeSxphDyI/edit",
+      },
+      {
+        type: "text",
+        content: "문의 :      한국금형기술사회 031-364-8808 ",
+        fontSize: 20,
+      },
       { type: "br" },
       { type: "text", content: "포럼 주요 사항", fontSize: 20 },
-      { type: "text", content: "정책강연 , 기술발표 , 후원사 홍보부스 운영 , 후원사 별도 기술발표 및 세미나실 운영", fontSize: 20 },
-      { type: "text", content: "포럼교재 제공(사전등록 시) , 기념품 , 선물 추첨 제공", fontSize: 20 },
+      {
+        type: "text",
+        content:
+          "정책강연 , 기술발표 , 후원사 홍보부스 운영 , 후원사 별도 기술발표 및 세미나실 운영",
+        fontSize: 20,
+      },
+      {
+        type: "text",
+        content: "포럼교재 제공(사전등록 시) , 기념품 , 선물 추첨 제공",
+        fontSize: 20,
+      },
       { type: "br" },
-      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/abd6fcbe547f0.jpg" },
-      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/2e1d7e263c504.jpg", width: 682 },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/abd6fcbe547f0.jpg",
+      },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/2e1d7e263c504.jpg",
+        width: 682,
+      },
       { type: "br" },
     ],
     files: [],
@@ -2016,7 +2419,8 @@ export const downloadItems: ServiceDownloadItem[] = [
     title: "日本語版カタログをダウンロードします",
     date: "2024-10-12",
     views: 1102,
-    summary: "ダウンロードデータの種類 製品パンフレット ホットランナー コントローラー カタログ コーラン ホットランナー 標準仕様",
+    summary:
+      "ダウンロードデータの種類 製品パンフレット ホットランナー コントローラー カタログ コーラン ホットランナー 標準仕様",
     thumbnail: "https://cdn.imweb.me/thumbnail/20241012/6c4f101149119.jpg",
     description: "ダウンロードデータの種類",
     blocks: [
@@ -2055,7 +2459,8 @@ export const downloadItems: ServiceDownloadItem[] = [
     title: "Download English Version Catalog",
     date: "2024-10-12",
     views: 1100,
-    summary: "Download Data Types Product BrochureHot Runner Controller CatalogKORUN Hot Runner Standard Specific",
+    summary:
+      "Download Data Types Product BrochureHot Runner Controller CatalogKORUN Hot Runner Standard Specific",
     thumbnail: "https://cdn.imweb.me/thumbnail/20241012/56fed55810516.jpg",
     description: "Download Data Types",
     blocks: [
@@ -2094,19 +2499,41 @@ export const downloadItems: ServiceDownloadItem[] = [
     title: "Single Valve Nozzle 2D Data",
     date: "2024-08-09",
     views: 1162,
-    summary: "코런 Single Valve Gate System 표준 기본 규격 2D 데이타 입니다. 본 데이타는 폐사 제품의 품질 향상 및 디자인 변경시 예고 없이 변경 될 수 있습니다.",
+    summary:
+      "코런 Single Valve Gate System 표준 기본 규격 2D 데이타 입니다. 본 데이타는 폐사 제품의 품질 향상 및 디자인 변경시 예고 없이 변경 될 수 있습니다.",
     thumbnail: "https://cdn.imweb.me/thumbnail/20240809/f23813828c952.png",
     description:
       "코런 Single Valve Gate System 표준 기본 규격 2D 데이타 입니다. 본 데이타는 폐사 제품의 품질 향상 및 디자인 변경시 예고 없이 변경 될 수 있습니다.",
     blocks: [
-      { type: "text", content: "코런 Single Valve Gate System 표준 기본 규격 2D 데이타 입니다.", fontSize: 24, bold: true },
+      {
+        type: "text",
+        content:
+          "코런 Single Valve Gate System 표준 기본 규격 2D 데이타 입니다.",
+        fontSize: 24,
+        bold: true,
+      },
       { type: "br" },
-      { type: "text", content: "본 데이타는 폐사 제품의 품질 향상 및 디자인 변경시 예고 없이 변경 될 수 있습니다.", fontSize: 20 },
-      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/711e690254a68.png" },
+      {
+        type: "text",
+        content:
+          "본 데이타는 폐사 제품의 품질 향상 및 디자인 변경시 예고 없이 변경 될 수 있습니다.",
+        fontSize: 20,
+      },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/711e690254a68.png",
+      },
       { type: "br" },
       { type: "br" },
-      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/2db2ade621157.png" },
-      { type: "text", content: "아래의 첨부 dwg 파일을 다운 받으시면 보실 수 있습니다.", fontSize: 24 },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/2db2ade621157.png",
+      },
+      {
+        type: "text",
+        content: "아래의 첨부 dwg 파일을 다운 받으시면 보실 수 있습니다.",
+        fontSize: 24,
+      },
     ],
     files: [
       {
@@ -2121,7 +2548,8 @@ export const downloadItems: ServiceDownloadItem[] = [
     title: "코런 시컨스타임 콘트롤러 모델 KOTS-800 사용 설명서",
     date: "2024-07-21",
     views: 1245,
-    summary: "시컨스 타임 콘트롤러 모델 KOTS-800 사용 설명서 아래의 첨부 pdf 파일을 다운 받으시면 보실 수 있습니다",
+    summary:
+      "시컨스 타임 콘트롤러 모델 KOTS-800 사용 설명서 아래의 첨부 pdf 파일을 다운 받으시면 보실 수 있습니다",
     thumbnail: "https://cdn.imweb.me/thumbnail/20240721/f7ee9659125a7.png",
     description: "시컨스 타임 콘트롤러  모델 KOTS-800 사용 설명서",
     blocks: [
@@ -2151,7 +2579,8 @@ export const downloadItems: ServiceDownloadItem[] = [
     title: "코런 온도콘트롤러 모델 KOTC-860 사용설명서",
     date: "2024-07-21",
     views: 1717,
-    summary: "핫런너 전용 KOTC-860 온도콘트롤러 사용 설명서 아래의 첨부 pdf 파일을 다운 받으시면 보실 수 있습니다.",
+    summary:
+      "핫런너 전용 KOTC-860 온도콘트롤러 사용 설명서 아래의 첨부 pdf 파일을 다운 받으시면 보실 수 있습니다.",
     thumbnail: "https://cdn.imweb.me/thumbnail/20240721/21ed72877836e.png",
     description: "핫런너 전용 KOTC-860 온도콘트롤러 사용 설명서",
     blocks: [
@@ -2207,7 +2636,8 @@ export const downloadItems: ServiceDownloadItem[] = [
     title: "KORUN Hot Runners 2D Dwg Data",
     date: "2024-07-21",
     views: 912,
-    summary: "코런 핫런너 제품군의 표준 기본 규격 2D 데이타 입니다. 본 데이타는 폐사 제품의 품질 향상 및 디자인 변경시 예고 없이 변경 될 수 있습니다.아래의 첨부 dwg 파일을 다운",
+    summary:
+      "코런 핫런너 제품군의 표준 기본 규격 2D 데이타 입니다. 본 데이타는 폐사 제품의 품질 향상 및 디자인 변경시 예고 없이 변경 될 수 있습니다.아래의 첨부 dwg 파일을 다운",
     thumbnail: "https://cdn.imweb.me/thumbnail/20240721/de7d2eb1c54fa.png",
     description:
       "코런 핫런너 제품군의 표준 기본 규격 2D 데이타 입니다. 본 데이타는 폐사 제품의 품질 향상 및 디자인 변경시 예고 없이 변경 될 수 있습니다.",
@@ -2239,7 +2669,8 @@ export const downloadItems: ServiceDownloadItem[] = [
     title: "KORUN Application Products (적용 제품)",
     date: "2024-07-21",
     views: 772,
-    summary: "Application Products Ver-1709 아래의 첨부 pdf 파일을 다운 받으시면 보실 수 있습니다.",
+    summary:
+      "Application Products Ver-1709 아래의 첨부 pdf 파일을 다운 받으시면 보실 수 있습니다.",
     thumbnail: "https://cdn.imweb.me/thumbnail/20240721/f915b74c83fa4.png",
     description: "Application Products Ver-1709",
     blocks: [
@@ -2266,7 +2697,8 @@ export const downloadItems: ServiceDownloadItem[] = [
     title: "KORUN H_R_S Application Guide V-2208 (KORUN Catalog) 한국어 버전",
     date: "2024-07-21",
     views: 581,
-    summary: "1. 코런의 핫런너 시스템 적용 참고 카다로그.2. pdf file3. Free Download 코런은 본 어플리케이션 카다로그의 수록된 규격 외 15 사이즈 노즐 부터 게이트",
+    summary:
+      "1. 코런의 핫런너 시스템 적용 참고 카다로그.2. pdf file3. Free Download 코런은 본 어플리케이션 카다로그의 수록된 규격 외 15 사이즈 노즐 부터 게이트",
     thumbnail: "https://cdn.imweb.me/thumbnail/20240721/82b80a16353f2.jpg",
     description:
       "1. 코런의 핫런너 시스템 적용 참고 카다로그. 2. pdf file 3. Free Download 코런은 본 어플리케이션 카다로그의 수록된 규격 외 15 사이즈 노즐 부터  게이트 거리  극소 피치 적용 까지  수많은 경험치에 의한  규격 제품군이 ...",
@@ -2492,22 +2924,72 @@ export const caseStudioItems: ServiceCaseStudioItem[] = [
       "타사 및 자사 핫런너 수리 오래된 금형의 생산 중 핫런너 조립부의 수지 누출 문제 등이 종종 발생 합니다. 코런은 의뢰 받은 수리건에 대하여 동일 트러블이 발생하지 않도록 구조 보완까지 완벽하게 검토 반영 대응해 드리고 있습니다.",
     blocks: [
       { type: "br" },
-      { type: "text", content: "타사 및 자사 핫런너 수리", fontSize: 26, bold: true, underline: true },
+      {
+        type: "text",
+        content: "타사 및 자사 핫런너 수리",
+        fontSize: 26,
+        bold: true,
+        underline: true,
+      },
       { type: "br", fontSize: 26 },
-      { type: "text", content: "오래된 금형의 생산 중 핫런너 조립부의 수지 누출 문제 등이 종종 발생 합니다.", fontSize: 18, bold: true },
-      { type: "text", content: "코런은 의뢰 받은 수리건에 대하여 동일 트러블이 발생하지 않도록 구조 보완까지 완벽하게", fontSize: 18, bold: true },
-      { type: "text", content: "검토 반영 대응해 드리고 있습니다.", fontSize: 18, bold: true },
-      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/5f7e651a0f7c6.jpg" },
-      { type: "image", src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/d8571880fed2d.png", width: 616, block: true },
+      {
+        type: "text",
+        content:
+          "오래된 금형의 생산 중 핫런너 조립부의 수지 누출 문제 등이 종종 발생 합니다.",
+        fontSize: 18,
+        bold: true,
+      },
+      {
+        type: "text",
+        content:
+          "코런은 의뢰 받은 수리건에 대하여 동일 트러블이 발생하지 않도록 구조 보완까지 완벽하게",
+        fontSize: 18,
+        bold: true,
+      },
+      {
+        type: "text",
+        content: "검토 반영 대응해 드리고 있습니다.",
+        fontSize: 18,
+        bold: true,
+      },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/5f7e651a0f7c6.jpg",
+      },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/d8571880fed2d.png",
+        width: 616,
+        block: true,
+      },
       { type: "br" },
-      { type: "text", content: "금형의 노후와 핫런너 초기 내구성 제작불량 등의 복합적인 사유로 인하여" },
-      { type: "text", content: "수지 누출이 발생한 건으로 양산에 차질이발생 한 사례 임." },
+      {
+        type: "text",
+        content:
+          "금형의 노후와 핫런너 초기 내구성 제작불량 등의 복합적인 사유로 인하여",
+      },
+      {
+        type: "text",
+        content: "수지 누출이 발생한 건으로 양산에 차질이발생 한 사례 임.",
+      },
       { type: "br" },
-      { type: "text", content: "수리 핫런너의 정밀 진단 후 노후된 노즐 및 기타 부품교체 판재 뒤틀림 변형" },
-      { type: "text", content: "방지를 위한 써포트봉 추가 설치, 베이스 체결볼트 추가 등 빠른 판단 과 대응으로" },
+      {
+        type: "text",
+        content:
+          "수리 핫런너의 정밀 진단 후 노후된 노즐 및 기타 부품교체 판재 뒤틀림 변형",
+      },
+      {
+        type: "text",
+        content:
+          "방지를 위한 써포트봉 추가 설치, 베이스 체결볼트 추가 등 빠른 판단 과 대응으로",
+      },
       { type: "text", content: "수리를 실시한 건 임." },
       { type: "br" },
-      { type: "text", content: ". 수리 보다도 제품 및 수지특성, 수량등을 고려하여 안정한 제품 제작이 중요하다는" },
+      {
+        type: "text",
+        content:
+          ". 수리 보다도 제품 및 수지특성, 수량등을 고려하여 안정한 제품 제작이 중요하다는",
+      },
       { type: "text", content: "사례를 보여준 사안 임." },
     ],
     files: [],

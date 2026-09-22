@@ -8,7 +8,13 @@ export function SearchGlyph() {
       aria-hidden
       focusable="false"
     >
-      <circle cx="8.6" cy="8.6" r="6.3" stroke="currentColor" strokeWidth="1.2" />
+      <circle
+        cx="8.6"
+        cy="8.6"
+        r="6.3"
+        stroke="currentColor"
+        strokeWidth="1.2"
+      />
       <path d="M13.2 13.2L18.4 18.4" stroke="currentColor" strokeWidth="1.4" />
     </svg>
   );
@@ -61,7 +67,11 @@ export function PagerArrow({ direction }: { direction: "left" | "right" }) {
       style={{ verticalAlign: "middle", marginTop: -2 }}
     >
       <path
-        d={direction === "left" ? "M8.4 1.2L2.8 6.5L8.4 11.8" : "M4.6 1.2L10.2 6.5L4.6 11.8"}
+        d={
+          direction === "left"
+            ? "M8.4 1.2L2.8 6.5L8.4 11.8"
+            : "M4.6 1.2L10.2 6.5L4.6 11.8"
+        }
         stroke="currentColor"
         strokeWidth="1.1"
       />

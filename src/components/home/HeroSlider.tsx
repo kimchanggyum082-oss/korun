@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { assets } from "@/lib/data";
+import { homeContent } from "@/lib/data";
 
 type HeroSlide = { readonly src: string; readonly alt: string };
 
@@ -101,11 +101,17 @@ function HeroCarousel({
   );
 }
 
-export default function HeroSlider() {
+export default function HeroSlider({
+  slides = homeContent.hero.slides,
+  slidesMobile = homeContent.hero.slidesMobile,
+}: {
+  slides?: readonly HeroSlide[];
+  slidesMobile?: readonly HeroSlide[];
+}) {
   return (
     <>
       <HeroCarousel
-        slides={assets.heroSlidesMobile}
+        slides={slidesMobile}
         autoplayMs={5000}
         transitionMs={200}
         sectionClassName="relative w-full overflow-hidden aspect-[375/445] pc:hidden"
@@ -113,7 +119,7 @@ export default function HeroSlider() {
         showDots
       />
       <HeroCarousel
-        slides={assets.heroSlides}
+        slides={slides}
         autoplayMs={4000}
         transitionMs={1000}
         sectionClassName="relative hidden h-[499px] w-full overflow-hidden pc:block"

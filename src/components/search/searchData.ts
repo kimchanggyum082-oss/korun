@@ -39,9 +39,9 @@ function firstImage(blocks: InterestingItemBlock[]): string {
   return image && image.type === "image" ? image.src : "";
 }
 
-export function allSearchHits(): SearchHit[] {
+export async function allSearchHits(): Promise<SearchHit[]> {
   const { newsItems, downloadItems, caseStudioItems, interestingItems } =
-    getSearchIndex();
+    await getSearchIndex();
   return [
     ...newsItems.map((item) => ({
       key: `news-${item.idx}`,
@@ -86,10 +86,13 @@ export function allSearchHits(): SearchHit[] {
   ];
 }
 
-export function runSearch(keyword: string, sort: string): SearchHit[] {
+export async function runSearch(
+  keyword: string,
+  sort: string,
+): Promise<SearchHit[]> {
   const query = keyword.trim().toLowerCase();
   if (!query) return [];
-  const scored = allSearchHits()
+  const scored = (await allSearchHits())
     .map((hit) => {
       const title = hit.title.toLowerCase();
       const body = hit.summary.toLowerCase();

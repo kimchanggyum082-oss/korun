@@ -1,18 +1,29 @@
 import Image from "next/image";
 import Link from "next/link";
-import { assets, news, downloads, type NewsItem } from "@/lib/data";
+import {
+  downloads,
+  homeContent,
+  news,
+  type HomeContent,
+  type NewsItem,
+} from "@/lib/data";
 
-const MOBILE_PEN =
-  "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/3ab2e78924f62.png";
-
-function MobileHeading({ en, ko }: { en: string; ko: string }) {
+function MobileHeading({
+  en,
+  ko,
+  penMobile,
+}: {
+  en: string;
+  ko: string;
+  penMobile: string;
+}) {
   return (
     <div className="my-[7.5px]">
       <p className="text-[15px] font-bold leading-[24px] text-brand">{en}</p>
       <p className="text-[24px] font-bold leading-[28.8px] text-ink">
         {ko}
         <Image
-          src={MOBILE_PEN}
+          src={penMobile}
           alt=""
           width={156}
           height={537}
@@ -62,12 +73,14 @@ function PcRow({
   title,
   date,
   showWriter,
+  writer,
 }: {
   href: string;
   badge?: NewsItem["category"];
   title: string;
   date: string;
   showWriter?: boolean;
+  writer: string;
 }) {
   return (
     <li className="border-b border-ink/10 text-[15px] leading-[20px]">
@@ -88,7 +101,7 @@ function PcRow({
         </span>
         {showWriter ? (
           <span className="shrink-0 text-[12px] leading-[20px] text-ink">
-            코런 관리자
+            {writer}
           </span>
         ) : (
           <span className="w-[67.92px] shrink-0 text-[12px] leading-[20px] text-ink/70">
@@ -100,7 +113,15 @@ function PcRow({
   );
 }
 
-function PcHeading({ en, ko }: { en: string; ko: string }) {
+function PcHeading({
+  en,
+  ko,
+  penSmall,
+}: {
+  en: string;
+  ko: string;
+  penSmall: string;
+}) {
   return (
     <div className="py-[15px]">
       <p className="text-[36px] leading-[43.2px]">
@@ -112,7 +133,7 @@ function PcHeading({ en, ko }: { en: string; ko: string }) {
         <span className="text-[36px] font-bold leading-[43.2px] text-ink">
           {ko}
           <Image
-            src={assets.penSmall}
+            src={penSmall}
             alt=""
             width={156}
             height={537}
@@ -124,11 +145,15 @@ function PcHeading({ en, ko }: { en: string; ko: string }) {
   );
 }
 
-export function NewsEvents() {
+export function NewsEvents({ lists }: { lists: HomeContent["lists"] }) {
   return (
     <section className="pc:hidden flex flex-col break-keep px-[15px]">
       <div className="my-[7.5px] h-[30px]" />
-      <MobileHeading en="News & Events" ko="뉴스&이벤트" />
+      <MobileHeading
+        en={lists.newsHeading.en}
+        ko={lists.newsHeading.ko}
+        penMobile={lists.penMobile}
+      />
       <ul className="my-[7.5px]">
         {news.map((item) => (
           <MobileRow
@@ -144,11 +169,15 @@ export function NewsEvents() {
   );
 }
 
-export function Downloads() {
+export function Downloads({ lists }: { lists: HomeContent["lists"] }) {
   return (
     <section className="pc:hidden flex flex-col break-keep px-[15px]">
       <div className="my-[7.5px] h-[30px]" />
-      <MobileHeading en="Downloads" ko="다운로드" />
+      <MobileHeading
+        en={lists.downloadsHeading.en}
+        ko={lists.downloadsHeading.ko}
+        penMobile={lists.penMobile}
+      />
       <ul className="my-[7.5px]">
         {downloads.map((item) => (
           <MobileRow
@@ -164,10 +193,14 @@ export function Downloads() {
   );
 }
 
-function PcNews() {
+function PcNews({ lists }: { lists: HomeContent["lists"] }) {
   return (
     <div>
-      <PcHeading en="News & Events" ko="뉴스&이벤트" />
+      <PcHeading
+        en={lists.newsHeading.en}
+        ko={lists.newsHeading.ko}
+        penSmall={lists.penSmall}
+      />
       <ul className="py-[15px]">
         {news.map((item) => (
           <PcRow
@@ -176,6 +209,7 @@ function PcNews() {
             badge={item.category}
             title={item.title}
             date={item.date}
+            writer={lists.writer}
           />
         ))}
       </ul>
@@ -183,10 +217,14 @@ function PcNews() {
   );
 }
 
-function PcDownloads() {
+function PcDownloads({ lists }: { lists: HomeContent["lists"] }) {
   return (
     <div>
-      <PcHeading en="Downloads" ko="다운로드" />
+      <PcHeading
+        en={lists.downloadsHeading.en}
+        ko={lists.downloadsHeading.ko}
+        penSmall={lists.penSmall}
+      />
       <ul className="py-[15px]">
         {downloads.map((item) => (
           <PcRow
@@ -195,6 +233,7 @@ function PcDownloads() {
             title={item.title}
             date={item.date}
             showWriter
+            writer={lists.writer}
           />
         ))}
       </ul>
@@ -202,14 +241,18 @@ function PcDownloads() {
   );
 }
 
-export function ListsSection() {
+export function ListsSection({
+  lists = homeContent.lists,
+}: {
+  lists?: HomeContent["lists"];
+} = {}) {
   return (
     <>
-      <NewsEvents />
-      <Downloads />
+      <NewsEvents lists={lists} />
+      <Downloads lists={lists} />
       <div className="mx-auto hidden max-w-[1280px] grid-cols-2 gap-[30px] px-[15px] py-20 pc:grid">
-        <PcNews />
-        <PcDownloads />
+        <PcNews lists={lists} />
+        <PcDownloads lists={lists} />
       </div>
     </>
   );

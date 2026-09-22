@@ -8,12 +8,11 @@ import {
   getSiteSettings,
 } from "@/lib/content";
 
-const company = getSiteSettings();
-
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return Object.keys(getProductPages()).map((page) => ({ page }));
+export async function generateStaticParams() {
+  const pages = await getProductPages();
+  return Object.keys(pages).map((page) => ({ page }));
 }
 
 export async function generateMetadata({
@@ -22,8 +21,9 @@ export async function generateMetadata({
   params: Promise<{ page: string }>;
 }): Promise<Metadata> {
   const { page } = await params;
-  const product = getProductPage(page);
+  const product = await getProductPage(page);
   if (!product) return {};
+  const company = await getSiteSettings();
   return {
     title: `${product.navTitle} | ${company.name}`,
     description: product.description,
@@ -36,7 +36,7 @@ export default async function ProductPage({
   params: Promise<{ page: string }>;
 }) {
   const { page } = await params;
-  const product = getProductPage(page);
+  const product = await getProductPage(page);
   if (!product) notFound();
 
   return (

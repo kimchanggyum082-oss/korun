@@ -15,14 +15,18 @@ function CloseIcon() {
 export default function PolicyModal({
   kind,
   modal,
+  contained = false,
 }: {
   kind: "policy" | "privacy";
   modal: SitePolicyModal;
+  /** Render the dialog inside its own relative container instead of a
+   *  fixed full-screen overlay (used by the admin preview frame). */
+  contained?: boolean;
 }) {
   const [open, setOpen] = useState(true);
 
   useEffect(() => {
-    if (!open) return;
+    if (!open || contained) return;
     const previous = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
@@ -34,16 +38,19 @@ export default function PolicyModal({
 
   const close = () => setOpen(false);
   const modalClass =
-    kind === "policy" ? "modal in modal_site_policy" : "modal in modal_site_privacy";
+    kind === "policy"
+      ? "modal in modal_site_policy"
+      : "modal in modal_site_privacy";
+  const overlayPosition = contained ? "absolute" : "fixed";
 
-  return (
+  const overlay = (
     <>
       <div
         aria-hidden
         className="modal-backdrop in"
         onClick={close}
         style={{
-          position: "fixed",
+          position: overlayPosition,
           top: 0,
           right: 0,
           bottom: 0,
@@ -61,7 +68,7 @@ export default function PolicyModal({
           if (event.target === event.currentTarget) close();
         }}
         style={{
-          position: "fixed",
+          position: overlayPosition,
           top: 0,
           right: 0,
           bottom: 0,
@@ -147,5 +154,13 @@ export default function PolicyModal({
         </div>
       </div>
     </>
+  );
+
+  if (!contained) return overlay;
+
+  return (
+    <div className="relative h-[600px] overflow-hidden" data-policy-preview>
+      {overlay}
+    </div>
   );
 }

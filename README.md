@@ -4,10 +4,12 @@ Marketing website for **주식회사 코런**, a Korean hot runner system manufa
 
 ## Stack
 
-- **Next.js 16** (App Router, static export of product pages via `generateStaticParams`)
+- **Next.js 16** (App Router, server components; `generateStaticParams` for product/case/board pages)
 - **React 19**, **TypeScript 5** (strict)
 - **Tailwind CSS v4** (CSS-first config in `src/app/globals.css` via `@theme`)
 - **Pretendard** variable font (Korean-optimized)
+- **Drizzle ORM + Neon Postgres** (optional content overlay behind the admin dashboard)
+- **Vercel Blob** (admin image uploads), **jose** + **bcryptjs** (admin auth)
 - **ESLint 9** + **Prettier 3**
 
 ## Scripts
@@ -17,8 +19,12 @@ npm run dev          # start dev server (http://localhost:3000)
 npm run build        # production build
 npm run start        # serve production build
 npm run lint         # eslint
+npm run smoke        # content-layer smoke checks (no database required)
 npm run format       # prettier --write .
 npm run format:check # prettier --check .
+npm run db:generate  # regenerate Drizzle SQL migrations from src/lib/db/schema.ts
+npm run capture      # pixel-parity screenshots (reference/)
+npm run compare      # pixel-parity diff (reference/)
 ```
 
 ## Project Structure
@@ -26,21 +32,38 @@ npm run format:check # prettier --check .
 ```
 src/
 ├── app/
-│   ├── layout.tsx           # root layout (Header + main + Footer)
-│   ├── page.tsx             # homepage
-│   ├── globals.css          # tailwind import + @theme tokens
-│   └── [page]/page.tsx      # dynamic product pages (/21, /22, /23, /24)
+│   ├── (site)/                # public pages + /admin dashboard
+│   ├── (auth)/admin/login/    # admin login
+│   └── api/admin/             # content, upload, login, logout routes
 ├── components/
-│   ├── home/                # homepage sections (Hero, Products, CTA, Lists, Values, Location)
-│   ├── layout/              # Header, Footer, ProductNav
-│   └── products/            # ProductBlockView (renders a product block)
+│   ├── home/ layout/ products/ ...   # public UI
+│   └── admin/                 # dashboard shell, editors, fields
 └── lib/
-    └── data.ts              # all site content: nav, company, products, news, downloads
+    ├── data.ts                # bundled default content (typed constants)
+    ├── content/               # resolvers: DB overlay merged over defaults
+    ├── admin/                 # entity registry, entity store, editor helpers
+    ├── auth/                  # admin session (JWT) + credentials
+    └── db/                    # Drizzle client + schema
+drizzle/                       # generated SQL migrations
+scripts/                       # smoke test + capture/compare tooling
 ```
 
 ## Content Model
 
-All site content lives in `src/lib/data.ts` as typed constants — no CMS, no database. Product pages are keyed by numeric IDs (`"21"`, `"22"`, `"23"`, `"24"`) and rendered by `src/app/[page]/page.tsx` via `generateStaticParams`.
+Default content is bundled in `src/lib/data.ts` as typed constants. The `src/lib/content/*` resolvers serve those defaults and, when `DATABASE_URL` is set, overlay rows from `content_entities` (`draft_json` / `published_json`). Without a database the public site serves the bundled defaults unchanged — the database is never required to render the site.
+
+The admin dashboard at `/admin` edits the overlay (draft → published) and uploads images to Vercel Blob. Content leaves may be `{ ko, en }` localized values; resolvers apply `localizeTree(locale, …)` so English falls back to Korean when a translation is missing.
+
+## Environment
+
+Copy `.env.example` to `.env.local`. Every variable is optional for local development; without them the site runs on bundled content and the admin falls back to development credentials.
+
+| Variable                         | Purpose                                                                  |
+| -------------------------------- | ------------------------------------------------------------------------ |
+| `DATABASE_URL`                   | Neon Postgres pooled connection; enables the content overlay + revisions |
+| `ADMIN_EMAIL` / `ADMIN_PASSWORD` | Admin credentials (env wins over database users)                         |
+| `ADMIN_SESSION_SECRET`           | Session-cookie signing key; **required (32+ chars) in production**       |
+| `BLOB_READ_WRITE_TOKEN`          | Vercel Blob token for admin image uploads                                |
 
 ## Image Hosting
 
@@ -64,5 +87,5 @@ Custom design tokens are defined in `src/app/globals.css` under `@theme`:
 - **Path alias**: `@/*` → `./src/*`
 - **No comments** in source unless explicitly requested
 - **Prettier** formatting is enforced; run `npm run format` before committing
-- **Korean copy** is authored directly in JSX/data files (no i18n framework)
+- **Localized copy** is authored directly in JSX/data files; do not add an i18n framework without an explicit request
 - **Responsive**: mobile-first with `pc:` breakpoint at 992px for desktop layouts

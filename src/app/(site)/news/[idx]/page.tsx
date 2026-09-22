@@ -3,12 +3,11 @@ import { notFound } from "next/navigation";
 import { getBoardItem, getBoardItems, getSiteSettings } from "@/lib/content";
 import PostDetail from "@/components/layout/PostDetail";
 
-const company = getSiteSettings();
-
 export const dynamicParams = false;
 
-export function generateStaticParams() {
-  return getBoardItems("news").map((item) => ({ idx: item.idx }));
+export async function generateStaticParams() {
+  const items = await getBoardItems("news");
+  return items.map((item) => ({ idx: item.idx }));
 }
 
 export async function generateMetadata({
@@ -17,8 +16,9 @@ export async function generateMetadata({
   params: Promise<{ idx: string }>;
 }): Promise<Metadata> {
   const { idx } = await params;
-  const item = getBoardItem("news", idx);
+  const item = await getBoardItem("news", idx);
   if (!item) return {};
+  const company = await getSiteSettings();
   return {
     title: `${item.title} | ${company.name}`,
     description: item.description,
@@ -31,8 +31,9 @@ export default async function NewsDetailPage({
   params: Promise<{ idx: string }>;
 }) {
   const { idx } = await params;
-  const item = getBoardItem("news", idx);
+  const item = await getBoardItem("news", idx);
   if (!item) notFound();
+  const items = await getBoardItems("news");
 
   return (
     <PostDetail
@@ -52,7 +53,7 @@ export default async function NewsDetailPage({
       blocks={item.blocks}
       files={item.files}
       listHref="/news"
-      pagerItems={getBoardItems("news").map((p) => ({
+      pagerItems={items.map((p) => ({
         idx: p.idx,
         title: p.title,
         date: p.date,

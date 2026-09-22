@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import SmartImage from "@/components/ui/SmartImage";
-import { assets, values } from "@/lib/data";
+import { homeContent, type HomeContent } from "@/lib/data";
 
 // Matches animate.css fadeInUp as used by the original home (0.7s, ease, both).
 const REVEAL_KEYFRAMES = `@keyframes fadeInUp {
@@ -12,15 +12,11 @@ const REVEAL_KEYFRAMES = `@keyframes fadeInUp {
 
 const REVEAL_DELAYS = ["0s", "0.2s", "0.4s"];
 
-const MOBILE_BG = "https://cdn.imweb.me/thumbnail/20240625/c23d13b2d5be7.png";
-
-const MOBILE_VALUES = [
-  { label: "기술성 Technology", color: "#00ac68", padding: 30 },
-  { label: "안정성 Stability", color: "#e9b346", padding: 45 },
-  { label: "효율성 Effciency", color: "#005dac", padding: 40 },
-];
-
-export default function ValuesBanner() {
+export default function ValuesBanner({
+  values = homeContent.values,
+}: {
+  values?: HomeContent["values"];
+} = {}) {
   const pillsRef = useRef<HTMLDivElement>(null);
   const [revealed, setRevealed] = useState(false);
 
@@ -51,8 +47,8 @@ export default function ValuesBanner() {
       <style>{REVEAL_KEYFRAMES}</style>
       <section className="pc:hidden relative w-full overflow-hidden">
         <SmartImage
-          src={MOBILE_BG}
-          alt="코런 전시 부스"
+          src={values.bgMobile}
+          alt={values.bgAlt}
           fill
           unoptimized
           sizes="100vw"
@@ -60,7 +56,7 @@ export default function ValuesBanner() {
         />
         <div className="relative z-10 flex flex-col px-[15px]">
           <div className="my-[7.5px] h-[30px]" />
-          {MOBILE_VALUES.map((v) => (
+          {values.mobile.map((v) => (
             <div key={v.label} className="my-[7.5px] flex justify-center">
               <span
                 style={{
@@ -80,8 +76,8 @@ export default function ValuesBanner() {
 
       <section className="relative hidden w-full overflow-hidden pc:block">
         <SmartImage
-          src={assets.valuesBg}
-          alt="코런 전시 부스"
+          src={values.bg}
+          alt={values.bgAlt}
           fill
           sizes="100vw"
           className="object-cover"
@@ -92,10 +88,10 @@ export default function ValuesBanner() {
           ref={pillsRef}
           className="relative z-10 hidden items-center justify-center gap-[31px] py-[80px] pc:flex"
         >
-          {values.map((v, i) => (
+          {values.pc.map((v, i) => (
             <a
               key={v.label}
-              href="#"
+              href={v.href}
               style={
                 {
                   "--pill-bg": v.color,

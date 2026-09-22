@@ -22,7 +22,12 @@ export default function SearchForm({
     <div
       className={active ? "control_box active" : "control_box"}
       id="control_box"
-      style={{ maxWidth: 600, width: "100%", margin: "0 auto 50px", position: "relative" }}
+      style={{
+        maxWidth: 600,
+        width: "100%",
+        margin: "0 auto 50px",
+        position: "relative",
+      }}
     >
       <form
         ref={formRef}

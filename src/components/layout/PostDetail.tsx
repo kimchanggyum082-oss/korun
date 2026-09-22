@@ -163,10 +163,7 @@ export default function PostDetail({
               {showComments && (
                 <div className="mb-[24px]">
                   <PostActions likeCount={meta?.likes ?? 0} commentCount={0} />
-                  <CommentSection
-                    initialCount={0}
-                    variant={commentVariant}
-                  />
+                  <CommentSection initialCount={0} variant={commentVariant} />
                 </div>
               )}
 
@@ -237,7 +234,11 @@ export default function PostDetail({
 
           <div className="py-[22px]">
             <div className="mt-[16px]">
-              <ItemBody blocks={blocks} title={title} defaultAlign={bodyAlign} />
+              <ItemBody
+                blocks={blocks}
+                title={title}
+                defaultAlign={bodyAlign}
+              />
             </div>
             <FileList files={files} />
           </div>
