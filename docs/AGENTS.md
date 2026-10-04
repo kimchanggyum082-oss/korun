@@ -37,6 +37,8 @@ Content leaves may be `{ ko, en }` localized values. The public resolvers unwrap
 
 Product pages are keyed by string IDs (`"21"`–`"24"`) and rendered by `src/app/(site)/[lang]/[page]/page.tsx`, which calls `generateStaticParams` from `Object.keys(productPages)`. Product spec tables are edited as fixed-column `list` tables; the page meta description and the scraped (unrendered) spec model are read from the bundled defaults and are not editable.
 
+Case pages are keyed by slug and rendered by `src/app/(site)/[lang]/cases/[slug]/page.tsx`. Their hero and section images come from bundled defaults plus admin overrides, the section images open in the shared image viewer (`Lightbox`), and the mobile-only thumbnail gallery keeps its bundled defaults and is not editable.
+
 ### Routing
 
 - `/` — homepage; Korean at the root paths and English under `/en/*` (`src/app/(site)/[lang]/page.tsx`)

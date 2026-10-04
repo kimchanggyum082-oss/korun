@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import Image from "next/image";
 import CaseImage from "@/components/cases/CaseImage";
 import CaseGallery from "@/components/cases/CaseGallery";
+import CaseSectionImages from "@/components/cases/CaseSectionImages";
 import type { CasePageData } from "@/lib/data";
 
 const HERO_FRAME: Record<string, number> = {
@@ -199,24 +200,14 @@ function MobileCase({ page, slug }: { page: CasePageData; slug: string }) {
 
       <div className="mt-[15px] h-[15px]" />
 
-      {showSectionImages &&
-        section.images.map((img) => (
-          <div key={img.src} className="mt-[15px] px-[15px]">
-            <div
-              className="w-full"
-              style={{ height: Math.round((360 * img.height) / img.width) }}
-            >
-              <Image
-                src={img.src}
-                alt={heading}
-                width={img.width}
-                height={img.height}
-                unoptimized
-                className="h-full w-full"
-              />
-            </div>
-          </div>
-        ))}
+      {showSectionImages && (
+        <CaseSectionImages
+          images={section.images}
+          heading={heading}
+          slug={slug}
+          variant="mobile"
+        />
+      )}
 
       {showSectionImages && <div className="mt-[15px] h-[40px]" />}
 
@@ -290,7 +281,7 @@ function PcHero({ page, slug }: { page: CasePageData; slug: string }) {
   );
 }
 
-function PcContent({ page }: { page: CasePageData }) {
+function PcContent({ page, slug }: { page: CasePageData; slug: string }) {
   const { section } = page;
   if (!section) return null;
   const heading = section.heading || page.title;
@@ -313,17 +304,12 @@ function PcContent({ page }: { page: CasePageData }) {
           </p>
         </div>
         <Pad height={30} />
-        {section.images.map((img, i) => (
-          <div key={img.src} className="py-[15px]">
-            <CaseImage
-              src={img.src}
-              alt={`${heading} ${i + 1}`}
-              width={img.width}
-              height={img.height}
-              className="h-auto w-full"
-            />
-          </div>
-        ))}
+        <CaseSectionImages
+          images={section.images}
+          heading={heading}
+          slug={slug}
+          variant="pc"
+        />
         <Pad height={80} />
       </div>
     </section>
@@ -345,7 +331,7 @@ export default function CaseDetailView({
 
       <PcHero page={page} slug={slug} />
 
-      <PcContent page={page} />
+      <PcContent page={page} slug={slug} />
     </>
   );
 }

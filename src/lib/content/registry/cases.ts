@@ -12,10 +12,11 @@ import {
  *   cases.<slug>.subtitle / title
  *   cases.<slug>.heroImage
  *   cases.<slug>.section.{heading,text,images}
- *   cases.<slug>.gallery
  *
- * Galleries are dynamic image lists (add/remove/reorder). Purely-layout fields
- * that cannot be expressed (`heroWidth`, `heroHeight` and each image's
+ * Section images are a dynamic image list (add/remove/reorder) and open in the
+ * shared image viewer on the site. The thumbnail gallery (`galleryImages`) is a
+ * mobile-only bundled widget whose images are not editable. Purely-layout
+ * fields that cannot be expressed (`heroWidth`, `heroHeight` and each image's
  * `width`/`height`) are read back from the data-file defaults by the resolver.
  */
 
@@ -40,15 +41,6 @@ const revalidateFor = (slug: string): string[] => [
 
 const sectionImageFields: JsonFieldDef[] = [
   { key: "src", kind: "image", label: { ko: "이미지", en: "Image" } },
-];
-
-const galleryFields: JsonFieldDef[] = [
-  { key: "src", kind: "image", label: { ko: "이미지", en: "Image" } },
-  {
-    key: "fullSrc",
-    kind: "image",
-    label: { ko: "원본 이미지", en: "Full image" },
-  },
 ];
 
 const d = (
@@ -114,20 +106,6 @@ export const casesDefs: ContentDef[] = Object.keys(casePages).flatMap(
           "Section images",
           "imageList",
           sectionImageFields,
-        ),
-      );
-    }
-
-    if (page.galleryImages?.length) {
-      defs.push(
-        d(
-          slug,
-          section,
-          `cases.${slug}.gallery`,
-          "갤러리 이미지 목록",
-          "Gallery images",
-          "imageList",
-          galleryFields,
         ),
       );
     }
