@@ -1,6 +1,12 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
 /**
  * Renders children at the real desktop container width (1280px) scaled down to
@@ -37,6 +43,23 @@ export default function ScaledDesktop({
 
     return () => observer.disconnect();
   }, [width]);
+
+  useEffect(() => {
+    const inner = innerRef.current;
+    if (!inner) return;
+
+    const apply = () => {
+      inner.querySelectorAll("img").forEach((image) => {
+        if (image.loading !== "eager") image.loading = "eager";
+      });
+    };
+
+    apply();
+    const observer = new MutationObserver(apply);
+    observer.observe(inner, { childList: true, subtree: true });
+
+    return () => observer.disconnect();
+  }, [children]);
 
   return (
     <div

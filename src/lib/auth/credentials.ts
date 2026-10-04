@@ -18,12 +18,22 @@ function constantTimeEqual(left: string, right: string): boolean {
   return timingSafeEqual(leftDigest, rightDigest);
 }
 
-function environmentCredentials(): { email: string; password: string } | null {
+type EnvironmentCredentials =
+  | { mode: "hash"; email: string; hash: string }
+  | { mode: "plain"; email: string; password: string };
+
+function environmentCredentials(): EnvironmentCredentials | null {
   const email = process.env.ADMIN_EMAIL?.trim();
+  const hash = process.env.ADMIN_PASSWORD_HASH;
+  if (email && hash) return { mode: "hash", email, hash };
   const password = process.env.ADMIN_PASSWORD;
-  if (email && password) return { email, password };
+  if (email && password) return { mode: "plain", email, password };
   if (process.env.NODE_ENV === "production") return null;
-  return { email: DEVELOPMENT_EMAIL, password: DEVELOPMENT_PASSWORD };
+  return {
+    mode: "plain",
+    email: DEVELOPMENT_EMAIL,
+    password: DEVELOPMENT_PASSWORD,
+  };
 }
 
 async function verifyDatabaseCredentials(
@@ -50,12 +60,12 @@ export async function verifyAdminCredentials(
 ): Promise<AdminSession | null> {
   const normalizedEmail = normalizeEmail(email);
   const env = environmentCredentials();
-  if (
-    env &&
-    normalizedEmail === normalizeEmail(env.email) &&
-    constantTimeEqual(password, env.password)
-  ) {
-    return { email: env.email, role: "admin" };
+  if (env && normalizedEmail === normalizeEmail(env.email)) {
+    const matches =
+      env.mode === "hash"
+        ? await compare(password, env.hash)
+        : constantTimeEqual(password, env.password);
+    if (matches) return { email: env.email, role: "admin" };
   }
   return verifyDatabaseCredentials(normalizedEmail, password);
 }

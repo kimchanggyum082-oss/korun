@@ -1,7 +1,9 @@
+import { mkdir, writeFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
+import path from "node:path";
 import { put } from "@vercel/blob";
 import { NextResponse } from "next/server";
-import { blobToken } from "@/lib/admin/blob";
+import { blobToken, localUploadEnabled } from "@/lib/admin/blob";
 import { readImageDimensions } from "@/lib/admin/image-size";
 import { getAdminSession } from "@/lib/auth/session";
 
@@ -69,7 +71,7 @@ export async function POST(request: Request) {
   }
 
   const token = blobToken();
-  if (!token) {
+  if (!token && !localUploadEnabled()) {
     return NextResponse.json(
       {
         error:
@@ -134,6 +136,18 @@ export async function POST(request: Request) {
   const dimensions = readImageDimensions(bytes);
 
   try {
+    if (!token) {
+      const filename = `${randomUUID()}.${image.extension}`;
+      const dir = path.join(process.cwd(), "public", "uploads");
+      await mkdir(dir, { recursive: true });
+      await writeFile(path.join(dir, filename), bytes);
+      return NextResponse.json({
+        url: `/uploads/${filename}`,
+        width: dimensions?.width ?? null,
+        height: dimensions?.height ?? null,
+      });
+    }
+
     const blob = await put(`admin/${randomUUID()}.${image.extension}`, bytes, {
       access: "public",
       contentType: image.mime,

@@ -9,6 +9,7 @@ import PolicyModal from "@/components/layout/PolicyModal";
 import {
   getHomePage,
   getPolicyModal,
+  getSiteSettings,
   resolveActiveLocale,
 } from "@/lib/content";
 import { metadataAlternates } from "@/lib/i18n/seo";
@@ -29,9 +30,10 @@ export default async function Home({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const [params, home, locale] = await Promise.all([
+  const [params, home, site, locale] = await Promise.all([
     searchParams,
     getHomePage(),
+    getSiteSettings(),
     resolveActiveLocale(),
   ]);
   const kind =
@@ -52,7 +54,11 @@ export default async function Home({
       <CtaBanner content={home.content.cta} />
       <ListsSection lists={home.content.lists} locale={locale} />
       <ValuesBanner values={home.content.values} />
-      <LocationSection location={home.content.location} />
+      <LocationSection
+        location={home.content.location}
+        contact={site}
+        locale={locale}
+      />
       {kind && modal && <PolicyModal kind={kind} modal={modal} />}
     </>
   );

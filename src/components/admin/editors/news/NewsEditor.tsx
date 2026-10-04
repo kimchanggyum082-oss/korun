@@ -6,6 +6,8 @@ import {
   type EntitySource,
   type ServiceNewsItemEntity,
 } from "@/lib/admin/entities";
+import { newsDict } from "@/lib/i18n/boards/news";
+import { useLocale } from "@/lib/i18n/client";
 import NewsForms from "./NewsForms";
 import NewsPreviews from "./NewsPreviews";
 
@@ -20,16 +22,18 @@ export default function NewsEditor({
   storeReady: boolean;
   uploadConfigured: boolean;
 }) {
+  const t = newsDict[useLocale()].editor;
+
   return (
     <EntityEditor<ServiceNewsItemEntity>
       entityKey={newsEntityKey(initial.idx)}
-      label="Service"
-      title="뉴스"
-      description="뉴스·이벤트 게시글의 메타데이터, 본문 블록, 첨부 파일을 관리합니다."
+      label={t.label}
+      title={t.title}
+      description={t.description}
       source={source}
       initial={initial}
       storeReady={storeReady}
-      previewLabel="뉴스 상세"
+      previewLabel={t.previewLabel}
       form={(draft, update) => (
         <NewsForms
           draft={draft}
@@ -37,7 +41,9 @@ export default function NewsEditor({
           uploadConfigured={uploadConfigured}
         />
       )}
-      preview={(draft) => <NewsPreviews draft={draft} />}
+      preview={(draft, locale) => (
+        <NewsPreviews draft={draft} locale={locale} />
+      )}
     />
   );
 }

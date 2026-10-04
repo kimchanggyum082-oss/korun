@@ -1,12 +1,23 @@
 import Image from "next/image";
 import { company, homeContent, type HomeContent } from "@/lib/data";
+import { defaultLocale, type Locale } from "@/lib/i18n/locales";
+
+type LocationContact = {
+  name: string;
+  tel: string;
+  email: string;
+  address: string;
+  mapEmbed: string;
+};
 
 export default function LocationSection({
   location = homeContent.location,
   contact = company,
+  locale = defaultLocale,
 }: {
   location?: HomeContent["location"];
-  contact?: typeof company;
+  contact?: LocationContact;
+  locale?: Locale;
 } = {}) {
   return (
     <>
@@ -31,7 +42,7 @@ export default function LocationSection({
             </span>
           </p>
           <p className="text-[24px] font-bold leading-[28.8px]">
-            {location.headingKo}
+            {locale === "en" ? location.headingEn : location.headingKo}
             <span className="text-[15px] leading-[18px]">
               <Image
                 src={location.penSmall}
@@ -114,7 +125,7 @@ export default function LocationSection({
             </p>
             <p className="text-[36px] leading-[43.2px]">
               <span className="text-[36px] font-bold leading-[43.2px] text-ink">
-                {location.headingKo}
+                {locale === "en" ? location.headingEn : location.headingKo}
               </span>
               <span className="text-[20px] leading-[24px]">
                 <Image

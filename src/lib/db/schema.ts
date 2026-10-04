@@ -17,6 +17,25 @@ export const contentEntities = pgTable("content_entities", {
   updatedBy: text("updated_by"),
 });
 
+/**
+ * Flat page-content overrides — one row per (key, locale), matching MCell's
+ * `pageContent` model. `value` holds text, a media URL, or a JSON array for
+ * list kinds. An empty value means "fall back to the data-file default".
+ */
+export const pageContents = pgTable(
+  "page_contents",
+  {
+    key: text("key").notNull(),
+    locale: text("locale").notNull(),
+    value: text("value").notNull().default(""),
+    updatedAt: timestamp("updated_at", { withTimezone: true }),
+    updatedBy: text("updated_by"),
+  },
+  (table) => [
+    uniqueIndex("page_contents_key_locale_unique").on(table.key, table.locale),
+  ],
+);
+
 export const mediaAssets = pgTable("media_assets", {
   id: text("id").primaryKey(),
   url: text("url"),

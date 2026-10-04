@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getAboutPage, resolveActiveLocale } from "@/lib/content";
+import {
+  getAboutPage,
+  getBoardItem,
+  getBoardItems,
+  resolveActiveLocale,
+} from "@/lib/content";
 import AboutNav from "@/components/layout/AboutNav";
 import PostDetail from "@/components/layout/PostDetail";
 import { getChrome } from "@/lib/i18n/server";
@@ -10,7 +15,7 @@ import { pagesAbout } from "@/lib/i18n/pages-about";
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  const { jobPosts } = await getAboutPage("job-posting");
+  const jobPosts = await getBoardItems("job-posting");
   return jobPosts.map((post) => ({ idx: post.idx }));
 }
 
@@ -20,11 +25,11 @@ export async function generateMetadata({
   params: Promise<{ idx: string }>;
 }): Promise<Metadata> {
   const { idx } = await params;
-  const [{ company, jobPosts }, locale] = await Promise.all([
+  const [post, { company }, locale] = await Promise.all([
+    getBoardItem("job-posting", idx),
     getAboutPage("job-posting"),
     resolveActiveLocale(),
   ]);
-  const post = jobPosts.find((p) => p.idx === idx);
   if (!post) return {};
   const firstText = post.blocks.find((block) => block.type === "text");
   return {
@@ -47,11 +52,11 @@ function JobPostHead({
     <section className="bg-white">
       <div className="mx-auto max-w-[1280px] px-[15px] py-[50px] text-center pc:py-[80px]">
         <div className="mt-[7.5px] mb-[15px] pc:my-0 pc:py-[15px]">
-          <p className="text-center text-[15px] leading-[24px] font-bold pc:text-[22px] pc:leading-[31px]">
+          <p className="text-center text-[15px] leading-[24px] font-bold pc:leading-[30px]">
             <span className="pc:hidden" style={{ color: "rgb(0, 53, 29)" }}>
               {mobileTagline}
             </span>
-            <span className="hidden text-brand pc:inline">
+            <span className="hidden text-brand pc:inline pc:text-[22px] pc:leading-[26.4px]">
               {desktopTagline}
             </span>
           </p>
@@ -72,12 +77,13 @@ export default async function JobPostDetailPage({
   params: Promise<{ idx: string }>;
 }) {
   const { idx } = await params;
-  const [{ content, jobPosts }, t, locale] = await Promise.all([
+  const [post, { content }, jobPosts, t, locale] = await Promise.all([
+    getBoardItem("job-posting", idx),
     getAboutPage("job-posting"),
+    getBoardItems("job-posting"),
     getChrome(),
     resolveActiveLocale(),
   ]);
-  const post = jobPosts.find((p) => p.idx === idx);
   if (!post) notFound();
   const copy = pagesAbout[locale].about.jobPosting.detail;
 

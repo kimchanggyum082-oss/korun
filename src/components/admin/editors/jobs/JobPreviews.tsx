@@ -4,16 +4,25 @@ import { toJobPost, type JobPostEntity } from "@/lib/admin/entities";
 import PostDetail from "@/components/layout/PostDetail";
 import ScaledDesktop from "@/components/admin/ScaledDesktop";
 import { chrome } from "@/lib/i18n/chrome";
+import { jobsDict } from "@/lib/i18n/boards/jobs";
+import type { Locale } from "@/lib/i18n/locales";
 
-export default function JobPreviews({ draft }: { draft: JobPostEntity }) {
-  const post = toJobPost(draft);
+export default function JobPreviews({
+  draft,
+  locale,
+}: {
+  draft: JobPostEntity;
+  locale: Locale;
+}) {
+  const post = toJobPost(draft, locale);
+  const t = jobsDict[locale].preview;
   return (
     <ScaledDesktop>
       <PostDetail
-        t={chrome.ko}
+        t={chrome[locale]}
         activeHref="/about/job-posting"
-        sectionLabel="Job Posting"
-        boardName="Job Posting"
+        sectionLabel={t.sectionLabel}
+        boardName={t.boardName}
         title={post.title}
         showWriter
         showAvatar
@@ -27,7 +36,7 @@ export default function JobPreviews({ draft }: { draft: JobPostEntity }) {
         blocks={post.blocks}
         files={post.files.map((file) => ({ ...file, url: "#" }))}
         listHref="/about/job-posting"
-        fileLabel="첨부파일"
+        fileLabel={t.fileLabel}
         commentVariant="login"
         bodyAlign="left"
       />

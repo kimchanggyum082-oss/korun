@@ -1,5 +1,8 @@
 "use client";
 
+import { newsDict } from "@/lib/i18n/boards/news";
+import { useLocale } from "@/lib/i18n/client";
+
 export function PreviewCard({
   title,
   children,
@@ -51,13 +54,14 @@ export function MoveButtons({
   onMove: (index: number, delta: number) => void;
   onRemove: (index: number) => void;
 }) {
+  const t = newsDict[useLocale()].actions;
   const base =
     "flex h-7 w-7 items-center justify-center rounded-md border border-neutral-200 text-[13px] leading-none text-neutral-500 transition-colors outline-none hover:border-neutral-300 hover:text-ink focus-visible:ring-2 focus-visible:ring-brand/30 disabled:cursor-not-allowed disabled:opacity-40";
   return (
     <div className="flex items-center gap-1">
       <button
         type="button"
-        aria-label="위로 이동"
+        aria-label={t.moveUp}
         className={base}
         disabled={index === 0}
         onClick={() => onMove(index, -1)}
@@ -66,7 +70,7 @@ export function MoveButtons({
       </button>
       <button
         type="button"
-        aria-label="아래로 이동"
+        aria-label={t.moveDown}
         className={base}
         disabled={index === count - 1}
         onClick={() => onMove(index, 1)}
@@ -75,7 +79,7 @@ export function MoveButtons({
       </button>
       <button
         type="button"
-        aria-label="삭제"
+        aria-label={t.remove}
         className={`${base} hover:text-[#a51c1c]`}
         onClick={() => onRemove(index)}
       >

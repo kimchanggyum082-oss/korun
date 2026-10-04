@@ -1,18 +1,12 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import {
-  defaultLocale,
-  hasLocale,
-  localizeHref,
-  stripLocalePrefix,
-} from "./locales";
+import { getPathLocale, localizeHref, stripLocalePrefix } from "./locales";
 import type { Locale } from "./locales";
 
 export function useLocale(): Locale {
   const pathname = usePathname();
-  const segment = pathname.split("/")[1];
-  return hasLocale(segment) ? segment : defaultLocale;
+  return getPathLocale(pathname);
 }
 
 export function localeSwitchHref(

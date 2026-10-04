@@ -59,8 +59,11 @@ export default function ValuesBanner({
         />
         <div className="relative z-10 flex flex-col px-[15px]">
           <div className="my-[7.5px] h-[30px]" />
-          {values.mobile.map((v) => (
-            <div key={v.label} className="my-[7.5px] flex justify-center">
+          {values.mobile.map((v, i) => (
+            <div
+              key={`${v.label}-${i}`}
+              className="my-[7.5px] flex justify-center"
+            >
               <span
                 style={{
                   backgroundColor: v.color,
@@ -93,7 +96,7 @@ export default function ValuesBanner({
         >
           {values.pc.map((v, i) => (
             <a
-              key={v.label}
+              key={`${v.label}-${i}`}
               href={
                 v.href.startsWith("/") ? localizeHref(v.href, locale) : v.href
               }
@@ -105,7 +108,7 @@ export default function ValuesBanner({
                   opacity: revealed ? undefined : 0,
                   transform: revealed ? undefined : "translate3d(0, 60%, 0)",
                   animation: revealed
-                    ? `fadeInUp 0.7s ease ${REVEAL_DELAYS[i]} both`
+                    ? `fadeInUp 0.7s ease ${REVEAL_DELAYS[i % REVEAL_DELAYS.length]} both`
                     : undefined,
                 } as React.CSSProperties
               }

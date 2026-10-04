@@ -13,9 +13,9 @@ function searchableText(item: InterestingItem): string {
     item.title,
     item.description,
     item.category,
-    ...item.blocks
-      .filter((b) => b.type === "text")
-      .map((b) => (b.type === "text" ? b.content : "")),
+    ...item.blocks.flatMap((b) =>
+      b.type === "text" ? [b.content] : b.type === "list" ? b.items : [],
+    ),
   ];
   return parts.join(" ").toLowerCase();
 }

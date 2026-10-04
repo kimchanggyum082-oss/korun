@@ -3,6 +3,8 @@
 import LocalizedField from "@/components/admin/LocalizedField";
 import { Field, TextInput } from "@/components/admin/fields";
 import type { ServiceFileEntity } from "@/lib/admin/entities";
+import { newsDict } from "@/lib/i18n/boards/news";
+import { useLocale } from "@/lib/i18n/client";
 import { toLocalized } from "../items/shared";
 import { AddButton, MoveButtons, moveAt, removeAt, replaceAt } from "./shared";
 
@@ -13,6 +15,8 @@ export default function FileList({
   values: ServiceFileEntity[];
   onChange: (next: ServiceFileEntity[]) => void;
 }) {
+  const t = newsDict[useLocale()].files;
+
   return (
     <div className="flex flex-col gap-3">
       {values.map((file, index) => (
@@ -22,7 +26,7 @@ export default function FileList({
         >
           <div className="flex items-center justify-between gap-2">
             <span className="text-[12px] font-semibold text-neutral-500">
-              파일 {index + 1}
+              {t.item(index + 1)}
             </span>
             <MoveButtons
               index={index}
@@ -32,7 +36,7 @@ export default function FileList({
             />
           </div>
           <LocalizedField
-            label="이름 (name)"
+            label={t.name}
             value={file.name}
             onChange={(next) =>
               onChange(
@@ -43,10 +47,10 @@ export default function FileList({
               )
             }
           />
-          <Field label="크기 (size)">
+          <Field label={t.size}>
             <TextInput
               value={file.size}
-              placeholder="예: 979KB"
+              placeholder={t.sizePlaceholder}
               onChange={(event) =>
                 onChange(
                   replaceAt(values, index, {
@@ -57,7 +61,7 @@ export default function FileList({
               }
             />
           </Field>
-          <Field label="다운로드 URL (url)">
+          <Field label={t.url}>
             <TextInput
               type="url"
               value={file.url}
@@ -76,7 +80,7 @@ export default function FileList({
       <AddButton
         onClick={() => onChange([...values, { name: "", size: "", url: "" }])}
       >
-        파일 추가
+        {t.add}
       </AddButton>
     </div>
   );

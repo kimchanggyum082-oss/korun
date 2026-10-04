@@ -14,6 +14,8 @@ import type {
   TextRunEntity,
 } from "@/lib/admin/entities";
 import type { TextAlign } from "@/lib/data";
+import { itemsDict, type ItemsDict } from "@/lib/i18n/boards/items";
+import { useLocale } from "@/lib/i18n/client";
 import {
   AddButton,
   MoveButtons,
@@ -24,16 +26,16 @@ import {
 } from "./shared";
 
 type Block = InterestingItemBlockEntity;
+type BlocksT = ItemsDict["blocks"];
 
-const TYPE_LABEL: Record<Block["type"], string> = {
-  text: "텍스트",
-  image: "이미지",
-  button: "버튼",
-  hr: "구분선",
-  br: "줄바꿈",
-};
-
-const BLOCK_TYPES: Block["type"][] = ["text", "image", "button", "hr", "br"];
+const BLOCK_TYPES: Block["type"][] = [
+  "text",
+  "image",
+  "button",
+  "hr",
+  "br",
+  "list",
+];
 
 function defaultBlock(type: Block["type"]): Block {
   switch (type) {
@@ -47,6 +49,8 @@ function defaultBlock(type: Block["type"]): Block {
       return { type: "hr" };
     case "br":
       return { type: "br" };
+    case "list":
+      return { type: "list", items: [""] };
   }
 }
 
@@ -80,14 +84,16 @@ function Check({
 }
 
 function AlignSelect({
+  t,
   value,
   onChange,
 }: {
+  t: BlocksT;
   value: TextAlign | undefined;
   onChange: (next: TextAlign | undefined) => void;
 }) {
   return (
-    <Field label="정렬">
+    <Field label={t.align}>
       <select
         value={value ?? ""}
         onChange={(event) =>
@@ -99,9 +105,9 @@ function AlignSelect({
         }
         className={inputClass}
       >
-        <option value="">기본</option>
-        <option value="left">왼쪽</option>
-        <option value="center">가운데</option>
+        <option value="">{t.alignDefault}</option>
+        <option value="left">{t.alignLeft}</option>
+        <option value="center">{t.alignCenter}</option>
       </select>
     </Field>
   );
@@ -136,12 +142,37 @@ function NumberField({
   );
 }
 
+function ColorField({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: string | undefined;
+  onChange: (next: string | undefined) => void;
+}) {
+  return (
+    <Field label={label}>
+      <TextInput
+        value={value ?? ""}
+        placeholder="#363636 / rgb(147,196,125)"
+        onChange={(event) => {
+          const raw = event.target.value;
+          onChange(raw.trim() === "" ? undefined : raw);
+        }}
+      />
+    </Field>
+  );
+}
+
 function TextRunsEditor({
   runs,
   onChange,
+  t,
 }: {
   runs: TextRunEntity[];
   onChange: (next: TextRunEntity[]) => void;
+  t: BlocksT;
 }) {
   return (
     <div className="flex flex-col gap-2">
@@ -152,7 +183,7 @@ function TextRunsEditor({
         >
           <div className="flex items-center justify-between gap-2">
             <span className="text-[11px] font-semibold text-neutral-500">
-              조각 {index + 1}
+              {t.part(index + 1)}
             </span>
             <MoveButtons
               index={index}
@@ -171,7 +202,7 @@ function TextRunsEditor({
           />
           <div className="grid gap-2 sm:grid-cols-[1fr_auto_auto]">
             <NumberField
-              label="글자 크기"
+              label={t.fontSize}
               value={run.fontSize}
               onChange={(next) =>
                 onChange(replaceAt(runs, index, { ...run, fontSize: next }))
@@ -179,7 +210,7 @@ function TextRunsEditor({
             />
             <div className="flex items-end pb-2">
               <Check
-                label="굵게"
+                label={t.bold}
                 checked={run.bold ?? false}
                 onChange={(next) =>
                   onChange(replaceAt(runs, index, { ...run, bold: next }))
@@ -188,7 +219,7 @@ function TextRunsEditor({
             </div>
             <div className="flex items-end pb-2">
               <Check
-                label="밑줄"
+                label={t.underline}
                 checked={run.underline ?? false}
                 onChange={(next) =>
                   onChange(replaceAt(runs, index, { ...run, underline: next }))
@@ -196,10 +227,17 @@ function TextRunsEditor({
               />
             </div>
           </div>
+          <ColorField
+            label={t.color}
+            value={run.color}
+            onChange={(next) =>
+              onChange(replaceAt(runs, index, { ...run, color: next }))
+            }
+          />
         </div>
       ))}
       <AddButton onClick={() => onChange([...runs, { text: "" }])}>
-        조각 추가
+        {t.addPart}
       </AddButton>
     </div>
   );
@@ -213,6 +251,7 @@ function BlockRow({
   onChange,
   onMove,
   onRemove,
+  t,
 }: {
   block: Block;
   index: number;
@@ -221,13 +260,14 @@ function BlockRow({
   onChange: (next: Block) => void;
   onMove: (index: number, delta: number) => void;
   onRemove: (index: number) => void;
+  t: BlocksT;
 }) {
   return (
     <div className="flex flex-col gap-2 rounded-md border border-neutral-200 p-3">
       <div className="flex items-center justify-between gap-2">
         <span className="flex items-center gap-2 text-[12px] font-semibold text-neutral-500">
           <span className="rounded bg-neutral-100 px-1.5 py-0.5 text-[11px] text-neutral-500">
-            {TYPE_LABEL[block.type]}
+            {t.typeNames[block.type]}
           </span>
           {index + 1}
         </span>
@@ -245,8 +285,10 @@ function BlockRow({
             <TextRunsEditor
               runs={block.parts}
               onChange={(next) => onChange({ ...block, parts: next })}
+              t={t}
             />
             <AlignSelect
+              t={t}
               value={block.align}
               onChange={(next) => onChange({ ...block, align: next })}
             />
@@ -262,14 +304,14 @@ function BlockRow({
                 }
                 className="text-[11px] font-semibold text-neutral-500 outline-none hover:text-ink focus-visible:ring-2 focus-visible:ring-brand/30"
               >
-                단일 텍스트로 합치기
+                {t.mergeParts}
               </button>
             </div>
           </>
         ) : (
           <>
             <LocalizedField
-              label="내용"
+              label={t.content}
               value={block.content}
               onChange={(next) =>
                 onChange({ ...block, content: toLocalized(next) })
@@ -277,25 +319,31 @@ function BlockRow({
               multiline
               rows={3}
             />
-            <div className="grid gap-3 sm:grid-cols-2">
+            <div className="grid gap-3 sm:grid-cols-3">
               <NumberField
-                label="글자 크기"
+                label={t.fontSize}
                 value={block.fontSize}
                 onChange={(next) => onChange({ ...block, fontSize: next })}
               />
               <AlignSelect
+                t={t}
                 value={block.align}
                 onChange={(next) => onChange({ ...block, align: next })}
+              />
+              <ColorField
+                label={t.color}
+                value={block.color}
+                onChange={(next) => onChange({ ...block, color: next })}
               />
             </div>
             <div className="flex flex-wrap items-center gap-4">
               <Check
-                label="굵게"
+                label={t.bold}
                 checked={block.bold ?? false}
                 onChange={(next) => onChange({ ...block, bold: next })}
               />
               <Check
-                label="밑줄"
+                label={t.underline}
                 checked={block.underline ?? false}
                 onChange={(next) => onChange({ ...block, underline: next })}
               />
@@ -312,13 +360,14 @@ function BlockRow({
                         fontSize: block.fontSize,
                         bold: block.bold,
                         underline: block.underline,
+                        color: block.color,
                       },
                     ],
                   })
                 }
                 className="text-[11px] font-semibold text-neutral-500 outline-none hover:text-ink focus-visible:ring-2 focus-visible:ring-brand/30"
               >
-                조각(parts)으로 나누기
+                {t.splitParts}
               </button>
             </div>
           </>
@@ -328,20 +377,25 @@ function BlockRow({
       {block.type === "image" ? (
         <>
           <ImageField
-            label="이미지 URL (src)"
+            label={t.imageSrc}
             value={block.src}
             uploadConfigured={uploadConfigured}
             onChange={(next) => onChange({ ...block, src: next })}
           />
-          <div className="grid gap-3 sm:grid-cols-2">
+          <div className="grid gap-3 sm:grid-cols-3">
             <NumberField
-              label="너비 (width)"
+              label={t.width}
               value={block.width}
               onChange={(next) => onChange({ ...block, width: next })}
             />
+            <AlignSelect
+              t={t}
+              value={block.align}
+              onChange={(next) => onChange({ ...block, align: next })}
+            />
             <div className="flex items-end pb-2">
               <Check
-                label="블록으로 표시"
+                label={t.blockDisplay}
                 checked={block.block ?? false}
                 onChange={(next) => onChange({ ...block, block: next })}
               />
@@ -353,13 +407,13 @@ function BlockRow({
       {block.type === "button" ? (
         <>
           <LocalizedField
-            label="문구 (label)"
+            label={t.buttonLabel}
             value={block.label}
             onChange={(next) =>
               onChange({ ...block, label: toLocalized(next) })
             }
           />
-          <Field label="링크 (href)">
+          <Field label={t.buttonHref}>
             <TextInput
               value={block.href}
               onChange={(event) =>
@@ -368,20 +422,78 @@ function BlockRow({
             />
           </Field>
           <AlignSelect
+            t={t}
             value={block.align}
             onChange={(next) => onChange({ ...block, align: next })}
           />
         </>
       ) : null}
 
+      {block.type === "list" ? (
+        <>
+          <div className="flex flex-col gap-2">
+            {block.items.map((item, itemIndex) => (
+              <div key={itemIndex} className="flex items-end gap-2">
+                <div className="min-w-0 flex-1">
+                  <LocalizedField
+                    label={`${t.item} ${itemIndex + 1}`}
+                    value={item}
+                    onChange={(next) =>
+                      onChange({
+                        ...block,
+                        items: replaceAt(
+                          block.items,
+                          itemIndex,
+                          toLocalized(next),
+                        ),
+                      })
+                    }
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() =>
+                    onChange({
+                      ...block,
+                      items: removeAt(block.items, itemIndex),
+                    })
+                  }
+                  className="mb-0.5 h-9 shrink-0 rounded-md border border-neutral-200 px-3 text-[12px] font-semibold text-neutral-500 transition-colors hover:text-ink"
+                >
+                  {t.remove}
+                </button>
+              </div>
+            ))}
+          </div>
+          <AddButton
+            onClick={() => onChange({ ...block, items: [...block.items, ""] })}
+          >
+            {t.addItem}
+          </AddButton>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <NumberField
+              label={t.fontSizeRaw}
+              value={block.fontSize}
+              onChange={(next) => onChange({ ...block, fontSize: next })}
+            />
+            <AlignSelect
+              t={t}
+              value={block.align}
+              onChange={(next) => onChange({ ...block, align: next })}
+            />
+          </div>
+        </>
+      ) : null}
+
       {block.type === "br" ? (
         <div className="grid gap-3 sm:grid-cols-2">
           <NumberField
-            label="글자 크기 (fontSize)"
+            label={t.fontSizeRaw}
             value={block.fontSize}
             onChange={(next) => onChange({ ...block, fontSize: next })}
           />
           <AlignSelect
+            t={t}
             value={block.align}
             onChange={(next) => onChange({ ...block, align: next })}
           />
@@ -389,9 +501,7 @@ function BlockRow({
       ) : null}
 
       {block.type === "hr" ? (
-        <p className="text-[11px] text-neutral-400">
-          구분선은 별도 설정이 없습니다.
-        </p>
+        <p className="text-[11px] text-neutral-400">{t.hrEmpty}</p>
       ) : null}
     </div>
   );
@@ -406,6 +516,8 @@ export default function BlockEditor({
   uploadConfigured: boolean;
   onChange: (next: Block[]) => void;
 }) {
+  const t = itemsDict[useLocale()].blocks;
+
   return (
     <div className="flex flex-col gap-3">
       {blocks.map((block, index) => (
@@ -418,6 +530,7 @@ export default function BlockEditor({
           onChange={(next) => onChange(replaceAt(blocks, index, next))}
           onMove={(i, delta) => onChange(moveAt(blocks, i, delta))}
           onRemove={(i) => onChange(removeAt(blocks, i))}
+          t={t}
         />
       ))}
 
@@ -427,7 +540,7 @@ export default function BlockEditor({
             key={type}
             onClick={() => onChange([...blocks, defaultBlock(type)])}
           >
-            {TYPE_LABEL[type]} 추가
+            {t.addBlock(t.typeNames[type])}
           </AddButton>
         ))}
       </div>

@@ -16,7 +16,7 @@ Marketing website for **주식회사 코런**, a Korean hot runner system manufa
 ## Scripts
 
 ```bash
-npm run dev          # start dev server (http://localhost:3000)
+npm run dev          # start dev server (http://localhost:4568)
 npm run build        # production build
 npm run start        # serve production build
 npm run lint         # eslint
@@ -56,6 +56,8 @@ Default content is bundled in `src/lib/data.ts` as typed constants. The `src/lib
 
 The admin dashboard at `/admin` edits the overlay (draft → published) and uploads images to Vercel Blob. Content leaves may be `{ ko, en }` localized values; the public resolvers unwrap them for every locale, including Korean, so a Korean page never receives a raw `{ ko, en }` object. English falls back to Korean when a translation is missing. Admin editors use the `LocalizedField` control and store `""` (fall back to the bundled default), `{ ko }`, or `{ ko, en }`.
 
+Admin editing rules: image slots expose upload/URL only (no alt text) and are language-common — one image drives desktop and mobile. Carousels and galleries are dynamic `imageList`s (add/remove/reorder); text lists are dynamic `list` rows. Layout fields stay with the bundled defaults.
+
 ## Localization
 
 There is no i18n library — next-intl was evaluated and deliberately not adopted; localization is hand-rolled. Korean is served at the existing root paths (`/`, `/about`, `/21`, …) so Korean URLs stay unchanged for SEO and pixel parity; English is served under `/en/*`.
@@ -83,6 +85,8 @@ Copy `.env.example` to `.env.local`. Every variable is optional for local develo
 ## Image Hosting
 
 Product and asset images are served from `https://cdn.imweb.me` (configured in `next.config.ts` `remotePatterns`). The `CDN` and `UPLOAD` base paths are defined at the top of `src/lib/data.ts`.
+
+Admin uploads go to Vercel Blob when `BLOB_READ_WRITE_TOKEN` is set. Outside production the upload route falls back to writing files to `public/uploads/` (gitignored) and returns a `/uploads/…` URL, so image editing works locally without a Blob token.
 
 ## Tailwind Theme
 

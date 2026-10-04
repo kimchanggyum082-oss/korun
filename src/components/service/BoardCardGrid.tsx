@@ -16,10 +16,17 @@ export type BoardCardItem = {
   author?: string;
 };
 
-export function bodyText(blocks: { type: string; content?: string }[]): string {
+export function bodyText(
+  blocks: { type: string; content?: string; items?: string[] }[],
+): string {
   return blocks
-    .filter((block) => block.type === "text")
-    .map((block) => block.content ?? "")
+    .map((block) =>
+      block.type === "text"
+        ? (block.content ?? "")
+        : block.type === "list"
+          ? (block.items ?? []).join(" ")
+          : "",
+    )
     .join(" ")
     .replace(/\s+/g, " ")
     .trim()

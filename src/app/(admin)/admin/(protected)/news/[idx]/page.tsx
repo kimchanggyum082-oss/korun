@@ -3,9 +3,11 @@ import { notFound } from "next/navigation";
 import NewsEditor from "@/components/admin/editors/news/NewsEditor";
 import { newsEntityKey, resolveLocalizedText } from "@/lib/admin/entities";
 import { loadEditableEntity } from "@/lib/admin/entity-store";
-import { isBlobConfigured } from "@/lib/admin/blob";
+import { isUploadConfigured } from "@/lib/admin/blob";
 import { isDatabaseConfigured } from "@/lib/db/client";
 import { newsItems } from "@/lib/data";
+import { newsDict } from "@/lib/i18n/boards/news";
+import { getAdminLocale } from "@/lib/i18n/admin-server";
 
 function findNews(idx: string) {
   return newsItems.find((item) => item.idx === idx);
@@ -20,7 +22,10 @@ export async function generateMetadata({
   const fallback = findNews(idx);
   if (!fallback) return {};
   const { value } = await loadEditableEntity(newsEntityKey(idx));
-  return { title: `${resolveLocalizedText(value.title)} | KORUN Admin` };
+  const locale = await getAdminLocale();
+  return {
+    title: `${resolveLocalizedText(value.title)} | ${newsDict[locale].meta.itemSuffix}`,
+  };
 }
 
 export default async function AdminNewsItemPage({
@@ -38,7 +43,7 @@ export default async function AdminNewsItemPage({
       initial={value}
       source={source}
       storeReady={isDatabaseConfigured()}
-      uploadConfigured={isBlobConfigured()}
+      uploadConfigured={isUploadConfigured()}
     />
   );
 }

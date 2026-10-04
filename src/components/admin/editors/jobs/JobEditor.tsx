@@ -6,6 +6,8 @@ import {
   type EntitySource,
   type JobPostEntity,
 } from "@/lib/admin/entities";
+import { jobsDict } from "@/lib/i18n/boards/jobs";
+import { useLocale } from "@/lib/i18n/client";
 import JobForms from "./JobForms";
 import JobPreviews from "./JobPreviews";
 
@@ -20,16 +22,18 @@ export default function JobEditor({
   storeReady: boolean;
   uploadConfigured: boolean;
 }) {
+  const t = jobsDict[useLocale()].editor;
+
   return (
     <EntityEditor<JobPostEntity>
       entityKey={jobPostEntityKey(initial.idx)}
-      label="Service"
-      title="채용정보"
-      description="채용정보 게시글의 메타데이터, 본문 블록, 첨부 파일을 관리합니다."
+      label={t.label}
+      title={t.title}
+      description={t.description}
       source={source}
       initial={initial}
       storeReady={storeReady}
-      previewLabel="채용정보 상세"
+      previewLabel={t.previewLabel}
       form={(draft, update) => (
         <JobForms
           draft={draft}
@@ -37,7 +41,7 @@ export default function JobEditor({
           uploadConfigured={uploadConfigured}
         />
       )}
-      preview={(draft) => <JobPreviews draft={draft} />}
+      preview={(draft, locale) => <JobPreviews draft={draft} locale={locale} />}
     />
   );
 }

@@ -8,7 +8,6 @@ import {
   getCasePage,
   getCasePages,
   getDraft,
-  getNav,
   getPolicyModal,
   getProductPage,
   getProductPages,
@@ -25,8 +24,6 @@ import {
   assets,
   casePages,
   company,
-  jobPosts,
-  nav,
   newsItems,
   productPages,
   sitePolicyModals,
@@ -146,8 +143,7 @@ async function main() {
   passed.push("store reads return null/[] without DATABASE_URL");
 
   assert.deepStrictEqual(await getSiteSettings(), company);
-  assert.deepStrictEqual(await getNav(), nav);
-  passed.push("getSiteSettings/getNav return data.ts defaults unchanged");
+  passed.push("getSiteSettings returns data.ts defaults unchanged");
 
   assert.deepStrictEqual(await getProductPage("21"), productPages["21"]);
   const productList = await getProductPages();
@@ -196,7 +192,6 @@ async function main() {
   assert.strictEqual(about.key, "greetings");
   assert.deepStrictEqual(about.company, company);
   assert.deepStrictEqual(about.assets, assets);
-  assert.deepStrictEqual(about.jobPosts, jobPosts);
   passed.push("getAboutPage returns defaults unchanged");
 
   for (const name of passed) {

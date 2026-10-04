@@ -3,11 +3,11 @@ import FooterBar, {
   type FooterBarLabels,
   type FooterBarLinks,
 } from "@/components/layout/FooterBar";
-import { siteSettingsDefault } from "@/lib/admin/entity-store";
+import { company } from "@/lib/data";
 import { resolveActiveLocale } from "@/lib/content";
 
 export default async function Footer({
-  contact = siteSettingsDefault(),
+  contact = company,
   labels,
   links,
   copyright,

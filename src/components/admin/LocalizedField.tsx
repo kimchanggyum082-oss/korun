@@ -1,6 +1,8 @@
 "use client";
 
 import { useId } from "react";
+import { adminDict } from "@/lib/i18n/admin";
+import { useLocale } from "@/lib/i18n/client";
 import {
   normalizeLocalized,
   readLocalized,
@@ -34,6 +36,7 @@ export default function LocalizedField({
   disabled?: boolean;
   className?: string;
 }) {
+  const t = adminDict[useLocale()].editor;
   const { ko, en } = readLocalized(value);
   const baseId = useId();
   const koId = `${baseId}-ko`;
@@ -63,14 +66,14 @@ export default function LocalizedField({
               htmlFor={koId}
               className="text-[11px] font-semibold text-neutral-400"
             >
-              한국어
+              {t.korean}
             </label>
             {showMissingKorean && (
               <span
-                title="한국어가 비어 있으면 국문 사이트에서 이 문구가 표시되지 않습니다."
+                title={t.koMissingHint}
                 className="rounded bg-[#fdf8ee] px-1.5 py-0.5 text-[10px] leading-none font-semibold text-[#8a5a10]"
               >
-                한국어 없음
+                {t.koMissing}
               </span>
             )}
           </div>
@@ -104,14 +107,14 @@ export default function LocalizedField({
               htmlFor={enId}
               className="text-[11px] font-semibold text-neutral-400"
             >
-              English
+              {t.english}
             </label>
             {showFallback && (
               <span
-                title="영문이 비어 있으면 공개 사이트에서 한국어가 대신 표시됩니다."
+                title={t.enFallsBackHint}
                 className="rounded bg-paper px-1.5 py-0.5 text-[10px] leading-none font-semibold text-brand"
               >
-                한국어로 표시
+                {t.enFallsBack}
               </span>
             )}
           </div>

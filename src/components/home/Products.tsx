@@ -44,30 +44,35 @@ export default function Products({
         <div className="my-[7.5px] h-[30px]" />
 
         <div className="my-[7.5px]">
-          <p className="text-[24px] font-bold leading-[28.8px]">
-            {content.mobileTitleLines[0]}
-          </p>
-          <p className="text-[24px] font-bold leading-[28.8px]">
-            {content.mobileTitleLines[1]}
-            <Image
-              src={content.penMobile}
-              alt=""
-              width={156}
-              height={537}
-              className="my-[5px] inline-block w-[16px] align-middle"
-            />
-          </p>
+          {content.mobileTitleLines.map((line, i) => (
+            <p key={i} className="text-[24px] font-bold leading-[28.8px]">
+              {line}
+              {i === content.mobileTitleLines.length - 1 && (
+                <Image
+                  src={content.penMobile}
+                  alt=""
+                  width={156}
+                  height={537}
+                  className="my-[5px] inline-block w-[16px] align-middle"
+                />
+              )}
+            </p>
+          ))}
         </div>
 
         <div className="my-[7.5px] text-[15px] leading-[24px]">
-          <p>{content.mobileBodyLines[0]}</p>
-          <p>{content.mobileBodyLines[1]}</p>
+          {content.mobileBodyLines.map((line, i) => (
+            <p key={i}>{line}</p>
+          ))}
         </div>
 
         {[0, 2].map((start) => (
           <div key={start} className="-mx-[7.5px] flex">
             {content.items.slice(start, start + 2).map((product, i) => (
-              <div key={product.href} className="w-1/2 px-[7.5px]">
+              <div
+                key={`${product.href}-${start + i}`}
+                className="w-1/2 px-[7.5px]"
+              >
                 <a
                   href={
                     product.href.startsWith("/")
@@ -138,9 +143,9 @@ export default function Products({
           </div>
 
           <div className="grid grid-cols-4 gap-[30px] py-[15px]">
-            {content.items.map((product) => (
+            {content.items.map((product, i) => (
               <a
-                key={product.href}
+                key={`${product.href}-${i}`}
                 href={
                   product.href.startsWith("/")
                     ? localizeHref(product.href, locale)

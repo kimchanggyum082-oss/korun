@@ -24,11 +24,15 @@
 .DS_Store
 *.pem
 
+# dev uploads
+/public/uploads/
+
 # local tooling / captures
 .playwright-mcp/
 /korun-built.jpeg
 .openchamber/
 .opencode/
+/dev-server.log
 
 # reference screenshots + pixel diffs
 /reference/
@@ -49,3 +53,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+.vercel
+.env*

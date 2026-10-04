@@ -6,31 +6,34 @@ import {
   toServiceDownloadItem,
   type ServiceDownloadItemEntity,
 } from "@/lib/admin/entities";
+import { downloadsDict } from "@/lib/i18n/boards/downloads";
 import { chrome } from "@/lib/i18n/chrome";
+import type { Locale } from "@/lib/i18n/locales";
 
 export default function DownloadPreviews({
   draft,
+  locale,
 }: {
   draft: ServiceDownloadItemEntity;
+  locale: Locale;
 }) {
-  const item = toServiceDownloadItem(draft);
+  const item = toServiceDownloadItem(draft, locale);
+  const t = downloadsDict[locale].preview;
   return (
     <ScaledDesktop>
       <PostDetail
-        t={chrome.ko}
+        t={chrome[locale]}
         activeHref="/downloads"
-        subtitle={
-          "\u00a0코런의 제품과 회사소개서를 다운받을 수 있습니다.\u00a0"
-        }
-        mobileSubtitle="다운로드 파일을 제공해드립니다"
-        sectionLabel="Downloads"
-        boardName="Downloads"
+        subtitle={t.subtitle}
+        mobileSubtitle={t.mobileSubtitle}
+        sectionLabel={t.sectionLabel}
+        boardName={t.boardName}
         title={item.title}
         meta={{ date: item.date, views: item.views }}
         blocks={item.blocks}
         files={item.files}
         listHref="/downloads"
-        fileLabel="다운로드 파일"
+        fileLabel={t.fileLabel}
       />
     </ScaledDesktop>
   );

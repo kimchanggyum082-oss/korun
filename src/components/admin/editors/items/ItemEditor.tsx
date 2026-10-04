@@ -6,6 +6,8 @@ import {
   type EntitySource,
   type InterestingItemEntity,
 } from "@/lib/admin/entities";
+import { itemsDict } from "@/lib/i18n/boards/items";
+import { useLocale } from "@/lib/i18n/client";
 import ItemForms from "./ItemForms";
 import ItemPreviews from "./ItemPreviews";
 
@@ -20,16 +22,18 @@ export default function ItemEditor({
   storeReady: boolean;
   uploadConfigured: boolean;
 }) {
+  const t = itemsDict[useLocale()].editor;
+
   return (
     <EntityEditor<InterestingItemEntity>
       entityKey={interestingItemEntityKey(initial.idx)}
-      label="Service"
-      title="기술 자료"
-      description="기술 자료 게시글의 메타데이터, 본문 블록, 첨부 파일을 관리합니다."
+      label={t.label}
+      title={t.title}
+      description={t.description}
       source={source}
       initial={initial}
       storeReady={storeReady}
-      previewLabel="기술 자료 상세"
+      previewLabel={t.previewLabel}
       form={(draft, update) => (
         <ItemForms
           draft={draft}
@@ -37,7 +41,9 @@ export default function ItemEditor({
           uploadConfigured={uploadConfigured}
         />
       )}
-      preview={(draft) => <ItemPreviews draft={draft} />}
+      preview={(draft, locale) => (
+        <ItemPreviews draft={draft} locale={locale} />
+      )}
     />
   );
 }

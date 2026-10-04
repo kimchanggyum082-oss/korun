@@ -9,7 +9,7 @@ npm run lint           # eslint — always run after edits
 npx tsc --noEmit       # typecheck — always run after edits
 npm run smoke          # content-layer smoke checks (no database required)
 npm run format         # prettier write — run before committing
-npm run dev            # dev server at :3000
+npm run dev            # dev server at :4568
 npm run build          # production build
 npm run db:generate    # regenerate Drizzle migrations from src/lib/db/schema.ts
 ```
@@ -22,7 +22,16 @@ After any code change, run `npm run lint` and `npx tsc --noEmit`. Both must pass
 
 Bundled default content lives in `src/lib/data.ts` as `as const` typed objects. The `src/lib/content/*` resolvers serve those defaults and, when `DATABASE_URL` is set, overlay rows from `content_entities` (`draft_json` / `published_json`). No database is required to render the public site — resolvers fall back to the bundled defaults (including when the database is unreachable).
 
-The admin dashboard at `/admin` edits the overlay (save draft → publish), uploads images to Vercel Blob, and is gated by an admin session cookie. Entity keys are registered in `src/lib/admin/entities.ts`; `src/lib/admin/entity-store.ts` maps each key to its bundled default and load/edit flow.
+The admin dashboard at `/admin` (English at `/en/admin`) edits the overlay and is gated by an admin session cookie; image uploads go to Vercel Blob. Page copy is stored per `(key, locale)` in `page_contents` and edited through the grouped editor at `/admin/pages?group=…` (MCell-style flat registry: `src/lib/content/registry/`). Board CRUD still uses the entity store. Admin UI strings are bilingual via `src/lib/i18n/admin.ts` (`adminDict`).
+
+Admin editing rules:
+
+- `image` keys are single image slots. The editor offers URL entry or upload only — no alt text — and the value is language-common (written to both locales). An empty value keeps the data-file default. One image drives every viewport; bundled defaults may still carry per-viewport variants (e.g. the hero slides) until the admin overrides the slot.
+- `imageList` keys are dynamic image lists (add/remove/reorder, one or more image fields per row). Carousels and galleries (home hero, product/case/about galleries) use this kind.
+- `list` keys are dynamic row lists described by `fields`; rows may mix text, image and link fields (home product cards and value pills, about paragraphs). `maxItems` caps the row count and hides the add button at the cap.
+- `link` keys/fields are language-common in-site links picked from a searchable catalog of the site's pages (`src/lib/content/registry/links.ts`) via the shared `LinkPicker` component (`src/components/admin/LinkPicker.tsx`) used by every group; labels follow the admin UI language and admins may still paste an external URL. `url` remains for raw URLs (e.g. the map embed).
+- Cross-group keys can be surfaced in another group's editor through `defsForEditor`/`GROUP_EXTRA_DEFS` (`src/lib/content/registry/index.ts`): the home location section shows the `site.settings.name/tel/email/address` keys (same keys, one storage location) so contact info is editable where it is displayed.
+- Derived values are never editable: the news/downloads writer label comes from the board author defaults, and iframe/map titles (`location.mapTitle`) fall back to bundled defaults. Layout/behaviour fields (widths, heights, flags, decorative pen/arrow assets) are likewise read back from the bundled defaults by the resolvers.
 
 Content leaves may be `{ ko, en }` localized values. The public resolvers unwrap leaves for every locale, including Korean — a Korean page must never receive a raw `{ ko, en }` object — and English falls back to Korean when a translation is missing. Every public content resolver accepts an optional `locale`, resolved by `resolveActiveLocale` in `src/lib/content/locale.ts`. Admin editors use the `LocalizedField` control and store `""` (fall back to the bundled default), `{ ko }`, or `{ ko, en }`.
 
@@ -33,7 +42,7 @@ Product pages are keyed by string IDs (`"21"`–`"24"`) and rendered by `src/app
 - `/` — homepage; Korean at the root paths and English under `/en/*` (`src/app/(site)/[lang]/page.tsx`)
 - `/21`, `/22`, `/23`, `/24` — product pages (`src/app/(site)/[lang]/[page]/page.tsx`, `dynamicParams = false`)
 - `/about/*`, `/cases/[slug]`, `/case-studio`, `/news`, `/downloads`, `/technology/interesting-items`, `/search` — site sections under `(site)/[lang]`
-- `/admin` — unlocalized dashboard under `(admin)/admin/` with its own root layout (`lang="ko"`); guarded pages live under `(admin)/admin/(protected)/` and login at `(admin)/admin/login` outside it
+- `/admin` — localized dashboard under `(admin)/admin/` with its own root layout (`lang` from `getAdminLocale()`); English is served at `/en/admin/*` (proxy rewrites to `/admin/*` with an `x-korun-locale` header). Guarded pages live under `(admin)/admin/(protected)/` and login at `(admin)/admin/login` outside it.
 - `/api/admin/*` — content, upload, login, logout route handlers
 
 `src/app/(site)/[lang]/layout.tsx` is the public root layout (`<html lang>`) with `generateStaticParams()` for `["ko","en"]` and `dynamicParams = false`. `src/proxy.ts` performs two jobs: the admin session-cookie guard (redirect to `/admin/login`) and a rewrite of unprefixed public paths to `/ko<path>`. It deliberately does not auto-detect `Accept-Language` or redirect by cookie — the default is always Korean.
@@ -56,11 +65,11 @@ Each product page renders 1–2 `ProductBlock`s via `ProductBlockView`. A block 
 
 Public product and asset images come from `https://cdn.imweb.me` (allowed in `next.config.ts`). Use `next/image` with explicit `width`/`height` and `sizes`. Never import local images for product content.
 
-Admin uploads are written to Vercel Blob (`BLOB_READ_WRITE_TOKEN`). The upload route allowlists PNG/JPEG/GIF/WEBP by magic bytes and derives the stored extension/content type server-side.
+Admin uploads are written to Vercel Blob (`BLOB_READ_WRITE_TOKEN`). Outside production, when no token is set, the upload route writes to `public/uploads/` instead so image editing works locally. The upload route allowlists PNG/JPEG/GIF/WEBP by magic bytes and derives the stored extension/content type server-side.
 
 ### Admin auth
 
-Session tokens are HS256 JWTs (`jose`) in an httpOnly cookie. Production requires `ADMIN_SESSION_SECRET` (32+ characters) and fails closed without it; environment credentials (`ADMIN_EMAIL` / `ADMIN_PASSWORD`) take priority over database users. `.env.example` documents every variable.
+Session tokens are HS256 JWTs (`jose`) in an httpOnly cookie. Production requires `ADMIN_SESSION_SECRET` (32+ characters) and fails closed without it; environment credentials (`ADMIN_EMAIL` plus `ADMIN_PASSWORD`, or a bcrypt `ADMIN_PASSWORD_HASH` which takes priority when both are set) take priority over database users. `.env.example` documents every variable.
 
 ## Style
 

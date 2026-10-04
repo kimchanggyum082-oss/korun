@@ -2,14 +2,11 @@
 
 import { useState } from "react";
 import type { EditableEntityKey, EntitySource } from "@/lib/admin/entities";
+import { adminDict } from "@/lib/i18n/admin";
+import { useLocale } from "@/lib/i18n/client";
+import type { Locale } from "@/lib/i18n/locales";
 
 type SaveState = "clean" | "saving" | "saved" | "published" | "error";
-
-const SOURCE_LABEL: Record<EntitySource, string> = {
-  draft: "초안",
-  published: "게시본",
-  default: "기본값",
-};
 
 export type UpdateDraft<T> = (updater: (current: T) => T) => void;
 
@@ -34,11 +31,20 @@ export default function EntityEditor<T>({
   storeReady: boolean;
   previewLabel: string;
   form: (draft: T, update: UpdateDraft<T>) => React.ReactNode;
-  preview: (draft: T) => React.ReactNode;
+  preview: (draft: T, locale: Locale) => React.ReactNode;
 }) {
+  const locale = useLocale();
+  const t = adminDict[locale].editor;
   const [draft, setDraft] = useState<T>(initial);
   const [state, setState] = useState<SaveState>("clean");
   const [message, setMessage] = useState<string | null>(null);
+  const [previewLocale, setPreviewLocale] = useState<Locale>("ko");
+
+  const sourceLabel: Record<EntitySource, string> = {
+    draft: t.sourceDraft,
+    published: t.sourcePublished,
+    default: t.sourceDefault,
+  };
 
   const update: UpdateDraft<T> = (updater) => {
     setDraft(updater);
@@ -60,13 +66,13 @@ export default function EntityEditor<T>({
       } | null;
       if (!response.ok) {
         setState("error");
-        setMessage(data?.error ?? "저장하지 못했습니다.");
+        setMessage(data?.error ?? t.failed);
         return;
       }
       setState(action === "publish" ? "published" : "saved");
     } catch {
       setState("error");
-      setMessage("네트워크 오류가 발생했습니다.");
+      setMessage(t.networkError);
     }
   }
 
@@ -86,7 +92,7 @@ export default function EntityEditor<T>({
                 {entityKey}
               </span>
               <span className="rounded bg-paper px-1.5 py-0.5 text-[11px] font-semibold text-brand">
-                {SOURCE_LABEL[source]}
+                {sourceLabel[source]}
               </span>
             </div>
             <h1 className="mt-1.5 text-[22px] font-bold text-ink">{title}</h1>
@@ -100,7 +106,7 @@ export default function EntityEditor<T>({
               disabled={disabled}
               className="h-9 rounded-md border border-neutral-300 bg-white px-3.5 text-[13px] font-semibold text-neutral-600 transition-colors outline-none hover:border-neutral-400 hover:text-ink focus-visible:ring-2 focus-visible:ring-brand/30 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              {busy ? "처리 중…" : "Save draft"}
+              {busy ? t.processing : t.saveDraft}
             </button>
             <button
               type="button"
@@ -108,24 +114,20 @@ export default function EntityEditor<T>({
               disabled={disabled}
               className="h-9 rounded-md bg-brand px-3.5 text-[13px] font-semibold text-white transition-colors outline-none hover:bg-ink focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              Publish
+              {t.publish}
             </button>
           </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-3 text-[12px]">
           {state === "clean" && (
-            <span className="text-neutral-400">변경사항 없음</span>
+            <span className="text-neutral-400">{t.noChanges}</span>
           )}
           {state === "saved" && (
-            <span className="font-semibold text-brand">
-              초안을 저장했습니다.
-            </span>
+            <span className="font-semibold text-brand">{t.draftSaved}</span>
           )}
           {state === "published" && (
-            <span className="font-semibold text-brand">
-              게시했습니다. 공개 페이지에 반영됩니다.
-            </span>
+            <span className="font-semibold text-brand">{t.published}</span>
           )}
           {state === "error" && (
             <span role="alert" className="font-semibold text-[#a51c1c]">
@@ -137,11 +139,10 @@ export default function EntityEditor<T>({
         {!storeReady && (
           <div className="rounded-lg border border-[#f0d9a8] bg-[#fdf8ee] px-4 py-3">
             <p className="text-[13px] font-semibold text-[#8a5a10]">
-              데이터베이스가 설정되지 않아 저장할 수 없습니다
+              {t.storeMissingTitle}
             </p>
             <p className="mt-1 text-[12px] leading-relaxed text-[#8a5a10]">
-              DATABASE_URL을 설정하면 초안 저장과 게시를 사용할 수 있습니다.
-              지금은 편집과 미리보기만 동작합니다.
+              {t.storeMissingBody}
             </p>
           </div>
         )}
@@ -152,15 +153,38 @@ export default function EntityEditor<T>({
 
         <aside className="xl:sticky xl:top-20 xl:self-start">
           <div className="rounded-lg border border-neutral-200 bg-white">
-            <header className="flex items-center justify-between border-b border-neutral-100 px-4 py-2.5">
+            <header className="flex items-center justify-between gap-3 border-b border-neutral-100 px-4 py-2.5">
               <h2 className="text-[13px] font-semibold text-ink">
-                미리보기 · {previewLabel}
+                {t.preview} · {previewLabel}
               </h2>
-              <span className="text-[11px] text-neutral-400">
-                입력값이 바로 반영됩니다
-              </span>
+              <div className="flex items-center gap-3">
+                <div
+                  role="group"
+                  aria-label={t.previewLanguage}
+                  className="flex w-fit items-center gap-1 rounded-md border border-neutral-200 p-0.5"
+                >
+                  {(["ko", "en"] as const).map((code) => (
+                    <button
+                      key={code}
+                      type="button"
+                      onClick={() => setPreviewLocale(code)}
+                      aria-pressed={previewLocale === code}
+                      className={`h-7 rounded px-2.5 text-[11px] font-semibold transition-colors outline-none focus-visible:ring-2 focus-visible:ring-brand/30 ${
+                        previewLocale === code
+                          ? "bg-brand text-white"
+                          : "text-neutral-500 hover:text-ink"
+                      }`}
+                    >
+                      {code.toUpperCase()}
+                    </button>
+                  ))}
+                </div>
+                <span className="text-[11px] text-neutral-400">
+                  {t.previewLive}
+                </span>
+              </div>
             </header>
-            <div className="px-4 py-4">{preview(draft)}</div>
+            <div className="px-4 py-4">{preview(draft, previewLocale)}</div>
           </div>
         </aside>
       </div>

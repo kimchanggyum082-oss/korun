@@ -13,16 +13,18 @@ function MobileHeading({
   en,
   ko,
   penMobile,
+  locale,
 }: {
   en: string;
   ko: string;
   penMobile: string;
+  locale: Locale;
 }) {
   return (
     <div className="my-[7.5px]">
       <p className="text-[15px] font-bold leading-[24px] text-brand">{en}</p>
       <p className="text-[24px] font-bold leading-[28.8px] text-ink">
-        {ko}
+        {locale === "en" ? en : ko}
         <Image
           src={penMobile}
           alt=""
@@ -125,10 +127,12 @@ function PcHeading({
   en,
   ko,
   penSmall,
+  locale,
 }: {
   en: string;
   ko: string;
   penSmall: string;
+  locale: Locale;
 }) {
   return (
     <div className="py-[15px]">
@@ -139,7 +143,7 @@ function PcHeading({
       </p>
       <p className="text-[36px] leading-[43.2px]">
         <span className="text-[36px] font-bold leading-[43.2px] text-ink">
-          {ko}
+          {locale === "en" ? en : ko}
           <Image
             src={penSmall}
             alt=""
@@ -167,6 +171,7 @@ export function NewsEvents({
         en={lists.newsHeadingEn}
         ko={lists.newsHeadingKo}
         penMobile={lists.penMobile}
+        locale={locale}
       />
       <ul className="my-[7.5px]">
         {news.map((item) => (
@@ -198,6 +203,7 @@ export function Downloads({
         en={lists.downloadsHeadingEn}
         ko={lists.downloadsHeadingKo}
         penMobile={lists.penMobile}
+        locale={locale}
       />
       <ul className="my-[7.5px]">
         {downloads.map((item) => (
@@ -228,6 +234,7 @@ function PcNews({
         en={lists.newsHeadingEn}
         ko={lists.newsHeadingKo}
         penSmall={lists.penSmall}
+        locale={locale}
       />
       <ul className="py-[15px]">
         {news.map((item) => (
@@ -259,6 +266,7 @@ function PcDownloads({
         en={lists.downloadsHeadingEn}
         ko={lists.downloadsHeadingKo}
         penSmall={lists.penSmall}
+        locale={locale}
       />
       <ul className="py-[15px]">
         {downloads.map((item) => (

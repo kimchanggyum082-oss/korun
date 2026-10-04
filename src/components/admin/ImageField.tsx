@@ -1,7 +1,9 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Field, TextInput, inputClass } from "./fields";
+import { adminDict } from "@/lib/i18n/admin";
+import { useLocale } from "@/lib/i18n/client";
+import { Field, TextInput } from "./fields";
 
 export default function ImageField({
   label,
@@ -16,6 +18,7 @@ export default function ImageField({
   hint?: string;
   uploadConfigured: boolean;
 }) {
+  const t = adminDict[useLocale()].editor;
   const fileRef = useRef<HTMLInputElement>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -39,17 +42,17 @@ export default function ImageField({
         error?: string;
       } | null;
       if (!response.ok || !data?.url) {
-        setError(data?.error ?? "업로드에 실패했습니다.");
+        setError(data?.error ?? t.uploadFailed);
         return;
       }
       onChange(data.url);
       setInfo(
         data.width && data.height
-          ? `업로드 완료 · ${data.width}×${data.height}px`
-          : "업로드 완료",
+          ? t.uploadedSize(data.width, data.height)
+          : t.uploaded,
       );
     } catch {
-      setError("네트워크 오류가 발생했습니다.");
+      setError(t.networkError);
     } finally {
       setBusy(false);
       if (fileRef.current) fileRef.current.value = "";
@@ -63,7 +66,7 @@ export default function ImageField({
           <TextInput
             type="url"
             value={value}
-            placeholder="https://… 또는 아래 업로드 사용"
+            placeholder={t.uploadPlaceholder}
             onChange={(event) => onChange(event.target.value)}
           />
         </div>
@@ -73,7 +76,7 @@ export default function ImageField({
           disabled={busy}
           className="h-9 shrink-0 rounded-md border border-neutral-300 bg-white px-3 text-[12px] font-semibold text-neutral-600 transition-colors outline-none hover:border-neutral-400 hover:text-ink focus-visible:ring-2 focus-visible:ring-brand/30 disabled:opacity-60"
         >
-          {busy ? "업로드 중…" : "파일 업로드"}
+          {busy ? t.uploading : t.upload}
         </button>
         <input
           ref={fileRef}
@@ -89,8 +92,7 @@ export default function ImageField({
 
       {!uploadConfigured && (
         <p className="text-[11px] text-neutral-400">
-          BLOB_READ_WRITE_TOKEN이 없어 업로드를 사용할 수 없습니다. 이미지 URL을
-          직접 입력해 주세요.
+          {t.uploadNotConfiguredBody}
         </p>
       )}
 
@@ -115,7 +117,7 @@ export default function ImageField({
             }}
             aria-hidden
           />
-          <span className={`${inputClass} truncate`}>{value}</span>
+          <span className="text-[11px] text-neutral-500 truncate">{value}</span>
         </div>
       )}
     </Field>

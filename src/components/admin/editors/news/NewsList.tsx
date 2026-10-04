@@ -1,16 +1,22 @@
+"use client";
+
 import Link from "next/link";
 import type { ServiceNewsItem } from "@/lib/data";
+import { newsDict } from "@/lib/i18n/boards/news";
+import { useLocale } from "@/lib/i18n/client";
 
 export default function NewsList({ items }: { items: ServiceNewsItem[] }) {
+  const t = newsDict[useLocale()].list;
+
   return (
     <div className="flex flex-col gap-6">
       <header className="flex flex-col gap-1">
         <p className="text-[11px] font-semibold tracking-[0.14em] text-neutral-400 uppercase">
-          Service
+          {t.eyebrow}
         </p>
-        <h1 className="text-[24px] font-bold text-ink">뉴스</h1>
+        <h1 className="text-[24px] font-bold text-ink">{t.title}</h1>
         <p className="text-sm text-neutral-500">
-          뉴스·이벤트 게시글 {items.length}건입니다. 편집할 글을 선택하세요.
+          {t.description(items.length)}
         </p>
       </header>
 
@@ -18,17 +24,17 @@ export default function NewsList({ items }: { items: ServiceNewsItem[] }) {
         <table className="w-full border-collapse text-left text-[12px]">
           <thead>
             <tr className="border-b border-neutral-200 bg-neutral-50 text-[11px] text-neutral-500">
-              <th className="px-3 py-2 font-semibold">No</th>
-              <th className="px-3 py-2 font-semibold">분류</th>
-              <th className="px-3 py-2 font-semibold">제목</th>
+              <th className="px-3 py-2 font-semibold">{t.columns.no}</th>
+              <th className="px-3 py-2 font-semibold">{t.columns.category}</th>
+              <th className="px-3 py-2 font-semibold">{t.columns.title}</th>
               <th className="hidden px-3 py-2 font-semibold md:table-cell">
-                작성자
+                {t.columns.author}
               </th>
               <th className="hidden px-3 py-2 font-semibold sm:table-cell">
-                작성일
+                {t.columns.date}
               </th>
               <th className="hidden px-3 py-2 text-right font-semibold sm:table-cell">
-                조회/좋아요
+                {t.columns.viewsLikes}
               </th>
             </tr>
           </thead>
@@ -47,7 +53,7 @@ export default function NewsList({ items }: { items: ServiceNewsItem[] }) {
                   </span>
                   {item.notice && (
                     <span className="ml-1 rounded bg-[#363636] px-1.5 py-0.5 text-[10px] font-semibold text-white">
-                      공지
+                      {t.noticeBadge}
                     </span>
                   )}
                 </td>

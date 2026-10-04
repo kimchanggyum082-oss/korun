@@ -3,7 +3,7 @@ import type { Locale } from "./locales";
 const ko = {
   news: {
     meta: {
-      title: (company: string) => `News&Events | ${company}`,
+      title: (company: string) => `뉴스&이벤트 | ${company}`,
       description: "코런의 새로운 소식과 이벤트를 확인하실 수 있습니다.",
     },
     subtitle: "최신 뉴스와 이벤트를 한눈에 보여드립니다",
@@ -13,7 +13,7 @@ const ko = {
   },
   downloads: {
     meta: {
-      title: (company: string) => `Downloads | ${company}`,
+      title: (company: string) => `자료실 | ${company}`,
       description:
         "코런 제품 카탈로그 및 기술 자료를 다운로드하실 수 있습니다.",
     },
@@ -25,7 +25,7 @@ const ko = {
   },
   caseStudio: {
     meta: {
-      title: (company: string) => `Case Studio | ${company}`,
+      title: (company: string) => `케이스 스튜디오 | ${company}`,
       description: "코런의 다양한 적용 사례를 확인하실 수 있습니다.",
     },
     sectionLabel: "Case Studio",
@@ -59,10 +59,10 @@ const en: PagesServiceDict = {
   downloads: {
     meta: {
       title: (company) => `Downloads | ${company}`,
-      description: "Download KORUN product catalogues and technical documents.",
+      description: "Download KORUN product catalogs and technical documents.",
     },
     subtitle:
-      "\u00a0Download KORUN product catalogues and company brochures.\u00a0",
+      "\u00a0Download KORUN product catalogs and company brochures.\u00a0",
     mobileSubtitle: "Browse the files available for download",
     sectionLabel: "Downloads",
     boardName: "Downloads",

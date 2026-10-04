@@ -267,7 +267,6 @@ export type AboutLocationContent = {
 
 export type AboutJobPostingContent = {
   title: string;
-  tagline: string;
   detailTaglineMobile: string;
   detailTaglineDesktop: string;
 };
@@ -307,7 +306,6 @@ export const aboutContent: AboutContentMap = {
   },
   "job-posting": {
     title: "Job Posting",
-    tagline: "오시는 길을 알려드립니다",
     detailTaglineMobile: "오시는 길을 알려드립니다",
     detailTaglineDesktop: "자사의 채용정보를 알려드립니다.",
   },
@@ -362,7 +360,7 @@ export const casePages: Record<string, CasePageData> = {
     heroHeight: 500,
     section: {
       heading: "Driving Change",
-      text: "전기차 시대가 도래하면서 새로운 재료와 공정이 자동차를 재정립 하고 있습니다. 내외장제품 및 엔진룸, 샤시 등 자동차 부품의 해법! 바로 코런 Hot Runner System 입니다.",
+      text: "전기차 시대가 도래하면서 새로운 재료와 공정이 자동차를 재정립 하고 있습니다\n내외장제품 및 엔진룸, 샤시 등 자동차 부품의 해법! 바로 코런 Hot Runner System 입니다",
       images: [
         {
           src: `${CDN}/thumbnail/20240617/91f02fd56a51e.png`,
@@ -443,7 +441,7 @@ export const casePages: Record<string, CasePageData> = {
     heroHeight: 1120,
     section: {
       heading: "Lens",
-      text: "투명제품의 대표라고 할수 있는 자동차 램프 및 PC, PMMA, SAN 등의 레진 제품들은 고도의 금형과 사출 기술 그리고 Hot Runner System 기술 조화가 매우 중요합니다. 코런은 다양한 투명제품을 적용한 노하우로 양질의 제품 생산을 목적으로 국외 핫런너 메이커와 당당히 경쟁하고 있습니다.",
+      text: "투명제품의 대표라고 할수 있는 자동차 램프 및 PC, PMMA, SAN 등의 레진 제품들은 고도의 금형과 사출 기술 그리고 Hot Runner System 기술 조화가 매우 중요합니다. 코런은 다양한 투명제품을 적용한 노하우로 양질의 제품 생산을 목적으로 국외 핫런너 메이커와 당당히 경쟁하고 있습니다\u00a0",
       images: [
         {
           src: `${CDN}/thumbnail/20240618/8993d0abe1c3e.png`,
@@ -563,7 +561,7 @@ export const casePages: Record<string, CasePageData> = {
     heroHeight: 722,
     section: {
       heading: "Daily Supplies",
-      text: "코런의 제품군은 합리적 가격과 우수한 품질로 고객사의 인정을 받고 있으며, 생활용품 업계에 점차 시장을 넓혀가고 있으며, 최적화된 설계와 우수한 내구성으로 오랜기간 많은 수량을 안정적으로 양산할 수 있도록 최선으로 다하고 있습니다.",
+      text: "코런의 제품군은 합리적 가격과 우수한 품질로 고객사의 인정을 받고 있으며, 생활용품 업계에 점차 시장을 넓혀 가고있으며, 최적화된 설계와 우수한 내구성으로 오랜기간 많은 수량을 안정적으로 양산할 수 있도록 최선으로 다하고 있습니다\u00a0",
       images: [
         {
           src: `${CDN}/thumbnail/20240618/096bb38b57551.png`,
@@ -705,6 +703,7 @@ export type TextRun = {
   fontSize?: number;
   bold?: boolean;
   underline?: boolean;
+  color?: string;
 };
 
 export type InterestingItemBlock =
@@ -714,12 +713,20 @@ export type InterestingItemBlock =
       fontSize?: number;
       bold?: boolean;
       underline?: boolean;
+      color?: string;
       align?: TextAlign;
       parts?: TextRun[];
     }
-  | { type: "image"; src: string; width?: number; block?: boolean }
+  | {
+      type: "image";
+      src: string;
+      width?: number;
+      block?: boolean;
+      align?: TextAlign;
+    }
   | { type: "button"; href: string; label: string; align?: TextAlign }
   | { type: "hr" }
+  | { type: "list"; items: string[]; fontSize?: number; align?: TextAlign }
   | { type: "br"; fontSize?: number; align?: TextAlign };
 
 export type InterestingItem = {
@@ -752,21 +759,60 @@ export const interestingItems: InterestingItem[] = [
     blocks: [
       {
         type: "text",
-        content:
-          "AIR AMPLIFIER (에어증폭기) 에어 증압기(부스터)를 통한 입력 에어 압력의 최대 2배 까지  출력 공압을 높일 수 있습니다. 산업안전관리공단의 인증을 받은 알루미늄에어탱크를 적용함으로써,  경량으로 이동 설치치가 간편 합니다.",
+        content: "AIR AMPLIFIER (에어증폭기)",
+        fontSize: 26,
+        align: "center",
       },
+      { type: "br", align: "center" },
       {
-        type: "image",
-        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/acf59c4665eae.jpg",
+        type: "text",
+        content: "에어 증압기(부스터)를 통한 입력 에어 압력의 최대 2배 까지 ",
+        fontSize: 18,
+        align: "center",
       },
       {
         type: "text",
+        content: "출력 공압을 높일 수 있습니다.",
+        fontSize: 18,
+        align: "center",
+      },
+      {
+        type: "text",
+        content:
+          "산업안전관리공단의 인증을 받은 알루미늄에어탱크를 적용함으로써, ",
+        fontSize: 18,
+        align: "center",
+      },
+      {
+        type: "text",
+        content: "경량으로 이동 설치치가 간편 합니다.",
+        fontSize: 18,
+        align: "center",
+      },
+      { type: "br", align: "center" },
+      {
+        type: "image",
+        src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/acf59c4665eae.jpg",
+        width: 551,
+        align: "center",
+      },
+      { type: "br", align: "center" },
+      { type: "br", align: "center" },
+      {
+        type: "text",
         content: "코런은 IAT 에어부스터 정식 취급 판매처 입니다.",
+        fontSize: 24,
+        bold: true,
+        underline: true,
+        color: "rgb(147,196,125)",
+        align: "center",
       },
       {
         type: "image",
         src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/aaf8ad0090328.jpg",
+        align: "center",
       },
+      { type: "br", align: "center" },
     ],
     files: [
       { name: "240605 코런 에어증폭기 리플렛.pdf", size: "245KB" },
@@ -1035,7 +1081,7 @@ export const jobPosts: JobPost[] = [
       "코런 대리점 신청 안내! (열정과 실력으로 무장 되신 찐 예비사장님들 지금 바로 연락 주시기 바랍니다)",
     author: "코런 관리자",
     date: "2024-10-14",
-    views: 397,
+    views: 438,
     blocks: [
       { type: "text", content: "안녕 하십니까?", align: "left" },
       {
@@ -1334,8 +1380,7 @@ export type HomeContent = {
     photoMobile: string;
     penMobile: string;
     arrowDark: string;
-    line1: string;
-    line2: string;
+    lines: string[];
   };
   lists: {
     penSmall: string;
@@ -1390,8 +1435,10 @@ export const homeContent: HomeContent = {
     photoMobile: `${CDN}/thumbnail/20240625/fb07ee567ca78.jpg`,
     penMobile: `${UPLOAD}/02c58f25f7fbf.png`,
     arrowDark: assets.arrowDark,
-    line1: "틀에 대한 Hot Runner의 색다른 접근,",
-    line2: "항상 제품이 완벽할 수 있도록 생각합니다.",
+    lines: [
+      "틀에 대한 Hot Runner의 색다른 접근,",
+      "항상 제품이 완벽할 수 있도록 생각합니다.",
+    ],
   },
   lists: {
     penSmall: assets.penSmall,
@@ -2428,16 +2475,28 @@ export const downloadItems: ServiceDownloadItem[] = [
     thumbnail: "https://cdn.imweb.me/thumbnail/20241012/6c4f101149119.jpg",
     description: "ダウンロードデータの種類",
     blocks: [
-      { type: "text", content: "ダウンロードデータの種類" },
-      { type: "hr" },
       {
         type: "text",
-        content:
-          "製品パンフレット  ホットランナー コントローラー カタログ  コーラン ホットランナー 標準仕様",
+        content: "ダウンロードデータの種類",
+        fontSize: 48,
+        align: "center",
+      },
+      { type: "hr" },
+      { type: "br" },
+      {
+        type: "list",
+        items: [
+          "製品パンフレット",
+          "ホットランナー コントローラー カタログ",
+          "コーラン ホットランナー 標準仕様",
+        ],
+        fontSize: 26,
+        align: "left",
       },
       {
         type: "image",
         src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/b09495825d433.jpg",
+        align: "left",
       },
     ],
     files: [
@@ -2468,17 +2527,31 @@ export const downloadItems: ServiceDownloadItem[] = [
     thumbnail: "https://cdn.imweb.me/thumbnail/20241012/56fed55810516.jpg",
     description: "Download Data Types",
     blocks: [
-      { type: "text", content: "Download Data Types" },
-      { type: "hr" },
       {
         type: "text",
-        content:
-          "Product Brochure Hot Runner Controller Catalog KORUN Hot Runner Standard Specifications",
+        content: "Download Data Types",
+        fontSize: 36,
+        align: "center",
       },
+      { type: "hr" },
+      { type: "br" },
+      {
+        type: "list",
+        items: [
+          "Product Brochure",
+          "Hot Runner Controller Catalog",
+          "KORUN Hot Runner Standard Specifications",
+        ],
+        fontSize: 26,
+        align: "left",
+      },
+      { type: "br", align: "left" },
       {
         type: "image",
         src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/a0e6882be6749.jpg",
+        align: "center",
       },
+      { type: "br" },
     ],
     files: [
       {
@@ -2831,23 +2904,40 @@ export const caseStudioItems: ServiceCaseStudioItem[] = [
       {
         type: "text",
         content:
-          "저희 코런에서는 디테일한 유동해석을 통하여 자료로써의 해석이 아닌 세밀한 해석 검토로 금형 품질 및 제품 퀄리티를 높이는데 노력을 다하고 있습니다. 성형해석에 어려움을 격고 계신 고객사가 계시면 지금 바로 코런으로 연락 주시기 바랍니다. 기본적 해석 내용과 냉각, 변형, 열분포 까지 세세한 검토 분석과 저렴한 비용으로 고객사의 도움이 되어 드리겠습니다.",
+          "저희 코런에서는 디테일한 유동해석을 통하여 자료로써의 해석이 아닌 세밀한 해석 검토로 금형 품질 및 제품 퀄리티를 높이는데 노력을 다하고 있습니다.",
+        align: "left",
+      },
+      {
+        type: "text",
+        content:
+          "성형해석에 어려움을 격고 계신 고객사가 계시면 지금 바로 코런으로 연락 주시기 바랍니다.",
+        align: "left",
+      },
+      {
+        type: "text",
+        content:
+          "기본적 해석 내용과 냉각, 변형, 열분포 까지 세세한 검토 분석과 저렴한 비용으로 고객사의 도움이 되어 드리겠습니다.",
+        align: "left",
       },
       {
         type: "image",
         src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/63441bd8956a3.jpg",
+        align: "left",
       },
       {
         type: "image",
         src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/c288329c48000.jpg",
+        align: "left",
       },
       {
         type: "image",
         src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/6b37c9c561ced.jpg",
+        align: "left",
       },
       {
         type: "image",
         src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/42de629d02280.jpg",
+        align: "left",
       },
     ],
     files: [],

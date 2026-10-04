@@ -7,22 +7,27 @@ import {
 import PostDetail from "@/components/layout/PostDetail";
 import ScaledDesktop from "@/components/admin/ScaledDesktop";
 import { chrome } from "@/lib/i18n/chrome";
+import { itemsDict } from "@/lib/i18n/boards/items";
+import type { Locale } from "@/lib/i18n/locales";
 
 export default function ItemPreviews({
   draft,
+  locale,
 }: {
   draft: InterestingItemEntity;
+  locale: Locale;
 }) {
-  const item = toInterestingItem(draft);
+  const item = toInterestingItem(draft, locale);
+  const t = itemsDict[locale].preview;
   return (
     <ScaledDesktop>
       <PostDetail
-        t={chrome.ko}
+        t={chrome[locale]}
         activeHref="/technology/interesting-items"
-        subtitle="자사의 기술력으로 구현된 다양한 제품을 소개합니다."
-        mobileSubtitle="신적이고 탁월한 아이템을 소개드립니다"
-        sectionLabel="Interesting Items"
-        boardName="Interesting Items"
+        subtitle={t.subtitle}
+        mobileSubtitle={t.mobileSubtitle}
+        sectionLabel={t.sectionLabel}
+        boardName={t.boardName}
         title={item.title}
         meta={{
           author: item.author,

@@ -4,7 +4,7 @@ import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "@/app/globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { getFooter, getSiteSettings } from "@/lib/content";
+import { getFooter, getSiteMetadata, getSiteSettings } from "@/lib/content";
 import { hasLocale, locales, type Locale } from "@/lib/i18n/locales";
 import {
   absoluteUrl,
@@ -22,7 +22,7 @@ const DEFAULT_METADATA: Record<Locale, { name: string; description: string }> =
     en: {
       name: "KORUN",
       description:
-        "KORUN is a hot runner system specialist that develops and manufactures valve gate systems, open gate systems, single nozzles, and time & temperature controllers, with technology and tailored solutions optimised for every injection molding environment.",
+        "KORUN is a hot runner system specialist that develops and manufactures valve gate systems, open gate systems, single nozzles, and time & temperature controllers, with technology and tailored solutions optimized for every injection molding environment.",
     },
   };
 
@@ -35,13 +35,20 @@ export async function generateMetadata({
   if (!hasLocale(lang)) notFound();
   const metadataBase = metadataBaseUrl();
   const alternates = metadataAlternates("/", lang);
-  const { name, description } = DEFAULT_METADATA[lang];
+  const fallback = DEFAULT_METADATA[lang];
+  const metadata = await getSiteMetadata(lang);
+  const name = metadata.title || fallback.name;
+  const description = metadata.description || fallback.description;
+  const keywords = metadata.keywords.length ? metadata.keywords : [name];
+  const ogImage =
+    metadata.ogImage ||
+    "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/2b04303145abc.png";
   const url = absoluteUrl("/", lang);
   return {
     ...(metadataBase ? { metadataBase } : {}),
     title: name,
     description,
-    keywords: [name],
+    keywords,
     applicationName: name,
     ...(alternates ? { alternates } : {}),
     openGraph: {
@@ -51,7 +58,7 @@ export async function generateMetadata({
       description,
       images: [
         {
-          url: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/2b04303145abc.png",
+          url: ogImage,
           width: 1200,
           height: 627,
         },
@@ -79,6 +86,7 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
+export const dynamic = "force-dynamic";
 export const dynamicParams = false;
 
 export function generateStaticParams() {

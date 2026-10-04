@@ -1,16 +1,22 @@
+"use client";
+
 import Link from "next/link";
 import type { InterestingItem } from "@/lib/data";
+import { itemsDict } from "@/lib/i18n/boards/items";
+import { useLocale } from "@/lib/i18n/client";
 
 export default function ItemList({ items }: { items: InterestingItem[] }) {
+  const t = itemsDict[useLocale()].list;
+
   return (
     <div className="flex flex-col gap-6">
       <header className="flex flex-col gap-1">
         <p className="text-[11px] font-semibold tracking-[0.14em] text-neutral-400 uppercase">
-          Service
+          {t.eyebrow}
         </p>
-        <h1 className="text-[24px] font-bold text-ink">기술 자료</h1>
+        <h1 className="text-[24px] font-bold text-ink">{t.title}</h1>
         <p className="text-sm text-neutral-500">
-          기술 자료 게시글 {items.length}건입니다. 편집할 항목을 선택하세요.
+          {t.description(items.length)}
         </p>
       </header>
 
@@ -18,17 +24,17 @@ export default function ItemList({ items }: { items: InterestingItem[] }) {
         <table className="w-full border-collapse text-left text-[12px]">
           <thead>
             <tr className="border-b border-neutral-200 bg-neutral-50 text-[11px] text-neutral-500">
-              <th className="px-3 py-2 font-semibold">No</th>
-              <th className="px-3 py-2 font-semibold">분류</th>
-              <th className="px-3 py-2 font-semibold">제목</th>
+              <th className="px-3 py-2 font-semibold">{t.columns.no}</th>
+              <th className="px-3 py-2 font-semibold">{t.columns.category}</th>
+              <th className="px-3 py-2 font-semibold">{t.columns.title}</th>
               <th className="hidden px-3 py-2 font-semibold md:table-cell">
-                작성자
+                {t.columns.author}
               </th>
               <th className="hidden px-3 py-2 font-semibold sm:table-cell">
-                작성일
+                {t.columns.date}
               </th>
               <th className="hidden px-3 py-2 text-right font-semibold sm:table-cell">
-                조회수
+                {t.columns.views}
               </th>
             </tr>
           </thead>

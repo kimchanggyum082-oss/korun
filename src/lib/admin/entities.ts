@@ -1,9 +1,6 @@
 import type { Localized } from "@/lib/content/merge";
+import type { Locale } from "@/lib/i18n/locales";
 import type {
-  AboutContentMap,
-  CasePageData,
-  GalleryImage,
-  HomeContent,
   InterestingItem,
   InterestingItemBlock,
   ProductPageData,
@@ -18,25 +15,6 @@ import { jobPosts } from "@/lib/data";
 type JobPost = (typeof jobPosts)[number];
 
 export const ENTITY_KEYS = {
-  siteSettings: "site:settings",
-  siteFooter: "site:footer",
-  policy: "policy:policy",
-  privacy: "policy:privacy",
-  uiStrings: "ui:strings",
-  home: "page:home",
-  aboutGreetings: "page:about:greetings",
-  aboutPatent: "page:about:patent-credentials",
-  aboutLocation: "page:about:company-location",
-  aboutJobPosting: "page:about:job-posting",
-  product21: "product:21",
-  product22: "product:22",
-  product23: "product:23",
-  product24: "product:24",
-  caseAutomotive: "case:automotive-parts",
-  caseTransparent: "case:transparent-parts",
-  caseAppliances: "case:office-house-appliances",
-  caseDaily: "case:daily-supplies",
-  caseEngineering: "case:engineering-plastics-parts",
   boardsNews: "boards:news",
   boardsDownloads: "boards:downloads",
   boardsCaseStudio: "boards:case-studio",
@@ -83,198 +61,12 @@ export function jobPostEntityKey(idx: string): JobPostEntityKey {
 export const EDITABLE_ENTITY_KEYS: EditableEntityKey[] =
   Object.values(ENTITY_KEYS);
 
-export const CASE_SLUGS = [
-  "automotive-parts",
-  "transparent-parts",
-  "office-house-appliances",
-  "daily-supplies",
-  "engineering-plastics-parts",
-] as const;
-
-export type CaseSlug = (typeof CASE_SLUGS)[number];
-
-export const CASE_ENTITY_KEYS = {
-  "automotive-parts": ENTITY_KEYS.caseAutomotive,
-  "transparent-parts": ENTITY_KEYS.caseTransparent,
-  "office-house-appliances": ENTITY_KEYS.caseAppliances,
-  "daily-supplies": ENTITY_KEYS.caseDaily,
-  "engineering-plastics-parts": ENTITY_KEYS.caseEngineering,
-} as const satisfies Record<CaseSlug, EditableEntityKey>;
-
-export function isCaseSlug(value: unknown): value is CaseSlug {
-  return (
-    typeof value === "string" &&
-    (CASE_SLUGS as readonly string[]).includes(value)
-  );
-}
-
-export const PRODUCT_IDS = ["21", "22", "23", "24"] as const;
-
-export type ProductId = (typeof PRODUCT_IDS)[number];
-
-export const PRODUCT_ENTITY_KEYS = {
-  "21": ENTITY_KEYS.product21,
-  "22": ENTITY_KEYS.product22,
-  "23": ENTITY_KEYS.product23,
-  "24": ENTITY_KEYS.product24,
-} as const satisfies Record<ProductId, EditableEntityKey>;
-
-export function isProductId(value: unknown): value is ProductId {
-  return (
-    typeof value === "string" &&
-    (PRODUCT_IDS as readonly string[]).includes(value)
-  );
-}
-
-export type SiteMetadataData = {
-  title: string;
-  description: string;
-  keywords: string[];
-  ogImage: string;
-};
-
-export type SiteSettingsData = {
-  name: string;
-  nameEn: string;
-  tagline: string;
-  taglineSub: string;
-  tel: string;
-  fax: string;
-  email: string;
-  address: string;
-  mapEmbed: string;
-  metadata: SiteMetadataData;
-};
-
-export type SiteFooterData = {
-  labels: {
-    company: string;
-    address: string;
-    tel: string;
-    fax: string;
-    email: string;
-  };
-  copyright: string;
-  links: {
-    policy: string;
-    privacy: string;
-  };
-};
-
-export type SiteMetadata = {
-  title: Localized<string>;
-  description: Localized<string>;
-  keywords: string[];
-  ogImage: string;
-};
-
-export type SiteSettingsEntity = {
-  name: Localized<string>;
-  nameEn: string;
-  tagline: Localized<string>;
-  taglineSub: Localized<string>;
-  tel: string;
-  fax: string;
-  email: string;
-  address: Localized<string>;
-  mapEmbed: string;
-  metadata: SiteMetadata;
-};
-
-export type SiteFooterEntity = {
-  labels: {
-    company: Localized<string>;
-    address: Localized<string>;
-    tel: Localized<string>;
-    fax: Localized<string>;
-    email: Localized<string>;
-  };
-  copyright: Localized<string>;
-  links: {
-    policy: Localized<string>;
-    privacy: Localized<string>;
-  };
-};
-
-export type PolicyEntity = {
-  title: Localized<string>;
-  html: Localized<string>;
-};
-
-export type UiStringEntry = {
-  ko: string;
-  en: string;
-};
-
-export type UiStringsEntity = Record<string, UiStringEntry>;
-
-export type AboutBannerEntity = {
-  line1: Localized<string>;
-  line2: Localized<string>;
-  title: Localized<string>;
-};
-
-export type AboutGreetingsContentEntity = {
-  banner: AboutBannerEntity;
-  heading: Localized<string>;
-  intro: Localized<string>;
-  paragraphs: Localized<string>[];
-  signature: Localized<string>;
-};
-
-export type AboutGreetingsEntity = {
-  content: AboutGreetingsContentEntity;
-};
-
-export type AboutPatentContentEntity = {
-  title: Localized<string>;
-};
-
-export type GalleryImageEntity = {
-  src: string;
-  fullSrc: string;
-  alt: Localized<string>;
-};
-
-export type AboutPatentEntity = {
-  content: AboutPatentContentEntity;
-  assets: {
-    patentImages: GalleryImageEntity[];
-  };
-};
-
-export type AboutLocationContentEntity = {
-  title: Localized<string>;
-  headingEn: string;
-  headingKo: string;
-  labels: {
-    tel: Localized<string>;
-    email: Localized<string>;
-    address: Localized<string>;
-  };
-  mapTitle: Localized<string>;
-};
-
-export type AboutLocationEntity = {
-  content: AboutLocationContentEntity;
-};
-
-export type AboutJobPostingContentEntity = {
-  title: Localized<string>;
-  tagline: Localized<string>;
-  detailTaglineMobile: Localized<string>;
-  detailTaglineDesktop: Localized<string>;
-};
-
-export type AboutJobPostingEntity = {
-  content: AboutJobPostingContentEntity;
-};
-
 export type TextRunEntity = {
   text: Localized<string>;
   fontSize?: number;
   bold?: boolean;
   underline?: boolean;
+  color?: string;
 };
 
 export type InterestingItemBlockEntity =
@@ -284,10 +76,17 @@ export type InterestingItemBlockEntity =
       fontSize?: number;
       bold?: boolean;
       underline?: boolean;
+      color?: string;
       align?: TextAlign;
       parts?: TextRunEntity[];
     }
-  | { type: "image"; src: string; width?: number; block?: boolean }
+  | {
+      type: "image";
+      src: string;
+      width?: number;
+      block?: boolean;
+      align?: TextAlign;
+    }
   | {
       type: "button";
       href: string;
@@ -295,6 +94,12 @@ export type InterestingItemBlockEntity =
       align?: TextAlign;
     }
   | { type: "hr" }
+  | {
+      type: "list";
+      items: Localized<string>[];
+      fontSize?: number;
+      align?: TextAlign;
+    }
   | { type: "br"; fontSize?: number; align?: TextAlign };
 
 export type InterestingFileEntity = {
@@ -371,84 +176,6 @@ export type JobPostEntity = {
   files: InterestingFileEntity[];
 };
 
-export type HomeHeroSlideEntity = {
-  src: string;
-  alt: Localized<string>;
-};
-
-export type HomeProductCardEntity = {
-  title: Localized<string>;
-  href: string;
-  src: string;
-  hoverSrc: string;
-  mobileSrc: string;
-};
-
-export type HomePillEntity = {
-  label: Localized<string>;
-  color: string;
-  padding: string;
-  href: string;
-};
-
-export type HomeMobilePillEntity = {
-  label: Localized<string>;
-  color: string;
-  padding: string;
-};
-
-export type HomeListsEntity = {
-  penSmall: string;
-  penMobile: string;
-  newsHeadingEn: string;
-  newsHeadingKo: string;
-  downloadsHeadingEn: string;
-  downloadsHeadingKo: string;
-  writer: Localized<string>;
-};
-
-export type HomeLocationEntity = {
-  penSmall: string;
-  mapTitle: Localized<string>;
-  headingEn: string;
-  headingKo: string;
-};
-
-export type HomeEntity = {
-  hero: {
-    slides: HomeHeroSlideEntity[];
-    slidesMobile: HomeHeroSlideEntity[];
-  };
-  products: {
-    bg: string;
-    penLarge: string;
-    penMobile: string;
-    mobileHeights: number[];
-    mobileTitleLines: Localized<string>[];
-    mobileBodyLines: Localized<string>[];
-    pcTitle: Localized<string>;
-    pcBody: Localized<string>;
-    items: HomeProductCardEntity[];
-  };
-  values: {
-    bg: string;
-    bgMobile: string;
-    bgAlt: Localized<string>;
-    pc: HomePillEntity[];
-    mobile: HomeMobilePillEntity[];
-  };
-  cta: {
-    photo: string;
-    photoMobile: string;
-    penMobile: string;
-    arrowDark: string;
-    line1: Localized<string>;
-    line2: Localized<string>;
-  };
-  lists: HomeListsEntity;
-  location: HomeLocationEntity;
-};
-
 export type ProductApplicationEntity = {
   title: Localized<string>;
   images: string[];
@@ -486,55 +213,7 @@ export type ProductPageEntity = {
   blocks: ProductBlockEntity[];
 };
 
-export type CaseSectionImageEntity = {
-  src: string;
-  width: number;
-  height: number;
-};
-
-export type CaseSectionEntity = {
-  heading: Localized<string>;
-  text: Localized<string>;
-  images: CaseSectionImageEntity[];
-};
-
-export type CaseGalleryImageEntity = {
-  src: string;
-  fullSrc: string;
-  alt: Localized<string>;
-};
-
-export type CasePageEntity = {
-  subtitle: Localized<string>;
-  title: Localized<string>;
-  heroImageMobile: string;
-  heroImagePc: string;
-  heroWidth: number;
-  heroHeight: number;
-  section?: CaseSectionEntity;
-  galleryImages?: CaseGalleryImageEntity[];
-};
-
 export type EditableEntityValue = {
-  [ENTITY_KEYS.siteSettings]: SiteSettingsEntity;
-  [ENTITY_KEYS.siteFooter]: SiteFooterEntity;
-  [ENTITY_KEYS.policy]: PolicyEntity;
-  [ENTITY_KEYS.privacy]: PolicyEntity;
-  [ENTITY_KEYS.uiStrings]: UiStringsEntity;
-  [ENTITY_KEYS.home]: HomeEntity;
-  [ENTITY_KEYS.aboutGreetings]: AboutGreetingsEntity;
-  [ENTITY_KEYS.aboutPatent]: AboutPatentEntity;
-  [ENTITY_KEYS.aboutLocation]: AboutLocationEntity;
-  [ENTITY_KEYS.aboutJobPosting]: AboutJobPostingEntity;
-  [ENTITY_KEYS.product21]: ProductPageEntity;
-  [ENTITY_KEYS.product22]: ProductPageEntity;
-  [ENTITY_KEYS.product23]: ProductPageEntity;
-  [ENTITY_KEYS.product24]: ProductPageEntity;
-  [ENTITY_KEYS.caseAutomotive]: CasePageEntity;
-  [ENTITY_KEYS.caseTransparent]: CasePageEntity;
-  [ENTITY_KEYS.caseAppliances]: CasePageEntity;
-  [ENTITY_KEYS.caseDaily]: CasePageEntity;
-  [ENTITY_KEYS.caseEngineering]: CasePageEntity;
   [ENTITY_KEYS.boardsNews]: ServiceNewsItemEntity[];
   [ENTITY_KEYS.boardsDownloads]: ServiceDownloadItemEntity[];
   [ENTITY_KEYS.boardsCaseStudio]: ServiceCaseStudioItemEntity[];
@@ -574,120 +253,64 @@ export function isEditableEntityKey(
   );
 }
 
-export function resolveLocalizedText(value: Localized<string>): string {
-  return typeof value === "string" ? value : value.ko;
+export function resolveLocalizedText(
+  value: Localized<string>,
+  locale: Locale = "ko",
+): string {
+  if (typeof value === "string") return value;
+  if (locale === "en") return value.en || value.ko;
+  return value.ko;
 }
 
-function resolveLocalizedList(values: readonly Localized<string>[]): string[] {
-  return values.map(resolveLocalizedText);
+function resolveLocalizedList(
+  values: readonly Localized<string>[],
+  locale: Locale = "ko",
+): string[] {
+  return values.map((value) => resolveLocalizedText(value, locale));
 }
 
-export function toHomeContent(entity: HomeEntity): HomeContent {
-  return {
-    hero: {
-      slides: entity.hero.slides.map((slide) => ({
-        src: slide.src,
-        alt: resolveLocalizedText(slide.alt),
-      })),
-      slidesMobile: entity.hero.slidesMobile.map((slide) => ({
-        src: slide.src,
-        alt: resolveLocalizedText(slide.alt),
-      })),
-    },
-    products: {
-      bg: entity.products.bg,
-      penLarge: entity.products.penLarge,
-      penMobile: entity.products.penMobile,
-      mobileHeights: entity.products.mobileHeights,
-      mobileTitleLines: resolveLocalizedList(entity.products.mobileTitleLines),
-      mobileBodyLines: resolveLocalizedList(entity.products.mobileBodyLines),
-      pcTitle: resolveLocalizedText(entity.products.pcTitle),
-      pcBody: resolveLocalizedText(entity.products.pcBody),
-      items: entity.products.items.map((item) => ({
-        title: resolveLocalizedText(item.title),
-        href: item.href,
-        src: item.src,
-        hoverSrc: item.hoverSrc,
-        mobileSrc: item.mobileSrc,
-      })),
-    },
-    values: {
-      bg: entity.values.bg,
-      bgMobile: entity.values.bgMobile,
-      bgAlt: resolveLocalizedText(entity.values.bgAlt),
-      pc: entity.values.pc.map((pill) => ({
-        label: resolveLocalizedText(pill.label),
-        color: pill.color,
-        padding: pill.padding,
-        href: pill.href,
-      })),
-      mobile: entity.values.mobile.map((pill) => ({
-        label: resolveLocalizedText(pill.label),
-        color: pill.color,
-        padding: pill.padding,
-      })),
-    },
-    cta: {
-      photo: entity.cta.photo,
-      photoMobile: entity.cta.photoMobile,
-      penMobile: entity.cta.penMobile,
-      arrowDark: entity.cta.arrowDark,
-      line1: resolveLocalizedText(entity.cta.line1),
-      line2: resolveLocalizedText(entity.cta.line2),
-    },
-    lists: {
-      penSmall: entity.lists.penSmall,
-      penMobile: entity.lists.penMobile,
-      newsHeadingEn: entity.lists.newsHeadingEn,
-      newsHeadingKo: entity.lists.newsHeadingKo,
-      downloadsHeadingEn: entity.lists.downloadsHeadingEn,
-      downloadsHeadingKo: entity.lists.downloadsHeadingKo,
-      writer: resolveLocalizedText(entity.lists.writer),
-    },
-    location: {
-      penSmall: entity.location.penSmall,
-      mapTitle: resolveLocalizedText(entity.location.mapTitle),
-      headingEn: entity.location.headingEn,
-      headingKo: entity.location.headingKo,
-    },
-  };
-}
-
-export function toProductPageData(entity: ProductPageEntity): ProductPageData {
+export function toProductPageData(
+  entity: ProductPageEntity,
+  locale: Locale = "ko",
+): ProductPageData {
   return {
     id: entity.id,
-    navTitle: resolveLocalizedText(entity.navTitle),
-    description: resolveLocalizedText(entity.description),
+    navTitle: resolveLocalizedText(entity.navTitle, locale),
+    description: resolveLocalizedText(entity.description, locale),
     blocks: entity.blocks.map((block) => ({
-      eyebrow: block.eyebrow ? resolveLocalizedText(block.eyebrow) : undefined,
-      title: block.title ? resolveLocalizedText(block.title) : undefined,
-      introTitle: resolveLocalizedText(block.introTitle),
+      eyebrow: block.eyebrow
+        ? resolveLocalizedText(block.eyebrow, locale)
+        : undefined,
+      title: block.title
+        ? resolveLocalizedText(block.title, locale)
+        : undefined,
+      introTitle: resolveLocalizedText(block.introTitle, locale),
       introImage: block.introImage,
       introText: block.introText
-        ? resolveLocalizedText(block.introText)
+        ? resolveLocalizedText(block.introText, locale)
         : undefined,
       introBullets: block.introBullets
-        ? resolveLocalizedList(block.introBullets)
+        ? resolveLocalizedList(block.introBullets, locale)
         : undefined,
       introTrailingBreak: block.introTrailingBreak,
-      tags: resolveLocalizedList(block.tags),
+      tags: resolveLocalizedList(block.tags, locale),
       showInquiry: block.showInquiry,
-      galleryLabel: resolveLocalizedText(block.galleryLabel),
+      galleryLabel: resolveLocalizedText(block.galleryLabel, locale),
       gallery: [...block.gallery],
       galleryThumbs: block.galleryThumbs ? [...block.galleryThumbs] : undefined,
       galleryColumns: block.galleryColumns,
       applications: block.applications
         ? block.applications.map((application) => ({
-            title: resolveLocalizedText(application.title),
+            title: resolveLocalizedText(application.title, locale),
             images: [...application.images],
           }))
         : undefined,
       spec: block.spec
         ? {
-            model: resolveLocalizedText(block.spec.model),
+            model: resolveLocalizedText(block.spec.model, locale),
             rows: block.spec.rows.map((row) => ({
-              label: resolveLocalizedText(row.label),
-              values: resolveLocalizedList(row.values),
+              label: resolveLocalizedText(row.label, locale),
+              values: resolveLocalizedList(row.values, locale),
               labelWidth: row.labelWidth,
               valueWidth: row.valueWidth,
             })),
@@ -697,114 +320,33 @@ export function toProductPageData(entity: ProductPageEntity): ProductPageData {
   };
 }
 
-export function toCasePageData(entity: CasePageEntity): CasePageData {
+function resolveTextRun(run: TextRunEntity, locale: Locale = "ko"): TextRun {
   return {
-    subtitle: resolveLocalizedText(entity.subtitle),
-    title: resolveLocalizedText(entity.title),
-    heroImageMobile: entity.heroImageMobile,
-    heroImagePc: entity.heroImagePc,
-    heroWidth: entity.heroWidth,
-    heroHeight: entity.heroHeight,
-    section: entity.section
-      ? {
-          heading: resolveLocalizedText(entity.section.heading),
-          text: resolveLocalizedText(entity.section.text),
-          images: entity.section.images.map((image) => ({ ...image })),
-        }
-      : undefined,
-    galleryImages: entity.galleryImages
-      ? entity.galleryImages.map((image) => ({
-          src: image.src,
-          fullSrc: image.fullSrc,
-          alt: resolveLocalizedText(image.alt),
-        }))
-      : undefined,
-  };
-}
-
-export function toAboutGreetingsContent(
-  content: AboutGreetingsContentEntity,
-): AboutContentMap["greetings"] {
-  return {
-    banner: {
-      line1: resolveLocalizedText(content.banner.line1),
-      line2: resolveLocalizedText(content.banner.line2),
-      title: resolveLocalizedText(content.banner.title),
-    },
-    heading: resolveLocalizedText(content.heading),
-    intro: resolveLocalizedText(content.intro),
-    paragraphs: resolveLocalizedList(content.paragraphs),
-    signature: resolveLocalizedText(content.signature),
-  };
-}
-
-export function toAboutPatentContent(
-  content: AboutPatentContentEntity,
-): AboutContentMap["patent-credentials"] {
-  return {
-    title: resolveLocalizedText(content.title),
-  };
-}
-
-export function toPatentImages(
-  images: readonly GalleryImageEntity[],
-): GalleryImage[] {
-  return images.map((image) => ({
-    src: image.src,
-    fullSrc: image.fullSrc,
-    alt: resolveLocalizedText(image.alt),
-  }));
-}
-
-export function toAboutLocationContent(
-  content: AboutLocationContentEntity,
-): AboutContentMap["company-location"] {
-  return {
-    title: resolveLocalizedText(content.title),
-    headingEn: content.headingEn,
-    headingKo: content.headingKo,
-    labels: {
-      tel: resolveLocalizedText(content.labels.tel),
-      email: resolveLocalizedText(content.labels.email),
-      address: resolveLocalizedText(content.labels.address),
-    },
-    mapTitle: resolveLocalizedText(content.mapTitle),
-  };
-}
-
-export function toAboutJobPostingContent(
-  content: AboutJobPostingContentEntity,
-): AboutContentMap["job-posting"] {
-  return {
-    title: resolveLocalizedText(content.title),
-    tagline: resolveLocalizedText(content.tagline),
-    detailTaglineMobile: resolveLocalizedText(content.detailTaglineMobile),
-    detailTaglineDesktop: resolveLocalizedText(content.detailTaglineDesktop),
-  };
-}
-
-function resolveTextRun(run: TextRunEntity): TextRun {
-  return {
-    text: resolveLocalizedText(run.text),
+    text: resolveLocalizedText(run.text, locale),
     fontSize: run.fontSize,
     bold: run.bold,
     underline: run.underline,
+    color: run.color,
   };
 }
 
 function resolveInterestingBlock(
   block: InterestingItemBlockEntity,
+  locale: Locale = "ko",
 ): InterestingItemBlock {
   switch (block.type) {
     case "text":
       return {
         type: "text",
-        content: resolveLocalizedText(block.content),
+        content: resolveLocalizedText(block.content, locale),
         fontSize: block.fontSize,
         bold: block.bold,
         underline: block.underline,
+        color: block.color,
         align: block.align,
-        parts: block.parts ? block.parts.map(resolveTextRun) : undefined,
+        parts: block.parts
+          ? block.parts.map((part) => resolveTextRun(part, locale))
+          : undefined,
       };
     case "image":
       return {
@@ -812,16 +354,24 @@ function resolveInterestingBlock(
         src: block.src,
         width: block.width,
         block: block.block,
+        align: block.align,
       };
     case "button":
       return {
         type: "button",
         href: block.href,
-        label: resolveLocalizedText(block.label),
+        label: resolveLocalizedText(block.label, locale),
         align: block.align,
       };
     case "hr":
       return { type: "hr" };
+    case "list":
+      return {
+        type: "list",
+        items: block.items.map((item) => resolveLocalizedText(item, locale)),
+        fontSize: block.fontSize,
+        align: block.align,
+      };
     case "br":
       return { type: "br", fontSize: block.fontSize, align: block.align };
   }
@@ -829,20 +379,23 @@ function resolveInterestingBlock(
 
 export function toInterestingItem(
   entity: InterestingItemEntity,
+  locale: Locale = "ko",
 ): InterestingItem {
   return {
     idx: entity.idx,
     no: entity.no,
-    category: resolveLocalizedText(entity.category),
-    title: resolveLocalizedText(entity.title),
-    author: resolveLocalizedText(entity.author),
+    category: resolveLocalizedText(entity.category, locale),
+    title: resolveLocalizedText(entity.title, locale),
+    author: resolveLocalizedText(entity.author, locale),
     date: entity.date,
     views: entity.views,
     thumbnail: entity.thumbnail,
-    description: resolveLocalizedText(entity.description),
-    blocks: entity.blocks.map(resolveInterestingBlock),
+    description: resolveLocalizedText(entity.description, locale),
+    blocks: entity.blocks.map((block) =>
+      resolveInterestingBlock(block, locale),
+    ),
     files: entity.files.map((file) => ({
-      name: resolveLocalizedText(file.name),
+      name: resolveLocalizedText(file.name, locale),
       size: file.size,
     })),
   };
@@ -850,9 +403,10 @@ export function toInterestingItem(
 
 function resolveServiceFiles(
   files: readonly ServiceFileEntity[],
+  locale: Locale = "ko",
 ): { name: string; size: string; url: string }[] {
   return files.map((file) => ({
-    name: resolveLocalizedText(file.name),
+    name: resolveLocalizedText(file.name, locale),
     size: file.size,
     url: file.url,
   }));
@@ -860,71 +414,85 @@ function resolveServiceFiles(
 
 export function toServiceNewsItem(
   entity: ServiceNewsItemEntity,
+  locale: Locale = "ko",
 ): ServiceNewsItem {
   return {
     idx: entity.idx,
-    category: resolveLocalizedText(entity.category),
-    title: resolveLocalizedText(entity.title),
-    author: resolveLocalizedText(entity.author),
+    category: resolveLocalizedText(entity.category, locale),
+    title: resolveLocalizedText(entity.title, locale),
+    author: resolveLocalizedText(entity.author, locale),
     date: entity.date,
     views: entity.views,
     likes: entity.likes,
     notice: entity.notice,
-    description: resolveLocalizedText(entity.description),
-    blocks: entity.blocks.map(resolveInterestingBlock),
-    files: resolveServiceFiles(entity.files),
+    description: resolveLocalizedText(entity.description, locale),
+    blocks: entity.blocks.map((block) =>
+      resolveInterestingBlock(block, locale),
+    ),
+    files: resolveServiceFiles(entity.files, locale),
   };
 }
 
 export function toServiceDownloadItem(
   entity: ServiceDownloadItemEntity,
+  locale: Locale = "ko",
 ): ServiceDownloadItem {
   return {
     idx: entity.idx,
-    title: resolveLocalizedText(entity.title),
+    title: resolveLocalizedText(entity.title, locale),
     date: entity.date,
     views: entity.views,
     thumbnail: entity.thumbnail,
-    description: resolveLocalizedText(entity.description),
+    description: resolveLocalizedText(entity.description, locale),
     summary:
       entity.summary === undefined
         ? undefined
-        : resolveLocalizedText(entity.summary),
-    blocks: entity.blocks.map(resolveInterestingBlock),
-    files: resolveServiceFiles(entity.files),
+        : resolveLocalizedText(entity.summary, locale),
+    blocks: entity.blocks.map((block) =>
+      resolveInterestingBlock(block, locale),
+    ),
+    files: resolveServiceFiles(entity.files, locale),
   };
 }
 
 export function toServiceCaseStudioItem(
   entity: ServiceCaseStudioItemEntity,
+  locale: Locale = "ko",
 ): ServiceCaseStudioItem {
   return {
     idx: entity.idx,
-    title: resolveLocalizedText(entity.title),
+    title: resolveLocalizedText(entity.title, locale),
     date: entity.date,
     views: entity.views,
     thumbnail: entity.thumbnail,
-    description: resolveLocalizedText(entity.description),
+    description: resolveLocalizedText(entity.description, locale),
     summary:
       entity.summary === undefined
         ? undefined
-        : resolveLocalizedText(entity.summary),
-    blocks: entity.blocks.map(resolveInterestingBlock),
-    files: resolveServiceFiles(entity.files),
+        : resolveLocalizedText(entity.summary, locale),
+    blocks: entity.blocks.map((block) =>
+      resolveInterestingBlock(block, locale),
+    ),
+    files: resolveServiceFiles(entity.files, locale),
   };
 }
 
-export function toJobPost(entity: JobPostEntity): JobPost {
+export function toJobPost(
+  entity: JobPostEntity,
+  locale: Locale = "ko",
+): JobPost {
   return {
     idx: entity.idx,
     no: entity.no,
-    title: resolveLocalizedText(entity.title),
-    author: resolveLocalizedText(entity.author),
+    title: resolveLocalizedText(entity.title, locale),
+    author: resolveLocalizedText(entity.author, locale),
     date: entity.date,
     views: entity.views,
-    blocks: entity.blocks.map(resolveInterestingBlock),
+    blocks: entity.blocks.map((block) =>
+      resolveInterestingBlock(block, locale),
+    ),
     files: entity.files.map((file) => ({
-      name: resolveLocalizedText(file.name),
+      name: resolveLocalizedText(file.name, locale),
       size: file.size,
     })),
   };

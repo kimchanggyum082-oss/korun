@@ -30,6 +30,7 @@ export default function ItemBody({
         fontSize: run.fontSize ? `${run.fontSize}px` : undefined,
         fontWeight: run.bold ? 700 : undefined,
         textDecoration: run.underline ? "underline" : undefined,
+        color: run.color,
       }}
     >
       {run.text}
@@ -56,7 +57,12 @@ export default function ItemBody({
                 </p>
               );
             }
-            if (block.fontSize || block.bold || block.underline) {
+            if (
+              block.fontSize ||
+              block.bold ||
+              block.underline ||
+              block.color
+            ) {
               return (
                 <p key={i} style={{ margin: 0, textAlign }}>
                   {spanFor(
@@ -65,6 +71,7 @@ export default function ItemBody({
                       fontSize: block.fontSize,
                       bold: block.bold,
                       underline: block.underline,
+                      color: block.color,
                     },
                     0,
                   )}
@@ -102,6 +109,34 @@ export default function ItemBody({
                   borderTop: "1px solid #ddd",
                 }}
               />
+            );
+          }
+
+          if (block.type === "list") {
+            return (
+              <ul
+                key={i}
+                style={{
+                  margin: "0 0 10px",
+                  paddingLeft: 40,
+                  listStyleType: "disc",
+                  textAlign: block.align ?? defaultAlign,
+                }}
+              >
+                {block.items.map((item, index) => (
+                  <li key={index}>
+                    <span
+                      style={{
+                        fontSize: block.fontSize
+                          ? `${block.fontSize}px`
+                          : undefined,
+                      }}
+                    >
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ul>
             );
           }
 
@@ -143,7 +178,10 @@ export default function ItemBody({
             }
           };
           return (
-            <p key={i} style={{ margin: 0, textAlign: defaultAlign }}>
+            <p
+              key={i}
+              style={{ margin: 0, textAlign: block.align ?? defaultAlign }}
+            >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={block.src}

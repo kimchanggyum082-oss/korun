@@ -1,6 +1,7 @@
 import type { Viewport } from "next";
 import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "@/app/globals.css";
+import { getAdminLocale } from "@/lib/i18n/admin-server";
 
 export const viewport: Viewport = {
   themeColor: "#363636",
@@ -12,13 +13,14 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
-export default function AdminRootLayout({
+export default async function AdminRootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const locale = await getAdminLocale();
   return (
-    <html lang="ko" className="h-full antialiased">
+    <html lang={locale} className="h-full antialiased">
       <body className="flex flex-col">{children}</body>
     </html>
   );

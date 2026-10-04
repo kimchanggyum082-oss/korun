@@ -2,8 +2,12 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { adminDict } from "@/lib/i18n/admin";
+import { localizeHref } from "@/lib/i18n/locales";
+import type { Locale } from "@/lib/i18n/locales";
 
-export default function LoginForm() {
+export default function LoginForm({ locale }: { locale: Locale }) {
+  const t = adminDict[locale].login;
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,14 +28,14 @@ export default function LoginForm() {
         const data = (await response.json().catch(() => null)) as {
           error?: string;
         } | null;
-        setError(data?.error ?? "로그인에 실패했습니다.");
+        setError(data?.error ?? t.failed);
         setPending(false);
         return;
       }
-      router.replace("/admin");
+      router.replace(localizeHref("/admin", locale));
       router.refresh();
     } catch {
-      setError("네트워크 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.");
+      setError(t.networkError);
       setPending(false);
     }
   }
@@ -46,14 +50,12 @@ export default function LoginForm() {
           K
         </span>
         <span className="text-sm font-semibold tracking-[0.18em] text-neutral-400 uppercase">
-          Korun Admin
+          {t.brand}
         </span>
       </div>
 
-      <h1 className="mt-6 text-[22px] font-bold text-ink">관리자 로그인</h1>
-      <p className="mt-1.5 text-sm text-neutral-500">
-        콘텐츠를 관리하려면 계정으로 로그인하세요.
-      </p>
+      <h1 className="mt-6 text-[22px] font-bold text-ink">{t.title}</h1>
+      <p className="mt-1.5 text-sm text-neutral-500">{t.subtitle}</p>
 
       <div className="mt-7 flex flex-col gap-4">
         <div className="flex flex-col gap-1.5">
@@ -61,7 +63,7 @@ export default function LoginForm() {
             htmlFor="admin-email"
             className="text-[13px] font-semibold text-ink"
           >
-            이메일
+            {t.email}
           </label>
           <input
             id="admin-email"
@@ -81,7 +83,7 @@ export default function LoginForm() {
             htmlFor="admin-password"
             className="text-[13px] font-semibold text-ink"
           >
-            비밀번호
+            {t.password}
           </label>
           <input
             id="admin-password"
@@ -111,11 +113,11 @@ export default function LoginForm() {
         disabled={pending}
         className="mt-6 h-11 w-full rounded-md bg-brand text-sm font-semibold text-white transition-colors outline-none hover:bg-ink focus-visible:ring-2 focus-visible:ring-brand/40 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {pending ? "로그인 중…" : "로그인"}
+        {pending ? t.submitting : t.submit}
       </button>
 
       <p className="mt-6 border-t border-neutral-100 pt-4 text-xs leading-relaxed text-neutral-400">
-        접근 권한은 관리자에게 문의하세요. 세션은 7일간 유지됩니다.
+        {t.footnote}
       </p>
     </form>
   );

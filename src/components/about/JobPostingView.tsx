@@ -1,17 +1,15 @@
 import Link from "next/link";
 
-import type { getAboutPage } from "@/lib/content";
-import type { AboutContentMap } from "@/lib/data";
+import { MagnifierIcon } from "@/components/service/ServiceIcons";
+import type { AboutContentMap, JobPost } from "@/lib/data";
 import type { ChromeDict } from "@/lib/i18n/chrome";
 import { defaultLocale, localizeHref, type Locale } from "@/lib/i18n/locales";
-
-type AboutPageData = Awaited<ReturnType<typeof getAboutPage>>;
 
 export type JobPostingViewProps = {
   t: ChromeDict;
   locale?: Locale;
   content: AboutContentMap["job-posting"];
-  jobPosts: AboutPageData["jobPosts"];
+  jobPosts: JobPost[];
 };
 
 export default function JobPostingView({
@@ -26,8 +24,13 @@ export default function JobPostingView({
       <section className="bg-white">
         <div className="mx-auto flex max-w-[1280px] flex-col px-[15px] py-[50px] text-center pc:py-[80px]">
           <div className="my-[7.5px] pc:my-0 pc:py-[15px]">
-            <p className="text-[15px] leading-[24px] font-bold text-brand pc:text-[22px] pc:leading-[31px]">
-              {content.tagline}
+            <p className="text-[15px] leading-[24px] font-bold pc:leading-[30px]">
+              <span className="pc:hidden" style={{ color: "rgb(0, 53, 29)" }}>
+                {content.detailTaglineMobile}
+              </span>
+              <span className="hidden text-brand pc:inline pc:text-[22px] pc:leading-[26.4px]">
+                {content.detailTaglineDesktop}
+              </span>
             </p>
           </div>
           <div className="my-[7.5px] pc:my-0 pc:pt-[20px] pc:pb-[10px]">
@@ -83,40 +86,40 @@ export default function JobPostingView({
           {/* Desktop table */}
           <table className="hidden w-full border-collapse text-[15px] leading-[24px] pc:table">
             <thead>
-              <tr className="border-b-2 border-ink">
+              <tr className="border-t border-b border-t-ink border-b-[rgba(54,54,54,0.15)]">
                 <th
                   scope="col"
-                  className="w-[5%] py-2.5 text-center font-bold text-ink"
+                  className="w-[5%] py-2.5 text-center font-normal text-ink"
                 >
                   No
                 </th>
                 <th
                   scope="col"
-                  className="py-2.5 text-center font-bold text-ink"
+                  className="py-2.5 text-center font-normal text-ink"
                 >
                   {t.board.title}
                 </th>
                 <th
                   scope="col"
-                  className="w-[10%] py-2.5 text-center font-bold text-ink"
+                  className="w-[10%] py-2.5 text-center font-normal text-ink"
                 >
                   {t.board.author}
                 </th>
                 <th
                   scope="col"
-                  className="w-[12%] py-2.5 text-center font-bold text-ink"
+                  className="w-[12%] py-2.5 text-center font-normal text-ink"
                 >
                   {t.board.date}
                 </th>
                 <th
                   scope="col"
-                  className="w-[10%] py-2.5 text-center font-bold text-ink"
+                  className="w-[10%] py-2.5 text-center font-normal text-ink"
                 >
                   {t.board.views}
                 </th>
                 <th
                   scope="col"
-                  className="w-[7%] py-2.5 text-center font-bold text-ink"
+                  className="w-[7%] py-2.5 text-center font-normal text-ink"
                 >
                   {t.board.likes}
                 </th>
@@ -126,32 +129,32 @@ export default function JobPostingView({
               {jobPosts.map((post) => (
                 <tr
                   key={post.no}
-                  className="border-b border-neutral-200 transition-colors hover:bg-neutral-50"
+                  className="border-b border-[rgba(54,54,54,0.15)] transition-colors hover:bg-neutral-50"
                 >
-                  <td className="py-2.5 text-center text-[12px] text-neutral-500">
+                  <td className="pt-2.5 pb-[11px] text-center text-[12px] leading-[19.2px] text-[rgba(54,54,54,0.65)]">
                     {post.no}
                   </td>
-                  <td className="py-2.5 text-left text-[14px] text-ink">
+                  <td className="pt-2.5 pb-[11px] text-left text-[14px] text-ink">
                     <Link
                       href={localizeHref(
                         `/about/job-posting/${post.idx}`,
                         locale,
                       )}
-                      className="hover:text-brand hover:underline"
+                      className="leading-[22.4px] hover:text-brand hover:underline"
                     >
                       {post.title}
                     </Link>
                   </td>
-                  <td className="py-2.5 text-center text-[12px] text-neutral-500">
+                  <td className="pt-2.5 pb-[11px] pl-[7px] text-left text-[12px] leading-[19.2px] text-[rgba(54,54,54,0.65)]">
                     {post.author}
                   </td>
-                  <td className="py-2.5 text-center text-[12px] text-neutral-500">
+                  <td className="pt-2.5 pb-[11px] text-center text-[12px] leading-[19.2px] text-[rgba(54,54,54,0.65)]">
                     {post.date}
                   </td>
-                  <td className="py-2.5 text-center text-[12px] text-neutral-500">
+                  <td className="pt-2.5 pb-[11px] text-center text-[12px] leading-[19.2px] text-[rgba(54,54,54,0.65)]">
                     {post.views}
                   </td>
-                  <td className="py-2.5 text-center text-[12px] text-neutral-500">
+                  <td className="pt-2.5 pb-[11px] text-center text-[12px] leading-[19.2px] text-[rgba(54,54,54,0.65)]">
                     0
                   </td>
                 </tr>
@@ -161,25 +164,28 @@ export default function JobPostingView({
 
           {/* Search */}
           <div className="mt-6 hidden justify-center pc:mt-[15px] pc:flex pc:pb-[6px]">
-            <div className="flex items-center gap-2">
+            <form className="relative h-[34px] w-[220px]" role="search">
               <input
                 type="text"
+                name="keyword"
                 placeholder="Search"
-                className="w-40 border border-neutral-300 px-3 py-1.5 text-[13px] outline-none focus:border-brand pc:w-[220px] pc:text-[14px]"
+                aria-label={t.search.label}
+                className="h-[34px] w-full border border-[rgba(0,0,0,0.1)] bg-white px-3 py-[6px] text-[14px] leading-[20px] text-[#212121] outline-none placeholder:text-[#999]"
               />
               <button
-                type="button"
-                className="bg-ink px-3 py-1.5 text-[13px] font-semibold text-white transition-colors hover:bg-brand pc:text-[14px]"
+                type="submit"
+                aria-label={t.search.submit}
+                className="absolute right-1 top-0 flex h-[34px] w-[23px] items-center justify-center text-[#212121]"
               >
-                Search
+                <MagnifierIcon />
               </button>
-            </div>
+            </form>
           </div>
         </div>
 
         {/* Trailing spacer row */}
         <div className="h-[55px] pt-[7.5px] pb-[7.5px] pc:hidden" />
-        <div className="hidden pc:block pc:h-[110px]" />
+        <div className="hidden pc:block pc:h-[111px]" />
       </section>
     </>
   );

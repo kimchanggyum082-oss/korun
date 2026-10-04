@@ -7,6 +7,8 @@ import {
   type ProductPageEntity,
 } from "@/lib/admin/entities";
 import { chrome } from "@/lib/i18n/chrome";
+import { adminDict } from "@/lib/i18n/admin";
+import type { Locale } from "@/lib/i18n/locales";
 
 function PreviewFrame({
   title,
@@ -27,17 +29,20 @@ function PreviewFrame({
 
 export default function ProductPreviews({
   draft,
+  locale,
 }: {
   draft: ProductPageEntity;
+  locale: Locale;
 }) {
-  const content = toProductPageData(draft);
+  const content = toProductPageData(draft, locale);
+  const t = adminDict[locale].preview;
   return (
     <div className="flex flex-col gap-4">
       {content.blocks.map((block, index) => (
-        <PreviewFrame key={index} title={`블록 ${index + 1}`}>
+        <PreviewFrame key={index} title={t.blockLabel(index + 1)}>
           <ScaledDesktop>
             <ProductBlockView
-              t={chrome.ko}
+              t={chrome[locale]}
               block={block}
               blockIndex={index}
               page={content.id}

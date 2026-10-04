@@ -9,6 +9,8 @@ import {
   TwoColumn,
 } from "@/components/admin/fields";
 import type { ServiceNewsItemEntity } from "@/lib/admin/entities";
+import { newsDict } from "@/lib/i18n/boards/news";
+import { useLocale } from "@/lib/i18n/client";
 import BlockEditor from "../items/BlockEditor";
 import { toLocalized } from "../items/shared";
 import FileList from "./FileList";
@@ -49,47 +51,49 @@ export default function NewsForms({
   const set = (patch: Partial<ServiceNewsItemEntity>) =>
     update((current) => ({ ...current, ...patch }));
 
+  const t = newsDict[useLocale()].form;
+
   return (
     <>
       <SectionCard
-        title="게시글 정보"
-        description="목록과 상세 상단에 노출되는 메타데이터입니다."
+        title={t.metaSection.title}
+        description={t.metaSection.description}
       >
         <LocalizedField
-          label="분류 (category)"
+          label={t.category}
           value={draft.category}
           onChange={(next) => set({ category: toLocalized(next) })}
         />
         <LocalizedField
-          label="작성자 (author)"
+          label={t.author}
           value={draft.author}
           onChange={(next) => set({ author: toLocalized(next) })}
         />
         <LocalizedField
-          label="제목 (title)"
+          label={t.title}
           value={draft.title}
           onChange={(next) => set({ title: toLocalized(next) })}
         />
         <TwoColumn>
-          <Field label="작성일 (date)">
+          <Field label={t.date}>
             <TextInput
               value={draft.date}
-              placeholder="YYYY-MM-DD"
+              placeholder={t.datePlaceholder}
               onChange={(event) => set({ date: event.target.value })}
             />
           </Field>
-          <Field label="고유 번호 (idx)">
+          <Field label={t.idx}>
             <TextInput value={draft.idx} readOnly disabled />
           </Field>
         </TwoColumn>
         <TwoColumn>
           <NumberInput
-            label="조회수 (views)"
+            label={t.views}
             value={draft.views}
             onChange={(next) => set({ views: next })}
           />
           <NumberInput
-            label="좋아요 (likes)"
+            label={t.likes}
             value={draft.likes}
             onChange={(next) => set({ likes: next })}
           />
@@ -101,10 +105,10 @@ export default function NewsForms({
             onChange={(event) => set({ notice: event.target.checked })}
             className="h-4 w-4 rounded border-neutral-300"
           />
-          공지글로 표시 (notice)
+          {t.notice}
         </label>
         <LocalizedField
-          label="요약 (description)"
+          label={t.description}
           value={draft.description}
           onChange={(next) => set({ description: toLocalized(next) })}
           multiline
@@ -113,8 +117,8 @@ export default function NewsForms({
       </SectionCard>
 
       <SectionCard
-        title="본문 블록"
-        description="문단·이미지·버튼·구분선·줄바꿈 블록을 순서대로 구성합니다."
+        title={t.blocksSection.title}
+        description={t.blocksSection.description}
       >
         <BlockEditor
           blocks={draft.blocks}
@@ -124,8 +128,8 @@ export default function NewsForms({
       </SectionCard>
 
       <SectionCard
-        title="첨부 파일"
-        description="상세 페이지 하단의 다운로드 목록입니다."
+        title={t.filesSection.title}
+        description={t.filesSection.description}
       >
         <FileList
           values={draft.files}

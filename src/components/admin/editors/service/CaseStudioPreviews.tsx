@@ -6,29 +6,34 @@ import {
   toServiceCaseStudioItem,
   type ServiceCaseStudioItemEntity,
 } from "@/lib/admin/entities";
+import { caseStudioDict } from "@/lib/i18n/boards/caseStudio";
 import { chrome } from "@/lib/i18n/chrome";
+import type { Locale } from "@/lib/i18n/locales";
 
 export default function CaseStudioPreviews({
   draft,
+  locale,
 }: {
   draft: ServiceCaseStudioItemEntity;
+  locale: Locale;
 }) {
-  const item = toServiceCaseStudioItem(draft);
+  const item = toServiceCaseStudioItem(draft, locale);
+  const t = caseStudioDict[locale].preview;
   return (
     <ScaledDesktop>
       <PostDetail
-        t={chrome.ko}
+        t={chrome[locale]}
         activeHref="/case-studio"
-        sectionLabel="Case Studio"
-        mobileSubtitle="다운로드 파일을 제공해드립니다"
-        mobileTitle="Downloads"
-        boardName="Case Studio"
+        sectionLabel={t.sectionLabel}
+        mobileSubtitle={t.mobileSubtitle}
+        mobileTitle={t.mobileTitle}
+        boardName={t.boardName}
         title={item.title}
         meta={{ date: item.date, views: item.views }}
         blocks={item.blocks}
         files={item.files}
         listHref="/case-studio"
-        fileLabel="첨부파일"
+        fileLabel={t.fileLabel}
         showComments={false}
       />
     </ScaledDesktop>

@@ -1,6 +1,7 @@
 import { getSearchIndex } from "@/lib/content";
 import type { InterestingItemBlock } from "@/lib/data";
 import { localizeHref, type Locale } from "@/lib/i18n/locales";
+import { pagesAbout } from "@/lib/i18n/pages-about";
 import { pagesService } from "@/lib/i18n/pages-service";
 
 export type SearchHit = {
@@ -18,8 +19,13 @@ export const SEARCH_PAGE_SIZE = 20;
 
 function plainText(blocks: InterestingItemBlock[]): string {
   return blocks
-    .filter((block) => block.type === "text")
-    .map((block) => (block.type === "text" ? block.content : ""))
+    .map((block) =>
+      block.type === "text"
+        ? block.content
+        : block.type === "list"
+          ? block.items.join(" ")
+          : "",
+    )
     .join(" ")
     .replace(/\s+/g, " ")
     .trim();
@@ -45,6 +51,7 @@ export async function allSearchHits(locale: Locale): Promise<SearchHit[]> {
   const { newsItems, downloadItems, caseStudioItems, interestingItems } =
     await getSearchIndex();
   const copy = pagesService[locale];
+  const aboutCopy = pagesAbout[locale];
   return [
     ...newsItems.map((item) => ({
       key: `news-${item.idx}`,
@@ -60,7 +67,7 @@ export async function allSearchHits(locale: Locale): Promise<SearchHit[]> {
       key: `downloads-${item.idx}`,
       href: localizeHref(`/downloads/${item.idx}`, locale),
       listHref: localizeHref("/downloads", locale),
-      boardName: "Downloads",
+      boardName: copy.downloads.boardName,
       title: item.title,
       summary: plainText(item.blocks) || item.summary || item.description,
       thumbnail: item.thumbnail,
@@ -70,7 +77,7 @@ export async function allSearchHits(locale: Locale): Promise<SearchHit[]> {
       key: `case-studio-${item.idx}`,
       href: localizeHref(`/case-studio/${item.idx}`, locale),
       listHref: localizeHref("/case-studio", locale),
-      boardName: "Case Studio",
+      boardName: copy.caseStudio.boardName,
       title: item.title,
       summary: plainText(item.blocks) || item.summary || item.description,
       thumbnail: item.thumbnail,
@@ -80,7 +87,7 @@ export async function allSearchHits(locale: Locale): Promise<SearchHit[]> {
       key: `interesting-items-${item.idx}`,
       href: localizeHref(`/technology/interesting-items/${item.idx}`, locale),
       listHref: localizeHref("/technology/interesting-items", locale),
-      boardName: "Interesting Items",
+      boardName: aboutCopy.technology.interestingItems.boardName,
       title: item.title,
       summary: plainText(item.blocks) || item.description,
       thumbnail: item.thumbnail,

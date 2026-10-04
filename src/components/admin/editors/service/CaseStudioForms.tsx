@@ -10,6 +10,8 @@ import {
 } from "@/components/admin/fields";
 import ImageField from "@/components/admin/ImageField";
 import type { ServiceCaseStudioItemEntity } from "@/lib/admin/entities";
+import { caseStudioDict } from "@/lib/i18n/boards/caseStudio";
+import { useLocale } from "@/lib/i18n/client";
 import BlockEditor from "../items/BlockEditor";
 import { toLocalized } from "../items/shared";
 import FileList from "../news/FileList";
@@ -50,49 +52,51 @@ export default function CaseStudioForms({
   const set = (patch: Partial<ServiceCaseStudioItemEntity>) =>
     update((current) => ({ ...current, ...patch }));
 
+  const t = caseStudioDict[useLocale()].form;
+
   return (
     <>
       <SectionCard
-        title="게시글 정보"
-        description="목록과 상세에 노출되는 메타데이터입니다."
+        title={t.infoSection.title}
+        description={t.infoSection.description}
       >
         <LocalizedField
-          label="제목 (title)"
+          label={t.title}
           value={draft.title}
           onChange={(next) => set({ title: toLocalized(next) })}
         />
         <TwoColumn>
-          <Field label="작성일 (date)">
+          <Field label={t.date}>
             <TextInput
               value={draft.date}
-              placeholder="YYYY-MM-DD"
+              placeholder={t.datePlaceholder}
               onChange={(event) => set({ date: event.target.value })}
             />
           </Field>
-          <Field label="고유 번호 (idx)">
+          <Field label={t.idx}>
             <TextInput value={draft.idx} readOnly disabled />
           </Field>
         </TwoColumn>
         <NumberInput
-          label="조회수 (views)"
+          label={t.views}
           value={draft.views}
           onChange={(next) => set({ views: next })}
         />
         <ImageField
-          label="썸네일 (thumbnail)"
+          label={t.thumbnail}
           value={draft.thumbnail}
           uploadConfigured={uploadConfigured}
           onChange={(next) => set({ thumbnail: next })}
         />
         <LocalizedField
-          label="요약 (summary)"
+          label={t.summary}
           value={draft.summary ?? ""}
           onChange={(next) => set({ summary: toLocalized(next) })}
           multiline
           rows={2}
         />
         <LocalizedField
-          label="설명 (description)"
+          label={t.description}
           value={draft.description}
           onChange={(next) => set({ description: toLocalized(next) })}
           multiline
@@ -101,8 +105,8 @@ export default function CaseStudioForms({
       </SectionCard>
 
       <SectionCard
-        title="본문 블록"
-        description="문단·이미지·버튼·구분선·줄바꿈 블록을 순서대로 구성합니다."
+        title={t.blocksSection.title}
+        description={t.blocksSection.description}
       >
         <BlockEditor
           blocks={draft.blocks}
@@ -112,8 +116,8 @@ export default function CaseStudioForms({
       </SectionCard>
 
       <SectionCard
-        title="첨부 파일"
-        description="상세 페이지 하단의 다운로드 목록입니다."
+        title={t.filesSection.title}
+        description={t.filesSection.description}
       >
         <FileList
           values={draft.files}

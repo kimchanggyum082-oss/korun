@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Fragment } from "react";
 import SmartImage from "@/components/ui/SmartImage";
 import { homeContent, type HomeContent } from "@/lib/data";
 
@@ -25,12 +26,11 @@ export default function CtaBanner({
         </div>
 
         <div className="my-[7.5px]">
-          <p className="text-[20px] font-bold leading-[24px]">
-            {content.line1}
-          </p>
-          <p className="text-[20px] font-bold leading-[24px]">
-            {content.line2}
-          </p>
+          {content.lines.map((line, i) => (
+            <p key={i} className="text-[20px] font-bold leading-[24px]">
+              {line}
+            </p>
+          ))}
           <p className="h-[15px] leading-[15px]" />
           <div className="mt-[5px] h-[69.39px]">
             <Image
@@ -66,9 +66,12 @@ export default function CtaBanner({
               <div className="py-[15px] pl-[50px] pr-[15px]">
                 <p className="leading-[30px]">
                   <span className="text-[36px] font-bold leading-[43.2px] text-ink">
-                    {content.line1}
-                    <br />
-                    {content.line2}
+                    {content.lines.map((line, i) => (
+                      <Fragment key={i}>
+                        {i > 0 ? <br /> : null}
+                        {line}
+                      </Fragment>
+                    ))}
                   </span>
                 </p>
                 <p className="leading-[30px]">

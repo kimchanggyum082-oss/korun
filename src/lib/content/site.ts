@@ -1,28 +1,51 @@
-import { company, nav } from "@/lib/data";
-import { siteFooterDefault } from "@/lib/admin/entity-store";
 import { type Locale } from "@/lib/i18n/locales";
-import { resolveEntity } from "./resolve";
-import { localizeTree } from "./merge";
 import { resolveActiveLocale } from "./locale";
+import { getContentRows } from "./page-content";
+import { keysForGroup } from "./registry";
+import { resolveSiteFromRows } from "./registry/site-resolve";
 
 export async function getSiteSettings(locale?: Locale) {
   const activeLocale = await resolveActiveLocale(locale);
-  const value = await resolveEntity("site:settings", company);
-  const settings = localizeTree(activeLocale, value);
-  if (activeLocale === "en" && settings.nameEn) {
-    return { ...settings, name: settings.nameEn };
+  const rows = await getContentRows(keysForGroup("site"));
+  const { settings } = resolveSiteFromRows(rows, activeLocale);
+  const {
+    name,
+    nameEn,
+    tagline,
+    taglineSub,
+    tel,
+    fax,
+    email,
+    address,
+    mapEmbed,
+  } = settings;
+  const base = {
+    name,
+    nameEn,
+    tagline,
+    taglineSub,
+    tel,
+    fax,
+    email,
+    address,
+    mapEmbed,
+  };
+  if (activeLocale === "en" && nameEn) {
+    return { ...base, name: nameEn };
   }
-  return settings;
+  return base;
 }
 
-export async function getNav(locale?: Locale) {
+export async function getSiteMetadata(locale?: Locale) {
   const activeLocale = await resolveActiveLocale(locale);
-  const value = await resolveEntity("site:nav", nav);
-  return localizeTree(activeLocale, value);
+  const rows = await getContentRows(keysForGroup("site"));
+  const { settings } = resolveSiteFromRows(rows, activeLocale);
+  return settings.metadata;
 }
 
 export async function getFooter(locale?: Locale) {
   const activeLocale = await resolveActiveLocale(locale);
-  const value = await resolveEntity("site:footer", siteFooterDefault());
-  return localizeTree(activeLocale, value);
+  const rows = await getContentRows(keysForGroup("site"));
+  const { footer } = resolveSiteFromRows(rows, activeLocale);
+  return footer;
 }

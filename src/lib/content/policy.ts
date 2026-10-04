@@ -1,14 +1,16 @@
-import { sitePolicyModals, type SitePolicyModal } from "@/lib/data";
+import { type SitePolicyModal } from "@/lib/data";
 import { type Locale } from "@/lib/i18n/locales";
-import { resolveEntity } from "./resolve";
-import { localizeTree } from "./merge";
 import { resolveActiveLocale } from "./locale";
+import { getContentRows } from "./page-content";
+import { keysForGroup } from "./registry";
+import { resolveSiteFromRows } from "./registry/site-resolve";
 
 export async function getPolicyModal(
   mode: "policy" | "privacy",
   locale?: Locale,
 ): Promise<SitePolicyModal> {
   const activeLocale = await resolveActiveLocale(locale);
-  const value = await resolveEntity(`policy:${mode}`, sitePolicyModals[mode]);
-  return localizeTree(activeLocale, value);
+  const rows = await getContentRows(keysForGroup("site"));
+  const resolved = resolveSiteFromRows(rows, activeLocale);
+  return mode === "privacy" ? resolved.privacy : resolved.policy;
 }

@@ -6,6 +6,8 @@ import {
   type EntitySource,
   type ServiceCaseStudioItemEntity,
 } from "@/lib/admin/entities";
+import { caseStudioDict } from "@/lib/i18n/boards/caseStudio";
+import { useLocale } from "@/lib/i18n/client";
 import CaseStudioForms from "./CaseStudioForms";
 import CaseStudioPreviews from "./CaseStudioPreviews";
 
@@ -20,16 +22,18 @@ export default function CaseStudioEditor({
   storeReady: boolean;
   uploadConfigured: boolean;
 }) {
+  const t = caseStudioDict[useLocale()].editor;
+
   return (
     <EntityEditor<ServiceCaseStudioItemEntity>
       entityKey={studioEntityKey(initial.idx)}
-      label="Service"
-      title="케이스 스튜디오"
-      description="케이스 스튜디오 게시글의 메타데이터, 본문 블록, 첨부 파일을 관리합니다."
+      label={t.label}
+      title={t.title}
+      description={t.description}
       source={source}
       initial={initial}
       storeReady={storeReady}
-      previewLabel="케이스 스튜디오 상세"
+      previewLabel={t.previewLabel}
       form={(draft, update) => (
         <CaseStudioForms
           draft={draft}
@@ -37,7 +41,9 @@ export default function CaseStudioEditor({
           uploadConfigured={uploadConfigured}
         />
       )}
-      preview={(draft) => <CaseStudioPreviews draft={draft} />}
+      preview={(draft, locale) => (
+        <CaseStudioPreviews draft={draft} locale={locale} />
+      )}
     />
   );
 }

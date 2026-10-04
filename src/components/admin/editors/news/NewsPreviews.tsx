@@ -6,23 +6,28 @@ import {
   toServiceNewsItem,
   type ServiceNewsItemEntity,
 } from "@/lib/admin/entities";
+import { newsDict } from "@/lib/i18n/boards/news";
 import { chrome } from "@/lib/i18n/chrome";
+import type { Locale } from "@/lib/i18n/locales";
 
 export default function NewsPreviews({
   draft,
+  locale,
 }: {
   draft: ServiceNewsItemEntity;
+  locale: Locale;
 }) {
-  const item = toServiceNewsItem(draft);
+  const item = toServiceNewsItem(draft, locale);
+  const t = newsDict[locale].preview;
   return (
     <ScaledDesktop>
       <PostDetail
-        t={chrome.ko}
+        t={chrome[locale]}
         activeHref="/news"
-        subtitle="최신 뉴스와 이벤트를 한눈에 보여드립니다"
-        sectionLabel="News&Events"
-        mobileTitle="News & Events"
-        boardName="뉴스&이벤트"
+        subtitle={t.subtitle}
+        sectionLabel={t.sectionLabel}
+        mobileTitle={t.mobileTitle}
+        boardName={t.boardName}
         title={item.title}
         category={item.category}
         meta={{

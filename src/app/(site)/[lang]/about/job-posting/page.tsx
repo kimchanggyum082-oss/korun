@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
-import { getAboutPage, resolveActiveLocale } from "@/lib/content";
+import {
+  getAboutPage,
+  getBoardItems,
+  resolveActiveLocale,
+} from "@/lib/content";
 import AboutNav from "@/components/layout/AboutNav";
 import JobPostingView from "@/components/about/JobPostingView";
 import { getChrome } from "@/lib/i18n/server";
@@ -20,8 +24,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function JobPostingPage() {
-  const [{ content, jobPosts }, t, locale] = await Promise.all([
+  const [{ content }, jobPosts, t, locale] = await Promise.all([
     getAboutPage("job-posting"),
+    getBoardItems("job-posting"),
     getChrome(),
     resolveActiveLocale(),
   ]);

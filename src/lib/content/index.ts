@@ -1,4 +1,4 @@
-export { getSiteSettings, getNav, getFooter } from "./site";
+export { getSiteSettings, getSiteMetadata, getFooter } from "./site";
 export { getHomePage } from "./home";
 export { getProductPage, getProductPages } from "./products";
 export { getAboutPage } from "./about";

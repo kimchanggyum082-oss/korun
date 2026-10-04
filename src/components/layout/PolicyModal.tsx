@@ -124,7 +124,7 @@ export default function PolicyModal({
               </h4>
               <a
                 href="#"
-                aria-label="Close"
+                aria-label={t.common.close}
                 onClick={(event) => {
                   event.preventDefault();
                   close();

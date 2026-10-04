@@ -9,6 +9,8 @@ import {
   TwoColumn,
 } from "@/components/admin/fields";
 import type { JobPostEntity } from "@/lib/admin/entities";
+import { jobsDict, type JobsDict } from "@/lib/i18n/boards/jobs";
+import { useLocale } from "@/lib/i18n/client";
 import BlockEditor from "../items/BlockEditor";
 import { toLocalized } from "../items/shared";
 
@@ -39,9 +41,11 @@ function NumberInput({
 function JobFileList({
   values,
   onChange,
+  t,
 }: {
   values: JobPostEntity["files"];
   onChange: (next: JobPostEntity["files"]) => void;
+  t: JobsDict["files"];
 }) {
   return (
     <div className="flex flex-col gap-3">
@@ -52,11 +56,11 @@ function JobFileList({
         >
           <div className="flex items-center justify-between gap-2">
             <span className="text-[12px] font-semibold text-neutral-500">
-              파일 {index + 1}
+              {t.item(index + 1)}
             </span>
             <button
               type="button"
-              aria-label="삭제"
+              aria-label={t.remove}
               className="flex h-7 w-7 items-center justify-center rounded-md border border-neutral-200 text-[13px] leading-none text-neutral-500 transition-colors outline-none hover:border-neutral-300 hover:text-[#a51c1c] focus-visible:ring-2 focus-visible:ring-brand/30"
               onClick={() => onChange(values.filter((_, i) => i !== index))}
             >
@@ -64,7 +68,7 @@ function JobFileList({
             </button>
           </div>
           <LocalizedField
-            label="이름 (name)"
+            label={t.name}
             value={file.name}
             onChange={(next) =>
               onChange(
@@ -74,10 +78,10 @@ function JobFileList({
               )
             }
           />
-          <Field label="크기 (size)">
+          <Field label={t.size}>
             <TextInput
               value={file.size}
-              placeholder="예: 979KB"
+              placeholder={t.sizePlaceholder}
               onChange={(event) =>
                 onChange(
                   values.map((entry, i) =>
@@ -96,7 +100,7 @@ function JobFileList({
         onClick={() => onChange([...values, { name: "", size: "" }])}
         className="h-8 w-fit rounded-md border border-dashed border-neutral-300 bg-white px-2.5 text-[12px] font-semibold text-neutral-600 transition-colors outline-none hover:border-brand/40 hover:text-brand focus-visible:ring-2 focus-visible:ring-brand/30"
       >
-        파일 추가
+        {t.add}
       </button>
     </div>
   );
@@ -114,46 +118,49 @@ export default function JobForms({
   const set = (patch: Partial<JobPostEntity>) =>
     update((current) => ({ ...current, ...patch }));
 
+  const dict = jobsDict[useLocale()];
+  const t = dict.form;
+
   return (
     <>
       <SectionCard
-        title="게시글 정보"
-        description="목록과 상세에 노출되는 메타데이터입니다."
+        title={t.metaSection.title}
+        description={t.metaSection.description}
       >
         <LocalizedField
-          label="제목 (title)"
+          label={t.title}
           value={draft.title}
           onChange={(next) => set({ title: toLocalized(next) })}
         />
         <TwoColumn>
           <LocalizedField
-            label="작성자 (author)"
+            label={t.author}
             value={draft.author}
             onChange={(next) => set({ author: toLocalized(next) })}
           />
-          <Field label="작성일 (date)">
+          <Field label={t.date}>
             <TextInput
               value={draft.date}
-              placeholder="YYYY-MM-DD"
+              placeholder={t.datePlaceholder}
               onChange={(event) => set({ date: event.target.value })}
             />
           </Field>
         </TwoColumn>
         <TwoColumn>
           <NumberInput
-            label="조회수 (views)"
+            label={t.views}
             value={draft.views}
             onChange={(next) => set({ views: next })}
           />
-          <Field label="고유 번호 (idx)">
+          <Field label={t.idx}>
             <TextInput value={draft.idx} readOnly disabled />
           </Field>
         </TwoColumn>
       </SectionCard>
 
       <SectionCard
-        title="본문 블록"
-        description="문단·이미지·버튼·구분선·줄바꿈 블록을 순서대로 구성합니다."
+        title={t.blocksSection.title}
+        description={t.blocksSection.description}
       >
         <BlockEditor
           blocks={draft.blocks}
@@ -163,12 +170,13 @@ export default function JobForms({
       </SectionCard>
 
       <SectionCard
-        title="첨부 파일"
-        description="상세 페이지 하단의 다운로드 목록입니다."
+        title={t.filesSection.title}
+        description={t.filesSection.description}
       >
         <JobFileList
           values={draft.files}
           onChange={(next) => set({ files: next })}
+          t={dict.files}
         />
       </SectionCard>
     </>

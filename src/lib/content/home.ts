@@ -1,17 +1,18 @@
-import { assets, downloads, homeContent, news, values } from "@/lib/data";
+import { assets, downloads, news, values } from "@/lib/data";
 import { type Locale } from "@/lib/i18n/locales";
-import { resolveEntity } from "./resolve";
-import { localizeTree } from "./merge";
 import { resolveActiveLocale } from "./locale";
+import { getContentRows } from "./page-content";
+import { keysForGroup } from "./registry";
+import { resolveHomeFromRows } from "./registry/home-resolve";
 
 export async function getHomePage(locale?: Locale) {
   const activeLocale = await resolveActiveLocale(locale);
-  const value = await resolveEntity("page:home", {
+  const rows = await getContentRows(keysForGroup("home"));
+  return {
     assets,
     values,
     news,
     downloads,
-    content: homeContent,
-  });
-  return localizeTree(activeLocale, value);
+    content: resolveHomeFromRows(rows, activeLocale),
+  };
 }

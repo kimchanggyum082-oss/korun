@@ -6,6 +6,8 @@ import {
   type EntitySource,
   type ServiceDownloadItemEntity,
 } from "@/lib/admin/entities";
+import { downloadsDict } from "@/lib/i18n/boards/downloads";
+import { useLocale } from "@/lib/i18n/client";
 import DownloadForms from "./DownloadForms";
 import DownloadPreviews from "./DownloadPreviews";
 
@@ -20,16 +22,18 @@ export default function DownloadEditor({
   storeReady: boolean;
   uploadConfigured: boolean;
 }) {
+  const t = downloadsDict[useLocale()].editor;
+
   return (
     <EntityEditor<ServiceDownloadItemEntity>
       entityKey={downloadEntityKey(initial.idx)}
-      label="Service"
-      title="다운로드"
-      description="다운로드 게시글의 메타데이터, 본문 블록, 첨부 파일을 관리합니다."
+      label={t.label}
+      title={t.title}
+      description={t.description}
       source={source}
       initial={initial}
       storeReady={storeReady}
-      previewLabel="다운로드 상세"
+      previewLabel={t.previewLabel}
       form={(draft, update) => (
         <DownloadForms
           draft={draft}
@@ -37,7 +41,9 @@ export default function DownloadEditor({
           uploadConfigured={uploadConfigured}
         />
       )}
-      preview={(draft) => <DownloadPreviews draft={draft} />}
+      preview={(draft, locale) => (
+        <DownloadPreviews draft={draft} locale={locale} />
+      )}
     />
   );
 }
