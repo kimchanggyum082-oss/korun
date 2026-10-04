@@ -822,9 +822,9 @@ export default function PagesEditor({
       </div>
 
       {openSection !== null && openDef && resolved ? (
-        <aside className="mt-6 pc:sticky pc:top-[104px] pc:mt-0 pc:w-[43%] pc:min-w-[440px] pc:shrink-0">
-          <div className="overflow-hidden rounded-[6px] border border-black/10 bg-white">
-            <div className="flex items-center justify-between border-b border-black/10 px-3 py-2">
+        <aside className="mt-6 pc:sticky pc:top-6 pc:mt-0 pc:flex pc:max-h-[calc(100dvh-48px)] pc:w-[43%] pc:min-w-[440px] pc:shrink-0 pc:flex-col">
+          <div className="overflow-hidden rounded-[6px] border border-black/10 bg-white pc:flex pc:min-h-0 pc:flex-col">
+            <div className="flex items-center justify-between border-b border-black/10 px-3 py-2 pc:shrink-0">
               <span className="text-[12px] font-bold text-ink">
                 {t.preview}
               </span>
@@ -846,7 +846,7 @@ export default function PagesEditor({
                 ))}
               </div>
             </div>
-            <div className="max-h-[82vh] overflow-y-auto">
+            <div className="max-h-[82vh] overflow-y-auto pc:min-h-0 pc:max-h-none pc:flex-1">
               <PageSectionPreview
                 group={group}
                 sectionDef={openDef}

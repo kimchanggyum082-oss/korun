@@ -34,7 +34,7 @@ export default function AdminSidebar() {
   return (
     <nav
       aria-label={t.layout.title}
-      className="sticky top-[104px] hidden max-h-[calc(100dvh-124px)] w-[210px] shrink-0 flex-col overflow-y-auto rounded-[4px] border border-black/10 bg-white p-2.5 pc:flex"
+      className="sticky top-6 hidden max-h-[calc(100dvh-48px)] w-[210px] shrink-0 flex-col overflow-y-auto rounded-[4px] border border-black/10 bg-white p-2.5 pc:flex"
     >
       {adminGroups.map((group) => (
         <div key={group.key} className="mb-3 last:mb-0">

@@ -151,9 +151,9 @@ export default function EntityEditor<T>({
       <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(0,460px)]">
         <div className="flex flex-col gap-4">{form(draft, update)}</div>
 
-        <aside className="xl:sticky xl:top-20 xl:self-start">
-          <div className="rounded-lg border border-neutral-200 bg-white">
-            <header className="flex items-center justify-between gap-3 border-b border-neutral-100 px-4 py-2.5">
+        <aside className="xl:sticky xl:top-6 xl:flex xl:max-h-[calc(100dvh-48px)] xl:flex-col xl:self-start">
+          <div className="rounded-lg border border-neutral-200 bg-white xl:flex xl:min-h-0 xl:flex-col xl:overflow-hidden">
+            <header className="flex items-center justify-between gap-3 border-b border-neutral-100 px-4 py-2.5 xl:shrink-0">
               <h2 className="text-[13px] font-semibold text-ink">
                 {t.preview} · {previewLabel}
               </h2>
@@ -184,7 +184,9 @@ export default function EntityEditor<T>({
                 </span>
               </div>
             </header>
-            <div className="px-4 py-4">{preview(draft, previewLocale)}</div>
+            <div className="px-4 py-4 xl:min-h-0 xl:flex-1 xl:overflow-y-auto">
+              {preview(draft, previewLocale)}
+            </div>
           </div>
         </aside>
       </div>
