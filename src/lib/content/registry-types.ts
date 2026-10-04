@@ -34,8 +34,20 @@ export interface ContentDef {
   fields?: JsonFieldDef[];
   /** Upper bound for `list`/`imageList` rows (add button is hidden at the cap). */
   maxItems?: number;
+  /**
+   * Render hint for `list` rows. `table` shows a fixed-column grid whose
+   * header cells are the field labels — admins edit cells and add rows, but the
+   * column set is fixed by `fields`.
+   */
+  variant?: "table";
   /** Paths to revalidate after saving. */
   revalidate: string[];
+}
+
+export interface ContentOptions {
+  fields?: JsonFieldDef[];
+  maxItems?: number;
+  variant?: "table";
 }
 
 export function defineContent(
@@ -46,8 +58,7 @@ export function defineContent(
   labelEn: string,
   kind: ContentKind,
   revalidate: string[],
-  fields?: JsonFieldDef[],
-  maxItems?: number,
+  options?: ContentOptions,
 ): ContentDef {
   return {
     key,
@@ -55,8 +66,9 @@ export function defineContent(
     section,
     label: { ko: labelKo, en: labelEn },
     kind,
-    fields,
-    maxItems,
+    fields: options?.fields,
+    maxItems: options?.maxItems,
+    variant: options?.variant,
     revalidate,
   };
 }

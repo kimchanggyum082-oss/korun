@@ -10,16 +10,19 @@ import {
  *
  * Structure is namespaced per product id (`products.<id>.…`) and mirrors the
  * data-file shape so `ProductPageData` can be rebuilt key-by-key:
- *   products.<id>.navTitle / description
+ *   products.<id>.navTitle
  *   products.<id>.block.<bi>.{eyebrow,title,introTitle,introImage,introText,
  *     introBullets,tags,galleryLabel,gallery,
- *     application.<ai>.{title,image.<ii>},spec.{model,row.<ri>.{label,values}}}
+ *     application.<ai>.{title,image.<ii>},spec.rows}
  *
  * The block gallery is a dynamic image list (add/remove/reorder, image +
- * thumbnail per row). String arrays (bullets, tags, spec values) use
- * newline-separated `textarea` keys. Purely-layout fields that cannot be
- * expressed (`introTrailingBreak`, `showInquiry`, `galleryColumns`, spec
- * widths) are read back from the data-file defaults by the resolver.
+ * thumbnail per row). The spec table is a dynamic `list` rendered as a fixed
+ * two-column table (`variant: "table"`) — admins edit cells and add rows, but
+ * the label/value columns are fixed. String arrays (bullets, tags, spec
+ * values) use newline-separated `textarea` fields. Purely-layout fields that
+ * cannot be expressed (`introTrailingBreak`, `showInquiry`, `galleryColumns`,
+ * spec widths and the page meta description) are read back from the data-file
+ * defaults by the resolver and are not editable.
  */
 
 export const PRODUCT_SECTIONS: Record<string, { ko: string; en: string }> = {
@@ -40,6 +43,15 @@ const galleryFields: JsonFieldDef[] = [
   },
 ];
 
+const specFields: JsonFieldDef[] = [
+  { key: "label", kind: "text", label: { ko: "항목", en: "Item" } },
+  {
+    key: "values",
+    kind: "textarea",
+    label: { ko: "값 (줄바꿈 구분)", en: "Value (one per line)" },
+  },
+];
+
 const d = (
   id: string,
   section: { ko: string; en: string },
@@ -48,6 +60,7 @@ const d = (
   labelEn: string,
   kind: ContentDef["kind"],
   fields?: JsonFieldDef[],
+  variant?: ContentDef["variant"],
 ) =>
   defineContent(
     key,
@@ -57,7 +70,7 @@ const d = (
     labelEn,
     kind,
     revalidateFor(id),
-    fields,
+    { fields, variant },
   );
 
 export const productsDefs: ContentDef[] = Object.keys(productPages).flatMap(
@@ -72,14 +85,6 @@ export const productsDefs: ContentDef[] = Object.keys(productPages).flatMap(
         "내비게이션 제목",
         "Nav title",
         "text",
-      ),
-      d(
-        id,
-        section,
-        `products.${id}.description`,
-        "설명 (메타)",
-        "Description (meta)",
-        "textarea",
       ),
     ];
 
@@ -201,32 +206,14 @@ export const productsDefs: ContentDef[] = Object.keys(productPages).flatMap(
           d(
             id,
             section,
-            `${base}.spec.model`,
-            `블록 ${b} 스펙 모델명`,
-            `Block ${b} spec model`,
-            "text",
+            `${base}.spec.rows`,
+            `블록 ${b} 스펙 표 (항목 · 값)`,
+            `Block ${b} spec table (item · value)`,
+            "list",
+            specFields,
+            "table",
           ),
         );
-        block.spec.rows.forEach((_, ri) => {
-          defs.push(
-            d(
-              id,
-              section,
-              `${base}.spec.row.${ri}.label`,
-              `블록 ${b} 스펙 ${ri + 1} 항목`,
-              `Block ${b} spec row ${ri + 1} label`,
-              "text",
-            ),
-            d(
-              id,
-              section,
-              `${base}.spec.row.${ri}.values`,
-              `블록 ${b} 스펙 ${ri + 1} 값 (줄바꿈 구분)`,
-              `Block ${b} spec row ${ri + 1} values (one per line)`,
-              "textarea",
-            ),
-          );
-        });
       }
     });
 

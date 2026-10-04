@@ -23,16 +23,9 @@ const d = (
   revalidate: string[],
   fields?: JsonFieldDef[],
 ) =>
-  defineContent(
-    key,
-    "about",
-    section,
-    labelKo,
-    labelEn,
-    kind,
-    revalidate,
+  defineContent(key, "about", section, labelKo, labelEn, kind, revalidate, {
     fields,
-  );
+  });
 
 const paragraphFields: JsonFieldDef[] = [
   { key: "text", kind: "textarea", label: { ko: "단락", en: "Paragraph" } },

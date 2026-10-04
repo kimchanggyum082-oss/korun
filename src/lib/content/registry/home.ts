@@ -47,17 +47,10 @@ const d = (
   fields?: JsonFieldDef[],
   maxItems?: number,
 ) =>
-  defineContent(
-    key,
-    "home",
-    section,
-    labelKo,
-    labelEn,
-    kind,
-    HOME,
+  defineContent(key, "home", section, labelKo, labelEn, kind, HOME, {
     fields,
     maxItems,
-  );
+  });
 
 export const homeDefs: ContentDef[] = [
   // ── Hero (image carousel — dynamic list, one image per slide) ──

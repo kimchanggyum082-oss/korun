@@ -28,14 +28,14 @@ Admin editing rules:
 
 - `image` keys are single image slots. The editor offers URL entry or upload only — no alt text — and the value is language-common (written to both locales). An empty value keeps the data-file default. One image drives every viewport; bundled defaults may still carry per-viewport variants (e.g. the hero slides) until the admin overrides the slot.
 - `imageList` keys are dynamic image lists (add/remove/reorder, one or more image fields per row). Carousels and galleries (home hero, product/case/about galleries) use this kind.
-- `list` keys are dynamic row lists described by `fields`; rows may mix text, image and link fields (home product cards and value pills, about paragraphs). `maxItems` caps the row count and hides the add button at the cap.
+- `list` keys are dynamic row lists described by `fields`; rows may mix text, image and link fields (home product cards and value pills, about paragraphs). `maxItems` caps the row count and hides the add button at the cap. `variant: "table"` renders the rows as a fixed-column table (the column set comes from `fields`, headers are the field labels) — admins edit cells, add/remove/reorder rows, but cannot add columns; the product spec tables use this.
 - `link` keys/fields are language-common in-site links picked from a searchable catalog of the site's pages (`src/lib/content/registry/links.ts`) via the shared `LinkPicker` component (`src/components/admin/LinkPicker.tsx`) used by every group; labels follow the admin UI language and admins may still paste an external URL. `url` remains for raw URLs (e.g. the map embed).
 - Cross-group keys can be surfaced in another group's editor through `defsForEditor`/`GROUP_EXTRA_DEFS` (`src/lib/content/registry/index.ts`): the home location section shows the `site.settings.name/tel/email/address` keys (same keys, one storage location) so contact info is editable where it is displayed.
 - Derived values are never editable: the news/downloads writer label comes from the board author defaults, and iframe/map titles (`location.mapTitle`) fall back to bundled defaults. Layout/behaviour fields (widths, heights, flags, decorative pen/arrow assets) are likewise read back from the bundled defaults by the resolvers.
 
 Content leaves may be `{ ko, en }` localized values. The public resolvers unwrap leaves for every locale, including Korean — a Korean page must never receive a raw `{ ko, en }` object — and English falls back to Korean when a translation is missing. Every public content resolver accepts an optional `locale`, resolved by `resolveActiveLocale` in `src/lib/content/locale.ts`. Admin editors use the `LocalizedField` control and store `""` (fall back to the bundled default), `{ ko }`, or `{ ko, en }`.
 
-Product pages are keyed by string IDs (`"21"`–`"24"`) and rendered by `src/app/(site)/[lang]/[page]/page.tsx`, which calls `generateStaticParams` from `Object.keys(productPages)`.
+Product pages are keyed by string IDs (`"21"`–`"24"`) and rendered by `src/app/(site)/[lang]/[page]/page.tsx`, which calls `generateStaticParams` from `Object.keys(productPages)`. Product spec tables are edited as fixed-column `list` tables; the page meta description and the scraped (unrendered) spec model are read from the bundled defaults and are not editable.
 
 ### Routing
 

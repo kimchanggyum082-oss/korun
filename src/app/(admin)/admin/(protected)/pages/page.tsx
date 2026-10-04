@@ -48,6 +48,10 @@ export default async function AdminPagesPage({
 
   return (
     <PagesEditor
+      // Re-mount per group: soft navigations between `?group=…` tabs reuse the
+      // client component, and its draft state must be rebuilt from the new
+      // group's defs/defaults.
+      key={activeGroup}
       group={activeGroup}
       defs={defs}
       values={values}

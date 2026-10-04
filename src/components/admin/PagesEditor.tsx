@@ -177,6 +177,8 @@ function ListFieldInput({
   uploadConfigured,
   onError,
   t,
+  hideLabel,
+  rows = 3,
 }: {
   field: JsonFieldDef;
   value: string;
@@ -184,13 +186,17 @@ function ListFieldInput({
   uploadConfigured: boolean;
   onError: (message: string) => void;
   t: AdminDict["editor"];
+  hideLabel?: boolean;
+  rows?: number;
 }) {
   const multiline = field.kind === "textarea";
   return (
     <div className="flex flex-col gap-1">
-      <span className="text-[11px] font-semibold text-ink/50">
-        {field.label.ko} / {field.label.en}
-      </span>
+      {hideLabel ? null : (
+        <span className="text-[11px] font-semibold text-ink/50">
+          {field.label.ko} / {field.label.en}
+        </span>
+      )}
       {field.kind === "image" ? (
         <InlineImageInput
           value={value}
@@ -203,7 +209,7 @@ function ListFieldInput({
         <LinkPicker value={value} onChange={onChange} t={t} />
       ) : multiline ? (
         <textarea
-          rows={3}
+          rows={rows}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           className={inputCls}
@@ -235,6 +241,7 @@ function ListEditor({
   onError: (message: string) => void;
   t: AdminDict["editor"];
 }) {
+  const locale = useLocale();
   const fields = def.fields ?? [];
   const rows = useMemo<Record<string, string>[]>(() => {
     try {
@@ -247,6 +254,133 @@ function ListEditor({
 
   const commit = (next: Record<string, string>[]) =>
     onChange(JSON.stringify(next));
+
+  const moveUp = (index: number) => {
+    const next = [...rows];
+    [next[index - 1], next[index]] = [next[index], next[index - 1]];
+    commit(next);
+  };
+  const moveDown = (index: number) => {
+    const next = [...rows];
+    [next[index + 1], next[index]] = [next[index], next[index + 1]];
+    commit(next);
+  };
+  const removeRow = (index: number) =>
+    commit(rows.filter((_, i) => i !== index));
+  const setCell = (index: number, key: string, next: string) =>
+    commit(
+      rows.map((entry, i) => (i === index ? { ...entry, [key]: next } : entry)),
+    );
+
+  const addControl =
+    def.maxItems === undefined || rows.length < def.maxItems ? (
+      <button
+        type="button"
+        onClick={() =>
+          commit([
+            ...rows,
+            Object.fromEntries(fields.map((field) => [field.key, ""])),
+          ])
+        }
+        className="h-8 w-fit rounded-[3px] border border-dashed border-black/20 px-3 text-[12px] font-semibold text-ink/60 hover:border-brand/40 hover:text-brand"
+      >
+        + {t.add}
+      </button>
+    ) : (
+      <p className="text-[11px] text-ink/40">
+        {t.listMaxReached(def.maxItems)}
+      </p>
+    );
+
+  // Fixed-column table layout (`variant: "table"`): one cell per field, the
+  // column set comes from `fields` and cannot be changed — rows are dynamic.
+  if (def.variant === "table") {
+    return (
+      <div className="flex flex-col gap-2">
+        <div className="overflow-x-auto rounded-[4px] border border-black/10 bg-white">
+          <table className="w-full border-collapse text-[12px]">
+            <thead>
+              <tr className="bg-paper/60">
+                <th
+                  scope="col"
+                  className="w-[36px] border-b border-black/10 px-2 py-1.5 text-left font-bold text-ink/40"
+                >
+                  #
+                </th>
+                {fields.map((field) => (
+                  <th
+                    key={field.key}
+                    scope="col"
+                    className="border-b border-black/10 px-2 py-1.5 text-left font-semibold text-ink/50"
+                  >
+                    {field.label[locale]}
+                  </th>
+                ))}
+                <th
+                  scope="col"
+                  className="w-[104px] border-b border-black/10 px-2 py-1.5"
+                />
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map((row, index) => (
+                <tr
+                  key={index}
+                  className="border-b border-black/5 align-top last:border-b-0"
+                >
+                  <td className="px-2 py-2 text-[11px] font-bold text-ink/40">
+                    {index + 1}
+                  </td>
+                  {fields.map((field) => (
+                    <td key={field.key} className="px-2 py-2 align-top">
+                      <ListFieldInput
+                        field={field}
+                        value={row[field.key] ?? ""}
+                        onChange={(next) => setCell(index, field.key, next)}
+                        uploadConfigured={uploadConfigured}
+                        onError={onError}
+                        t={t}
+                        hideLabel
+                        rows={2}
+                      />
+                    </td>
+                  ))}
+                  <td className="px-2 py-2 align-top">
+                    <div className="flex items-center gap-1">
+                      <button
+                        type="button"
+                        disabled={index === 0}
+                        onClick={() => moveUp(index)}
+                        className="h-6 w-6 rounded border border-black/10 text-[11px] disabled:opacity-30"
+                      >
+                        ↑
+                      </button>
+                      <button
+                        type="button"
+                        disabled={index === rows.length - 1}
+                        onClick={() => moveDown(index)}
+                        className="h-6 w-6 rounded border border-black/10 text-[11px] disabled:opacity-30"
+                      >
+                        ↓
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => removeRow(index)}
+                        className="h-6 rounded border border-black/10 px-2 text-[11px] hover:text-[#a51c1c]"
+                      >
+                        {t.remove}
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {addControl}
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-3">
@@ -263,14 +397,7 @@ function ListEditor({
               <button
                 type="button"
                 disabled={index === 0}
-                onClick={() => {
-                  const next = [...rows];
-                  [next[index - 1], next[index]] = [
-                    next[index],
-                    next[index - 1],
-                  ];
-                  commit(next);
-                }}
+                onClick={() => moveUp(index)}
                 className="h-6 w-6 rounded border border-black/10 text-[11px] disabled:opacity-30"
               >
                 ↑
@@ -278,21 +405,14 @@ function ListEditor({
               <button
                 type="button"
                 disabled={index === rows.length - 1}
-                onClick={() => {
-                  const next = [...rows];
-                  [next[index + 1], next[index]] = [
-                    next[index],
-                    next[index + 1],
-                  ];
-                  commit(next);
-                }}
+                onClick={() => moveDown(index)}
                 className="h-6 w-6 rounded border border-black/10 text-[11px] disabled:opacity-30"
               >
                 ↓
               </button>
               <button
                 type="button"
-                onClick={() => commit(rows.filter((_, i) => i !== index))}
+                onClick={() => removeRow(index)}
                 className="h-6 rounded border border-black/10 px-2 text-[11px] hover:text-[#a51c1c]"
               >
                 {t.remove}
@@ -305,13 +425,7 @@ function ListEditor({
                 key={field.key}
                 field={field}
                 value={row[field.key] ?? ""}
-                onChange={(next) =>
-                  commit(
-                    rows.map((entry, i) =>
-                      i === index ? { ...entry, [field.key]: next } : entry,
-                    ),
-                  )
-                }
+                onChange={(next) => setCell(index, field.key, next)}
                 uploadConfigured={uploadConfigured}
                 onError={onError}
                 t={t}
@@ -320,24 +434,7 @@ function ListEditor({
           </div>
         </div>
       ))}
-      {def.maxItems === undefined || rows.length < def.maxItems ? (
-        <button
-          type="button"
-          onClick={() =>
-            commit([
-              ...rows,
-              Object.fromEntries(fields.map((field) => [field.key, ""])),
-            ])
-          }
-          className="h-8 w-fit rounded-[3px] border border-dashed border-black/20 px-3 text-[12px] font-semibold text-ink/60 hover:border-brand/40 hover:text-brand"
-        >
-          + {t.add}
-        </button>
-      ) : (
-        <p className="text-[11px] text-ink/40">
-          {t.listMaxReached(def.maxItems)}
-        </p>
-      )}
+      {addControl}
     </div>
   );
 }

@@ -68,7 +68,7 @@ const d = (
     labelEn,
     kind,
     revalidateFor(slug),
-    fields,
+    { fields },
   );
 
 export const casesDefs: ContentDef[] = Object.keys(casePages).flatMap(

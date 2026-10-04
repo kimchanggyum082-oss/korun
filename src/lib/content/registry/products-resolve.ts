@@ -35,21 +35,60 @@ function resolveApplication(
   };
 }
 
+type SpecRowInput = { label?: string; values?: string };
+
 function resolveSpecRow(
-  base: string,
-  ri: number,
-  row: SpecRow,
-  t: TextResolver,
-  l: LineResolver,
+  row: SpecRowInput,
+  baseRow: SpecRow | undefined,
 ): SpecRow {
-  const key = `${base}.spec.row.${ri}`;
+  const label = (row.label ?? "").trim() || (baseRow?.label ?? "");
+  const values = (row.values ?? "")
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter((line) => line.length > 0);
   return compact({
-    label: t(`${key}.label`, row.label),
-    values: l(`${key}.values`, row.values),
-    // Layout widths cannot be expressed as content; keep the data-file values.
-    labelWidth: row.labelWidth,
-    valueWidth: row.valueWidth,
+    label,
+    values,
+    // Layout widths cannot be expressed as content; rows that still exist keep
+    // the data-file widths at the same index.
+    labelWidth: baseRow?.labelWidth,
+    valueWidth: baseRow?.valueWidth,
   });
+}
+
+/** Default table rows for the admin editor — EN uses the PRODUCTS_EN overlay. */
+function defaultSpecRows(
+  base: string,
+  baseRows: readonly SpecRow[],
+  locale: Locale,
+): SpecRowInput[] {
+  return baseRows.map((row, ri) => ({
+    label:
+      locale === "en"
+        ? (PRODUCTS_EN[`${base}.spec.row.${ri}.label`] ?? row.label)
+        : row.label,
+    values:
+      locale === "en"
+        ? (PRODUCTS_EN[`${base}.spec.row.${ri}.values`] ??
+          row.values.join("\n"))
+        : row.values.join("\n"),
+  }));
+}
+
+function resolveSpecRows(
+  base: string,
+  baseRows: readonly SpecRow[],
+  rows: ContentRows,
+  locale: Locale,
+  collect?: Map<string, string>,
+): SpecRow[] {
+  const key = `${base}.spec.rows`;
+  const defaults = defaultSpecRows(base, baseRows, locale);
+  collect?.set(key, JSON.stringify(defaults));
+  const override = pickJsonOverride<SpecRowInput>(rows, key, locale);
+  return (override ?? defaults)
+    .map((row, ri) => resolveSpecRow(row, baseRows[ri]))
+    .filter((row) => row.label.length > 0 || row.values.length > 0);
 }
 
 function resolveBlock(
@@ -120,10 +159,9 @@ function resolveBlock(
       : undefined,
     spec: block.spec
       ? {
-          model: t(`${base}.spec.model`, block.spec.model),
-          rows: block.spec.rows.map((row, ri) =>
-            resolveSpecRow(base, ri, row, t, l),
-          ),
+          // Not rendered by the template and not editable — kept as scraped data.
+          model: block.spec.model,
+          rows: resolveSpecRows(base, block.spec.rows, rows, locale, collect),
         }
       : undefined,
   });
