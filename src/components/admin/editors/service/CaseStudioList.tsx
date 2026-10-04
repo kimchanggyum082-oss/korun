@@ -4,13 +4,15 @@ import Link from "next/link";
 import type { ServiceCaseStudioItem } from "@/lib/data";
 import { caseStudioDict } from "@/lib/i18n/boards/caseStudio";
 import { useLocale } from "@/lib/i18n/client";
+import { localizeHref } from "@/lib/i18n/locales";
 
 export default function CaseStudioList({
   items,
 }: {
   items: ServiceCaseStudioItem[];
 }) {
-  const t = caseStudioDict[useLocale()].list;
+  const locale = useLocale();
+  const t = caseStudioDict[locale].list;
 
   return (
     <div className="flex flex-col gap-6">
@@ -49,7 +51,10 @@ export default function CaseStudioList({
                 </td>
                 <td className="px-3 py-2 align-top">
                   <Link
-                    href={`/admin/case-studio/${item.idx}`}
+                    href={localizeHref(
+                      `/admin/case-studio/${item.idx}`,
+                      locale,
+                    )}
                     className="font-semibold text-ink outline-none hover:text-brand focus-visible:ring-2 focus-visible:ring-brand/30"
                   >
                     {item.title}

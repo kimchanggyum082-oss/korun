@@ -4,9 +4,11 @@ import Link from "next/link";
 import type { InterestingItem } from "@/lib/data";
 import { itemsDict } from "@/lib/i18n/boards/items";
 import { useLocale } from "@/lib/i18n/client";
+import { localizeHref } from "@/lib/i18n/locales";
 
 export default function ItemList({ items }: { items: InterestingItem[] }) {
-  const t = itemsDict[useLocale()].list;
+  const locale = useLocale();
+  const t = itemsDict[locale].list;
 
   return (
     <div className="flex flex-col gap-6">
@@ -54,7 +56,10 @@ export default function ItemList({ items }: { items: InterestingItem[] }) {
                 </td>
                 <td className="px-3 py-2 align-top">
                   <Link
-                    href={`/admin/interesting-items/${item.idx}`}
+                    href={localizeHref(
+                      `/admin/interesting-items/${item.idx}`,
+                      locale,
+                    )}
                     className="font-semibold text-ink outline-none hover:text-brand focus-visible:ring-2 focus-visible:ring-brand/30"
                   >
                     {item.title}

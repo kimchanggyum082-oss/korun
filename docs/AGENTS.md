@@ -44,7 +44,7 @@ Case pages are keyed by slug and rendered by `src/app/(site)/[lang]/cases/[slug]
 - `/` — homepage; Korean at the root paths and English under `/en/*` (`src/app/(site)/[lang]/page.tsx`)
 - `/21`, `/22`, `/23`, `/24` — product pages (`src/app/(site)/[lang]/[page]/page.tsx`, `dynamicParams = false`)
 - `/about/*`, `/cases/[slug]`, `/case-studio`, `/news`, `/downloads`, `/technology/interesting-items`, `/search` — site sections under `(site)/[lang]`
-- `/admin` — localized dashboard under `(admin)/admin/` with its own root layout (`lang` from `getAdminLocale()`); English is served at `/en/admin/*` (proxy rewrites to `/admin/*` with an `x-korun-locale` header). Guarded pages live under `(admin)/admin/(protected)/` and login at `(admin)/admin/login` outside it.
+- `/admin` — localized dashboard under `(admin)/admin/` with its own root layout (`lang` from `getAdminLocale()`); English is served at `/en/admin/*` (proxy rewrites to `/admin/*` with an `x-korun-locale` header). Guarded pages live under `(admin)/admin/(protected)/` and login at `(admin)/admin/login` outside it. Admin links must keep the locale prefix via `localizeHref(href, useLocale())` — the client locale is derived from the URL, so a bare `/admin/…` link drops an English admin back to Korean.
 - `/api/admin/*` — content, upload, login, logout route handlers
 
 `src/app/(site)/[lang]/layout.tsx` is the public root layout (`<html lang>`) with `generateStaticParams()` for `["ko","en"]` and `dynamicParams = false`. `src/proxy.ts` performs two jobs: the admin session-cookie guard (redirect to `/admin/login`) and a rewrite of unprefixed public paths to `/ko<path>`. It deliberately does not auto-detect `Accept-Language` or redirect by cookie — the default is always Korean.

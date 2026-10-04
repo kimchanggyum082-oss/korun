@@ -4,9 +4,11 @@ import Link from "next/link";
 import type { JobPost } from "@/lib/data";
 import { jobsDict } from "@/lib/i18n/boards/jobs";
 import { useLocale } from "@/lib/i18n/client";
+import { localizeHref } from "@/lib/i18n/locales";
 
 export default function JobList({ items }: { items: JobPost[] }) {
-  const t = jobsDict[useLocale()].list;
+  const locale = useLocale();
+  const t = jobsDict[locale].list;
 
   return (
     <div className="flex flex-col gap-6">
@@ -48,7 +50,10 @@ export default function JobList({ items }: { items: JobPost[] }) {
                 </td>
                 <td className="px-3 py-2 align-top">
                   <Link
-                    href={`/admin/job-posting/${item.idx}`}
+                    href={localizeHref(
+                      `/admin/job-posting/${item.idx}`,
+                      locale,
+                    )}
                     className="font-semibold text-ink outline-none hover:text-brand focus-visible:ring-2 focus-visible:ring-brand/30"
                   >
                     {item.title}

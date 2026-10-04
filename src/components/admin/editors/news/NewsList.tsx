@@ -4,9 +4,11 @@ import Link from "next/link";
 import type { ServiceNewsItem } from "@/lib/data";
 import { newsDict } from "@/lib/i18n/boards/news";
 import { useLocale } from "@/lib/i18n/client";
+import { localizeHref } from "@/lib/i18n/locales";
 
 export default function NewsList({ items }: { items: ServiceNewsItem[] }) {
-  const t = newsDict[useLocale()].list;
+  const locale = useLocale();
+  const t = newsDict[locale].list;
 
   return (
     <div className="flex flex-col gap-6">
@@ -59,7 +61,7 @@ export default function NewsList({ items }: { items: ServiceNewsItem[] }) {
                 </td>
                 <td className="px-3 py-2 align-top">
                   <Link
-                    href={`/admin/news/${item.idx}`}
+                    href={localizeHref(`/admin/news/${item.idx}`, locale)}
                     className="font-semibold text-ink outline-none hover:text-brand focus-visible:ring-2 focus-visible:ring-brand/30"
                   >
                     {item.title}
