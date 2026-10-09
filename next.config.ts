@@ -9,6 +9,14 @@ const nextConfig: NextConfig = {
         hostname: "cdn.imweb.me",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "*.public.blob.vercel-storage.com",
+      },
+      {
+        protocol: "https",
+        hostname: "public.blob.vercel-storage.com",
+      },
     ],
   },
 };

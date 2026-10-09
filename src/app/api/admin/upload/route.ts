@@ -3,7 +3,7 @@ import { randomUUID } from "node:crypto";
 import path from "node:path";
 import { put } from "@vercel/blob";
 import { NextResponse } from "next/server";
-import { blobToken, localUploadEnabled } from "@/lib/admin/blob";
+import { blobStoreId, blobToken, localUploadEnabled } from "@/lib/admin/blob";
 import { readImageDimensions } from "@/lib/admin/image-size";
 import { getAdminSession } from "@/lib/auth/session";
 
@@ -71,11 +71,13 @@ export async function POST(request: Request) {
   }
 
   const token = blobToken();
-  if (!token && !localUploadEnabled()) {
+  const storeId = blobStoreId();
+  const useBlob = Boolean(token || storeId);
+  if (!useBlob && !localUploadEnabled()) {
     return NextResponse.json(
       {
         error:
-          "BLOB_READ_WRITE_TOKEN이 설정되지 않아 업로드할 수 없습니다. 이미지 URL을 직접 입력해 주세요.",
+          "이미지 업로드가 설정되지 않았습니다. BLOB_READ_WRITE_TOKEN 또는 BLOB_STORE_ID를 설정해 주세요.",
         code: "blob_not_configured",
       },
       { status: 503 },
@@ -136,7 +138,7 @@ export async function POST(request: Request) {
   const dimensions = readImageDimensions(bytes);
 
   try {
-    if (!token) {
+    if (!useBlob) {
       const filename = `${randomUUID()}.${image.extension}`;
       const dir = path.join(process.cwd(), "public", "uploads");
       await mkdir(dir, { recursive: true });
@@ -152,7 +154,8 @@ export async function POST(request: Request) {
       access: "public",
       contentType: image.mime,
       addRandomSuffix: true,
-      token,
+      ...(token ? { token } : {}),
+      ...(storeId ? { storeId } : {}),
     });
 
     return NextResponse.json({
