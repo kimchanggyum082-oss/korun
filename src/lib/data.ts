@@ -306,7 +306,23 @@ export const aboutContent: AboutContentMap = {
     headingKo: "본사 및 공장",
     name: "",
     description: "",
-    images: [],
+    images: [
+      {
+        src: "/locations/korea.jpg",
+        fullSrc: "/locations/korea.jpg",
+        alt: "KORUN 본사/공장 및 연계 서비스센타 위치",
+      },
+      {
+        src: "/locations/thai.jpg",
+        fullSrc: "/locations/thai.jpg",
+        alt: "KORUN THAI Branch 위치",
+      },
+      {
+        src: "/locations/japan.jpg",
+        fullSrc: "/locations/japan.jpg",
+        alt: "KORUN NAGOYA Aichi Service Center 위치",
+      },
+    ],
     labels: { tel: "TEL.", email: "EMAIL.", address: "ADDRESS." },
     mapTitle: "코런 본사 위치 지도",
   },
