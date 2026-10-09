@@ -257,6 +257,9 @@ export type AboutLocationContent = {
   title: string;
   headingEn: string;
   headingKo: string;
+  name: string;
+  description: string;
+  images: GalleryImage[];
   labels: {
     tel: string;
     email: string;
@@ -301,12 +304,15 @@ export const aboutContent: AboutContentMap = {
     title: "Company Location",
     headingEn: "HEAD OFFICE & FACTORY",
     headingKo: "본사 및 공장",
+    name: "",
+    description: "",
+    images: [],
     labels: { tel: "TEL.", email: "EMAIL.", address: "ADDRESS." },
     mapTitle: "코런 본사 위치 지도",
   },
   "job-posting": {
     title: "Job Posting",
-    detailTaglineMobile: "오시는 길을 알려드립니다",
+    detailTaglineMobile: "자사의 채용정보를 알려드립니다.",
     detailTaglineDesktop: "자사의 채용정보를 알려드립니다.",
   },
 };
@@ -835,21 +841,75 @@ export const interestingItems: InterestingItem[] = [
         type: "image",
         src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/47f62ef952596.png",
       },
+      { type: "text", content: "PESU (폴리에테르설폰)수지는 비결정질" },
+      { type: "text", content: "고온 열가소성 프라스틱으로 투명도와" },
+      { type: "text", content: "고유의 내염성, 내열성이 탁월한 수지 입니다." },
+      { type: "text", content: "평상시 지속 사용 온도가 최대 180도씨" },
+      { type: "text", content: "이고 고강도 및 탁월한 투명성으로 인하여" },
+      { type: "text", content: "자동차 헤드램프 반사경, 베젤과 하우징" },
+      { type: "text", content: "제품에 전기/전자 부문에서는 연료전지부품," },
+      { type: "text", content: "가습기 하우징, 산업용베터리 등에" },
+      { type: "text", content: "주방과 욕실에서는 커피머신, 가열용기 덮게 등" },
+      { type: "text", content: "점차 적용도가 넓어지고 있으며," },
+      { type: "br" },
+      {
+        type: "text",
+        content: "대표적으로는 유아 젖병 소방관 헬멧 부품등 적용 합니다.",
+      },
       {
         type: "text",
         content:
-          "PESU (폴리에테르설폰)수지는  비결정질 고온 열가소성 프라스틱으로 투명도와 고유의 내염성, 내열성이 탁월한 수지 입니다. 평상시 지속 사용 온도가 최대 180도씨 이고 고강도 및 탁월한 투명성으로 인하여 자동차 헤드램프 반사경, 베젤과 하우징 제품에 전기/전자 부문에서는 연료전지부품, 가습기 하우징, 산업용베터리 등에 주방과 욕실에서는 커피머신, 가열용기 덮게 등 점차 적용도가 넓어지고 있으며, 대표적으로는 유아 젖병 소방관 헬멧 부품등 적용 합니다. 코런에서는 싱글밸브 게이트 시스템으로 PESU Resin 사출에 적용 하여 제품생산에 성공 하였습니다.",
+          "코런에서는 싱글밸브 게이트 시스템으로 PESU Resin 사출에 적용 하여 제품생산에 성공 하였습니다.",
       },
+      { type: "br" },
       { type: "hr" },
+      { type: "br" },
       {
         type: "image",
         src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/59586ab8f3203.png",
       },
       {
         type: "text",
-        content:
-          "KOSI-SINGLE VALVE SYSTEM은 히타가 3ZONE으로 구성되어 있어 발열 안정성이 뛰어나며, 별도의 배관 구조 없이 AIR LINE을 형성하고 2개의 실린더와 로드 로 구성되어 있어 실린더 추력이 강합니다. 코런의 기술 노하우로 급변하는 RESIN 개발에 한발 앞서는 노력으로 고객사의 안정적인 제품생산에 기여하여 나가겠습니다.",
+        content: "KOSI-SINGLE VALVE SYSTEM은 히타가 3ZONE으로",
       },
+      { type: "br" },
+      {
+        type: "text",
+        content: "구성되어 있어 발열 안정성이 뛰어나며, 별도의 배관",
+        fontSize: 12,
+        color: "rgb(124,123,123)",
+      },
+      {
+        type: "text",
+        content: "구조 없이 AIR LINE을 형성하고 2개의 실린더와 로드 로",
+        fontSize: 12,
+        color: "rgb(124,123,123)",
+      },
+      {
+        type: "text",
+        content: "구성되어 있어 실린더 추력이 강합니다.",
+        fontSize: 12,
+        color: "rgb(124,123,123)",
+      },
+      {
+        type: "text",
+        content: "코런의 기술 노하우로 급변하는 RESIN 개발에",
+        fontSize: 12,
+        color: "rgb(124,123,123)",
+      },
+      {
+        type: "text",
+        content: "한발 앞서는 노력으로 고객사의 안정적인 제품생산에",
+        fontSize: 12,
+        color: "rgb(124,123,123)",
+      },
+      {
+        type: "text",
+        content: "기여하여 나가겠습니다.",
+        fontSize: 12,
+        color: "rgb(124,123,123)",
+      },
+      { type: "br" },
     ],
     files: [],
   },
@@ -1823,13 +1883,32 @@ export const newsItems: ServiceNewsItem[] = [
       {
         type: "text",
         content:
-          "지난 25년 3월 11일 부터 14일 까지 개최 된 제27회 국제금형 및 관련산업전 에 출품하여 성료 하였습니다. 전시회 기간 동안 폐사 부스를 방문하여 주신 모든 분들께 진심으로 감사 드리며, 폐사는 이번 전시회를 계기로 한단계 진보한 기술 서비스 및  브랜드 회사 로써의 안정된 품질을 제공 할 수 있도록 노력하겠습니다.   감사 합니다. 코런  부스 번호 : M247",
+          "지난 25년 3월 11일 부터 14일 까지 개최 된 제27회 국제금형 및 관련산업전 에 출품하여 성료 하였습니다.",
       },
-      { type: "hr" },
       {
         type: "text",
         content:
-          "- 코런 주요 전시 품목 - 코런 핫런너 시스템, Mini-KOSI Single Valve, KOMI Multi Valve Gate System, 에어증푹기",
+          "전시회 기간 동안 폐사 부스를 방문하여 주신 모든 분들께 진심으로 감사 드리며, 폐사는 이번 전시회를 계기로 한단계 진보한 기술 서비스 및",
+      },
+      {
+        type: "text",
+        content:
+          "브랜드 회사 로써의 안정된 품질을 제공 할 수 있도록 노력하겠습니다.",
+      },
+      { type: "text", content: "감사 합니다." },
+      { type: "text", content: "코런  부스 번호 : M247" },
+      { type: "hr" },
+      {
+        type: "text",
+        content: "- 코런 주요 전시 품목 -",
+        bold: true,
+        align: "left",
+      },
+      {
+        type: "text",
+        content:
+          "코런 핫런너 시스템, Mini-KOSI Single Valve, KOMI Multi Valve Gate System, 에어증푹기",
+        align: "left",
       },
       {
         type: "image",
@@ -1838,13 +1917,75 @@ export const newsItems: ServiceNewsItem[] = [
       {
         type: "text",
         content:
-          "Mini-KOSI Single Valve 는 기존의 KOSI Single 외곽 사이즈를 가로 145mm 세로 92.5mm 의 크기로 획기적으로 줄여 30톤의 사출기에 생산되는 금형에도 적용 할 수 있도록 재발 제작 되었습니다. - 특징 - • 더블 피스톤 적용 적용으로 피스톤 추력 상승  • 히타 압착밴드 적용으로 히타 발열 효율 상승 • 적용 노즐 사이즈 18, 20, 25    • 폐사의 에어증폭기 셋트 적용으로 안정적 추력 확보 가능 • 베이스에 에어라인을 직접 형성하여 에어 배관이 필요 없음 • 3 Zone 히타 적용으로 안정적인 열 밸런스 KOMI Multi Valve Gate System 은 게이트 간 거리가 아주 좁고 다점의 핫런너를 적용해야 하는 제품 금형에 적합 하도록 개발된 핫런너 시스템 입니다. - 특징 - • 게이트 간 거리 11.7mm 까지 적용 가능   • 2개의 피스톤으로 Pin Plate 를 작동 • 전 게이트 동시 개패 방식  • 4장의 핫런너 베이스 플래이트 적용  • 소형 다수 캐비티 제품에 적합",
+          "Mini-KOSI Single Valve는 기존의 KOSI Single 외곽 사이즈를 가로 145mm 세로 92.5mm 의 크기로 획기적으로 줄여 30톤의 사출기에 생산되는 금형에도 적용 할 수 있도록 재발 제작 되었습니다.",
+        align: "left",
+        parts: [
+          { text: "Mini-KOSI Single Valve", bold: true },
+          {
+            text: "는 기존의 KOSI Single 외곽 사이즈를 가로 145mm 세로 92.5mm 의 크기로 획기적으로 줄여 30톤의 사출기에 생산되는 금형에도 적용 할 수 있도록 재발 제작 되었습니다.",
+          },
+        ],
       },
+      { type: "text", content: "- 특징 -", underline: true, align: "left" },
+      {
+        type: "text",
+        align: "left",
+        content:
+          "• 더블 피스톤 적용 적용으로 피스톤 추력 상승 • 히타 압착밴드 적용으로 히타 발열 효율 상승",
+      },
+      {
+        type: "text",
+        align: "left",
+        content:
+          "• 적용 노즐 사이즈 18, 20, 25 • 폐사의 에어증폭기 셋트 적용으로 안정적 추력 확보 가능",
+      },
+      {
+        type: "text",
+        align: "left",
+        content: "• 베이스에 에어라인을 직접 형성하여 에어 배관이 필요 없음",
+      },
+      {
+        type: "text",
+        align: "left",
+        content: "• 3 Zone 히타 적용으로 안정적인 열 밸런스",
+      },
+      { type: "br" },
+      {
+        type: "text",
+        content:
+          "KOMI Multi Valve Gate System은 게이트 간 거리가 아주 좁고 다점의 핫런너를 적용해야 하는 제품 금형에 적합 하도록 개발된 핫런너 시스템 입니다.",
+        align: "left",
+        parts: [
+          { text: "KOMI Multi Valve Gate System", bold: true },
+          {
+            text: "은 게이트 간 거리가 아주 좁고 다점의 핫런너를 적용해야 하는 제품 금형에 적합 하도록 개발된 핫런너 시스템 입니다.",
+          },
+        ],
+      },
+      { type: "text", content: "- 특징 -", underline: true, align: "left" },
+      {
+        type: "text",
+        align: "left",
+        content:
+          "• 게이트 간 거리 11.7mm 까지 적용 가능 • 2개의 피스톤으로 Pin Plate 를 작동",
+      },
+      {
+        type: "text",
+        align: "left",
+        content:
+          "• 전 게이트 동시 개패 방식 • 4장의 핫런너 베이스 플래이트 적용 • 소형 다수 캐비티 제품에 적합",
+      },
+      { type: "br" },
       {
         type: "image",
         src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/6179544f5cc7e.jpg",
       },
-      { type: "text", content: "- 전시 기간동안의 세미나 -" },
+      {
+        type: "text",
+        content: "- 전시 기간동안의 세미나 -",
+        bold: true,
+        align: "left",
+      },
       {
         type: "image",
         src: "https://cdn.imweb.me/upload/S20240617d196c3c9ecacb/2cd60da0185c0.jpg",

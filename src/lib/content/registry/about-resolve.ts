@@ -102,6 +102,14 @@ export function resolveAboutFromRows(
     collect,
   );
 
+  const locationImages = resolveGallery(
+    rows,
+    locale,
+    "about.location.images",
+    base["company-location"].images,
+    collect,
+  );
+
   const greetingOverride = pickText(rows, "about.greetings.image", locale, "");
   collect?.set(
     "about.greetings.image",
@@ -151,6 +159,12 @@ export function resolveAboutFromRows(
         "about.location.headingKo",
         base["company-location"].headingKo,
       ),
+      name: t("about.location.name", base["company-location"].name),
+      description: t(
+        "about.location.description",
+        base["company-location"].description,
+      ),
+      images: locationImages,
       labels: {
         tel: t(
           "about.location.labels.tel",

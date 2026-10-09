@@ -61,6 +61,10 @@ export default function AboutGallery({
                   }
                 >
                   <span
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 z-[1] bg-black/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  />
+                  <span
                     className={
                       isFacility
                         ? "absolute inset-0 hidden pc:block"

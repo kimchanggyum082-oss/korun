@@ -1,9 +1,9 @@
 import { Fragment } from "react";
 import SmartImage from "@/components/ui/SmartImage";
 import ProductGallery from "@/components/products/ProductGallery";
+import ZoomTrigger from "@/components/products/ZoomTrigger";
 import type { ChromeDict } from "@/lib/i18n/chrome";
 import type { ProductBlock } from "@/lib/data";
-import { company } from "@/lib/data";
 
 const INTRO_FRAME: Record<string, [number, "cover" | "contain"]> = {
   "dfd5e2ca620da.png": [282, "cover"],
@@ -201,7 +201,7 @@ function IntroBody({ block, t }: { block: ProductBlock; t: ChromeDict }) {
           </p>
           <p className="leading-[24px]">
             <a
-              href={`mailto:${company.email}`}
+              href="#"
               className="inline-block rounded-[2px] border border-brand bg-paper px-[22px] py-[6px]"
             >
               <span className="text-[16px] leading-[24px] text-brand">
@@ -333,14 +333,20 @@ export function AppSection({
         {pad1 ? <Pad height={1} /> : null}
         <div className="py-[15px]">
           <div className="relative w-full" style={{ height: frameH }}>
-            <SmartImage
+            <ZoomTrigger
               src={src}
               alt={app.title}
-              fill
-              unoptimized
-              sizes="(min-width: 992px) 1250px"
-              className="object-contain"
-            />
+              className="absolute inset-0 block w-full cursor-pointer border-0 bg-transparent p-0"
+            >
+              <SmartImage
+                src={src}
+                alt={app.title}
+                fill
+                unoptimized
+                sizes="(min-width: 992px) 1250px"
+                className="object-contain"
+              />
+            </ZoomTrigger>
           </div>
         </div>
         <Pad height={80} />
@@ -850,15 +856,21 @@ function MApp({
       </MRow>
       {pad1 ? <MPad height={pad1} /> : null}
       <MRow>
-        <SmartImage
+        <ZoomTrigger
           src={src}
           alt={app.title}
-          width={nw}
-          height={nh}
-          unoptimized
-          sizes="(min-width: 1280px) 1280px, 100vw"
-          className="h-auto w-full"
-        />
+          className="block w-full cursor-pointer border-0 bg-transparent p-0"
+        >
+          <SmartImage
+            src={src}
+            alt={app.title}
+            width={nw}
+            height={nh}
+            unoptimized
+            sizes="(min-width: 1280px) 1280px, 100vw"
+            className="h-auto w-full"
+          />
+        </ZoomTrigger>
       </MRow>
       <MPad height={40 - trim} />
     </MSection>

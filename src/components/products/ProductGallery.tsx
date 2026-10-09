@@ -54,11 +54,15 @@ export default function ProductGallery({
                 type="button"
                 onClick={() => setManualIndex(i)}
                 aria-label={t.gallery.openImage(`${label} ${i + 1}`)}
-                className="block w-full border border-[#eee]"
+                className="group relative block w-full border border-[#eee]"
               >
                 <span
                   className="block h-[133px] bg-cover bg-center"
                   style={{ backgroundImage: `url("${gridSrc(i)}")` }}
+                />
+                <span
+                  aria-hidden
+                  className="pointer-events-none absolute inset-0 z-[1] bg-black/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                 />
               </button>
             ) : null}
@@ -80,7 +84,7 @@ export default function ProductGallery({
                     type="button"
                     onClick={() => setManualIndex(i)}
                     aria-label={t.gallery.openImage(`${label} ${i + 1}`)}
-                    className="block w-full cursor-pointer overflow-hidden border border-[#eee]"
+                    className="group relative block w-full cursor-pointer overflow-hidden border border-[#eee]"
                   >
                     <div
                       className="relative w-full bg-white"
@@ -95,6 +99,10 @@ export default function ProductGallery({
                         className="object-cover"
                       />
                     </div>
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 z-[1] bg-black/50 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    />
                   </button>
                 ) : null}
               </div>

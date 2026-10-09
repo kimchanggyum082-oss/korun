@@ -171,9 +171,6 @@ export default function Products({
                     className="h-auto w-full"
                   />
                 </div>
-                <span className="absolute inset-x-0 top-1/2 -translate-y-1/2 text-center text-[20px] font-bold text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  {product.title}
-                </span>
               </a>
             ))}
           </div>

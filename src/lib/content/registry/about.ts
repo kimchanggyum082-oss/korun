@@ -185,6 +185,31 @@ export const aboutDefs: ContentDef[] = [
     "text",
     LOCATION,
   ),
+  d(
+    "about.location.name",
+    locationSec,
+    "위치 이름",
+    "Location name",
+    "text",
+    LOCATION,
+  ),
+  d(
+    "about.location.description",
+    locationSec,
+    "위치 설명",
+    "Location description",
+    "textarea",
+    LOCATION,
+  ),
+  d(
+    "about.location.images",
+    locationSec,
+    "위치 이미지 목록",
+    "Location images",
+    "imageList",
+    LOCATION,
+    galleryFields,
+  ),
 
   // ── Job Posting ──
   d(

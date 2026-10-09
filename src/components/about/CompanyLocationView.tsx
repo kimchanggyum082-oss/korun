@@ -1,5 +1,6 @@
 import type { getAboutPage } from "@/lib/content";
 import type { AboutContentMap } from "@/lib/data";
+import LocationImages from "@/components/about/LocationImages";
 
 type AboutPageData = Awaited<ReturnType<typeof getAboutPage>>;
 
@@ -40,6 +41,17 @@ export default function CompanyLocationView({
         <p className="text-[28px] leading-[33.6px] font-bold text-ink pc:text-[48px] pc:leading-[57.6px]">
           {content.headingKo}
         </p>
+
+        {content.name ? (
+          <p className="mt-[7.5px] text-[18px] leading-[24px] font-bold text-brand pc:text-[22px] pc:leading-[26.4px]">
+            {content.name}
+          </p>
+        ) : null}
+        {content.description ? (
+          <p className="mt-[10px] whitespace-pre-line text-[15px] leading-[24px] text-ink pc:text-[18px] pc:leading-[28.8px]">
+            {content.description}
+          </p>
+        ) : null}
 
         <div className="hidden pc:block pc:h-[24px]" />
         <p className="text-[15px] leading-[24px] text-ink pc:hidden">&nbsp;</p>
@@ -104,6 +116,8 @@ export default function CompanyLocationView({
             referrerPolicy="no-referrer-when-downgrade"
           />
         </div>
+
+        <LocationImages images={content.images} />
 
         {/* Trailing spacer row */}
         <div className="h-[55px] pt-[7.5px] pb-[7.5px] pc:hidden" />
