@@ -1295,6 +1295,8 @@ export type GalleryImage = {
   src: string;
   fullSrc: string;
   alt: string;
+  title?: string;
+  description?: string;
 };
 
 export type NewsItem = {

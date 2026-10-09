@@ -40,6 +40,22 @@ const galleryFields: JsonFieldDef[] = [
   },
 ];
 
+const locationGalleryFields: JsonFieldDef[] = [
+  ...galleryFields,
+  {
+    key: "title",
+    kind: "text",
+    label: { ko: "제목", en: "Title" },
+    localized: true,
+  },
+  {
+    key: "description",
+    kind: "textarea",
+    label: { ko: "설명", en: "Description" },
+    localized: true,
+  },
+];
+
 export const aboutDefs: ContentDef[] = [
   // ── Greetings ──
   d(
@@ -208,7 +224,7 @@ export const aboutDefs: ContentDef[] = [
     "Location images",
     "imageList",
     LOCATION,
-    galleryFields,
+    locationGalleryFields,
   ),
 
   // ── Job Posting ──

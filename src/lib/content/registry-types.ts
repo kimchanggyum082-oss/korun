@@ -21,6 +21,11 @@ export interface JsonFieldDef {
   key: string;
   kind: "text" | "textarea" | "image" | "url" | "link";
   label: { ko: string; en: string };
+  /**
+   * Row cells marked localized are edited per locale (KO | EN); the value is
+   * stored as `{ ko, en }` inside the language-common list JSON.
+   */
+  localized?: boolean;
 }
 
 export interface ContentDef {

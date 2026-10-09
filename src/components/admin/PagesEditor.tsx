@@ -19,6 +19,8 @@ import { useLocale } from "@/lib/i18n/client";
 import type { Locale } from "@/lib/i18n/locales";
 import LinkPicker from "./LinkPicker";
 import PageSectionPreview from "./PageSectionPreview";
+import { readLocalized, type LocalizedValue } from "./fields";
+import { toLocalized } from "./editors/items/shared";
 
 export type ContentValues = Record<string, { ko?: string; en?: string }>;
 type PreviewLang = Locale;
@@ -181,8 +183,8 @@ function ListFieldInput({
   rows = 3,
 }: {
   field: JsonFieldDef;
-  value: string;
-  onChange: (next: string) => void;
+  value: LocalizedValue;
+  onChange: (next: LocalizedValue) => void;
   uploadConfigured: boolean;
   onError: (message: string) => void;
   t: AdminDict["editor"];
@@ -190,34 +192,85 @@ function ListFieldInput({
   rows?: number;
 }) {
   const multiline = field.kind === "textarea";
+  const { ko, en } = readLocalized(value);
+  const label = hideLabel ? null : (
+    <span className="text-[11px] font-semibold text-ink/50">
+      {field.label.ko} / {field.label.en}
+    </span>
+  );
+
+  // Localized cells edit KO and EN side by side; the pair is stored as
+  // `{ ko, en }` inside the shared image-list JSON.
+  if (field.localized) {
+    return (
+      <div className="flex flex-col gap-1">
+        {label}
+        <div className="flex flex-col gap-1.5">
+          {(["ko", "en"] as const).map((lang) => (
+            <label key={lang} className="flex flex-col gap-0.5">
+              <span className="text-[10px] font-semibold text-ink/35">
+                {lang === "ko" ? t.korean : t.english}
+              </span>
+              {multiline ? (
+                <textarea
+                  rows={rows}
+                  value={lang === "ko" ? ko : en}
+                  onChange={(e) =>
+                    onChange(
+                      toLocalized({
+                        ko: lang === "ko" ? e.target.value : ko,
+                        en: lang === "en" ? e.target.value : en,
+                      }),
+                    )
+                  }
+                  className={inputCls}
+                />
+              ) : (
+                <input
+                  type="text"
+                  value={lang === "ko" ? ko : en}
+                  onChange={(e) =>
+                    onChange(
+                      toLocalized({
+                        ko: lang === "ko" ? e.target.value : ko,
+                        en: lang === "en" ? e.target.value : en,
+                      }),
+                    )
+                  }
+                  className={inputCls}
+                />
+              )}
+            </label>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-1">
-      {hideLabel ? null : (
-        <span className="text-[11px] font-semibold text-ink/50">
-          {field.label.ko} / {field.label.en}
-        </span>
-      )}
+      {label}
       {field.kind === "image" ? (
         <InlineImageInput
-          value={value}
+          value={ko}
           onChange={onChange}
           uploadConfigured={uploadConfigured}
           onError={onError}
           t={t}
         />
       ) : field.kind === "link" ? (
-        <LinkPicker value={value} onChange={onChange} t={t} />
+        <LinkPicker value={ko} onChange={onChange} t={t} />
       ) : multiline ? (
         <textarea
           rows={rows}
-          value={value}
+          value={ko}
           onChange={(e) => onChange(e.target.value)}
           className={inputCls}
         />
       ) : (
         <input
           type="text"
-          value={value}
+          value={ko}
           onChange={(e) => onChange(e.target.value)}
           className={inputCls}
         />
@@ -243,16 +296,18 @@ function ListEditor({
 }) {
   const locale = useLocale();
   const fields = def.fields ?? [];
-  const rows = useMemo<Record<string, string>[]>(() => {
+  const rows = useMemo<Record<string, LocalizedValue>[]>(() => {
     try {
       const parsed = value ? JSON.parse(value) : [];
-      return Array.isArray(parsed) ? parsed : [];
+      return Array.isArray(parsed)
+        ? (parsed as Record<string, LocalizedValue>[])
+        : [];
     } catch {
       return [];
     }
   }, [value]);
 
-  const commit = (next: Record<string, string>[]) =>
+  const commit = (next: Record<string, LocalizedValue>[]) =>
     onChange(JSON.stringify(next));
 
   const moveUp = (index: number) => {
@@ -267,7 +322,7 @@ function ListEditor({
   };
   const removeRow = (index: number) =>
     commit(rows.filter((_, i) => i !== index));
-  const setCell = (index: number, key: string, next: string) =>
+  const setCell = (index: number, key: string, next: LocalizedValue) =>
     commit(
       rows.map((entry, i) => (i === index ? { ...entry, [key]: next } : entry)),
     );

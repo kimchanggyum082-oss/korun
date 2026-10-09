@@ -6,6 +6,7 @@ import {
 } from "@/lib/data";
 import type { Locale } from "@/lib/i18n/locales";
 import type { ContentRows } from "../page-content";
+import { resolveLeaf, type Localized } from "../merge";
 import { pickJson, pickJsonOverride, pickText } from "../registry-resolve";
 import { ABOUT_EN } from "./about-en";
 
@@ -17,14 +18,30 @@ export interface AboutResolved {
 }
 
 type ParagraphRow = { text: string };
-type GalleryRow = { src?: string; fullSrc?: string };
+type GalleryRow = {
+  src?: string;
+  fullSrc?: string;
+  title?: Localized<string>;
+  description?: Localized<string>;
+};
+
+/** Resolve a stored row caption to a plain string for the active locale. */
+function galleryText(value: unknown, locale: Locale): string {
+  const resolved = resolveLeaf(locale, value);
+  return typeof resolved === "string" ? resolved.trim() : "";
+}
 
 function defaultParagraphRows(): ParagraphRow[] {
   return aboutContent.greetings.paragraphs.map((text) => ({ text }));
 }
 
 function defaultGalleryRows(images: readonly GalleryImage[]): GalleryRow[] {
-  return images.map((image) => ({ src: image.src, fullSrc: image.fullSrc }));
+  return images.map((image) => ({
+    src: image.src,
+    fullSrc: image.fullSrc,
+    title: image.title,
+    description: image.description,
+  }));
 }
 
 function resolveGallery(
@@ -43,6 +60,8 @@ function resolveGallery(
       src: (row.src ?? "").trim(),
       fullSrc: (row.fullSrc ?? "").trim() || (row.src ?? "").trim(),
       alt: images[i]?.alt ?? "",
+      title: galleryText(row.title, locale),
+      description: galleryText(row.description, locale),
     }))
     .filter((image) => image.src.length > 0);
 }
