@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import SmartImage from "@/components/ui/SmartImage";
 import SmartBackground from "@/components/ui/SmartBackground";
 import { homeContent, type HomeContent } from "@/lib/data";
@@ -73,7 +74,7 @@ export default function Products({
                 key={`${product.href}-${start + i}`}
                 className="w-1/2 px-[7.5px]"
               >
-                <a
+                <Link
                   href={
                     product.href.startsWith("/")
                       ? localizeHref(product.href, locale)
@@ -95,7 +96,7 @@ export default function Products({
                       className="object-cover"
                     />
                   </div>
-                </a>
+                </Link>
               </div>
             ))}
           </div>
@@ -144,7 +145,7 @@ export default function Products({
 
           <div className="grid grid-cols-4 gap-[30px] py-[15px]">
             {content.items.map((product, i) => (
-              <a
+              <Link
                 key={`${product.href}-${i}`}
                 href={
                   product.href.startsWith("/")
@@ -171,7 +172,7 @@ export default function Products({
                     className="h-auto w-full"
                   />
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
         </div>

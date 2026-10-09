@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import AdminSidebar from "@/components/admin/AdminSidebar";
@@ -43,6 +44,27 @@ export default function AdminShell({ email, children }: AdminShellProps) {
 
           <div className="flex shrink-0 items-center gap-2">
             <AdminLocaleMenu />
+            <Link
+              href={localizeHref("/", locale)}
+              className="inline-flex h-8 items-center gap-1.5 rounded-[3px] border border-black/10 bg-white px-3 text-[12px] font-semibold text-ink/70 outline-none transition-colors hover:border-black/20 hover:text-ink focus-visible:ring-2 focus-visible:ring-brand/30"
+            >
+              <svg
+                width="13"
+                height="13"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
+              >
+                <path d="M14 4h6v6" />
+                <path d="M20 4 10 14" />
+                <path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" />
+              </svg>
+              {t.layout.viewSite}
+            </Link>
             <button
               type="button"
               onClick={handleSignOut}

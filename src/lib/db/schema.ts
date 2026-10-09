@@ -72,3 +72,21 @@ export const adminUsers = pgTable(
   },
   (table) => [uniqueIndex("admin_users_email_unique").on(table.email)],
 );
+
+/** Contact-us form submissions from the public product pages. */
+export const contactRequests = pgTable(
+  "contact_requests",
+  {
+    id: text("id").primaryKey(),
+    name: text("name").notNull(),
+    company: text("company"),
+    email: text("email").notNull(),
+    phone: text("phone"),
+    subject: text("subject"),
+    message: text("message").notNull(),
+    locale: text("locale"),
+    page: text("page"),
+    createdAt: timestamp("created_at", { withTimezone: true }),
+  },
+  (table) => [index("contact_requests_created_at_idx").on(table.createdAt)],
+);

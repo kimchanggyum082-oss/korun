@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import SearchForm from "@/components/search/SearchForm";
 import SearchResultRow from "@/components/search/SearchResultRow";
 import { CaretGlyph, PagerArrow } from "@/components/search/SearchIcons";
@@ -106,7 +107,7 @@ function Pager({
           const active = page === current;
           return (
             <li key={page} style={{ ...liBase, margin: "0 3px" }}>
-              <a
+              <Link
                 href={localizeHref(
                   `/search?${queryString(type, keyword, sort, page)}`,
                   locale,
@@ -118,7 +119,7 @@ function Pager({
                 }}
               >
                 {page}
-              </a>
+              </Link>
             </li>
           );
         })}
@@ -178,7 +179,7 @@ export default async function SearchPage({
               const active = index === 0;
               return (
                 <li key={tab.key} style={{ display: "block" }}>
-                  <a
+                  <Link
                     href={localizeHref(
                       `/search?${queryString(tab.key, keyword, sort, 1)}`,
                       locale,
@@ -207,7 +208,7 @@ export default async function SearchPage({
                         }}
                       />
                     )}
-                  </a>
+                  </Link>
                 </li>
               );
             })}

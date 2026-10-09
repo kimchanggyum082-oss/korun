@@ -23,7 +23,10 @@ export interface AdminNavGroup {
 export const adminGroups: AdminNavGroup[] = [
   {
     key: "main",
-    items: [{ href: "/admin", exact: true, labelKey: "/admin" }],
+    items: [
+      { href: "/admin", exact: true, labelKey: "/admin" },
+      { href: "/admin/requests", labelKey: "/admin/requests" },
+    ],
   },
   {
     key: "content",

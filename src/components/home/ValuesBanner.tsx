@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import SmartImage from "@/components/ui/SmartImage";
 import { homeContent, type HomeContent } from "@/lib/data";
 import { useLocale } from "@/lib/i18n/client";
@@ -95,7 +96,7 @@ export default function ValuesBanner({
           className="relative z-10 hidden items-center justify-center gap-[31px] py-[80px] pc:flex"
         >
           {values.pc.map((v, i) => (
-            <a
+            <Link
               key={`${v.label}-${i}`}
               href={
                 v.href.startsWith("/") ? localizeHref(v.href, locale) : v.href
@@ -115,7 +116,7 @@ export default function ValuesBanner({
               className="flex items-center rounded-full bg-(--pill-bg) py-[15px] text-[22px] leading-[31.4286px] text-white ring-1 ring-black/20 ring-inset transition-colors duration-300 hover:bg-white hover:text-black"
             >
               {v.label}
-            </a>
+            </Link>
           ))}
         </div>
       </section>

@@ -2,6 +2,7 @@ import { Fragment } from "react";
 import SmartImage from "@/components/ui/SmartImage";
 import ProductGallery from "@/components/products/ProductGallery";
 import ZoomTrigger from "@/components/products/ZoomTrigger";
+import ContactInquiry from "@/components/contact/ContactInquiry";
 import type { ChromeDict } from "@/lib/i18n/chrome";
 import type { ProductBlock } from "@/lib/data";
 
@@ -200,14 +201,7 @@ function IntroBody({ block, t }: { block: ProductBlock; t: ChromeDict }) {
             <br />
           </p>
           <p className="leading-[24px]">
-            <a
-              href="#"
-              className="inline-block rounded-[2px] border border-brand bg-paper px-[22px] py-[6px]"
-            >
-              <span className="text-[16px] leading-[24px] text-brand">
-                {t.product.inquiry}
-              </span>
-            </a>
+            <ContactInquiry label={t.product.inquiry} subject={block.title} />
           </p>
         </>
       ) : null}

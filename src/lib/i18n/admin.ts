@@ -11,6 +11,7 @@ export interface AdminDict {
     language: string;
     korean: string;
     english: string;
+    viewSite: string;
   };
   groups: {
     main: string;
@@ -87,6 +88,20 @@ export interface AdminDict {
     noticePublish: string;
     noticePreview: string;
   };
+  requests: {
+    title: string;
+    subtitle: string;
+    empty: string;
+    storeMissing: string;
+    name: string;
+    company: string;
+    email: string;
+    phone: string;
+    subject: string;
+    message: string;
+    page: string;
+    date: string;
+  };
   preview: {
     blockLabel: (index: number) => string;
     locationMap: string;
@@ -124,6 +139,7 @@ const ko: AdminDict = {
     language: "관리자 언어",
     korean: "한국어",
     english: "English",
+    viewSite: "웹사이트 보기",
   },
   groups: {
     main: "현황",
@@ -143,6 +159,22 @@ const ko: AdminDict = {
     "/admin/downloads": "자료실",
     "/admin/case-studio": "케이스 스튜디오",
     "/admin/job-posting": "채용 게시판",
+    "/admin/requests": "문의 내역",
+  },
+  requests: {
+    title: "문의 내역",
+    subtitle: "홈페이지 문의하기 폼으로 접수된 요청입니다.",
+    empty: "접수된 문의가 없습니다.",
+    storeMissing:
+      "데이터베이스가 설정되지 않아 문의 내역을 불러올 수 없습니다.",
+    name: "담당자",
+    company: "회사명",
+    email: "이메일",
+    phone: "연락처",
+    subject: "제목",
+    message: "내용",
+    page: "페이지",
+    date: "접수일시",
   },
   editor: {
     sourceDraft: "초안",
@@ -304,6 +336,7 @@ const en: AdminDict = {
     language: "Admin language",
     korean: "한국어",
     english: "English",
+    viewSite: "View website",
   },
   groups: {
     main: "Overview",
@@ -323,6 +356,21 @@ const en: AdminDict = {
     "/admin/downloads": "Downloads",
     "/admin/case-studio": "Case Studio",
     "/admin/job-posting": "Job Board",
+    "/admin/requests": "Inquiries",
+  },
+  requests: {
+    title: "Inquiries",
+    subtitle: "Requests submitted through the website contact form.",
+    empty: "No inquiries received.",
+    storeMissing: "DATABASE_URL is not set, so inquiries cannot be loaded.",
+    name: "Name",
+    company: "Company",
+    email: "Email",
+    phone: "Phone",
+    subject: "Subject",
+    message: "Message",
+    page: "Page",
+    date: "Received",
   },
   editor: {
     sourceDraft: "Draft",

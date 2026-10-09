@@ -59,6 +59,8 @@ export default function FooterBar({
 
   const policyHref = `${localizeHref("/", locale)}?mode=policy`;
   const privacyHref = `${localizeHref("/", locale)}?mode=privacy`;
+  const adminHref = localizeHref("/admin", locale);
+  const adminLabel = locale === "en" ? "Admin" : "관리자";
 
   return (
     <footer className="bg-[#020202] text-[#9b9b9b] pc:bg-[#131313] pc:text-[#b3b3b3]">
@@ -132,6 +134,13 @@ export default function FooterBar({
                 >
                   {links.privacy}
                 </Link>
+                <strong>&nbsp; &nbsp; &nbsp;</strong>
+                <Link
+                  href={adminHref}
+                  className="transition-colors hover:text-white"
+                >
+                  {adminLabel}
+                </Link>
               </p>
               <p>
                 <br />
@@ -182,6 +191,13 @@ export default function FooterBar({
               className="transition-colors hover:text-white"
             >
               {links.privacy}
+            </Link>
+            <strong className="pc:font-bold">&nbsp; &nbsp; &nbsp;</strong>
+            <Link
+              href={adminHref}
+              className="transition-colors hover:text-white"
+            >
+              {adminLabel}
             </Link>
           </p>
         </div>

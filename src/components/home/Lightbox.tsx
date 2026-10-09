@@ -274,6 +274,12 @@ export default function Lightbox({
     onClose();
   }, [onClose]);
 
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const target = e.target as HTMLElement;
+    if (target.closest("img") || target.closest("button")) return;
+    close();
+  };
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") close();
@@ -287,6 +293,19 @@ export default function Lightbox({
       document.body.style.overflow = "";
     };
   }, [close, goNext, goPrev]);
+
+  useEffect(() => {
+    const el = overlayRef.current;
+    if (!el) return;
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      const dir = e.deltaY < 0 ? ZOOM_STEP : -ZOOM_STEP;
+      setScale((s) => Math.max(1, s + dir));
+      setPan({ x: 0, y: 0 });
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+    return () => el.removeEventListener("wheel", onWheel);
+  }, []);
 
   // lightGallery anchors button zooms on the window centre, so every button
   // zoom recentres the image (the wrapper translate returns to 0,0).
@@ -384,6 +403,7 @@ export default function Lightbox({
       role="dialog"
       aria-modal="true"
       aria-label={t.gallery.viewer}
+      onClick={handleBackdropClick}
       style={{
         opacity: entered ? 1 : 0,
         transition: `opacity ${ENTER_MS}ms ease ${ENTER_DELAY_MS}ms`,

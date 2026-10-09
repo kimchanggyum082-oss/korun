@@ -15,6 +15,13 @@
       "when": 1790589536023,
       "tag": "0001_rare_joseph",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791537018875,
+      "tag": "0002_robust_khan",
+      "breakpoints": true
     }
   ]
 }

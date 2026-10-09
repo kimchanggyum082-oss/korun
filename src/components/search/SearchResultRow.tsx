@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { SearchHit } from "@/components/search/searchData";
 
 export default function SearchResultRow({
@@ -18,7 +19,7 @@ export default function SearchResultRow({
             width: 171,
           }}
         >
-          <a href={hit.href}>
+          <Link href={hit.href}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={hit.thumbnail}
@@ -32,11 +33,11 @@ export default function SearchResultRow({
                 objectFit: "cover",
               }}
             />
-          </a>
+          </Link>
         </div>
       )}
       <div style={{ display: "table-cell", verticalAlign: "top" }}>
-        <a href={hit.listHref}>
+        <Link href={hit.listHref}>
           <span
             style={{
               fontSize: 15,
@@ -46,8 +47,8 @@ export default function SearchResultRow({
           >
             {hit.boardName}
           </span>
-        </a>
-        <a href={hit.href}>
+        </Link>
+        <Link href={hit.href}>
           <div
             style={{
               fontSize: 16,
@@ -68,7 +69,7 @@ export default function SearchResultRow({
           >
             {hit.summary}
           </span>
-        </a>
+        </Link>
       </div>
     </div>
   );
