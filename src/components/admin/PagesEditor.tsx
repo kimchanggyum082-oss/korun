@@ -12,7 +12,7 @@ import {
   groupDefaults,
   resolveGroupContent,
 } from "@/lib/content/registry/resolvers";
-import { resolveSiteFromRows } from "@/lib/content/registry/site-resolve";
+import { resolveAboutFromRows } from "@/lib/content/registry/about-resolve";
 import { adminDict, type AdminDict } from "@/lib/i18n/admin";
 import { useLocale } from "@/lib/i18n/client";
 import type { Locale } from "@/lib/i18n/locales";
@@ -113,7 +113,7 @@ function ListFieldInput({
     return (
       <div className="flex flex-col gap-1">
         {label}
-        <div className="flex flex-col gap-1.5">
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
           {(["ko", "en"] as const).map((lang) => (
             <label key={lang} className="flex flex-col gap-0.5">
               <span className="text-[10px] font-semibold text-ink/35">
@@ -265,7 +265,11 @@ function NestedListEditor({
             {fields.map((field) => (
               <div
                 key={field.key}
-                className={field.kind === "list" ? "sm:col-span-2" : undefined}
+                className={
+                  field.kind === "list" || field.localized
+                    ? "sm:col-span-2"
+                    : undefined
+                }
               >
                 <ListFieldInput
                   field={field}
@@ -495,7 +499,11 @@ function ListEditor({
             {fields.map((field) => (
               <div
                 key={field.key}
-                className={field.kind === "list" ? "sm:col-span-2" : undefined}
+                className={
+                  field.kind === "list" || field.localized
+                    ? "sm:col-span-2"
+                    : undefined
+                }
               >
                 <ListFieldInput
                   field={field}
@@ -805,11 +813,12 @@ export default function PagesEditor({
     [group, previewRows, previewLang],
   );
 
-  // The home location section surfaces site contact keys — resolve the preview
-  // contact from the same drafts so edits show up in the preview immediately.
-  const previewContact = useMemo(
-    () => resolveSiteFromRows(previewRows, previewLang).settings,
-    [previewRows, previewLang],
+  // The home location preview shows every location from the about page.
+  const previewLocations = useMemo(
+    () =>
+      resolveAboutFromRows({}, previewLang).content["company-location"]
+        .locations,
+    [previewLang],
   );
 
   function onDraft(key: string, loc: PreviewLang, value: string) {
@@ -990,7 +999,7 @@ export default function PagesEditor({
                 group={group}
                 sectionDef={openDef}
                 content={resolved}
-                contact={previewContact}
+                locations={previewLocations}
                 locale={previewLang}
               />
             </div>

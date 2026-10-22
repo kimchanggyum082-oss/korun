@@ -7,9 +7,9 @@ import ValuesBanner from "@/components/home/ValuesBanner";
 import LocationSection from "@/components/home/LocationSection";
 import PolicyModal from "@/components/layout/PolicyModal";
 import {
+  getAboutPage,
   getHomePage,
   getPolicyModal,
-  getSiteSettings,
   resolveActiveLocale,
 } from "@/lib/content";
 import { metadataAlternates } from "@/lib/i18n/seo";
@@ -30,11 +30,11 @@ export default async function Home({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const [params, home, site, locale] = await Promise.all([
+  const [params, home, locale, companyLocation] = await Promise.all([
     searchParams,
     getHomePage(),
-    getSiteSettings(),
     resolveActiveLocale(),
+    getAboutPage("company-location"),
   ]);
   const kind =
     params.mode === "policy"
@@ -56,8 +56,7 @@ export default async function Home({
       <ValuesBanner values={home.content.values} />
       <LocationSection
         location={home.content.location}
-        contact={site}
-        locale={locale}
+        locations={companyLocation.content.locations}
       />
       {kind && modal && <PolicyModal kind={kind} modal={modal} />}
     </>

@@ -194,6 +194,13 @@ async function main() {
   assert.deepStrictEqual(about.assets, assets);
   passed.push("getAboutPage returns defaults unchanged");
 
+  const greetingsEn = await getAboutPage("greetings", "en");
+  assert.match(
+    greetingsEn.content.paragraphs[0] ?? "",
+    /From the initial inquiry/,
+  );
+  passed.push("greetings paragraphs resolve the English default");
+
   const locationPage = await getAboutPage("company-location");
   assert.strictEqual(locationPage.content.locations.length, 3);
   assert.strictEqual(locationPage.content.locations[0].contacts.length, 4);

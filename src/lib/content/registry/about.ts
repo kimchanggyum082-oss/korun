@@ -30,7 +30,12 @@ const d = (
   });
 
 const paragraphFields: JsonFieldDef[] = [
-  { key: "text", kind: "textarea", label: { ko: "단락", en: "Paragraph" } },
+  {
+    key: "text",
+    kind: "textarea",
+    label: { ko: "단락", en: "Paragraph" },
+    localized: true,
+  },
 ];
 
 const galleryFields: JsonFieldDef[] = [
@@ -39,6 +44,20 @@ const galleryFields: JsonFieldDef[] = [
     key: "fullSrc",
     kind: "image",
     label: { ko: "원본 이미지", en: "Full image" },
+  },
+];
+
+/** Facility gallery: the title is the caption shown below each image. */
+const facilityGalleryFields: JsonFieldDef[] = [
+  ...galleryFields,
+  {
+    key: "title",
+    kind: "text",
+    label: {
+      ko: "이미지 제목 (이미지 아래 문구)",
+      en: "Image title (caption below image)",
+    },
+    localized: true,
   },
 ];
 
@@ -173,6 +192,7 @@ export const aboutDefs: ContentDef[] = [
     "list",
     GREETINGS,
     paragraphFields,
+    true,
   ),
   d(
     "about.greetings.signature",
@@ -197,7 +217,7 @@ export const aboutDefs: ContentDef[] = [
     "Facility images",
     "imageList",
     GREETINGS,
-    galleryFields,
+    facilityGalleryFields,
   ),
 
   // ── Patent & Credentials ──

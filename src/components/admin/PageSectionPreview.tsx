@@ -10,9 +10,8 @@ import AboutSectionPreview from "@/lib/content/registry/about-preview";
 import ProductsSectionPreview from "@/lib/content/registry/products-preview";
 import CasesSectionPreview from "@/lib/content/registry/cases-preview";
 import SiteSectionPreview from "@/lib/content/registry/site-preview";
-import type { SiteSettingsResolved } from "@/lib/content/registry/site-resolve";
 import type { ContentDef, ContentGroup } from "@/lib/content/registry-types";
-import type { HomeContent } from "@/lib/data";
+import type { AboutLocationItem, HomeContent } from "@/lib/data";
 import type { Locale } from "@/lib/i18n/locales";
 import ScaledDesktop from "./ScaledDesktop";
 
@@ -37,13 +36,13 @@ export default function PageSectionPreview({
   group,
   sectionDef,
   content,
-  contact,
+  locations,
   locale,
 }: {
   group: ContentGroup;
   sectionDef: ContentDef;
   content: unknown;
-  contact?: SiteSettingsResolved;
+  locations?: readonly AboutLocationItem[];
   locale: Locale;
 }) {
   if (group === "home" && content) {
@@ -69,8 +68,7 @@ export default function PageSectionPreview({
           {section === "location" && (
             <LocationSection
               location={home.location}
-              contact={contact}
-              locale={locale}
+              locations={locations ?? []}
             />
           )}
         </ScaledDesktop>

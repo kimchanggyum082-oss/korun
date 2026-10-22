@@ -26,7 +26,6 @@ export const HOME_EN: Record<string, string> = {
   "home.lists.downloadsHeadingKo": "Downloads",
   "home.lists.writer": "KORUN Admin",
 
-  "home.location.mapTitle": "KORUN head office location map",
-  "home.location.headingEn": "HEAD OFFICE & FACTORY",
-  "home.location.headingKo": "Head Office & Factory",
+  "home.location.headingEn": "LOCATIONS",
+  "home.location.headingKo": "Company Locations",
 };

@@ -39,7 +39,7 @@ export default function AboutGallery({
                 key={img.fullSrc}
                 type="button"
                 onClick={() => setManualIndex(i)}
-                aria-label={t.gallery.openImage(img.alt)}
+                aria-label={t.gallery.openImage(img.alt || img.title || "")}
                 className={
                   isFacility
                     ? "group block text-center p-[7.5px] pc:p-[15px]"
@@ -93,7 +93,7 @@ export default function AboutGallery({
                 </span>
                 {isFacility && (
                   <span className="block pt-[10px] pb-[10px] text-[18px] leading-[28.8px] text-ink">
-                    {img.alt}
+                    {img.title || img.alt}
                   </span>
                 )}
               </button>

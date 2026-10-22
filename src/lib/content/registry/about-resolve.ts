@@ -18,7 +18,7 @@ export interface AboutResolved {
   content: AboutContentMap;
 }
 
-type ParagraphRow = { text: string };
+type ParagraphRow = { text?: unknown };
 type GalleryRow = {
   src?: string;
   fullSrc?: string;
@@ -32,7 +32,14 @@ function galleryText(value: unknown, locale: Locale): string {
   return typeof resolved === "string" ? resolved.trim() : "";
 }
 
-function defaultParagraphRows(): ParagraphRow[] {
+function defaultParagraphRows(locale: Locale): ParagraphRow[] {
+  return aboutContent.greetings.paragraphs.map((text) => ({
+    text: resolveLeaf(locale, text),
+  }));
+}
+
+/** Admin defaults keep both languages so the KO/EN inputs are both usable. */
+function sourceParagraphRows(): ParagraphRow[] {
   return aboutContent.greetings.paragraphs.map((text) => ({ text }));
 }
 
@@ -246,19 +253,16 @@ export function resolveAboutFromRows(
     return value;
   };
 
-  const list = <T extends Record<string, string>>(
-    key: string,
-    fallback: readonly T[],
-  ): T[] => {
-    const value = pickJson<T>(rows, key, locale, fallback);
-    collect?.set(key, JSON.stringify(value));
-    return value;
-  };
-
   // ── Greetings ──
-  const paragraphRows = list<ParagraphRow>(
+  const paragraphRows = pickJson<ParagraphRow>(
+    rows,
     "about.greetings.paragraphs",
-    defaultParagraphRows(),
+    locale,
+    defaultParagraphRows(locale),
+  );
+  collect?.set(
+    "about.greetings.paragraphs",
+    JSON.stringify(sourceParagraphRows()),
   );
 
   const galleryImages = resolveGallery(
@@ -313,7 +317,9 @@ export function resolveAboutFromRows(
       },
       heading: t("about.greetings.heading", base.greetings.heading),
       intro: t("about.greetings.intro", base.greetings.intro),
-      paragraphs: paragraphRows.map((row) => row.text ?? ""),
+      paragraphs: paragraphRows
+        .map((row) => localizedText(row.text, locale))
+        .filter((paragraph) => paragraph.length > 0),
       signature: t("about.greetings.signature", base.greetings.signature),
     },
     "patent-credentials": {

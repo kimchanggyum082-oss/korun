@@ -235,6 +235,9 @@ export const aboutNav = [
   { label: "Job Posting", href: "/about/job-posting" },
 ] as const;
 
+/** Source-side text that may carry per-locale overrides. */
+export type LocalizedText = string | { ko: string; en?: string };
+
 export type AboutBannerContent = {
   line1: string;
   line2: string;
@@ -247,6 +250,10 @@ export type AboutGreetingsContent = {
   intro: string;
   paragraphs: string[];
   signature: string;
+};
+
+export type AboutGreetingsSource = Omit<AboutGreetingsContent, "paragraphs"> & {
+  paragraphs: LocalizedText[];
 };
 
 export type AboutPatentContent = {
@@ -275,9 +282,6 @@ export type AboutLocationContent = {
   title: string;
   locations: AboutLocationItem[];
 };
-
-/** Source-side text that may carry per-locale overrides. */
-export type LocalizedText = string | { ko: string; en?: string };
 
 export type AboutLocationContactSource = {
   label: LocalizedText;
@@ -324,8 +328,9 @@ export type AboutContentMap = {
 /** Data-file defaults may carry `{ ko, en }` leaves; the resolver flattens them. */
 export type AboutContentSourceMap = Omit<
   AboutContentMap,
-  "company-location"
+  "greetings" | "company-location"
 > & {
+  greetings: AboutGreetingsSource;
   "company-location": AboutLocationContentSource;
 };
 
@@ -354,8 +359,14 @@ export const aboutContent: AboutContentSourceMap = {
     intro:
       "주식회사 코런은 2014년에 설립되어 고품질의 런너리스 사출성형 시스템 Hot Runner System 전문 제조 회사 입니다.",
     paragraphs: [
-      "고객의 목표에 가장 적합하고, 정확하도록 문의 단계 부터 철저한 분석과 정확한 공학 이론과 혁신적인 설계를 적용하여 완벽한 핫런너 솔루션을 제공 합니다.",
-      "전기차베터리 부품(MPPO+GF) 부터 의료용 제품 부품까지 다양한 제품 적용 실적 노하우로 신뢰 할 수 있는 고객의 파트너로서 고객의 원가 절감과 안정적 제품 생산에 파트너 되어 드리겠습니다.",
+      {
+        ko: "고객의 목표에 가장 적합하고, 정확하도록 문의 단계 부터 철저한 분석과 정확한 공학 이론과 혁신적인 설계를 적용하여 완벽한 핫런너 솔루션을 제공 합니다.",
+        en: "From the initial inquiry, we apply thorough analysis, precise engineering principles, and innovative design to deliver a perfect hot runner solution tailored to your goals.",
+      },
+      {
+        ko: "전기차베터리 부품(MPPO+GF) 부터 의료용 제품 부품까지 다양한 제품 적용 실적 노하우로 신뢰 할 수 있는 고객의 파트너로서 고객의 원가 절감과 안정적 제품 생산에 파트너 되어 드리겠습니다.",
+        en: "With proven experience across applications ranging from EV battery parts (MPPO+GF) to medical components, we will be a trusted partner for cost reduction and stable production.",
+      },
     ],
     signature: "주식회사 코런 임직원 일동",
   },
@@ -1595,7 +1606,6 @@ export type HomeContent = {
   };
   location: {
     penSmall: string;
-    mapTitle: string;
     headingEn: string;
     headingKo: string;
   };
@@ -1653,9 +1663,8 @@ export const homeContent: HomeContent = {
   },
   location: {
     penSmall: assets.penSmall,
-    mapTitle: "코런 본사 위치 지도",
-    headingEn: "HEAD OFFICE & FACTORY",
-    headingKo: "본사 및 공장\u00a0",
+    headingEn: "LOCATIONS",
+    headingKo: "오시는 길\u00a0",
   },
 };
 

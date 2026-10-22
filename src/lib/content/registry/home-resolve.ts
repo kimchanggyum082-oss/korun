@@ -239,11 +239,6 @@ export function resolveHomeFromRows(
     },
     location: {
       penSmall: base.location.penSmall,
-      // Derived defaults (iframe title — not editable).
-      mapTitle:
-        locale === "en"
-          ? (HOME_EN["home.location.mapTitle"] ?? base.location.mapTitle)
-          : base.location.mapTitle,
       headingEn: t("home.location.headingEn", base.location.headingEn),
       headingKo: t("home.location.headingKo", base.location.headingKo),
     },
