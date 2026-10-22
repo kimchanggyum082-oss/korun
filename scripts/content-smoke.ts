@@ -194,6 +194,15 @@ async function main() {
   assert.deepStrictEqual(about.assets, assets);
   passed.push("getAboutPage returns defaults unchanged");
 
+  const locationPage = await getAboutPage("company-location");
+  assert.strictEqual(locationPage.content.locations.length, 3);
+  assert.strictEqual(locationPage.content.locations[0].contacts.length, 4);
+  assert.strictEqual(locationPage.content.locations[1].contacts.length, 3);
+  assert.strictEqual(locationPage.content.locations[2].contacts.length, 3);
+  passed.push(
+    "company location returns every location with its own contact list",
+  );
+
   for (const name of passed) {
     console.log(`ok - ${name}`);
   }

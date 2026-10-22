@@ -19,13 +19,15 @@ export type ContentGroup = "home" | "about" | "products" | "cases" | "site";
 
 export interface JsonFieldDef {
   key: string;
-  kind: "text" | "textarea" | "image" | "url" | "link";
+  kind: "text" | "textarea" | "image" | "url" | "link" | "list";
   label: { ko: string; en: string };
   /**
    * Row cells marked localized are edited per locale (KO | EN); the value is
    * stored as `{ ko, en }` inside the language-common list JSON.
    */
   localized?: boolean;
+  /** Nested row schema for `kind: "list"` cells (key-value/contact lists). */
+  fields?: JsonFieldDef[];
 }
 
 export interface ContentDef {
@@ -37,6 +39,11 @@ export interface ContentDef {
   kind: ContentKind;
   /** Row schema for `kind: "list"` and `kind: "imageList"`. */
   fields?: JsonFieldDef[];
+  /**
+   * `list` rows whose cells are localized (`{ ko, en }` leaves) are stored as
+   * one shared JSON payload instead of separate per-locale payloads.
+   */
+  sharedList?: boolean;
   /** Upper bound for `list`/`imageList` rows (add button is hidden at the cap). */
   maxItems?: number;
   /**
@@ -51,6 +58,7 @@ export interface ContentDef {
 
 export interface ContentOptions {
   fields?: JsonFieldDef[];
+  sharedList?: boolean;
   maxItems?: number;
   variant?: "table";
 }
@@ -72,6 +80,7 @@ export function defineContent(
     label: { ko: labelKo, en: labelEn },
     kind,
     fields: options?.fields,
+    sharedList: options?.sharedList,
     maxItems: options?.maxItems,
     variant: options?.variant,
     revalidate,

@@ -1,10 +1,9 @@
 "use client";
 
-import { Fragment, useMemo, useRef, useState } from "react";
+import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { savePageContent } from "@/lib/admin/page-content-actions";
 import {
   isSharedKind,
-  normalizeMediaUrl,
   type ContentDef,
   type ContentGroup,
   type JsonFieldDef,
@@ -17,38 +16,17 @@ import { resolveSiteFromRows } from "@/lib/content/registry/site-resolve";
 import { adminDict, type AdminDict } from "@/lib/i18n/admin";
 import { useLocale } from "@/lib/i18n/client";
 import type { Locale } from "@/lib/i18n/locales";
+import InlineImageInput from "./InlineImageInput";
 import LinkPicker from "./LinkPicker";
+import LocationsEditor from "./LocationsEditor";
 import PageSectionPreview from "./PageSectionPreview";
 import { readLocalized, type LocalizedValue } from "./fields";
+import { parseListRows } from "./list-values";
+import { inputCls } from "./styles";
 import { toLocalized } from "./editors/items/shared";
 
 export type ContentValues = Record<string, { ko?: string; en?: string }>;
 type PreviewLang = Locale;
-
-async function uploadFileToServer(file: File): Promise<string> {
-  const form = new FormData();
-  form.append("file", file);
-  const response = await fetch("/api/admin/upload", {
-    method: "POST",
-    body: form,
-  });
-  const text = await response.text().catch(() => "");
-  let data: { url?: string; error?: string } = {};
-  try {
-    data = text ? (JSON.parse(text) as { url?: string; error?: string }) : {};
-  } catch {
-    data = {};
-  }
-  if (!response.ok || !data.url) {
-    throw new Error(
-      data.error ?? `Server responded with HTTP ${response.status}`,
-    );
-  }
-  return data.url;
-}
-
-const inputCls =
-  "w-full rounded-[3px] border border-black/10 bg-white px-3 py-2 text-[13px] text-ink outline-none transition-colors placeholder:text-ink/30 focus:border-brand";
 
 function langDraftKey(key: string, locale: PreviewLang): string {
   return `${key}:${locale}`;
@@ -81,95 +59,6 @@ function mergeGroupDefaults(
   return merged;
 }
 
-/* ── inline image control (URL or upload, with preview) ─────────────────── */
-
-function InlineImageInput({
-  value,
-  placeholder,
-  onChange,
-  uploadConfigured,
-  onError,
-  t,
-}: {
-  value: string;
-  placeholder?: string;
-  onChange: (next: string) => void;
-  uploadConfigured: boolean;
-  onError: (message: string) => void;
-  t: AdminDict["editor"];
-}) {
-  const [busy, setBusy] = useState(false);
-  const fileRef = useRef<HTMLInputElement | null>(null);
-
-  return (
-    <div className="flex flex-col gap-1.5">
-      <div className="flex items-center gap-1.5">
-        <input
-          type="text"
-          value={value}
-          placeholder={placeholder || t.uploadPlaceholder}
-          onChange={(e) => onChange(normalizeMediaUrl(e.target.value))}
-          className={inputCls}
-        />
-        {uploadConfigured && (
-          <>
-            <button
-              type="button"
-              disabled={busy}
-              onClick={() => fileRef.current?.click()}
-              className="h-9 shrink-0 rounded-[3px] border border-black/10 px-2 text-[11px] font-semibold text-ink/60 transition-colors hover:border-black/20 disabled:opacity-50"
-            >
-              {busy ? t.uploading : t.upload}
-            </button>
-            <input
-              ref={fileRef}
-              type="file"
-              accept="image/*"
-              className="hidden"
-              onChange={async (e) => {
-                const file = e.target.files?.[0];
-                e.target.value = "";
-                if (!file) return;
-                setBusy(true);
-                try {
-                  onChange(await uploadFileToServer(file));
-                } catch (error) {
-                  onError(
-                    error instanceof Error ? error.message : t.uploadFailed,
-                  );
-                } finally {
-                  setBusy(false);
-                }
-              }}
-            />
-          </>
-        )}
-        {value && (
-          <button
-            type="button"
-            onClick={() => onChange("")}
-            className="h-9 shrink-0 rounded-[3px] border border-black/10 px-2 text-[11px] text-ink/50 transition-colors hover:text-ink"
-          >
-            {t.clear}
-          </button>
-        )}
-      </div>
-      {value ? (
-        <div className="flex h-[96px] items-center justify-center overflow-hidden rounded-[3px] border border-black/10 bg-paper/40">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={value}
-            alt=""
-            className="max-h-[96px] w-full object-contain"
-          />
-        </div>
-      ) : (
-        <p className="text-[11px] text-ink/40">{t.imageFallbackNote}</p>
-      )}
-    </div>
-  );
-}
-
 /* ── generic list kind editor (rows of scalar fields) ────────────────────── */
 
 function ListFieldInput({
@@ -198,6 +87,25 @@ function ListFieldInput({
       {field.label.ko} / {field.label.en}
     </span>
   );
+
+  // Nested repeatable rows (e.g. a location's contacts or images). The value
+  // is kept as a JSON string inside the parent row so every list cell remains
+  // a plain string as far as the outer editor is concerned.
+  if (field.kind === "list") {
+    return (
+      <div className="flex flex-col gap-1">
+        {label}
+        <NestedListEditor
+          fields={field.fields ?? []}
+          value={value}
+          onChange={onChange}
+          uploadConfigured={uploadConfigured}
+          onError={onError}
+          t={t}
+        />
+      </div>
+    );
+  }
 
   // Localized cells edit KO and EN side by side; the pair is stored as
   // `{ ko, en }` inside the shared image-list JSON.
@@ -275,6 +183,115 @@ function ListFieldInput({
           className={inputCls}
         />
       )}
+    </div>
+  );
+}
+
+/** Repeatable rows nested inside a parent list row (contacts, images, …). */
+function NestedListEditor({
+  fields,
+  value,
+  onChange,
+  uploadConfigured,
+  onError,
+  t,
+}: {
+  fields: JsonFieldDef[];
+  value: LocalizedValue;
+  onChange: (next: LocalizedValue) => void;
+  uploadConfigured: boolean;
+  onError: (message: string) => void;
+  t: AdminDict["editor"];
+}) {
+  const rows = parseListRows(value);
+  const commit = (next: Record<string, LocalizedValue>[]) =>
+    onChange(JSON.stringify(next));
+
+  const moveUp = (index: number) => {
+    const next = [...rows];
+    [next[index - 1], next[index]] = [next[index], next[index - 1]];
+    commit(next);
+  };
+  const moveDown = (index: number) => {
+    const next = [...rows];
+    [next[index + 1], next[index]] = [next[index], next[index + 1]];
+    commit(next);
+  };
+  const removeRow = (index: number) =>
+    commit(rows.filter((_, i) => i !== index));
+  const setCell = (index: number, key: string, next: LocalizedValue) =>
+    commit(
+      rows.map((entry, i) => (i === index ? { ...entry, [key]: next } : entry)),
+    );
+
+  return (
+    <div className="flex flex-col gap-2 rounded-[4px] border border-dashed border-black/10 bg-paper/20 p-2">
+      {rows.map((row, index) => (
+        <div
+          key={index}
+          className="rounded-[4px] border border-black/10 bg-white p-2"
+        >
+          <div className="mb-1.5 flex items-center justify-between">
+            <span className="text-[10px] font-bold text-ink/40">
+              #{index + 1}
+            </span>
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                disabled={index === 0}
+                onClick={() => moveUp(index)}
+                className="h-6 w-6 rounded border border-black/10 text-[11px] disabled:opacity-30"
+              >
+                ↑
+              </button>
+              <button
+                type="button"
+                disabled={index === rows.length - 1}
+                onClick={() => moveDown(index)}
+                className="h-6 w-6 rounded border border-black/10 text-[11px] disabled:opacity-30"
+              >
+                ↓
+              </button>
+              <button
+                type="button"
+                onClick={() => removeRow(index)}
+                className="h-6 rounded border border-black/10 px-2 text-[11px] hover:text-[#a51c1c]"
+              >
+                {t.remove}
+              </button>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+            {fields.map((field) => (
+              <div
+                key={field.key}
+                className={field.kind === "list" ? "sm:col-span-2" : undefined}
+              >
+                <ListFieldInput
+                  field={field}
+                  value={row[field.key] ?? ""}
+                  onChange={(next) => setCell(index, field.key, next)}
+                  uploadConfigured={uploadConfigured}
+                  onError={onError}
+                  t={t}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+      <button
+        type="button"
+        onClick={() =>
+          commit([
+            ...rows,
+            Object.fromEntries(fields.map((field) => [field.key, ""])),
+          ])
+        }
+        className="h-8 w-fit rounded-[3px] border border-dashed border-black/20 px-3 text-[12px] font-semibold text-ink/60 hover:border-brand/40 hover:text-brand"
+      >
+        + {t.add}
+      </button>
     </div>
   );
 }
@@ -476,15 +493,19 @@ function ListEditor({
           </div>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
             {fields.map((field) => (
-              <ListFieldInput
+              <div
                 key={field.key}
-                field={field}
-                value={row[field.key] ?? ""}
-                onChange={(next) => setCell(index, field.key, next)}
-                uploadConfigured={uploadConfigured}
-                onError={onError}
-                t={t}
-              />
+                className={field.kind === "list" ? "sm:col-span-2" : undefined}
+              >
+                <ListFieldInput
+                  field={field}
+                  value={row[field.key] ?? ""}
+                  onChange={(next) => setCell(index, field.key, next)}
+                  uploadConfigured={uploadConfigured}
+                  onError={onError}
+                  t={t}
+                />
+              </div>
             ))}
           </div>
         </div>
@@ -510,6 +531,7 @@ function ContentRow({
   saved,
   uploadConfigured,
   onError,
+  onFocusLocation,
   t,
 }: {
   def: ContentDef;
@@ -525,6 +547,7 @@ function ContentRow({
   saved: boolean;
   uploadConfigured: boolean;
   onError: (message: string) => void;
+  onFocusLocation?: (index: number) => void;
   t: AdminDict["editor"];
 }) {
   const shared = isSharedKind(def.kind);
@@ -573,17 +596,36 @@ function ContentRow({
 
       {isList ? (
         <div className="flex flex-col gap-2">
-          <span className="text-[11px] font-semibold text-ink/50">
-            {def.kind === "imageList" ? t.imageList : t.contentList}
-          </span>
-          <ListEditor
-            def={def}
-            value={drafts.ko}
-            onChange={(next) => onDraft("ko", next)}
-            uploadConfigured={uploadConfigured}
-            onError={onError}
-            t={t}
-          />
+          {def.key === "about.location.locations" ? (
+            <p className="text-[11px] leading-[17px] text-ink/45">
+              {locale === "ko"
+                ? "각 위치를 펼쳐 기본 정보, 연락처, 지도, 이미지를 편집합니다. 위치는 순서대로 공개 페이지에 표시됩니다."
+                : "Expand a location to edit its basic info, contacts, map, and images. Locations appear on the public page in this order."}
+            </p>
+          ) : (
+            <span className="text-[11px] font-semibold text-ink/50">
+              {def.kind === "imageList" ? t.imageList : t.contentList}
+            </span>
+          )}
+          {def.key === "about.location.locations" ? (
+            <LocationsEditor
+              value={drafts.ko}
+              onChange={(next) => onDraft("ko", next)}
+              uploadConfigured={uploadConfigured}
+              onError={onError}
+              onFocusLocation={onFocusLocation}
+              t={t}
+            />
+          ) : (
+            <ListEditor
+              def={def}
+              value={drafts.ko}
+              onChange={(next) => onDraft("ko", next)}
+              uploadConfigured={uploadConfigured}
+              onError={onError}
+              t={t}
+            />
+          )}
           {def.kind === "imageList" ? (
             <p className="text-[11px] text-ink/40">{t.imageListNote}</p>
           ) : null}
@@ -681,17 +723,26 @@ export default function PagesEditor({
     const init: Record<string, string> = {};
     for (const def of defs) {
       const shared = isSharedKind(def.kind);
+      // A shared list stores one JSON payload with `{ ko, en }` leaves, so the
+      // same draft drives both preview languages and both saved rows.
+      const sharedList = def.kind === "list" && def.sharedList;
       // Image slots are override-only: empty means "keep the default image".
       // Every other kind falls back to the bundled default when the stored
       // value is missing or empty.
       const koStored = values[def.key]?.ko;
-      init[langDraftKey(def.key, "ko")] =
+      const koDraft =
         def.kind === "image"
           ? (koStored ?? "")
-          : koStored || defaultValue(koDefaults, def.key);
-      init[langDraftKey(def.key, "en")] = shared
-        ? init[langDraftKey(def.key, "ko")]
-        : values[def.key]?.en || defaultValue(enDefaults, def.key);
+          : sharedList
+            ? koStored ||
+              values[def.key]?.en ||
+              defaultValue(koDefaults, def.key)
+            : koStored || defaultValue(koDefaults, def.key);
+      init[langDraftKey(def.key, "ko")] = koDraft;
+      init[langDraftKey(def.key, "en")] =
+        shared || sharedList
+          ? koDraft
+          : values[def.key]?.en || defaultValue(enDefaults, def.key);
     }
     return init;
   });
@@ -701,6 +752,28 @@ export default function PagesEditor({
   const [message, setMessage] = useState<string | null>(null);
   const [openSection, setOpenSection] = useState<string | null>(null);
   const [previewLang, setPreviewLang] = useState<PreviewLang>("ko");
+  const [previewLocation, setPreviewLocation] = useState<number | null>(null);
+  const previewScrollRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (previewLocation === null) return;
+    const container = previewScrollRef.current;
+    if (!container) return;
+    const target = container.querySelector<HTMLElement>(
+      `[data-preview-location-index="${previewLocation}"]`,
+    );
+    if (!target) {
+      // A newly added location has no preview block until it has content.
+      // Park the preview at the bottom so it is visible as soon as it appears.
+      container.scrollTo({ top: container.scrollHeight, behavior: "smooth" });
+      return;
+    }
+    const top =
+      target.getBoundingClientRect().top -
+      container.getBoundingClientRect().top +
+      container.scrollTop;
+    container.scrollTo({ top: Math.max(0, top - 12), behavior: "smooth" });
+  }, [previewLocation]);
 
   const sections = useMemo(() => {
     const out: { key: string; defs: ContentDef[] }[] = [];
@@ -742,8 +815,9 @@ export default function PagesEditor({
   function onDraft(key: string, loc: PreviewLang, value: string) {
     const def = defs.find((entry) => entry.key === key);
     const shared = def ? isSharedKind(def.kind) : false;
+    const sharedList = def?.kind === "list" && def.sharedList;
     setDrafts((state) =>
-      shared
+      shared || sharedList
         ? {
             ...state,
             [langDraftKey(key, "ko")]: value,
@@ -786,12 +860,18 @@ export default function PagesEditor({
     setMessage(null);
     setPendingKey(def.key);
     try {
-      const result = await savePageContent(def.key, "ko", "");
-      if (!result.ok) throw new Error(result.message ?? t.failed);
+      const sharedList = def.kind === "list" && def.sharedList;
+      const resetLocales: ("ko" | "en")[] = sharedList ? ["ko", "en"] : ["ko"];
+      for (const loc of resetLocales) {
+        const result = await savePageContent(def.key, loc, "");
+        if (!result.ok) throw new Error(result.message ?? t.failed);
+      }
+      const resetKo = defaultValue(koDefaults, def.key);
+      const resetEn = sharedList ? resetKo : defaultValue(enDefaults, def.key);
       setDrafts((state) => ({
         ...state,
-        [langDraftKey(def.key, "ko")]: defaultValue(koDefaults, def.key),
-        [langDraftKey(def.key, "en")]: defaultValue(enDefaults, def.key),
+        [langDraftKey(def.key, "ko")]: resetKo,
+        [langDraftKey(def.key, "en")]: resetEn,
       }));
       setSavedKeys((state) => new Set(state).add(def.key));
     } catch (error) {
@@ -864,6 +944,7 @@ export default function PagesEditor({
                           saved={savedKeys.has(def.key)}
                           uploadConfigured={uploadConfigured}
                           onError={(message) => setMessage(message)}
+                          onFocusLocation={(index) => setPreviewLocation(index)}
                           t={t}
                         />
                       ))}
@@ -901,7 +982,10 @@ export default function PagesEditor({
                 ))}
               </div>
             </div>
-            <div className="max-h-[82vh] overflow-y-auto pc:min-h-0 pc:max-h-none pc:flex-1">
+            <div
+              ref={previewScrollRef}
+              className="max-h-[82vh] overflow-y-auto pc:min-h-0 pc:max-h-none pc:flex-1"
+            >
               <PageSectionPreview
                 group={group}
                 sectionDef={openDef}

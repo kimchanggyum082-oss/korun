@@ -19,14 +19,14 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function CompanyLocationPage() {
-  const [{ company, content }, locale] = await Promise.all([
+  const [{ content }, locale] = await Promise.all([
     getAboutPage("company-location"),
     resolveActiveLocale(),
   ]);
   return (
     <>
       <AboutNav activeHref="/about/company-location" locale={locale} />
-      <CompanyLocationView content={content} company={company} />
+      <CompanyLocationView content={content} />
     </>
   );
 }

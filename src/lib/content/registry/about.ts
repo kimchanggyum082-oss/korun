@@ -22,9 +22,11 @@ const d = (
   kind: ContentDef["kind"],
   revalidate: string[],
   fields?: JsonFieldDef[],
+  sharedList?: boolean,
 ) =>
   defineContent(key, "about", section, labelKo, labelEn, kind, revalidate, {
     fields,
+    sharedList,
   });
 
 const paragraphFields: JsonFieldDef[] = [
@@ -53,6 +55,71 @@ const locationGalleryFields: JsonFieldDef[] = [
     kind: "textarea",
     label: { ko: "설명", en: "Description" },
     localized: true,
+  },
+];
+
+/** Key/value row used by each location's contact list. */
+const locationContactFields: JsonFieldDef[] = [
+  {
+    key: "label",
+    kind: "text",
+    label: { ko: "항목명", en: "Label" },
+    localized: true,
+  },
+  {
+    key: "value",
+    kind: "text",
+    label: { ko: "값", en: "Value" },
+    localized: true,
+  },
+];
+
+const locationFields: JsonFieldDef[] = [
+  {
+    key: "name",
+    kind: "text",
+    label: { ko: "위치 이름", en: "Location name" },
+    localized: true,
+  },
+  {
+    key: "headingEn",
+    kind: "text",
+    label: { ko: "영문 상단 제목", en: "Kicker (EN)" },
+  },
+  {
+    key: "heading",
+    kind: "text",
+    label: { ko: "제목", en: "Heading" },
+    localized: true,
+  },
+  {
+    key: "description",
+    kind: "textarea",
+    label: { ko: "설명", en: "Description" },
+    localized: true,
+  },
+  {
+    key: "mapEmbed",
+    kind: "url",
+    label: { ko: "지도 임베드 URL", en: "Map embed URL" },
+  },
+  {
+    key: "mapTitle",
+    kind: "text",
+    label: { ko: "지도 제목", en: "Map title" },
+    localized: true,
+  },
+  {
+    key: "contacts",
+    kind: "list",
+    label: { ko: "연락처 목록", en: "Contacts" },
+    fields: locationContactFields,
+  },
+  {
+    key: "images",
+    kind: "list",
+    label: { ko: "이미지 목록", en: "Images" },
+    fields: locationGalleryFields,
   },
 ];
 
@@ -162,69 +229,14 @@ export const aboutDefs: ContentDef[] = [
     LOCATION,
   ),
   d(
-    "about.location.headingEn",
+    "about.location.locations",
     locationSec,
-    "영문 제목",
-    "Heading (EN)",
-    "text",
+    "위치 목록",
+    "Locations",
+    "list",
     LOCATION,
-  ),
-  d(
-    "about.location.headingKo",
-    locationSec,
-    "국문 제목",
-    "Heading (KO)",
-    "text",
-    LOCATION,
-  ),
-  d(
-    "about.location.labels.tel",
-    locationSec,
-    "TEL 라벨",
-    "TEL label",
-    "text",
-    LOCATION,
-  ),
-  d(
-    "about.location.labels.email",
-    locationSec,
-    "EMAIL 라벨",
-    "EMAIL label",
-    "text",
-    LOCATION,
-  ),
-  d(
-    "about.location.labels.address",
-    locationSec,
-    "ADDRESS 라벨",
-    "ADDRESS label",
-    "text",
-    LOCATION,
-  ),
-  d(
-    "about.location.name",
-    locationSec,
-    "위치 이름",
-    "Location name",
-    "text",
-    LOCATION,
-  ),
-  d(
-    "about.location.description",
-    locationSec,
-    "위치 설명",
-    "Location description",
-    "textarea",
-    LOCATION,
-  ),
-  d(
-    "about.location.images",
-    locationSec,
-    "위치 이미지 목록",
-    "Location images",
-    "imageList",
-    LOCATION,
-    locationGalleryFields,
+    locationFields,
+    true,
   ),
 
   // ── Job Posting ──

@@ -1,7 +1,5 @@
 "use client";
 
-import type { ComponentProps } from "react";
-
 import CompanyLocationView from "@/components/about/CompanyLocationView";
 import GreetingsView from "@/components/about/GreetingsView";
 import JobPostingView from "@/components/about/JobPostingView";
@@ -9,12 +7,11 @@ import PatentCredentialsView from "@/components/about/PatentCredentialsView";
 import ScaledDesktop from "@/components/admin/ScaledDesktop";
 import type { ContentDef } from "@/lib/content/registry-types";
 import { resolveAboutFromRows } from "@/lib/content/registry/about-resolve";
-import { company, jobPosts } from "@/lib/data";
+import { jobPosts } from "@/lib/data";
 import { chrome } from "@/lib/i18n/chrome";
 import type { Locale } from "@/lib/i18n/locales";
 
 type AboutResolved = ReturnType<typeof resolveAboutFromRows>;
-type LocationCompany = ComponentProps<typeof CompanyLocationView>["company"];
 
 function isResolved(content: unknown): content is AboutResolved {
   return (
@@ -69,10 +66,7 @@ export default function AboutSectionPreview({
   if (key.startsWith("about.location.")) {
     return (
       <ScaledDesktop>
-        <CompanyLocationView
-          content={resolved.content["company-location"]}
-          company={company as LocationCompany}
-        />
+        <CompanyLocationView content={resolved.content["company-location"]} />
       </ScaledDesktop>
     );
   }

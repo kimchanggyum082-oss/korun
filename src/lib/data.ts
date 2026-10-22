@@ -253,19 +253,59 @@ export type AboutPatentContent = {
   title: string;
 };
 
+/** A single contact line on a company location (TEL, FAX, EMAIL, …). */
+export type AboutLocationContact = {
+  label: string;
+  value: string;
+};
+
+/** One company location rendered by the company-location page. */
+export type AboutLocationItem = {
+  name: string;
+  headingEn: string;
+  heading: string;
+  description: string;
+  contacts: AboutLocationContact[];
+  mapEmbed: string;
+  mapTitle: string;
+  images: GalleryImage[];
+};
+
 export type AboutLocationContent = {
   title: string;
+  locations: AboutLocationItem[];
+};
+
+/** Source-side text that may carry per-locale overrides. */
+export type LocalizedText = string | { ko: string; en?: string };
+
+export type AboutLocationContactSource = {
+  label: LocalizedText;
+  value: LocalizedText;
+};
+
+export type AboutLocationImageSource = {
+  src: string;
+  fullSrc: string;
+  alt: string;
+  title?: LocalizedText;
+  description?: LocalizedText;
+};
+
+export type AboutLocationItemSource = {
+  name: LocalizedText;
   headingEn: string;
-  headingKo: string;
-  name: string;
-  description: string;
-  images: GalleryImage[];
-  labels: {
-    tel: string;
-    email: string;
-    address: string;
-  };
-  mapTitle: string;
+  heading: LocalizedText;
+  description: LocalizedText;
+  contacts: AboutLocationContactSource[];
+  mapEmbed: string;
+  mapTitle: LocalizedText;
+  images: AboutLocationImageSource[];
+};
+
+export type AboutLocationContentSource = {
+  title: string;
+  locations: AboutLocationItemSource[];
 };
 
 export type AboutJobPostingContent = {
@@ -281,7 +321,29 @@ export type AboutContentMap = {
   "job-posting": AboutJobPostingContent;
 };
 
-export const aboutContent: AboutContentMap = {
+/** Data-file defaults may carry `{ ko, en }` leaves; the resolver flattens them. */
+export type AboutContentSourceMap = Omit<
+  AboutContentMap,
+  "company-location"
+> & {
+  "company-location": AboutLocationContentSource;
+};
+
+export const company = {
+  name: "주식회사 코런",
+  nameEn: "KORUN",
+  tagline: "HOT RUNNER SYSTEM 전문 제조 회사로서",
+  taglineSub:
+    "가격, 품질, 서비스로 보답하는 국내 핫런너 제조 전문 메이커입니다.",
+  tel: "031.311.5577",
+  fax: "031.311.5538",
+  email: "korun15@naver.com",
+  address: "경기도 시흥시 계수로 86번길 77-1",
+  mapEmbed:
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3167.7161608753763!2d126.81074867629253!3d37.443809531155416!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357b636e33eb1f23%3A0x879829854a681600!2z6rK96riw64-EIOyLnO2dpeyLnCDqs4TsiJjroZw4NuuyiOq4uCA3Ny0x!5e0!3m2!1sko!2skr!4v1728361996222!5m2!1sko!2skr",
+} as const;
+
+export const aboutContent: AboutContentSourceMap = {
   greetings: {
     banner: {
       line1: "HOT RUNNER SYSTEM 전문 제조 회사로서",
@@ -302,29 +364,105 @@ export const aboutContent: AboutContentMap = {
   },
   "company-location": {
     title: "Company Location",
-    headingEn: "HEAD OFFICE & FACTORY",
-    headingKo: "본사 및 공장",
-    name: "",
-    description: "",
-    images: [
+    locations: [
       {
-        src: "/locations/korea.jpg",
-        fullSrc: "/locations/korea.jpg",
-        alt: "KORUN 본사/공장 및 연계 서비스센타 위치",
+        name: { ko: company.name, en: company.nameEn },
+        headingEn: "HEAD OFFICE & FACTORY",
+        heading: { ko: "본사 및 공장", en: "Head Office & Factory" },
+        description: "",
+        contacts: [
+          { label: "TEL.", value: company.tel },
+          { label: "FAX.", value: company.fax },
+          { label: "EMAIL.", value: company.email },
+          {
+            label: "ADDRESS.",
+            value: {
+              ko: company.address,
+              en: "77-1, Gyeyu-ro 86beon-gil, Siheung-si, Gyeonggi-do, Republic of Korea",
+            },
+          },
+        ],
+        mapEmbed: company.mapEmbed,
+        mapTitle: {
+          ko: "코런 본사 위치 지도",
+          en: "KORUN head office location map",
+        },
+        images: [
+          {
+            src: "/locations/korea.jpg",
+            fullSrc: "/locations/korea.jpg",
+            alt: "KORUN 본사/공장 및 연계 서비스센타 위치",
+            title: {
+              ko: "KORUN 본사/공장 및 연계 서비스센타 위치",
+              en: "KORUN head office/factory and affiliated service centers",
+            },
+          },
+        ],
       },
       {
-        src: "/locations/thai.jpg",
-        fullSrc: "/locations/thai.jpg",
-        alt: "KORUN THAI Branch 위치",
+        name: "KORUN THAI Branch",
+        headingEn: "THAILAND BRANCH",
+        heading: { ko: "태국 지사", en: "Thailand Branch" },
+        description: "",
+        contacts: [
+          { label: "TEL.", value: "070-4938-5676" },
+          { label: "EMAIL.", value: company.email },
+          {
+            label: "ADDRESS.",
+            value:
+              "277/86 Moo 12, Thungsukla, Si Racha, Chonburi 20230, Thailand",
+          },
+        ],
+        mapEmbed:
+          "https://maps.google.com/maps?q=KORUN%20THAI%20Branch%2C%20Si%20Racha%2C%20Chonburi%2C%20Thailand&z=13&output=embed",
+        mapTitle: {
+          ko: "코런 태국 지사 위치 지도",
+          en: "KORUN Thailand branch location map",
+        },
+        images: [
+          {
+            src: "/locations/thai.jpg",
+            fullSrc: "/locations/thai.jpg",
+            alt: "KORUN THAI Branch 위치",
+            title: { ko: "KORUN THAI Branch 위치", en: "KORUN THAI Branch" },
+          },
+        ],
       },
       {
-        src: "/locations/japan.jpg",
-        fullSrc: "/locations/japan.jpg",
-        alt: "KORUN NAGOYA Aichi Service Center 위치",
+        name: "TAKANO SEISAKUSYO",
+        headingEn: "NAGOYA Aichi Service Center",
+        heading: {
+          ko: "나고야 아이치 서비스센터",
+          en: "Nagoya Aichi Service Center",
+        },
+        description: "",
+        contacts: [
+          { label: "TEL.", value: "070-8826-5110" },
+          { label: "EMAIL.", value: company.email },
+          {
+            label: "ADDRESS.",
+            value: "26, Monteiyama, Murakunocho, Kounan-City, Aichi, Japan",
+          },
+        ],
+        mapEmbed:
+          "https://maps.google.com/maps?q=26%20Monteiyama%2C%20Murakunocho%2C%20Kounan-City%2C%20Aichi%2C%20Japan&z=13&output=embed",
+        mapTitle: {
+          ko: "코런 나고야 서비스센터 위치 지도",
+          en: "KORUN Nagoya service center location map",
+        },
+        images: [
+          {
+            src: "/locations/japan.jpg",
+            fullSrc: "/locations/japan.jpg",
+            alt: "KORUN NAGOYA Aichi Service Center 위치",
+            title: {
+              ko: "KORUN NAGOYA Aichi Service Center 위치",
+              en: "KORUN NAGOYA Aichi Service Center",
+            },
+          },
+        ],
       },
     ],
-    labels: { tel: "TEL.", email: "EMAIL.", address: "ADDRESS." },
-    mapTitle: "코런 본사 위치 지도",
   },
   "job-posting": {
     title: "Job Posting",
@@ -1276,20 +1414,6 @@ export const jobPosts: JobPost[] = [
     ],
   },
 ];
-
-export const company = {
-  name: "주식회사 코런",
-  nameEn: "KORUN",
-  tagline: "HOT RUNNER SYSTEM 전문 제조 회사로서",
-  taglineSub:
-    "가격, 품질, 서비스로 보답하는 국내 핫런너 제조 전문 메이커입니다.",
-  tel: "031.311.5577",
-  fax: "031.311.5538",
-  email: "korun15@naver.com",
-  address: "경기도 시흥시 계수로 86번길 77-1",
-  mapEmbed:
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3167.7161608753763!2d126.81074867629253!3d37.443809531155416!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x357b636e33eb1f23%3A0x879829854a681600!2z6rK96riw64-EIOyLnO2dpeyLnCDqs4TsiJjroZw4NuuyiOq4uCA3Ny0x!5e0!3m2!1sko!2skr!4v1728361996222!5m2!1sko!2skr",
-} as const;
 
 export type GalleryImage = {
   src: string;

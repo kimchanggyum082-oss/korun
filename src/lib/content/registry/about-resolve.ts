@@ -2,6 +2,7 @@ import {
   aboutContent,
   assets,
   type AboutContentMap,
+  type AboutLocationItem,
   type GalleryImage,
 } from "@/lib/data";
 import type { Locale } from "@/lib/i18n/locales";
@@ -66,6 +67,162 @@ function resolveGallery(
     .filter((image) => image.src.length > 0);
 }
 
+/* ── Company locations ─────────────────────────────────────────────────── */
+
+type LocationContactRow = { label?: unknown; value?: unknown };
+type LocationImageRow = {
+  src?: string;
+  fullSrc?: string;
+  alt?: string;
+  title?: unknown;
+  description?: unknown;
+};
+type LocationRow = {
+  name?: unknown;
+  headingEn?: unknown;
+  heading?: unknown;
+  description?: unknown;
+  contacts?: unknown;
+  mapEmbed?: unknown;
+  mapTitle?: unknown;
+  images?: unknown;
+};
+
+/**
+ * Admin list cells can hold a nested list either as a native array (bundled
+ * defaults) or as a JSON string (saved from the list editor). Normalize both.
+ */
+function asRows<T>(value: unknown): T[] {
+  if (Array.isArray(value)) return value as T[];
+  if (typeof value !== "string" || value.trim().length === 0) return [];
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    return Array.isArray(parsed) ? (parsed as T[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function localizedText(value: unknown, locale: Locale): string {
+  const resolved = resolveLeaf(locale, value);
+  return typeof resolved === "string" ? resolved.trim() : "";
+}
+
+function defaultLocationRows(locale: Locale): LocationRow[] {
+  return aboutContent["company-location"].locations.map((location) => ({
+    name: resolveLeaf(locale, location.name),
+    headingEn: location.headingEn,
+    heading: resolveLeaf(locale, location.heading),
+    description: resolveLeaf(locale, location.description),
+    contacts: location.contacts.map((contact) => ({
+      label: resolveLeaf(locale, contact.label),
+      value: resolveLeaf(locale, contact.value),
+    })),
+    mapEmbed: location.mapEmbed,
+    mapTitle: resolveLeaf(locale, location.mapTitle),
+    images: location.images.map((image) => ({
+      src: image.src,
+      fullSrc: image.fullSrc,
+      alt: image.alt,
+      title: resolveLeaf(locale, image.title),
+      description: resolveLeaf(locale, image.description),
+    })),
+  }));
+}
+
+/**
+ * Admin defaults must keep `{ ko, en }` leaves intact: the location list is a
+ * shared, language-common payload and the editor previews both languages from
+ * the same JSON. Resolving to one locale here would drop the other language.
+ */
+function sourceLocationRows(): LocationRow[] {
+  return aboutContent["company-location"].locations.map((location) => ({
+    name: location.name,
+    headingEn: location.headingEn,
+    heading: location.heading,
+    description: location.description,
+    contacts: location.contacts.map((contact) => ({
+      label: contact.label,
+      value: contact.value,
+    })),
+    mapEmbed: location.mapEmbed,
+    mapTitle: location.mapTitle,
+    images: location.images.map((image) => ({
+      src: image.src,
+      fullSrc: image.fullSrc,
+      alt: image.alt,
+      title: image.title,
+      description: image.description,
+    })),
+  }));
+}
+
+function resolveLocationImages(value: unknown, locale: Locale): GalleryImage[] {
+  return asRows<LocationImageRow>(value)
+    .map((image) => {
+      const src = (image.src ?? "").trim();
+      const title = localizedText(image.title, locale);
+      return {
+        src,
+        fullSrc: (image.fullSrc ?? "").trim() || src,
+        alt: (image.alt ?? "").trim() || title,
+        title,
+        description: localizedText(image.description, locale),
+      };
+    })
+    .filter((image) => image.src.length > 0);
+}
+
+function resolveLocations(
+  rows: ContentRows,
+  locale: Locale,
+  collect?: Map<string, string>,
+): AboutLocationItem[] {
+  const defaults = defaultLocationRows(locale);
+  collect?.set(
+    "about.location.locations",
+    JSON.stringify(sourceLocationRows()),
+  );
+  const override = pickJsonOverride<LocationRow>(
+    rows,
+    "about.location.locations",
+    locale,
+  );
+
+  return (override ?? defaults)
+    .map((row) => {
+      const contacts = asRows<LocationContactRow>(row.contacts)
+        .map((contact) => ({
+          label: localizedText(contact.label, locale),
+          value: localizedText(contact.value, locale),
+        }))
+        .filter(
+          (contact) => contact.label.length > 0 || contact.value.length > 0,
+        );
+
+      return {
+        name: localizedText(row.name, locale),
+        headingEn: localizedText(row.headingEn, locale),
+        heading: localizedText(row.heading, locale),
+        description: localizedText(row.description, locale),
+        contacts,
+        mapEmbed: localizedText(row.mapEmbed, locale),
+        mapTitle: localizedText(row.mapTitle, locale),
+        images: resolveLocationImages(row.images, locale),
+      };
+    })
+    .filter(
+      (location) =>
+        location.name.length > 0 ||
+        location.headingEn.length > 0 ||
+        location.heading.length > 0 ||
+        location.description.length > 0 ||
+        location.contacts.length > 0 ||
+        location.images.length > 0 ||
+        location.mapEmbed.length > 0,
+    );
+}
+
 /**
  * Pure resolver — used by both the public about pages (server) and the admin
  * preview (client). Overrides win, then the EN default (when locale is en),
@@ -121,13 +278,7 @@ export function resolveAboutFromRows(
     collect,
   );
 
-  const locationImages = resolveGallery(
-    rows,
-    locale,
-    "about.location.images",
-    base["company-location"].images,
-    collect,
-  );
+  const locations = resolveLocations(rows, locale, collect);
 
   const greetingOverride = pickText(rows, "about.greetings.image", locale, "");
   collect?.set(
@@ -170,40 +321,7 @@ export function resolveAboutFromRows(
     },
     "company-location": {
       title: t("about.location.title", base["company-location"].title),
-      headingEn: t(
-        "about.location.headingEn",
-        base["company-location"].headingEn,
-      ),
-      headingKo: t(
-        "about.location.headingKo",
-        base["company-location"].headingKo,
-      ),
-      name: t("about.location.name", base["company-location"].name),
-      description: t(
-        "about.location.description",
-        base["company-location"].description,
-      ),
-      images: locationImages,
-      labels: {
-        tel: t(
-          "about.location.labels.tel",
-          base["company-location"].labels.tel,
-        ),
-        email: t(
-          "about.location.labels.email",
-          base["company-location"].labels.email,
-        ),
-        address: t(
-          "about.location.labels.address",
-          base["company-location"].labels.address,
-        ),
-      },
-      // Derived default (iframe title — not editable).
-      mapTitle:
-        locale === "en"
-          ? (ABOUT_EN["about.location.mapTitle"] ??
-            base["company-location"].mapTitle)
-          : base["company-location"].mapTitle,
+      locations,
     },
     "job-posting": {
       title: t("about.job-posting.title", base["job-posting"].title),

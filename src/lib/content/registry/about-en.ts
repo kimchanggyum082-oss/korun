@@ -23,8 +23,6 @@ export const ABOUT_EN: Record<string, string> = {
 
   // ── Patent & Credentials ──
   // ── Company Location ──
-  "about.location.headingKo": "Head Office & Factory",
-  "about.location.mapTitle": "KORUN head office location map",
 
   // ── Job Posting ──
   "about.job-posting.detailTagline": "We share our company's job openings.",
