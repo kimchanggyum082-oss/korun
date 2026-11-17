@@ -92,8 +92,40 @@ type LocationRow = {
   contacts?: unknown;
   mapEmbed?: unknown;
   mapTitle?: unknown;
+  imageWidth?: unknown;
+  imageLift?: unknown;
   images?: unknown;
 };
+
+/** Desktop photo width (% of the content row) when the admin leaves it empty. */
+export const DEFAULT_LOCATION_IMAGE_WIDTH = 44;
+export const MIN_LOCATION_IMAGE_WIDTH = 30;
+export const MAX_LOCATION_IMAGE_WIDTH = 100;
+
+function resolveLocationImageWidth(value: unknown): number {
+  const parsed =
+    typeof value === "number"
+      ? value
+      : Number.parseFloat(String(value ?? "").trim());
+  if (!Number.isFinite(parsed)) return DEFAULT_LOCATION_IMAGE_WIDTH;
+  return Math.min(
+    MAX_LOCATION_IMAGE_WIDTH,
+    Math.max(MIN_LOCATION_IMAGE_WIDTH, Math.round(parsed)),
+  );
+}
+
+/** Desktop photo lift (px above the block's bottom edge). */
+export const DEFAULT_LOCATION_IMAGE_LIFT = 0;
+export const MAX_LOCATION_IMAGE_LIFT = 240;
+
+function resolveLocationImageLift(value: unknown): number {
+  const parsed =
+    typeof value === "number"
+      ? value
+      : Number.parseFloat(String(value ?? "").trim());
+  if (!Number.isFinite(parsed)) return DEFAULT_LOCATION_IMAGE_LIFT;
+  return Math.min(MAX_LOCATION_IMAGE_LIFT, Math.max(0, Math.round(parsed)));
+}
 
 /**
  * Admin list cells can hold a nested list either as a native array (bundled
@@ -127,6 +159,8 @@ function defaultLocationRows(locale: Locale): LocationRow[] {
     })),
     mapEmbed: location.mapEmbed,
     mapTitle: resolveLeaf(locale, location.mapTitle),
+    imageWidth: resolveLocationImageWidth(location.imageWidth),
+    imageLift: resolveLocationImageLift(location.imageLift),
     images: location.images.map((image) => ({
       src: image.src,
       fullSrc: image.fullSrc,
@@ -154,6 +188,8 @@ function sourceLocationRows(): LocationRow[] {
     })),
     mapEmbed: location.mapEmbed,
     mapTitle: location.mapTitle,
+    imageWidth: location.imageWidth ?? DEFAULT_LOCATION_IMAGE_WIDTH,
+    imageLift: location.imageLift ?? DEFAULT_LOCATION_IMAGE_LIFT,
     images: location.images.map((image) => ({
       src: image.src,
       fullSrc: image.fullSrc,
@@ -215,6 +251,8 @@ function resolveLocations(
         contacts,
         mapEmbed: localizedText(row.mapEmbed, locale),
         mapTitle: localizedText(row.mapTitle, locale),
+        imageWidth: resolveLocationImageWidth(row.imageWidth),
+        imageLift: resolveLocationImageLift(row.imageLift),
         images: resolveLocationImages(row.images, locale),
       };
     })

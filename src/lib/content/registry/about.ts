@@ -129,6 +129,16 @@ const locationFields: JsonFieldDef[] = [
     localized: true,
   },
   {
+    key: "imageWidth",
+    kind: "text",
+    label: { ko: "이미지 폭 (%)", en: "Image width (%)" },
+  },
+  {
+    key: "imageLift",
+    kind: "text",
+    label: { ko: "이미지 위로 올리기 (px)", en: "Image lift (px)" },
+  },
+  {
     key: "contacts",
     kind: "list",
     label: { ko: "연락처 목록", en: "Contacts" },

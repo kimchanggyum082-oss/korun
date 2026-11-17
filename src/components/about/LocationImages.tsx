@@ -88,11 +88,7 @@ export default function LocationImages({
                 src={img.src}
                 alt={img.alt}
                 loading="lazy"
-                className={
-                  split
-                    ? "block h-auto w-full object-cover pc:max-h-[400px]"
-                    : "block h-auto w-full"
-                }
+                className="block h-auto w-full"
               />
             </button>
           </div>

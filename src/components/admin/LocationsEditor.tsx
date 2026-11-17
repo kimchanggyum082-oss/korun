@@ -31,8 +31,34 @@ const EMPTY_LOCATION: ListRow = {
   contacts: "",
   mapEmbed: "",
   mapTitle: "",
+  imageWidth: "44",
+  imageLift: "0",
   images: "",
 };
+
+/** Desktop photo width slider bounds, mirrored by the resolver's clamp. */
+const IMAGE_WIDTH_MIN = 30;
+const IMAGE_WIDTH_MAX = 100;
+const IMAGE_WIDTH_DEFAULT = 44;
+/** Desktop photo lift (px above the block bottom), mirrored by the resolver. */
+const IMAGE_LIFT_MAX = 240;
+
+function imageWidthOf(row: ListRow): number {
+  const raw = row.imageWidth;
+  const parsed = Number.parseFloat(typeof raw === "string" ? raw : "");
+  if (!Number.isFinite(parsed)) return IMAGE_WIDTH_DEFAULT;
+  return Math.min(
+    IMAGE_WIDTH_MAX,
+    Math.max(IMAGE_WIDTH_MIN, Math.round(parsed)),
+  );
+}
+
+function imageLiftOf(row: ListRow): number {
+  const raw = row.imageLift;
+  const parsed = Number.parseFloat(typeof raw === "string" ? raw : "");
+  if (!Number.isFinite(parsed)) return 0;
+  return Math.min(IMAGE_LIFT_MAX, Math.max(0, Math.round(parsed)));
+}
 
 function stringValue(value: LocalizedValue | undefined): string {
   if (typeof value === "string") return value;
@@ -498,6 +524,56 @@ export default function LocationsEditor({
                   title="이미지 / Images"
                   hint="위치 사진이나 지도 이미지를 추가합니다. 첫 번째 이미지가 대표 이미지로 표시됩니다."
                 >
+                  <div className="flex flex-col gap-3">
+                    <label className="flex flex-col gap-1.5">
+                      <FieldLabel
+                        label="이미지 폭 (데스크톱) / Image width (desktop)"
+                        hint="44 = 기본. 값을 키우면 사진이 왼쪽으로 넓어져 텍스트 뒤에 겹칩니다. 모바일에는 적용되지 않습니다. / 44 = default. Higher values widen the photo to the left, behind the text. Desktop only."
+                      />
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="range"
+                          min={IMAGE_WIDTH_MIN}
+                          max={IMAGE_WIDTH_MAX}
+                          step={1}
+                          value={imageWidthOf(row)}
+                          onChange={(event) =>
+                            setField(index, "imageWidth", event.target.value)
+                          }
+                          aria-label="이미지 폭 / Image width"
+                          className="h-1 w-full cursor-pointer accent-brand"
+                        />
+                        <span className="w-11 shrink-0 text-right text-[11px] font-semibold tabular-nums text-ink/60">
+                          {imageWidthOf(row)}%
+                        </span>
+                      </div>
+                    </label>
+
+                    <label className="flex flex-col gap-1.5">
+                      <FieldLabel
+                        label="이미지 위로 올리기 / Lift image up"
+                        hint="0 = 사진 하단을 텍스트 하단에 맞춥니다. 값을 키우면 사진이 위로 올라가며, 아래 내용은 움직이지 않습니다. 모바일에는 적용되지 않습니다. / 0 = photo bottom aligns with the text bottom. Higher values raise the photo without moving the content below. Desktop only."
+                      />
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="range"
+                          min={0}
+                          max={IMAGE_LIFT_MAX}
+                          step={4}
+                          value={imageLiftOf(row)}
+                          onChange={(event) =>
+                            setField(index, "imageLift", event.target.value)
+                          }
+                          aria-label="이미지 위로 올리기 / Image lift"
+                          className="h-1 w-full cursor-pointer accent-brand"
+                        />
+                        <span className="w-11 shrink-0 text-right text-[11px] font-semibold tabular-nums text-ink/60">
+                          {imageLiftOf(row)}px
+                        </span>
+                      </div>
+                    </label>
+                  </div>
+
                   {images.length === 0 ? (
                     <p className="text-[11px] text-ink/40">
                       등록된 이미지가 없습니다. 아래 버튼으로 추가하세요.

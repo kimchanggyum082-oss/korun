@@ -1,5 +1,25 @@
+import type { CSSProperties } from "react";
 import type { AboutLocationItem } from "@/lib/data";
 import LocationImages from "@/components/about/LocationImages";
+
+/** Desktop photo width (% of the content row): own column vs. behind the text. */
+const DEFAULT_PHOTO_WIDTH = 44;
+const MIN_PHOTO_WIDTH = 30;
+const MAX_PHOTO_WIDTH = 100;
+
+function photoWidthOf(location: AboutLocationItem): number {
+  const parsed = location.imageWidth;
+  if (!Number.isFinite(parsed)) return DEFAULT_PHOTO_WIDTH;
+  return Math.min(MAX_PHOTO_WIDTH, Math.max(MIN_PHOTO_WIDTH, parsed));
+}
+
+const MAX_PHOTO_LIFT = 240;
+
+function photoLiftOf(location: AboutLocationItem): number {
+  const parsed = location.imageLift;
+  if (!Number.isFinite(parsed)) return 0;
+  return Math.min(MAX_PHOTO_LIFT, Math.max(0, parsed));
+}
 
 /**
  * The repeated location block used by the company-location page and the home
@@ -21,6 +41,8 @@ export default function CompanyLocationsList({
     <>
       {locations.map((location, index) => {
         const split = variant === "split" && location.images.length > 0;
+        const photoWidth = photoWidthOf(location);
+        const photoLift = photoLiftOf(location);
 
         return (
           <div
@@ -39,8 +61,15 @@ export default function CompanyLocationsList({
                   : undefined
               }
             >
-              {/* Text column: headings, name, description and contact rows. */}
-              <div className="min-w-0">
+              {/* Text column: headings, name, description and contact rows.
+                  Sits above the photo when the photo is widened behind it. */}
+              <div
+                className={
+                  split
+                    ? "min-w-0 pc:relative pc:z-10 pc:col-start-1 pc:row-start-1"
+                    : "min-w-0"
+                }
+              >
                 {location.headingEn ? (
                   <p className="text-[24px] leading-[29px] font-bold text-brand pc:text-[36px] pc:leading-[43.2px] pc:font-normal">
                     <span className="text-[15px] leading-[18px] pc:text-[20px] pc:leading-[24px] pc:font-bold">
@@ -95,12 +124,14 @@ export default function CompanyLocationsList({
                 ) : null}
               </div>
 
-              {/* Map row: full width below both columns in the split layout. */}
+              {/* Map row: full width below both columns. On desktop it is an
+                  opaque layer above the photos, so a photo that overhangs
+                  upward is masked by the block above instead of covering it. */}
               {location.mapEmbed ? (
                 <div
                   className={
                     split
-                      ? "pc:col-span-2 pc:col-start-1 pc:row-start-2"
+                      ? "pc:relative pc:z-10 pc:col-span-2 pc:col-start-1 pc:row-start-2 pc:bg-white"
                       : undefined
                   }
                 >
@@ -118,10 +149,22 @@ export default function CompanyLocationsList({
                 </div>
               ) : null}
 
-              {/* Photos: desktop right column, mobile after the map. */}
+              {/* Photos: desktop is an absolute, bottom-anchored layer behind
+                  the text, so growth goes upward and never moves the map.
+                  Mobile keeps the stacked order after the map. */}
               {split ? (
-                <div className="min-w-0 pc:col-start-2 pc:row-start-1">
-                  <LocationImages images={location.images} variant="split" />
+                <div className="pc:col-span-2 pc:col-start-1 pc:row-start-1 pc:relative pc:z-0 pc:self-stretch">
+                  <div
+                    className="pc:absolute pc:right-0 pc:w-[var(--loc-photo-w)]"
+                    style={
+                      {
+                        "--loc-photo-w": `${photoWidth}%`,
+                        bottom: photoLift,
+                      } as CSSProperties
+                    }
+                  >
+                    <LocationImages images={location.images} variant="split" />
+                  </div>
                 </div>
               ) : (
                 <LocationImages images={location.images} />

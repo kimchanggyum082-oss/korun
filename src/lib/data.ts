@@ -275,6 +275,18 @@ export type AboutLocationItem = {
   contacts: AboutLocationContact[];
   mapEmbed: string;
   mapTitle: string;
+  /**
+   * Desktop photo width as a percentage of the content row. 44 keeps the photo
+   * in its own right-hand column; larger values widen it to the left, behind
+   * the text. Ignored on mobile, where photos stay below the map.
+   */
+  imageWidth: number;
+  /**
+   * Desktop photo lift in px from the block's bottom edge. The photo is
+   * bottom-anchored, so growing it (width) or lifting it moves it upward,
+   * behind the text, instead of pushing the map down.
+   */
+  imageLift: number;
   images: GalleryImage[];
 };
 
@@ -304,6 +316,8 @@ export type AboutLocationItemSource = {
   contacts: AboutLocationContactSource[];
   mapEmbed: string;
   mapTitle: LocalizedText;
+  imageWidth?: number;
+  imageLift?: number;
   images: AboutLocationImageSource[];
 };
 
