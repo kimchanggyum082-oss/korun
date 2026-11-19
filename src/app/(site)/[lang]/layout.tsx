@@ -106,7 +106,11 @@ export default async function SiteRootLayout({
   const [contact, footer] = await Promise.all([getSiteSettings(), getFooter()]);
 
   return (
-    <html lang={lang} className="h-full antialiased">
+    <html
+      lang={lang}
+      className="h-full antialiased"
+      data-deploy-check="auto-deploy-2026-11-19"
+    >
       <body className="flex flex-col">
         <Header />
         <main className="flex-1">{children}</main>
