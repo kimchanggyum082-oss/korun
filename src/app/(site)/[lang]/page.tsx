@@ -52,7 +52,12 @@ export default async function Home({
       />
       <Products content={home.content.products} locale={locale} />
       <CtaBanner content={home.content.cta} />
-      <ListsSection lists={home.content.lists} locale={locale} />
+      <ListsSection
+        lists={home.content.lists}
+        locale={locale}
+        news={home.news}
+        downloads={home.downloads}
+      />
       <ValuesBanner values={home.content.values} />
       <LocationSection
         location={home.content.location}

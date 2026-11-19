@@ -1,3 +1,4 @@
+import { blankBoardItem } from "@/lib/content/boards";
 import { applyOverride } from "@/lib/content/merge";
 import { getDraft, getPublished } from "@/lib/content/store";
 import {
@@ -20,42 +21,30 @@ export function entityDefault<K extends EditableEntityKey>(
   if (key.startsWith("board:news:")) {
     const idx = key.slice("board:news:".length);
     const item = newsItems.find((entry) => entry.idx === idx);
-    if (!item) {
-      throw new Error(`Unknown news item: ${idx}`);
-    }
-    return item as EditableEntityValue[K];
+    return (item ?? blankBoardItem("news", idx)) as EditableEntityValue[K];
   }
   if (key.startsWith("board:downloads:")) {
     const idx = key.slice("board:downloads:".length);
     const item = downloadItems.find((entry) => entry.idx === idx);
-    if (!item) {
-      throw new Error(`Unknown download item: ${idx}`);
-    }
-    return item as EditableEntityValue[K];
+    return (item ?? blankBoardItem("downloads", idx)) as EditableEntityValue[K];
   }
   if (key.startsWith("board:case-studio:")) {
     const idx = key.slice("board:case-studio:".length);
     const item = caseStudioItems.find((entry) => entry.idx === idx);
-    if (!item) {
-      throw new Error(`Unknown case studio item: ${idx}`);
-    }
-    return item as EditableEntityValue[K];
+    return (item ??
+      blankBoardItem("case-studio", idx)) as EditableEntityValue[K];
   }
   if (key.startsWith("board:interesting-items:")) {
     const idx = key.slice("board:interesting-items:".length);
     const item = interestingItems.find((entry) => entry.idx === idx);
-    if (!item) {
-      throw new Error(`Unknown interesting item: ${idx}`);
-    }
-    return item as EditableEntityValue[K];
+    return (item ??
+      blankBoardItem("interesting-items", idx)) as EditableEntityValue[K];
   }
   if (key.startsWith("board:job-posting:")) {
     const idx = key.slice("board:job-posting:".length);
     const item = jobPosts.find((entry) => entry.idx === idx);
-    if (!item) {
-      throw new Error(`Unknown job post: ${idx}`);
-    }
-    return item as EditableEntityValue[K];
+    return (item ??
+      blankBoardItem("job-posting", idx)) as EditableEntityValue[K];
   }
   switch (key) {
     case ENTITY_KEYS.boardsNews:

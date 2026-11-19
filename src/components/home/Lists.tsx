@@ -1,9 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  downloads,
+  downloads as bundledDownloads,
   homeContent,
-  news,
+  news as bundledNews,
+  type DownloadItem,
   type HomeContent,
   type NewsItem,
 } from "@/lib/data";
@@ -160,9 +161,11 @@ function PcHeading({
 export function NewsEvents({
   lists,
   locale,
+  items,
 }: {
   lists: HomeContent["lists"];
   locale: Locale;
+  items: NewsItem[];
 }) {
   return (
     <section className="pc:hidden flex flex-col break-keep px-[15px]">
@@ -174,7 +177,7 @@ export function NewsEvents({
         locale={locale}
       />
       <ul className="my-[7.5px]">
-        {news.map((item) => (
+        {items.map((item) => (
           <MobileRow
             key={item.idx}
             href={`/news/${item.idx}`}
@@ -192,9 +195,11 @@ export function NewsEvents({
 export function Downloads({
   lists,
   locale,
+  items,
 }: {
   lists: HomeContent["lists"];
   locale: Locale;
+  items: DownloadItem[];
 }) {
   return (
     <section className="pc:hidden flex flex-col break-keep px-[15px]">
@@ -206,7 +211,7 @@ export function Downloads({
         locale={locale}
       />
       <ul className="my-[7.5px]">
-        {downloads.map((item) => (
+        {items.map((item) => (
           <MobileRow
             key={item.idx}
             href={`/downloads/${item.idx}`}
@@ -224,9 +229,11 @@ export function Downloads({
 function PcNews({
   lists,
   locale,
+  items,
 }: {
   lists: HomeContent["lists"];
   locale: Locale;
+  items: NewsItem[];
 }) {
   return (
     <div>
@@ -237,7 +244,7 @@ function PcNews({
         locale={locale}
       />
       <ul className="py-[15px]">
-        {news.map((item) => (
+        {items.map((item) => (
           <PcRow
             key={item.idx}
             href={`/news/${item.idx}`}
@@ -256,9 +263,11 @@ function PcNews({
 function PcDownloads({
   lists,
   locale,
+  items,
 }: {
   lists: HomeContent["lists"];
   locale: Locale;
+  items: DownloadItem[];
 }) {
   return (
     <div>
@@ -269,7 +278,7 @@ function PcDownloads({
         locale={locale}
       />
       <ul className="py-[15px]">
-        {downloads.map((item) => (
+        {items.map((item) => (
           <PcRow
             key={item.idx}
             href={`/downloads/${item.idx}`}
@@ -288,17 +297,21 @@ function PcDownloads({
 export function ListsSection({
   lists = homeContent.lists,
   locale = defaultLocale,
+  news = bundledNews,
+  downloads = bundledDownloads,
 }: {
   lists?: HomeContent["lists"];
   locale?: Locale;
+  news?: NewsItem[];
+  downloads?: DownloadItem[];
 } = {}) {
   return (
     <>
-      <NewsEvents lists={lists} locale={locale} />
-      <Downloads lists={lists} locale={locale} />
+      <NewsEvents lists={lists} locale={locale} items={news} />
+      <Downloads lists={lists} locale={locale} items={downloads} />
       <div className="mx-auto hidden max-w-[1280px] grid-cols-2 gap-[30px] px-[15px] py-20 pc:grid">
-        <PcNews lists={lists} locale={locale} />
-        <PcDownloads lists={lists} locale={locale} />
+        <PcNews lists={lists} locale={locale} items={news} />
+        <PcDownloads lists={lists} locale={locale} items={downloads} />
       </div>
     </>
   );

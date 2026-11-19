@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import ItemList from "@/components/admin/editors/items/ItemList";
-import { getBoardItems } from "@/lib/content";
+import { getAdminBoardItems } from "@/lib/content";
 import { itemsDict } from "@/lib/i18n/boards/items";
 import { getAdminLocale } from "@/lib/i18n/admin-server";
+import { localizeHref } from "@/lib/i18n/locales";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getAdminLocale();
@@ -10,7 +11,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AdminInterestingItemsPage() {
-  const items = await getBoardItems("interesting-items");
+  const locale = await getAdminLocale();
+  const items = await getAdminBoardItems("interesting-items", locale);
+  const newHref = localizeHref(
+    `/admin/interesting-items/${crypto.randomUUID()}`,
+    locale,
+  );
 
-  return <ItemList items={items} />;
+  return <ItemList items={items} newHref={newHref} />;
 }

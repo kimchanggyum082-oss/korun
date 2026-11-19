@@ -12,12 +12,7 @@ import { getChrome } from "@/lib/i18n/server";
 import { metadataAlternates } from "@/lib/i18n/seo";
 import { pagesAbout } from "@/lib/i18n/pages-about";
 
-export const dynamicParams = false;
-
-export async function generateStaticParams() {
-  const jobPosts = await getBoardItems("job-posting");
-  return jobPosts.map((post) => ({ idx: post.idx }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,

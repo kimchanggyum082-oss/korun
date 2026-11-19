@@ -3,7 +3,7 @@ export { getHomePage } from "./home";
 export { getProductPage, getProductPages } from "./products";
 export { getAboutPage } from "./about";
 export { getCasePage, getCasePages } from "./cases";
-export { getBoardItems, getBoardItem } from "./boards";
+export { getAdminBoardItems, getBoardItem, getBoardItems } from "./boards";
 export { getSearchIndex } from "./search";
 export { getPolicyModal } from "./policy";
 export { resolveActiveLocale } from "./locale";

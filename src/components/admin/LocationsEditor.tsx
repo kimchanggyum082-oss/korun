@@ -245,7 +245,12 @@ export default function LocationsEditor({
 
   const setMap = (
     index: number,
-    next: { lat: number | null; lng: number | null; zoom: number },
+    next: {
+      lat: number | null;
+      lng: number | null;
+      zoom: number;
+      embed?: string;
+    },
   ) =>
     commit(
       rows.map((row, rowIndex) =>
@@ -255,6 +260,7 @@ export default function LocationsEditor({
               mapLat: next.lat === null ? "" : String(next.lat),
               mapLng: next.lng === null ? "" : String(next.lng),
               mapZoom: String(next.zoom),
+              ...(next.embed !== undefined ? { mapEmbed: next.embed } : {}),
             }
           : row,
       ),
@@ -603,6 +609,7 @@ export default function LocationsEditor({
                       zoom: numberValue(row.mapZoom) ?? DEFAULT_MAP_ZOOM,
                     }}
                     onChange={(next) => setMap(index, next)}
+                    fallbackEmbed={stringValue(row.mapEmbed)}
                   />
                   <SimpleField
                     label="커스텀 임베드 URL / Custom embed URL (optional)"

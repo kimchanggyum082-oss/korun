@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import NewPostLink from "@/components/admin/NewPostLink";
 import type { ServiceCaseStudioItem } from "@/lib/data";
 import { caseStudioDict } from "@/lib/i18n/boards/caseStudio";
 import { useLocale } from "@/lib/i18n/client";
@@ -8,22 +9,27 @@ import { localizeHref } from "@/lib/i18n/locales";
 
 export default function CaseStudioList({
   items,
+  newHref,
 }: {
   items: ServiceCaseStudioItem[];
+  newHref: string;
 }) {
   const locale = useLocale();
   const t = caseStudioDict[locale].list;
 
   return (
     <div className="flex flex-col gap-6">
-      <header className="flex flex-col gap-1">
-        <p className="text-[11px] font-semibold tracking-[0.14em] text-neutral-400 uppercase">
-          {t.eyebrow}
-        </p>
-        <h1 className="text-[24px] font-bold text-ink">{t.title}</h1>
-        <p className="text-sm text-neutral-500">
-          {t.description(items.length)}
-        </p>
+      <header className="flex flex-wrap items-start justify-between gap-3">
+        <div className="flex flex-col gap-1">
+          <p className="text-[11px] font-semibold tracking-[0.14em] text-neutral-400 uppercase">
+            {t.eyebrow}
+          </p>
+          <h1 className="text-[24px] font-bold text-ink">{t.title}</h1>
+          <p className="text-sm text-neutral-500">
+            {t.description(items.length)}
+          </p>
+        </div>
+        <NewPostLink href={newHref} />
       </header>
 
       <div className="overflow-hidden rounded-lg border border-neutral-200 bg-white">

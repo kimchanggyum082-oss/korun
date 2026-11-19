@@ -20,7 +20,13 @@ import {
   resolveLeaf,
 } from "@/lib/content";
 import { isDatabaseConfigured } from "@/lib/db/client";
-import { googleMapEmbedUrl, parseGoogleMapsUrl } from "@/lib/google-map";
+import { blankBoardItem, mergeBoardItems } from "@/lib/content/boards";
+import {
+  googleMapEmbedUrl,
+  googleMapQueryEmbedUrl,
+  googlePlaceQueryFromUrl,
+  parseGoogleMapsUrl,
+} from "@/lib/google-map";
 import { resolveAboutFromRows } from "@/lib/content/registry/about-resolve";
 import { groupDefaults } from "@/lib/content/registry/resolvers";
 import {
@@ -41,6 +47,33 @@ function check(name: string, fn: () => void) {
   passed.push(name);
 }
 
+check("new board items start with a blank shape", () => {
+  const news = blankBoardItem("news", "new-id");
+  assert.strictEqual(news.idx, "new-id");
+  assert.strictEqual(news.files.length, 0);
+  const job = blankBoardItem("job-posting", "new-id");
+  assert.strictEqual(job.idx, "new-id");
+  assert.ok(job.no > 0);
+});
+
+check("new board entities are prepended to the bundled list", () => {
+  const base = newsItems.slice(0, 1);
+  const merged = mergeBoardItems(
+    "news",
+    base,
+    new Map([
+      [
+        "new-id",
+        { title: { ko: "새 소식", en: "New update" }, category: "NEWS" },
+      ],
+    ]),
+  );
+  assert.strictEqual(merged.length, 2);
+  assert.strictEqual(merged[0].idx, "new-id");
+  assert.strictEqual(resolveLeaf("ko", merged[0].title), "새 소식");
+  assert.strictEqual(merged[1].idx, base[0].idx);
+});
+
 check("google map embed URL uses the selected coordinates", () => {
   assert.strictEqual(
     googleMapEmbedUrl(37.4438, 126.8107, 17),
@@ -59,6 +92,29 @@ check("google maps URL parser reads ?q=lat,lng", () => {
   assert.deepStrictEqual(
     parseGoogleMapsUrl("https://maps.google.com/?q=37.4438,126.8107"),
     { lat: 37.4438, lng: 126.8107, zoom: undefined },
+  );
+});
+
+check("google maps URL parser reads fully encoded place coordinates", () => {
+  assert.deepStrictEqual(
+    parseGoogleMapsUrl("prefix%213d37.4438125%214d126.813328125suffix"),
+    { lat: 37.4438125, lng: 126.813328125, zoom: undefined },
+  );
+});
+
+check("google maps place URL exposes its place query", () => {
+  assert.strictEqual(
+    googlePlaceQueryFromUrl(
+      "https://www.google.com/maps/place/77-1+Gyesu-ro+86beon-gil,+Siheung-si,+Gyeonggi-do/data=!3m1",
+    ),
+    "77-1 Gyesu-ro 86beon-gil, Siheung-si, Gyeonggi-do",
+  );
+});
+
+check("google maps query embed uses the place query", () => {
+  assert.strictEqual(
+    googleMapQueryEmbedUrl("a b"),
+    "https://maps.google.com/maps?q=a%20b&output=embed",
   );
 });
 

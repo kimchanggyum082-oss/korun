@@ -78,6 +78,7 @@ export interface AdminDict {
     attachmentAutoName: string;
     attachmentAutoSize: string;
     attachmentSizeUnknown: string;
+    newPost: string;
   };
   dashboard: {
     quickLinks: string;
@@ -254,6 +255,7 @@ const ko: AdminDict = {
     attachmentAutoName: "파일 이름 (자동)",
     attachmentAutoSize: "파일 크기 (자동)",
     attachmentSizeUnknown: "크기 확인 불가",
+    newPost: "새 게시물",
   },
   dashboard: {
     quickLinks: "바로 가기",
@@ -462,6 +464,7 @@ const en: AdminDict = {
     attachmentAutoName: "File name (auto)",
     attachmentAutoSize: "File size (auto)",
     attachmentSizeUnknown: "Size unknown",
+    newPost: "New post",
   },
   dashboard: {
     quickLinks: "Quick links",

@@ -63,6 +63,24 @@ export function googleMapLink(lat: number, lng: number): string {
   return `https://www.google.com/maps?q=${clampLat(lat)},${clampLng(lng)}`;
 }
 
+/** Keyless Google Maps embed for an address/place query (no pin required). */
+export function googleMapQueryEmbedUrl(query: string): string {
+  return `https://maps.google.com/maps?q=${encodeURIComponent(query.trim())}&output=embed`;
+}
+
+/** Extract the place name from a Google Maps `/maps/place/<name>/…` URL. */
+export function googlePlaceQueryFromUrl(input: string): string | undefined {
+  try {
+    const url = new URL(input);
+    const match = /^\/maps\/place\/([^/]+)/.exec(url.pathname);
+    if (!match) return undefined;
+    const query = decodeURIComponent(match[1].replace(/\+/g, " ")).trim();
+    return query || undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 function pointOf(lat: number, lng: number, zoom?: number): MapPoint | null {
   if (!Number.isFinite(lat) || !Number.isFinite(lng)) return null;
   if (lat < -90 || lat > 90 || lng < -180 || lng > 180) return null;
@@ -98,7 +116,8 @@ export function parseGoogleMapsUrl(input: string): MapPoint | null {
   );
   if (at) return pointOf(Number(at[1]), Number(at[2]), Number(at[3]));
 
-  const place = /!3d(-?\d+(?:\.\d+)?)!4d(-?\d+(?:\.\d+)?)/i.exec(text);
+  const place =
+    /(?:!|%21)3d(-?\d+(?:\.\d+)?)(?:%21|!)4d(-?\d+(?:\.\d+)?)/i.exec(text);
   if (place) return pointOf(Number(place[1]), Number(place[2]));
 
   const query =
