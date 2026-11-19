@@ -97,35 +97,53 @@ const locationFields: JsonFieldDef[] = [
   {
     key: "name",
     kind: "text",
-    label: { ko: "위치 이름", en: "Location name" },
+    label: { ko: "위치 이름 (국문/영문)", en: "Location name (KO/EN)" },
     localized: true,
   },
   {
     key: "headingEn",
     kind: "text",
-    label: { ko: "영문 상단 제목", en: "Kicker (EN)" },
+    label: { ko: "영문 상단 제목 (공통)", en: "Kicker (EN, shared)" },
   },
   {
     key: "heading",
     kind: "text",
-    label: { ko: "제목", en: "Heading" },
+    label: { ko: "제목 (국문/영문)", en: "Heading (KO/EN)" },
     localized: true,
   },
   {
     key: "description",
     kind: "textarea",
-    label: { ko: "설명", en: "Description" },
+    label: { ko: "설명 (국문/영문)", en: "Description (KO/EN)" },
     localized: true,
   },
   {
     key: "mapEmbed",
     kind: "url",
-    label: { ko: "지도 임베드 URL", en: "Map embed URL" },
+    label: {
+      ko: "커스텀 임베드 URL (선택)",
+      en: "Custom embed URL (optional)",
+    },
+  },
+  {
+    key: "mapLat",
+    kind: "text",
+    label: { ko: "위도 (lat)", en: "Latitude" },
+  },
+  {
+    key: "mapLng",
+    kind: "text",
+    label: { ko: "경도 (lng)", en: "Longitude" },
+  },
+  {
+    key: "mapZoom",
+    kind: "text",
+    label: { ko: "지도 줌", en: "Map zoom" },
   },
   {
     key: "mapTitle",
     kind: "text",
-    label: { ko: "지도 제목", en: "Map title" },
+    label: { ko: "지도 제목 (국문/영문)", en: "Map title (KO/EN)" },
     localized: true,
   },
   {
@@ -136,7 +154,7 @@ const locationFields: JsonFieldDef[] = [
   {
     key: "imageLift",
     kind: "text",
-    label: { ko: "이미지 위로 올리기 (px)", en: "Image lift (px)" },
+    label: { ko: "이미지 위치 조정 (px, ±)", en: "Image lift (px, ±)" },
   },
   {
     key: "contacts",
@@ -151,6 +169,21 @@ const locationFields: JsonFieldDef[] = [
     fields: locationGalleryFields,
   },
 ];
+
+/**
+ * The shared company-location list. Exported because the home group surfaces
+ * the same key in its location section (one storage location, two editors).
+ */
+export const locationListDef = d(
+  "about.location.locations",
+  locationSec,
+  "위치 목록",
+  "Locations",
+  "list",
+  LOCATION,
+  locationFields,
+  true,
+);
 
 export const aboutDefs: ContentDef[] = [
   // ── Greetings ──
@@ -258,16 +291,7 @@ export const aboutDefs: ContentDef[] = [
     "text",
     LOCATION,
   ),
-  d(
-    "about.location.locations",
-    locationSec,
-    "위치 목록",
-    "Locations",
-    "list",
-    LOCATION,
-    locationFields,
-    true,
-  ),
+  locationListDef,
 
   // ── Job Posting ──
   d(

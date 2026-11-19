@@ -5,7 +5,7 @@ import {
 } from "@/lib/data";
 import type { Locale } from "@/lib/i18n/locales";
 import type { ContentRows } from "../page-content";
-import { pickJsonOverride, pickText } from "../registry-resolve";
+import { pickJsonOverride, pickText, pickTextAny } from "../registry-resolve";
 import { HOME_EN } from "./home-en";
 
 type SlideRow = { src?: string };
@@ -148,6 +148,11 @@ export function resolveHomeFromRows(
     collect?.set(key, override || fallback);
     return override || fallback;
   };
+  const tAny = (key: string, fallback: string) => {
+    const value = pickTextAny(rows, key, "en", fallback);
+    collect?.set(key, value);
+    return value;
+  };
 
   const slideOverride = pickJsonOverride<SlideRow>(
     rows,
@@ -221,9 +226,9 @@ export function resolveHomeFromRows(
     lists: {
       penSmall: base.lists.penSmall,
       penMobile: base.lists.penMobile,
-      newsHeadingEn: t("home.lists.newsHeadingEn", base.lists.newsHeadingEn),
+      newsHeadingEn: tAny("home.lists.newsHeadingEn", base.lists.newsHeadingEn),
       newsHeadingKo: t("home.lists.newsHeadingKo", base.lists.newsHeadingKo),
-      downloadsHeadingEn: t(
+      downloadsHeadingEn: tAny(
         "home.lists.downloadsHeadingEn",
         base.lists.downloadsHeadingEn,
       ),
@@ -239,7 +244,7 @@ export function resolveHomeFromRows(
     },
     location: {
       penSmall: base.location.penSmall,
-      headingEn: t("home.location.headingEn", base.location.headingEn),
+      headingEn: tAny("home.location.headingEn", base.location.headingEn),
       headingKo: t("home.location.headingKo", base.location.headingKo),
     },
   };

@@ -23,6 +23,24 @@ export function pickText(
   return raw(rows, key, locale) ?? fallback;
 }
 
+/**
+ * Language-common key (one value written to both locales). Reads the preferred
+ * locale first, then the other locale, so older edits stored on only one side
+ * still render.
+ */
+export function pickTextAny(
+  rows: ContentRows,
+  key: string,
+  preferred: Locale,
+  fallback: string,
+): string {
+  const entry = rows[key];
+  if (!entry) return fallback;
+  const primary = preferred === "en" ? entry.en : entry.ko;
+  const secondary = preferred === "en" ? entry.ko : entry.en;
+  return primary?.trim() || secondary?.trim() || fallback;
+}
+
 /** Multi-line copy — one item per line; override replaces the whole list. */
 export function pickLines(
   rows: ContentRows,

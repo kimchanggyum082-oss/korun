@@ -41,6 +41,7 @@ export interface ItemsDict {
   files: {
     item: (index: number) => string;
     name: string;
+    url: string;
     size: string;
     sizePlaceholder: string;
     add: string;
@@ -140,6 +141,7 @@ const ko: ItemsDict = {
   files: {
     item: (index) => `파일 ${index}`,
     name: "이름 (name)",
+    url: "파일 URL",
     size: "크기 (size)",
     sizePlaceholder: "예: 979KB",
     add: "파일 추가",
@@ -240,6 +242,7 @@ const en: ItemsDict = {
   files: {
     item: (index) => `File ${index}`,
     name: "Name (name)",
+    url: "File URL",
     size: "Size (size)",
     sizePlaceholder: "e.g. 979KB",
     add: "Add file",

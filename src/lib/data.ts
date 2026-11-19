@@ -275,6 +275,10 @@ export type AboutLocationItem = {
   contacts: AboutLocationContact[];
   mapEmbed: string;
   mapTitle: string;
+  /** Selected map pin; when present the public map is generated from it. */
+  mapLat?: number;
+  mapLng?: number;
+  mapZoom?: number;
   /**
    * Desktop photo width as a percentage of the content row. 44 keeps the photo
    * in its own right-hand column; larger values widen it to the left, behind
@@ -282,9 +286,10 @@ export type AboutLocationItem = {
    */
   imageWidth: number;
   /**
-   * Desktop photo lift in px from the block's bottom edge. The photo is
-   * bottom-anchored, so growing it (width) or lifting it moves it upward,
-   * behind the text, instead of pushing the map down.
+   * Desktop photo lift in px from the block's bottom edge. Positive values
+   * raise the photo behind the text; negative values lower it. The photo is
+   * bottom-anchored, so changing it moves the photo vertically without pushing
+   * the map down.
    */
   imageLift: number;
   images: GalleryImage[];
@@ -316,8 +321,16 @@ export type AboutLocationItemSource = {
   contacts: AboutLocationContactSource[];
   mapEmbed: string;
   mapTitle: LocalizedText;
+  mapLat?: number;
+  mapLng?: number;
+  mapZoom?: number;
   imageWidth?: number;
   imageLift?: number;
+  /**
+   * Global visibility switch for this location. Defaults to enabled; a
+   * disabled location is omitted from every page that uses the shared list.
+   */
+  enabled?: boolean;
   images: AboutLocationImageSource[];
 };
 
@@ -925,7 +938,7 @@ export type InterestingItem = {
   thumbnail: string;
   description: string;
   blocks: InterestingItemBlock[];
-  files: { name: string; size: string }[];
+  files: { name: string; size: string; url: string }[];
 };
 
 export const interestingItems: InterestingItem[] = [
@@ -1000,8 +1013,12 @@ export const interestingItems: InterestingItem[] = [
       { type: "br", align: "center" },
     ],
     files: [
-      { name: "240605 코런 에어증폭기 리플렛.pdf", size: "245KB" },
-      { name: "코런_에어부스타_증폭기 사양서 241014.pdf", size: "2007KB" },
+      { name: "240605 코런 에어증폭기 리플렛.pdf", size: "245KB", url: "" },
+      {
+        name: "코런_에어부스타_증폭기 사양서 241014.pdf",
+        size: "2007KB",
+        url: "",
+      },
     ],
   },
   {
@@ -1309,7 +1326,7 @@ export type JobPost = {
   date: string;
   views: number;
   blocks: InterestingItemBlock[];
-  files: { name: string; size: string }[];
+  files: { name: string; size: string; url: string }[];
 };
 
 export const jobPosts: JobPost[] = [
@@ -1433,9 +1450,13 @@ export const jobPosts: JobPost[] = [
       { type: "br" },
     ],
     files: [
-      { name: "코런_2024년 도소매업창업사업계획서 양식.pptx", size: "5675KB" },
-      { name: "코런_대리점 개설 신청서.docx", size: "17KB" },
-      { name: "코런_직무기술서 영업 분야.docx", size: "17KB" },
+      {
+        name: "코런_2024년 도소매업창업사업계획서 양식.pptx",
+        size: "5675KB",
+        url: "",
+      },
+      { name: "코런_대리점 개설 신청서.docx", size: "17KB", url: "" },
+      { name: "코런_직무기술서 영업 분야.docx", size: "17KB", url: "" },
     ],
   },
 ];

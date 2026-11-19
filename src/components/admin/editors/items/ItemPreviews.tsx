@@ -35,7 +35,7 @@ export default function ItemPreviews({
           views: item.views,
         }}
         blocks={item.blocks}
-        files={item.files.map((file) => ({ ...file, url: "#" }))}
+        files={item.files}
         listHref="/technology/interesting-items"
         showWriter
       />

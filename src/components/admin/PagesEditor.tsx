@@ -3,6 +3,7 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
 import { savePageContent } from "@/lib/admin/page-content-actions";
 import {
+  isSharedDef,
   isSharedKind,
   type ContentDef,
   type ContentGroup,
@@ -558,7 +559,7 @@ function ContentRow({
   onFocusLocation?: (index: number) => void;
   t: AdminDict["editor"];
 }) {
-  const shared = isSharedKind(def.kind);
+  const shared = isSharedDef(def);
   const isList = def.kind === "list" || def.kind === "imageList";
   const label = def.label[locale];
   const koId = `${def.key}-ko`;
@@ -730,7 +731,7 @@ export default function PagesEditor({
   const [drafts, setDrafts] = useState<Record<string, string>>(() => {
     const init: Record<string, string> = {};
     for (const def of defs) {
-      const shared = isSharedKind(def.kind);
+      const shared = isSharedDef(def);
       // A shared list stores one JSON payload with `{ ko, en }` leaves, so the
       // same draft drives both preview languages and both saved rows.
       const sharedList = def.kind === "list" && def.sharedList;
@@ -741,7 +742,7 @@ export default function PagesEditor({
       const koDraft =
         def.kind === "image"
           ? (koStored ?? "")
-          : sharedList
+          : shared || sharedList
             ? koStored ||
               values[def.key]?.en ||
               defaultValue(koDefaults, def.key)
@@ -800,9 +801,7 @@ export default function PagesEditor({
       const ko = drafts[langDraftKey(def.key, "ko")] ?? "";
       rows[def.key] = {
         ko,
-        en: isSharedKind(def.kind)
-          ? ko
-          : (drafts[langDraftKey(def.key, "en")] ?? ""),
+        en: isSharedDef(def) ? ko : (drafts[langDraftKey(def.key, "en")] ?? ""),
       };
     }
     return rows;
@@ -813,17 +812,24 @@ export default function PagesEditor({
     [group, previewRows, previewLang],
   );
 
-  // The home location preview shows every location from the about page.
-  const previewLocations = useMemo(
-    () =>
-      resolveAboutFromRows({}, previewLang).content["company-location"]
-        .locations,
-    [previewLang],
-  );
+  // The home location preview uses the same shared list as the public pages.
+  // Prefer the live draft while the about group is open; otherwise fall back to
+  // the rows loaded from the store.
+  const previewLocations = useMemo(() => {
+    const live = previewRows["about.location.locations"];
+    const stored = values["about.location.locations"];
+    const rows: Record<string, { ko?: string; en?: string }> = live
+      ? { "about.location.locations": live }
+      : stored?.ko || stored?.en
+        ? { "about.location.locations": stored }
+        : {};
+    return resolveAboutFromRows(rows, previewLang).content["company-location"]
+      .locations;
+  }, [previewRows, previewLang, values]);
 
   function onDraft(key: string, loc: PreviewLang, value: string) {
     const def = defs.find((entry) => entry.key === key);
-    const shared = def ? isSharedKind(def.kind) : false;
+    const shared = def ? isSharedDef(def) : false;
     const sharedList = def?.kind === "list" && def.sharedList;
     setDrafts((state) =>
       shared || sharedList
@@ -870,7 +876,8 @@ export default function PagesEditor({
     setPendingKey(def.key);
     try {
       const sharedList = def.kind === "list" && def.sharedList;
-      const resetLocales: ("ko" | "en")[] = sharedList ? ["ko", "en"] : ["ko"];
+      const resetLocales: ("ko" | "en")[] =
+        sharedList || def.shared ? ["ko", "en"] : ["ko"];
       for (const loc of resetLocales) {
         const result = await savePageContent(def.key, loc, "");
         if (!result.ok) throw new Error(result.message ?? t.failed);

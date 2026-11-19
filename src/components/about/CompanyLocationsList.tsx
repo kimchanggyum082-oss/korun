@@ -1,5 +1,6 @@
 import type { CSSProperties } from "react";
 import type { AboutLocationItem } from "@/lib/data";
+import { googleMapEmbedUrl } from "@/lib/google-map";
 import LocationImages from "@/components/about/LocationImages";
 
 /** Desktop photo width (% of the content row): own column vs. behind the text. */
@@ -14,35 +15,51 @@ function photoWidthOf(location: AboutLocationItem): number {
 }
 
 const MAX_PHOTO_LIFT = 240;
+const MIN_PHOTO_LIFT = -MAX_PHOTO_LIFT;
 
 function photoLiftOf(location: AboutLocationItem): number {
   const parsed = location.imageLift;
   if (!Number.isFinite(parsed)) return 0;
-  return Math.min(MAX_PHOTO_LIFT, Math.max(0, parsed));
+  return Math.min(MAX_PHOTO_LIFT, Math.max(MIN_PHOTO_LIFT, parsed));
+}
+
+/**
+ * A selected pin wins over the legacy embed URL, so the admin's map picker is
+ * the source of truth for new locations while old `pb=` embeds keep working.
+ */
+function mapSrcOf(location: AboutLocationItem): string | null {
+  if (location.mapLat !== undefined && location.mapLng !== undefined) {
+    return googleMapEmbedUrl(
+      location.mapLat,
+      location.mapLng,
+      location.mapZoom,
+    );
+  }
+  return location.mapEmbed.length > 0 ? location.mapEmbed : null;
 }
 
 /**
  * The repeated location block used by the company-location page and the home
- * page. Keeping it in one place guarantees both pages stay visually identical.
+ * page. Keeping it in one place — with one layout — guarantees both pages stay
+ * visually identical, including the admin-controlled photo width and lift.
  *
- * `variant="split"` moves each location's photos into a right-hand column next
- * to the text on desktop (mobile keeps the stacked text -> map -> photos order).
+ * The desktop photos sit in a right-hand column next to the text (mobile keeps
+ * the stacked text -> map -> photos order).
  */
 export default function CompanyLocationsList({
   locations,
   mapTitleFallback = "Location map",
-  variant = "default",
 }: {
   locations: readonly AboutLocationItem[];
   mapTitleFallback?: string;
-  variant?: "default" | "split";
 }) {
   return (
     <>
       {locations.map((location, index) => {
-        const split = variant === "split" && location.images.length > 0;
+        const split = location.images.length > 0;
         const photoWidth = photoWidthOf(location);
         const photoLift = photoLiftOf(location);
+        const mapSrc = mapSrcOf(location);
 
         return (
           <div
@@ -127,7 +144,7 @@ export default function CompanyLocationsList({
               {/* Map row: full width below both columns. On desktop it is an
                   opaque layer above the photos, so a photo that overhangs
                   upward is masked by the block above instead of covering it. */}
-              {location.mapEmbed ? (
+              {mapSrc ? (
                 <div
                   className={
                     split
@@ -138,7 +155,7 @@ export default function CompanyLocationsList({
                   <hr className="my-[20px] border-ink/15" />
                   <div className="h-[472px] py-[7.5px] pc:h-auto pc:py-[15px]">
                     <iframe
-                      src={location.mapEmbed}
+                      src={mapSrc}
                       title={location.mapTitle || mapTitleFallback}
                       className="block h-[450px] w-full border-0 pc:h-[457px]"
                       loading="lazy"

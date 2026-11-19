@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useState, type ReactNode } from "react";
 
 import {
@@ -11,7 +12,15 @@ import { readLocalized, type LocalizedValue } from "@/components/admin/fields";
 import InlineImageInput from "@/components/admin/InlineImageInput";
 import { parseListRows, type ListRow } from "@/components/admin/list-values";
 import { inputCls } from "@/components/admin/styles";
+import { DEFAULT_MAP_ZOOM } from "@/lib/google-map";
 import type { AdminDict } from "@/lib/i18n/admin";
+
+const MapPicker = dynamic(() => import("./MapPicker"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-[320px] animate-pulse rounded-[4px] border border-black/10 bg-paper/40" />
+  ),
+});
 
 type LocationsEditorProps = {
   value: string;
@@ -31,6 +40,9 @@ const EMPTY_LOCATION: ListRow = {
   contacts: "",
   mapEmbed: "",
   mapTitle: "",
+  mapLat: "",
+  mapLng: "",
+  mapZoom: String(DEFAULT_MAP_ZOOM),
   imageWidth: "44",
   imageLift: "0",
   images: "",
@@ -40,8 +52,9 @@ const EMPTY_LOCATION: ListRow = {
 const IMAGE_WIDTH_MIN = 30;
 const IMAGE_WIDTH_MAX = 100;
 const IMAGE_WIDTH_DEFAULT = 44;
-/** Desktop photo lift (px above the block bottom), mirrored by the resolver. */
+/** Desktop photo lift (px, positive up / negative down), mirrored by the resolver. */
 const IMAGE_LIFT_MAX = 240;
+const IMAGE_LIFT_MIN = -IMAGE_LIFT_MAX;
 
 function imageWidthOf(row: ListRow): number {
   const raw = row.imageWidth;
@@ -57,12 +70,24 @@ function imageLiftOf(row: ListRow): number {
   const raw = row.imageLift;
   const parsed = Number.parseFloat(typeof raw === "string" ? raw : "");
   if (!Number.isFinite(parsed)) return 0;
-  return Math.min(IMAGE_LIFT_MAX, Math.max(0, Math.round(parsed)));
+  return Math.min(IMAGE_LIFT_MAX, Math.max(IMAGE_LIFT_MIN, Math.round(parsed)));
 }
 
 function stringValue(value: LocalizedValue | undefined): string {
   if (typeof value === "string") return value;
   return value?.ko ?? value?.en ?? "";
+}
+
+function numberValue(value: LocalizedValue | undefined): number | null {
+  const raw = stringValue(value).trim();
+  if (raw.length === 0) return null;
+  const parsed = Number.parseFloat(raw);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+/** A location is visible unless it was explicitly saved as disabled. */
+function isLocationEnabled(row: ListRow): boolean {
+  return row.enabled !== "false" && (row.enabled as unknown) !== false;
 }
 
 function FieldLabel({ label, hint }: { label: string; hint?: string }) {
@@ -207,6 +232,34 @@ export default function LocationsEditor({
       ),
     );
 
+  const setEnabled = (index: number, enabled: boolean) =>
+    commit(
+      rows.map((row, rowIndex) => {
+        if (rowIndex !== index) return row;
+        const next = { ...row };
+        if (enabled) delete next.enabled;
+        else next.enabled = "false";
+        return next;
+      }),
+    );
+
+  const setMap = (
+    index: number,
+    next: { lat: number | null; lng: number | null; zoom: number },
+  ) =>
+    commit(
+      rows.map((row, rowIndex) =>
+        rowIndex === index
+          ? {
+              ...row,
+              mapLat: next.lat === null ? "" : String(next.lat),
+              mapLng: next.lng === null ? "" : String(next.lng),
+              mapZoom: String(next.zoom),
+            }
+          : row,
+      ),
+    );
+
   const moveLocation = (index: number, delta: number) => {
     const target = index + delta;
     if (target < 0 || target >= rows.length) return;
@@ -284,6 +337,11 @@ export default function LocationsEditor({
 
   return (
     <div className="flex flex-col gap-3">
+      <p className="text-[11px] leading-[17px] text-ink/45">
+        위치별 표시 여부를 설정합니다. 숨긴 위치는 홈페이지와 회사 위치 페이지
+        모두에서 표시되지 않습니다. / Use the Show switch to hide a location on
+        both the home page and the company-location page.
+      </p>
       {rows.map((row, index) => {
         const name = readLocalized(row.name ?? "");
         const contacts = nested(row, "contacts");
@@ -312,22 +370,54 @@ export default function LocationsEditor({
                 <span className="truncate text-[12px] font-bold text-ink">
                   {name.ko || name.en || "새 위치 / New location"}
                 </span>
+                {!isLocationEnabled(row) ? (
+                  <span className="shrink-0 rounded bg-black/5 px-1.5 py-0.5 text-[10px] font-semibold text-ink/45">
+                    숨김 / Hidden
+                  </span>
+                ) : null}
                 <span
                   className={`text-[10px] text-ink/40 transition-transform ${open ? "rotate-180" : ""}`}
                 >
                   ▾
                 </span>
               </button>
-              <MoveButtons
-                index={index}
-                count={rows.length}
-                onMove={moveLocation}
-                onRemove={removeLocation}
-              />
+              <div className="flex shrink-0 items-center gap-2">
+                <MoveButtons
+                  index={index}
+                  count={rows.length}
+                  onMove={moveLocation}
+                  onRemove={removeLocation}
+                />
+              </div>
             </div>
 
             {open ? (
               <div className="flex flex-col gap-3 border-t border-black/5 p-3">
+                <div className="flex flex-wrap items-center justify-between gap-2 rounded-[4px] border border-black/10 bg-paper/40 px-3 py-2">
+                  <div className="min-w-0">
+                    <p className="text-[11px] font-bold text-ink">
+                      공개 여부 / Visibility
+                    </p>
+                    <p className="text-[10px] leading-[15px] text-ink/45">
+                      숨기면 홈페이지와 회사 위치 페이지 모두에서 표시되지
+                      않습니다. / Hidden locations disappear from both pages.
+                    </p>
+                  </div>
+                  <label className="flex shrink-0 items-center gap-2 text-[11px] font-semibold text-ink/70">
+                    <input
+                      type="checkbox"
+                      checked={isLocationEnabled(row)}
+                      onChange={(event) =>
+                        setEnabled(index, event.target.checked)
+                      }
+                      className="h-4 w-4 accent-brand"
+                    />
+                    {isLocationEnabled(row)
+                      ? "표시 중 / Shown"
+                      : "숨김 / Hidden"}
+                  </label>
+                </div>
+
                 <Section title="기본 정보 / Basic info">
                   <LocalizedField
                     label="위치 이름 / Location name"
@@ -504,17 +594,26 @@ export default function LocationsEditor({
 
                 <Section
                   title="지도 / Map"
-                  hint="Google Maps 임베드 URL을 입력하면 이 위치 아래에 지도가 표시됩니다. 비워두면 지도가 표시되지 않습니다."
+                  hint="주소·건물명으로 검색하거나 지도를 클릭/드래그해 핀을 설정하세요. 핀이 있으면 공개 페이지가 해당 좌표로 Google Maps 임베드를 생성합니다. 핀이 없으면 아래 커스텀 임베드 URL이 사용됩니다. / Search, click or drag to set a pin. The public page generates a Google Maps embed from the pin; the custom embed URL is used only when no pin is set."
                 >
+                  <MapPicker
+                    value={{
+                      lat: numberValue(row.mapLat),
+                      lng: numberValue(row.mapLng),
+                      zoom: numberValue(row.mapZoom) ?? DEFAULT_MAP_ZOOM,
+                    }}
+                    onChange={(next) => setMap(index, next)}
+                  />
                   <SimpleField
-                    label="지도 임베드 URL / Map embed URL"
+                    label="커스텀 임베드 URL / Custom embed URL (optional)"
+                    hint="핀이 없을 때만 사용됩니다. 기존 Google Maps 임베드 코드를 붙여넣을 수 있습니다. / Used only when no pin is set. Paste an existing Google Maps embed code."
                     value={stringValue(row.mapEmbed)}
                     onChange={(next) => setField(index, "mapEmbed", next)}
                     placeholder="https://www.google.com/maps/embed?pb=..."
                   />
                   <LocalizedField
                     label="지도 제목 / Map title"
-                    hint="지도 iframe의 접근성 제목입니다."
+                    hint="지도 iframe의 접근성 제목입니다. / Accessible title for the map iframe."
                     value={row.mapTitle ?? ""}
                     onChange={(next) => setField(index, "mapTitle", next)}
                   />
@@ -551,20 +650,20 @@ export default function LocationsEditor({
 
                     <label className="flex flex-col gap-1.5">
                       <FieldLabel
-                        label="이미지 위로 올리기 / Lift image up"
-                        hint="0 = 사진 하단을 텍스트 하단에 맞춥니다. 값을 키우면 사진이 위로 올라가며, 아래 내용은 움직이지 않습니다. 모바일에는 적용되지 않습니다. / 0 = photo bottom aligns with the text bottom. Higher values raise the photo without moving the content below. Desktop only."
+                        label="이미지 위치 조정 / Image lift"
+                        hint="0 = 사진 하단을 텍스트 하단에 맞춥니다. 양수는 사진을 위로, 음수는 아래로 이동하며 아래 내용은 움직이지 않습니다. 모바일에는 적용되지 않습니다. / 0 = photo bottom aligns with the text bottom. Positive values raise the photo, negative values lower it, without moving the content below. Desktop only."
                       />
                       <div className="flex items-center gap-3">
                         <input
                           type="range"
-                          min={0}
+                          min={IMAGE_LIFT_MIN}
                           max={IMAGE_LIFT_MAX}
                           step={4}
                           value={imageLiftOf(row)}
                           onChange={(event) =>
                             setField(index, "imageLift", event.target.value)
                           }
-                          aria-label="이미지 위로 올리기 / Image lift"
+                          aria-label="이미지 위치 조정 / Image lift"
                           className="h-1 w-full cursor-pointer accent-brand"
                         />
                         <span className="w-11 shrink-0 text-right text-[11px] font-semibold tabular-nums text-ink/60">

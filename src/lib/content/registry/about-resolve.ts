@@ -5,6 +5,7 @@ import {
   type AboutLocationItem,
   type GalleryImage,
 } from "@/lib/data";
+import { parseLat, parseLng, parseZoom } from "@/lib/google-map";
 import type { Locale } from "@/lib/i18n/locales";
 import type { ContentRows } from "../page-content";
 import { resolveLeaf, type Localized } from "../merge";
@@ -92,10 +93,22 @@ type LocationRow = {
   contacts?: unknown;
   mapEmbed?: unknown;
   mapTitle?: unknown;
+  mapLat?: unknown;
+  mapLng?: unknown;
+  mapZoom?: unknown;
   imageWidth?: unknown;
   imageLift?: unknown;
+  enabled?: unknown;
   images?: unknown;
 };
+
+/**
+ * The shared list stores the switch as a boolean (new rows) or `"false"`
+ * (older JSON rows). Anything else — including a missing value — is enabled.
+ */
+function isLocationEnabled(value: unknown): boolean {
+  return value !== false && value !== "false";
+}
 
 /** Desktop photo width (% of the content row) when the admin leaves it empty. */
 export const DEFAULT_LOCATION_IMAGE_WIDTH = 44;
@@ -117,6 +130,7 @@ function resolveLocationImageWidth(value: unknown): number {
 /** Desktop photo lift (px above the block's bottom edge). */
 export const DEFAULT_LOCATION_IMAGE_LIFT = 0;
 export const MAX_LOCATION_IMAGE_LIFT = 240;
+export const MIN_LOCATION_IMAGE_LIFT = -MAX_LOCATION_IMAGE_LIFT;
 
 function resolveLocationImageLift(value: unknown): number {
   const parsed =
@@ -124,7 +138,10 @@ function resolveLocationImageLift(value: unknown): number {
       ? value
       : Number.parseFloat(String(value ?? "").trim());
   if (!Number.isFinite(parsed)) return DEFAULT_LOCATION_IMAGE_LIFT;
-  return Math.min(MAX_LOCATION_IMAGE_LIFT, Math.max(0, Math.round(parsed)));
+  return Math.min(
+    MAX_LOCATION_IMAGE_LIFT,
+    Math.max(MIN_LOCATION_IMAGE_LIFT, Math.round(parsed)),
+  );
 }
 
 /**
@@ -159,6 +176,9 @@ function defaultLocationRows(locale: Locale): LocationRow[] {
     })),
     mapEmbed: location.mapEmbed,
     mapTitle: resolveLeaf(locale, location.mapTitle),
+    mapLat: parseLat(location.mapLat),
+    mapLng: parseLng(location.mapLng),
+    mapZoom: parseZoom(location.mapZoom),
     imageWidth: resolveLocationImageWidth(location.imageWidth),
     imageLift: resolveLocationImageLift(location.imageLift),
     images: location.images.map((image) => ({
@@ -188,8 +208,12 @@ function sourceLocationRows(): LocationRow[] {
     })),
     mapEmbed: location.mapEmbed,
     mapTitle: location.mapTitle,
+    mapLat: location.mapLat !== undefined ? String(location.mapLat) : "",
+    mapLng: location.mapLng !== undefined ? String(location.mapLng) : "",
+    mapZoom: location.mapZoom !== undefined ? String(location.mapZoom) : "",
     imageWidth: location.imageWidth ?? DEFAULT_LOCATION_IMAGE_WIDTH,
     imageLift: location.imageLift ?? DEFAULT_LOCATION_IMAGE_LIFT,
+    enabled: location.enabled ?? true,
     images: location.images.map((image) => ({
       src: image.src,
       fullSrc: image.fullSrc,
@@ -233,6 +257,7 @@ function resolveLocations(
   );
 
   return (override ?? defaults)
+    .filter((row) => isLocationEnabled(row.enabled))
     .map((row) => {
       const contacts = asRows<LocationContactRow>(row.contacts)
         .map((contact) => ({
@@ -251,6 +276,9 @@ function resolveLocations(
         contacts,
         mapEmbed: localizedText(row.mapEmbed, locale),
         mapTitle: localizedText(row.mapTitle, locale),
+        mapLat: parseLat(row.mapLat),
+        mapLng: parseLng(row.mapLng),
+        mapZoom: parseZoom(row.mapZoom),
         imageWidth: resolveLocationImageWidth(row.imageWidth),
         imageLift: resolveLocationImageLift(row.imageLift),
         images: resolveLocationImages(row.images, locale),
@@ -264,7 +292,8 @@ function resolveLocations(
         location.description.length > 0 ||
         location.contacts.length > 0 ||
         location.images.length > 0 ||
-        location.mapEmbed.length > 0,
+        location.mapEmbed.length > 0 ||
+        (location.mapLat !== undefined && location.mapLng !== undefined),
     );
 }
 

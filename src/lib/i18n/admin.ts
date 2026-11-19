@@ -68,6 +68,16 @@ export interface AdminDict {
     linkNoResults: string;
     linkDirect: string;
     listMaxReached: (max: number) => string;
+    attachmentUrl: string;
+    attachmentUrlPlaceholder: string;
+    attachmentLimitNote: string;
+    attachmentUploadHint: string;
+    attachmentPreview: string;
+    attachmentNoPreview: string;
+    attachmentOpen: string;
+    attachmentAutoName: string;
+    attachmentAutoSize: string;
+    attachmentSizeUnknown: string;
   };
   dashboard: {
     quickLinks: string;
@@ -154,6 +164,7 @@ const ko: AdminDict = {
     "pages:products": "제품",
     "pages:cases": "적용 사례",
     "pages:site": "사이트 설정",
+    "/admin/company-locations": "회사 위치",
     "/admin/interesting-items": "흥미로운 아이템",
     "/admin/news": "뉴스&이벤트",
     "/admin/downloads": "자료실",
@@ -230,6 +241,19 @@ const ko: AdminDict = {
       "검색 결과가 없습니다. 아래에 URL을 직접 입력할 수 있습니다.",
     linkDirect: "직접 입력 사용",
     listMaxReached: (max) => `최대 ${max}개까지 추가할 수 있습니다.`,
+    attachmentUrl: "파일 URL",
+    attachmentUrlPlaceholder: "https://… 파일 주소를 입력하거나 업로드하세요",
+    attachmentLimitNote:
+      "파일당 최대 8MB (호스팅 환경에 따라 더 작을 수 있음) · 이미지 PNG/JPEG/GIF/WEBP · 문서 PDF/DOC/DOCX/XLS/XLSX/PPT/PPTX/ZIP/HWP/HWPX/TXT/CSV",
+    attachmentUploadHint:
+      "업로드하면 파일 이름과 크기가 자동으로 입력됩니다. URL을 직접 입력해도 미리보기가 표시됩니다.",
+    attachmentPreview: "미리보기",
+    attachmentNoPreview:
+      "URL을 입력하거나 파일을 업로드하면 미리보기가 표시됩니다.",
+    attachmentOpen: "새 창에서 열기",
+    attachmentAutoName: "파일 이름 (자동)",
+    attachmentAutoSize: "파일 크기 (자동)",
+    attachmentSizeUnknown: "크기 확인 불가",
   },
   dashboard: {
     quickLinks: "바로 가기",
@@ -351,6 +375,7 @@ const en: AdminDict = {
     "pages:products": "Products",
     "pages:cases": "Case Of Applications",
     "pages:site": "Site Settings",
+    "/admin/company-locations": "Company Locations",
     "/admin/interesting-items": "Interesting Items",
     "/admin/news": "News & Events",
     "/admin/downloads": "Downloads",
@@ -425,6 +450,18 @@ const en: AdminDict = {
     linkNoResults: "No matches. Type a URL below to use it directly.",
     linkDirect: "Use typed value",
     listMaxReached: (max) => `Up to ${max} item${max === 1 ? "" : "s"}.`,
+    attachmentUrl: "File URL",
+    attachmentUrlPlaceholder: "https://… paste a file URL or upload",
+    attachmentLimitNote:
+      "Up to 8 MB per file (hosting limits may be lower) · Images PNG/JPEG/GIF/WEBP · Documents PDF/DOC/DOCX/XLS/XLSX/PPT/PPTX/ZIP/HWP/HWPX/TXT/CSV",
+    attachmentUploadHint:
+      "Uploading fills in the file name and size automatically. A direct URL also shows a live preview.",
+    attachmentPreview: "Preview",
+    attachmentNoPreview: "Paste a URL or upload a file to see the preview.",
+    attachmentOpen: "Open in a new tab",
+    attachmentAutoName: "File name (auto)",
+    attachmentAutoSize: "File size (auto)",
+    attachmentSizeUnknown: "Size unknown",
   },
   dashboard: {
     quickLinks: "Quick links",

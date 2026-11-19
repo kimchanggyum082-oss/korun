@@ -24,7 +24,11 @@ const d = (
   labelKo: string,
   labelEn: string,
   kind: Parameters<typeof defineContent>[5],
-) => defineContent(key, "site", section, labelKo, labelEn, kind, SITE);
+  shared?: boolean,
+) =>
+  defineContent(key, "site", section, labelKo, labelEn, kind, SITE, {
+    shared,
+  });
 
 /**
  * Company contact keys, exported so other groups (e.g. the home location
@@ -42,7 +46,14 @@ export const siteContactDefs = contactDefs;
 export const siteDefs: ContentDef[] = [
   // ── Company & metadata ──
   contactDefs.name,
-  d("site.settings.nameEn", settingsSec, "영문명", "English name", "text"),
+  d(
+    "site.settings.nameEn",
+    settingsSec,
+    "영문명 (공통)",
+    "English name (shared)",
+    "text",
+    true,
+  ),
   d("site.settings.tagline", settingsSec, "대표 문구", "Tagline", "text"),
   d(
     "site.settings.taglineSub",

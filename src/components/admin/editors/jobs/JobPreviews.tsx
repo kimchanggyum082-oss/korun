@@ -34,7 +34,7 @@ export default function JobPreviews({
           likes: 0,
         }}
         blocks={post.blocks}
-        files={post.files.map((file) => ({ ...file, url: "#" }))}
+        files={post.files}
         listHref="/about/job-posting"
         fileLabel={t.fileLabel}
         commentVariant="login"

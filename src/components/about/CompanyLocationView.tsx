@@ -31,7 +31,6 @@ export default function CompanyLocationView({
         <CompanyLocationsList
           locations={content.locations}
           mapTitleFallback={content.title}
-          variant="split"
         />
 
         {/* Trailing spacer row */}

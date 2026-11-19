@@ -1,7 +1,7 @@
 import { company, sitePolicyModals } from "@/lib/data";
 import type { Locale } from "@/lib/i18n/locales";
 import type { ContentRows } from "../page-content";
-import { pickLines, pickText } from "../registry-resolve";
+import { pickLines, pickText, pickTextAny } from "../registry-resolve";
 import { SITE_EN } from "./site-en";
 
 export type SiteSettingsResolved = {
@@ -110,9 +110,17 @@ export function resolveSiteFromRows(
     return value;
   };
 
+  const nameEn = pickTextAny(
+    rows,
+    "site.settings.nameEn",
+    "en",
+    company.nameEn,
+  );
+  collect?.set("site.settings.nameEn", nameEn);
+
   const settings: SiteSettingsResolved = {
     name: t("site.settings.name", company.name),
-    nameEn: t("site.settings.nameEn", company.nameEn),
+    nameEn,
     tagline: t("site.settings.tagline", company.tagline),
     taglineSub: t("site.settings.taglineSub", company.taglineSub),
     tel: t("site.settings.tel", company.tel),

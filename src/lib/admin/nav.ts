@@ -52,6 +52,10 @@ export const adminGroups: AdminNavGroup[] = [
         labelKey: "pages:cases",
       },
       {
+        href: "/admin/company-locations",
+        labelKey: "/admin/company-locations",
+      },
+      {
         href: "/admin/interesting-items",
         labelKey: "/admin/interesting-items",
       },

@@ -122,6 +122,7 @@ export default function CaseStudioForms({
         <FileList
           values={draft.files}
           onChange={(next) => set({ files: next })}
+          uploadConfigured={uploadConfigured}
         />
       </SectionCard>
     </>

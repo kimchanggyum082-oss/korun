@@ -3,6 +3,7 @@ import {
   type ContentDef,
   type JsonFieldDef,
 } from "../registry-types";
+import { locationListDef } from "./about";
 import { siteContactDefs } from "./site";
 
 const HOME = ["/", "/en"];
@@ -46,10 +47,12 @@ const d = (
   kind: Parameters<typeof defineContent>[5],
   fields?: JsonFieldDef[],
   maxItems?: number,
+  shared?: boolean,
 ) =>
   defineContent(key, "home", section, labelKo, labelEn, kind, HOME, {
     fields,
     maxItems,
+    shared,
   });
 
 export const homeDefs: ContentDef[] = [
@@ -113,35 +116,56 @@ export const homeDefs: ContentDef[] = [
   d(
     "home.lists.newsHeadingEn",
     listSec,
-    "뉴스 영문 제목",
-    "News heading (EN)",
+    "뉴스 영문 라벨 (공통)",
+    "News eyebrow (EN, shared)",
     "text",
+    undefined,
+    undefined,
+    true,
   ),
   d(
     "home.lists.newsHeadingKo",
     listSec,
-    "뉴스 국문 제목",
-    "News heading (KO)",
+    "뉴스 제목 (국문/영문)",
+    "News heading (KO/EN)",
     "text",
   ),
   d(
     "home.lists.downloadsHeadingEn",
     listSec,
-    "다운로드 영문 제목",
-    "Downloads heading (EN)",
+    "다운로드 영문 라벨 (공통)",
+    "Downloads eyebrow (EN, shared)",
     "text",
+    undefined,
+    undefined,
+    true,
   ),
   d(
     "home.lists.downloadsHeadingKo",
     listSec,
-    "다운로드 국문 제목",
-    "Downloads heading (KO)",
+    "다운로드 제목 (국문/영문)",
+    "Downloads heading (KO/EN)",
     "text",
   ),
 
   // ── Location ──
-  d("home.location.headingEn", locSec, "영문 제목", "Heading (EN)", "text"),
-  d("home.location.headingKo", locSec, "국문 제목", "Heading (KO)", "text"),
+  d(
+    "home.location.headingEn",
+    locSec,
+    "영문 상단 문구 (공통)",
+    "English kicker (shared)",
+    "text",
+    undefined,
+    undefined,
+    true,
+  ),
+  d(
+    "home.location.headingKo",
+    locSec,
+    "제목 (국문/영문)",
+    "Heading (KO/EN)",
+    "text",
+  ),
 ];
 
 /**
@@ -149,8 +173,11 @@ export const homeDefs: ContentDef[] = [
  * same storage — editing here edits the site settings).
  */
 export const homeLocationExtraDefs: ContentDef[] = [
-  siteContactDefs.name,
-  siteContactDefs.tel,
-  siteContactDefs.email,
-  siteContactDefs.address,
-].map((def) => ({ ...def, section: locSec }));
+  ...[
+    siteContactDefs.name,
+    siteContactDefs.tel,
+    siteContactDefs.email,
+    siteContactDefs.address,
+  ].map((def) => ({ ...def, section: locSec })),
+  { ...locationListDef, section: locSec },
+];

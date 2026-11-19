@@ -44,6 +44,12 @@ export interface ContentDef {
    * one shared JSON payload instead of separate per-locale payloads.
    */
   sharedList?: boolean;
+  /**
+   * Language-common value: the editor shows one input and the value is written
+   * to both locales. Use it for a key whose content is always in one language
+   * (e.g. an English eyebrow) even though the site is bilingual.
+   */
+  shared?: boolean;
   /** Upper bound for `list`/`imageList` rows (add button is hidden at the cap). */
   maxItems?: number;
   /**
@@ -59,6 +65,7 @@ export interface ContentDef {
 export interface ContentOptions {
   fields?: JsonFieldDef[];
   sharedList?: boolean;
+  shared?: boolean;
   maxItems?: number;
   variant?: "table";
 }
@@ -81,6 +88,7 @@ export function defineContent(
     kind,
     fields: options?.fields,
     sharedList: options?.sharedList,
+    shared: options?.shared,
     maxItems: options?.maxItems,
     variant: options?.variant,
     revalidate,
@@ -115,6 +123,11 @@ export function isSharedKind(kind: ContentKind): boolean {
     kind === "image" ||
     kind === "imageList"
   );
+}
+
+/** True when a def stores one language-common value (kind or explicit flag). */
+export function isSharedDef(def: ContentDef): boolean {
+  return def.shared === true || isSharedKind(def.kind);
 }
 
 /** Common typo fix: "assets/…" → "/assets/…". */

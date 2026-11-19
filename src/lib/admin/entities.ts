@@ -105,6 +105,7 @@ export type InterestingItemBlockEntity =
 export type InterestingFileEntity = {
   name: Localized<string>;
   size: string;
+  url: string;
 };
 
 export type InterestingItemEntity = {
@@ -397,6 +398,7 @@ export function toInterestingItem(
     files: entity.files.map((file) => ({
       name: resolveLocalizedText(file.name, locale),
       size: file.size,
+      url: file.url ?? "",
     })),
   };
 }
@@ -408,7 +410,7 @@ function resolveServiceFiles(
   return files.map((file) => ({
     name: resolveLocalizedText(file.name, locale),
     size: file.size,
-    url: file.url,
+    url: file.url ?? "",
   }));
 }
 
@@ -494,6 +496,7 @@ export function toJobPost(
     files: entity.files.map((file) => ({
       name: resolveLocalizedText(file.name, locale),
       size: file.size,
+      url: file.url,
     })),
   };
 }

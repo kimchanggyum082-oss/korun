@@ -112,7 +112,7 @@ export default async function JobPostDetailPage({
         likes: 0,
       }}
       blocks={post.blocks}
-      files={post.files.map((file) => ({ ...file, url: "#" }))}
+      files={post.files}
       listHref="/about/job-posting"
       fileLabel={copy.fileLabel}
       commentVariant="login"

@@ -1,5 +1,6 @@
 "use client";
 
+import AttachmentField from "@/components/admin/AttachmentField";
 import type { UpdateDraft } from "@/components/admin/EntityEditor";
 import LocalizedField from "@/components/admin/LocalizedField";
 import {
@@ -41,10 +42,12 @@ function NumberInput({
 function JobFileList({
   values,
   onChange,
+  uploadConfigured,
   t,
 }: {
   values: JobPostEntity["files"];
   onChange: (next: JobPostEntity["files"]) => void;
+  uploadConfigured: boolean;
   t: JobsDict["files"];
 }) {
   return (
@@ -67,37 +70,23 @@ function JobFileList({
               ✕
             </button>
           </div>
-          <LocalizedField
-            label={t.name}
-            value={file.name}
+          <AttachmentField
+            label={t.url}
+            value={{ url: file.url, name: file.name, size: file.size }}
             onChange={(next) =>
               onChange(
                 values.map((entry, i) =>
-                  i === index ? { ...entry, name: toLocalized(next) } : entry,
+                  i === index ? { ...entry, ...next } : entry,
                 ),
               )
             }
+            uploadConfigured={uploadConfigured}
           />
-          <Field label={t.size}>
-            <TextInput
-              value={file.size}
-              placeholder={t.sizePlaceholder}
-              onChange={(event) =>
-                onChange(
-                  values.map((entry, i) =>
-                    i === index
-                      ? { ...entry, size: event.target.value }
-                      : entry,
-                  ),
-                )
-              }
-            />
-          </Field>
         </div>
       ))}
       <button
         type="button"
-        onClick={() => onChange([...values, { name: "", size: "" }])}
+        onClick={() => onChange([...values, { name: "", size: "", url: "" }])}
         className="h-8 w-fit rounded-md border border-dashed border-neutral-300 bg-white px-2.5 text-[12px] font-semibold text-neutral-600 transition-colors outline-none hover:border-brand/40 hover:text-brand focus-visible:ring-2 focus-visible:ring-brand/30"
       >
         {t.add}
@@ -176,6 +165,7 @@ export default function JobForms({
         <JobFileList
           values={draft.files}
           onChange={(next) => set({ files: next })}
+          uploadConfigured={uploadConfigured}
           t={dict.files}
         />
       </SectionCard>

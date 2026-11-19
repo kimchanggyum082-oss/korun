@@ -1,19 +1,19 @@
 "use client";
 
-import LocalizedField from "@/components/admin/LocalizedField";
-import { Field, TextInput } from "@/components/admin/fields";
+import AttachmentField from "@/components/admin/AttachmentField";
 import type { ServiceFileEntity } from "@/lib/admin/entities";
 import { newsDict } from "@/lib/i18n/boards/news";
 import { useLocale } from "@/lib/i18n/client";
-import { toLocalized } from "../items/shared";
 import { AddButton, MoveButtons, moveAt, removeAt, replaceAt } from "./shared";
 
 export default function FileList({
   values,
   onChange,
+  uploadConfigured,
 }: {
   values: ServiceFileEntity[];
   onChange: (next: ServiceFileEntity[]) => void;
+  uploadConfigured: boolean;
 }) {
   const t = newsDict[useLocale()].files;
 
@@ -35,46 +35,14 @@ export default function FileList({
               onRemove={(i) => onChange(removeAt(values, i))}
             />
           </div>
-          <LocalizedField
-            label={t.name}
-            value={file.name}
+          <AttachmentField
+            label={t.url}
+            value={{ url: file.url, name: file.name, size: file.size }}
             onChange={(next) =>
-              onChange(
-                replaceAt(values, index, {
-                  ...file,
-                  name: toLocalized(next),
-                }),
-              )
+              onChange(replaceAt(values, index, { ...file, ...next }))
             }
+            uploadConfigured={uploadConfigured}
           />
-          <Field label={t.size}>
-            <TextInput
-              value={file.size}
-              placeholder={t.sizePlaceholder}
-              onChange={(event) =>
-                onChange(
-                  replaceAt(values, index, {
-                    ...file,
-                    size: event.target.value,
-                  }),
-                )
-              }
-            />
-          </Field>
-          <Field label={t.url}>
-            <TextInput
-              type="url"
-              value={file.url}
-              onChange={(event) =>
-                onChange(
-                  replaceAt(values, index, {
-                    ...file,
-                    url: event.target.value,
-                  }),
-                )
-              }
-            />
-          </Field>
         </div>
       ))}
       <AddButton

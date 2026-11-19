@@ -14,6 +14,32 @@ const MAX_CONTENT_LENGTH = MAX_BYTES + 64 * 1024;
 
 type SniffedImage = { mime: string; extension: string };
 
+type SniffedFile = SniffedImage & { kind: "image" | "file" };
+
+/** Document types the admin may attach to a board post. */
+const FILE_MIME_BY_EXTENSION: Record<string, string> = {
+  pdf: "application/pdf",
+  doc: "application/msword",
+  docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  xls: "application/vnd.ms-excel",
+  xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  ppt: "application/vnd.ms-powerpoint",
+  pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  zip: "application/zip",
+  hwp: "application/x-hwp",
+  hwpx: "application/vnd.hancom.hwpx",
+  txt: "text/plain",
+  csv: "text/csv",
+};
+
+const ZIP_BASED_EXTENSIONS = new Set(["docx", "xlsx", "pptx", "hwpx", "zip"]);
+const OLE_BASED_EXTENSIONS = new Set(["doc", "xls", "ppt", "hwp"]);
+
+function extensionOf(name: string): string {
+  const match = /\.([a-z0-9]+)$/i.exec(name.trim());
+  return match ? match[1].toLowerCase() : "";
+}
+
 function matchesAscii(
   bytes: Uint8Array,
   start: number,
@@ -58,6 +84,58 @@ function sniffImageType(bytes: Uint8Array): SniffedImage | null {
   ) {
     return { mime: "image/webp", extension: "webp" };
   }
+  return null;
+}
+
+function sniffFileType(
+  bytes: Uint8Array,
+  originalName: string,
+): SniffedFile | null {
+  const image = sniffImageType(bytes);
+  if (image) return { ...image, kind: "image" };
+
+  const extension = extensionOf(originalName);
+  const mime = FILE_MIME_BY_EXTENSION[extension];
+  if (!mime) return null;
+
+  const isPdf = matchesAscii(bytes, 0, "%PDF-");
+  if (isPdf) {
+    return extension === "pdf" ? { mime, extension, kind: "file" } : null;
+  }
+
+  const isZip =
+    bytes.length >= 4 &&
+    bytes[0] === 0x50 &&
+    bytes[1] === 0x4b &&
+    (bytes[2] === 0x03 || bytes[2] === 0x05 || bytes[2] === 0x07);
+  if (isZip) {
+    return ZIP_BASED_EXTENSIONS.has(extension)
+      ? { mime, extension, kind: "file" }
+      : null;
+  }
+
+  const isOle =
+    bytes.length >= 8 &&
+    bytes[0] === 0xd0 &&
+    bytes[1] === 0xcf &&
+    bytes[2] === 0x11 &&
+    bytes[3] === 0xe0 &&
+    bytes[4] === 0xa1 &&
+    bytes[5] === 0xb1 &&
+    bytes[6] === 0x1a &&
+    bytes[7] === 0xe1;
+  if (isOle) {
+    return OLE_BASED_EXTENSIONS.has(extension)
+      ? { mime, extension, kind: "file" }
+      : null;
+  }
+
+  if (extension === "txt" || extension === "csv") {
+    const sample = bytes.subarray(0, Math.min(bytes.length, 8192));
+    if (sample.includes(0)) return null;
+    return { mime, extension, kind: "file" };
+  }
+
   return null;
 }
 
@@ -128,40 +206,54 @@ export async function POST(request: Request) {
   }
 
   const bytes = Buffer.from(await file.arrayBuffer());
-  const image = sniffImageType(bytes);
-  if (!image) {
+  const fileType = sniffFileType(bytes, file.name);
+  if (!fileType) {
     return NextResponse.json(
-      { error: "PNG, JPEG, GIF, WEBP 이미지 파일만 업로드할 수 있습니다." },
+      {
+        error:
+          "이미지(PNG, JPEG, GIF, WEBP) 또는 문서(PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, ZIP, HWP, HWPX, TXT, CSV) 파일만 업로드할 수 있습니다.",
+      },
       { status: 400 },
     );
   }
-  const dimensions = readImageDimensions(bytes);
+  const dimensions =
+    fileType.kind === "image" ? readImageDimensions(bytes) : undefined;
+  const metadata = {
+    name: file.name,
+    size: file.size,
+    contentType: fileType.mime,
+    width: dimensions?.width ?? null,
+    height: dimensions?.height ?? null,
+  };
 
   try {
     if (!useBlob) {
-      const filename = `${randomUUID()}.${image.extension}`;
+      const filename = `${randomUUID()}.${fileType.extension}`;
       const dir = path.join(process.cwd(), "public", "uploads");
       await mkdir(dir, { recursive: true });
       await writeFile(path.join(dir, filename), bytes);
       return NextResponse.json({
         url: `/uploads/${filename}`,
-        width: dimensions?.width ?? null,
-        height: dimensions?.height ?? null,
+        ...metadata,
       });
     }
 
-    const blob = await put(`admin/${randomUUID()}.${image.extension}`, bytes, {
-      access: "public",
-      contentType: image.mime,
-      addRandomSuffix: true,
-      ...(token ? { token } : {}),
-      ...(storeId ? { storeId } : {}),
-    });
+    const folder = fileType.kind === "image" ? "images" : "files";
+    const blob = await put(
+      `admin/${folder}/${randomUUID()}.${fileType.extension}`,
+      bytes,
+      {
+        access: "public",
+        contentType: fileType.mime,
+        addRandomSuffix: true,
+        ...(token ? { token } : {}),
+        ...(storeId ? { storeId } : {}),
+      },
+    );
 
     return NextResponse.json({
       url: blob.url,
-      width: dimensions?.width ?? null,
-      height: dimensions?.height ?? null,
+      ...metadata,
     });
   } catch (error) {
     console.error("admin upload failed", error);

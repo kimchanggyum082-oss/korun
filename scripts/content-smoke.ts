@@ -20,6 +20,9 @@ import {
   resolveLeaf,
 } from "@/lib/content";
 import { isDatabaseConfigured } from "@/lib/db/client";
+import { googleMapEmbedUrl, parseGoogleMapsUrl } from "@/lib/google-map";
+import { resolveAboutFromRows } from "@/lib/content/registry/about-resolve";
+import { groupDefaults } from "@/lib/content/registry/resolvers";
 import {
   assets,
   casePages,
@@ -37,6 +40,27 @@ function check(name: string, fn: () => void) {
   fn();
   passed.push(name);
 }
+
+check("google map embed URL uses the selected coordinates", () => {
+  assert.strictEqual(
+    googleMapEmbedUrl(37.4438, 126.8107, 17),
+    "https://maps.google.com/maps?q=37.4438,126.8107&z=17&output=embed",
+  );
+});
+
+check("google maps URL parser reads @lat,lng,zoom", () => {
+  assert.deepStrictEqual(
+    parseGoogleMapsUrl("https://www.google.com/maps/@37.4438,126.8107,17z"),
+    { lat: 37.4438, lng: 126.8107, zoom: 17 },
+  );
+});
+
+check("google maps URL parser reads ?q=lat,lng", () => {
+  assert.deepStrictEqual(
+    parseGoogleMapsUrl("https://maps.google.com/?q=37.4438,126.8107"),
+    { lat: 37.4438, lng: 126.8107, zoom: undefined },
+  );
+});
 
 check("object deep-merge merges nested objects", () => {
   const merged = deepMerge(
@@ -209,6 +233,24 @@ async function main() {
   passed.push(
     "company location returns every location with its own contact list",
   );
+
+  const locationDefaults = groupDefaults("about", "ko").get(
+    "about.location.locations",
+  );
+  assert.ok(locationDefaults);
+  const locationRows = JSON.parse(locationDefaults) as Record<
+    string,
+    unknown
+  >[];
+  const hiddenLocationRows = locationRows.map((row, index) =>
+    index === 0 ? { ...row, enabled: false } : row,
+  );
+  const visibleLocations = resolveAboutFromRows(
+    { "about.location.locations": { ko: JSON.stringify(hiddenLocationRows) } },
+    "ko",
+  ).content["company-location"].locations;
+  assert.strictEqual(visibleLocations.length, locationRows.length - 1);
+  passed.push("disabled company locations are omitted from the shared list");
 
   for (const name of passed) {
     console.log(`ok - ${name}`);

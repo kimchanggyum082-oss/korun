@@ -39,7 +39,12 @@ export default async function AdminPagesPage({
   const { group } = await searchParams;
   const activeGroup = resolveGroup(group);
   const defs = defsForEditor(activeGroup);
-  const rows = await getContentRows(keysForEditor(activeGroup));
+  // The home location preview renders the shared company-location list, so
+  // load that key even when the active group does not edit it.
+  const rows = await getContentRows([
+    ...keysForEditor(activeGroup),
+    "about.location.locations",
+  ]);
 
   const values: ContentValues = {};
   for (const [key, entry] of Object.entries(rows)) {

@@ -134,6 +134,7 @@ export default function NewsForms({
         <FileList
           values={draft.files}
           onChange={(next) => set({ files: next })}
+          uploadConfigured={uploadConfigured}
         />
       </SectionCard>
     </>
